@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* https://m3.material.io/styles/color/roles */
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-primary: #675496;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #c8b3fd;
+  --color-on-primary-container: #4e3b7b;
+  --color-primary-dark: #d0bcfe;
+  --color-on-primary-dark: #381e72;
+  --color-primary-container-dark: #4f378b;
+  --color-on-primary-container-dark: #eaddff;
+
+  --color-secondary: #5d5d72;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #e2e0f9;
+  --color-on-secondary-container: #444559;
+  --color-secondary-dark: #ccc2dc;
+  --color-on-secondary-dark: #332d41;
+  --color-secondary-container-dark: #4a4458;
+  --color-on-secondary-container-dark: #e8def8;
+
+  --color-tertiary: #86468c;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #fbaffe;
+  --color-on-tertiary-container: #6b2d72;
+  --color-tertiary-dark: #efb8c8;
+  --color-on-tertiary-dark: #492532;
+  --color-tertiary-container-dark: #633b48;
+  --color-on-tertiary-container-dark: #ffd8e4;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #7d2b25;
+  --color-error-dark: #f2b8b5;
+  --color-on-error-dark: #601410;
+  --color-error-container-dark: #8c1d18;
+  --color-on-error-container-dark: #f9dedc;
+
+  --color-surface-dim: #ded8e0;
+  --color-surface: #fef7ff;
+  --color-surface-bright: #fef7ff;
+  --color-on-surface: #1d1b20;
+  --color-on-surface-variant: #49454e;
+  --color-surface-dim-dark: #141218;
+  --color-surface-dark: #141218;
+  --color-surface-bright-dark: #3b383e;
+  --color-on-surface-dark: #e6e0e9;
+  --color-on-surface-variant-dark: #cac4d0;
+
+  --color-surface-container-lowest: #fef7ff;
+  --color-surface-container-low: #f7f2f9;
+  --color-surface-container: #f1ecf3;
+  --color-surface-container-high: #ebe6ee;
+  --color-surface-container-highest: #e5e0e8;
+  --color-surface-container-lowest-dark: #0f0d13;
+  --color-surface-container-low-dark: #1d1b20;
+  --color-surface-container-dark: #211f26;
+  --color-surface-container-high-dark: #2b2930;
+  --color-surface-container-highest-dark: #36343b;
+
+  --color-inverse-surface: #322f35;
+  --color-inverse-on-surface: #f5eff7;
+  --color-inverse-primary: #d0bcfe;
+  --color-inverse-surface-dark: #e6e0e9;
+  --color-inverse-on-surface-dark: #322f35;
+  --color-inverse-primary-dark: #6750a4;
+
+  --color-outline: #7a757f;
+  --color-outline-variant: #cac4cf;
+  --color-outline-dark: #938f99;
+  --color-outline-variant-dark: #49454f;
+}
+
+html,
+body {
+  @apply bg-surface dark:bg-stone-950;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}
