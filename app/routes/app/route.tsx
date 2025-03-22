@@ -5,16 +5,8 @@ import { db } from "~/db/db";
 
 function navLinkStyle({ isActive }: { isActive: boolean }): string {
   return isActive
-    ? cx(
-        "text-sm",
-        "text-primary hover:text-primary",
-        "dark:text-primary-dark dark:hover:text-primary-dark"
-      )
-    : cx(
-        "text-sm",
-        "text-on-surface hover:text-primary",
-        "dark:text-on-surface-dark dark:hover:text-primary-dark"
-      );
+    ? cx("text-sm", "text-primary hover:text-primary")
+    : cx("text-sm", "text-on-surface hover:text-primary");
 }
 
 // invoking client side db here to create/initialize so it's ready for other routes
@@ -33,8 +25,7 @@ export default function App() {
       <nav
         className={cx(
           "flex justify-around p-4 fixed bottom-0 w-full border-ts",
-          "text-on-surface bg-surface-container border-outline-variant",
-          "dark:text-on-surface-dark dark:bg-surface-container-dark dark:border-outline-variant-dark"
+          "text-on-surface bg-surface-container border-outline-variant"
         )}
       >
         <NavLink to="programs" className={navLinkStyle}>
