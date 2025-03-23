@@ -12,18 +12,26 @@ export async function clientLoader() {
   return settings ? settings.toMutableJSON() : defaultSettings;
 }
 
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  const formData = await request.formData();
+  const weigthUnit = formData.get("weigthUnit");
+  const settings = await db.settings.findOne().exec();
+  await settings?.update({
+    $set: {
+      weigthUnit,
+    },
+  });
+  return settings ? settings.toMutableJSON() : defaultSettings;
+}
+
 export default function Settings({ loaderData }: Route.ComponentProps) {
-  const { clientId, weigthUnit } = loaderData;
+  const { weigthUnit } = loaderData;
   return (
     <Page>
       <Header title="Settings" />
       <MainContent>
         <List>
-          <DialogWeightUnit
-            onOpenChange={(open) => {
-              if (!open) console.log("Dialog closed, save changes here");
-            }}
-          >
+          <DialogWeightUnit>
             <ListItem title="Weight Unit" content={weigthUnit} />
           </DialogWeightUnit>
         </List>

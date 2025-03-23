@@ -14,6 +14,7 @@ import {
 import { RxDBDevModePlugin } from "rxdb/plugins/dev-mode";
 import { addRxPlugin } from "rxdb/plugins/core";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
+import { RxDBUpdatePlugin } from "rxdb/plugins/update";
 import ShortUniqueId from "short-unique-id";
 import { wrappedValidateAjvStorage } from "rxdb/plugins/validate-ajv";
 
@@ -23,6 +24,9 @@ if (process.env.NODE_ENV === "development") {
   console.log("Development mode enabled");
   addRxPlugin(RxDBDevModePlugin);
 }
+
+// other plugins
+addRxPlugin(RxDBUpdatePlugin);
 
 //
 // setup the types
