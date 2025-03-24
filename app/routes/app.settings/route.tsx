@@ -5,7 +5,7 @@ import { MainContent } from "~/components/MainContent";
 import { Page } from "~/components/Page";
 import { List } from "~/components/List";
 import { ListItem } from "~/components/ListItem";
-import { DialogWeightUnit } from "~/components/Dialog/dialog-weight-unit";
+import { DialogWeightUnit } from "~/routes/app.settings/dialog-weight-unit";
 import { defaultSettings } from "~/db/settings";
 
 export async function clientLoader() {
