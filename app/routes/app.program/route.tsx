@@ -13,7 +13,7 @@ export async function clientLoader() {
   const program = await db.programs
     .findOne({
       selector: {
-        id: settings?.program,
+        id: settings?.programId,
       },
     })
     .exec();

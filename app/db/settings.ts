@@ -26,7 +26,7 @@ export const settingsSchemaLiteral = {
       enum: ["kg", "lbs"],
       default: "lbs",
     },
-    program: {
+    programId: {
       type: "string",
       maxLength: 100,
       default: "sl5x5",
@@ -81,7 +81,7 @@ const settingsCollectionMethods: SettingsCollectionMethods = {
 export const defaultSettings: SettingsDocType = {
   clientId: uid.rnd(),
   weigthUnit: "lbs", // <- only 'kg' or 'lbs' allowed
-  program: "sl5x5",
+  programId: "sl5x5",
 };
 
 export async function initSettings(db: MyDatabase) {
