@@ -28,8 +28,8 @@ export default function App() {
           "text-on-surface bg-surface-container border-outline-variant"
         )}
       >
-        <NavLink to="programs" className={navLinkStyle}>
-          Programs
+        <NavLink to="program" className={navLinkStyle}>
+          Program
         </NavLink>
         <NavLink to="workouts" className={navLinkStyle}>
           Workouts

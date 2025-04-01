@@ -7,6 +7,7 @@ import {
 } from "rxdb";
 import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
+import { max } from "rxjs";
 
 export const settingsSchemaLiteral = {
   title: "settings schema",
@@ -22,6 +23,13 @@ export const settingsSchemaLiteral = {
     },
     weigthUnit: {
       type: "string", // <- only 'kg' or 'lbs' allowed
+      enum: ["kg", "lbs"],
+      default: "lbs",
+    },
+    program: {
+      type: "string",
+      maxLength: 100,
+      default: "sl5x5",
     },
   },
   required: ["clientId", "weigthUnit"],
@@ -73,6 +81,7 @@ const settingsCollectionMethods: SettingsCollectionMethods = {
 export const defaultSettings: SettingsDocType = {
   clientId: uid.rnd(),
   weigthUnit: "lbs", // <- only 'kg' or 'lbs' allowed
+  program: "sl5x5",
 };
 
 export async function initSettings(db: MyDatabase) {

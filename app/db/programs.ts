@@ -23,8 +23,22 @@ export const programsSchemaLiteral = {
     name: {
       type: "string",
     },
+    description: {
+      type: "string",
+      maxLength: 1000,
+    },
+    type: {
+      type: "string",
+      enum: ["strength", "cardio"],
+      default: "strength",
+    },
+    level: {
+      type: "string",
+      enum: ["beginner", "intermediate", "advanced"],
+      default: "beginner",
+    },
   },
-  required: ["id", "name"],
+  required: ["id", "name", "description", "type", "level"],
   //indexes: ["firstName"],
 } as const; // <- It is important to set 'as const' to preserve the literal type
 
@@ -70,10 +84,25 @@ const programsCollectionMethods: ProgramsCollectionMethods = {
   },
 };
 
-export const defaultProgram: ProgramsDocType = {
-  id: "five-by-five",
-  name: "StrongLifts 5x5",
+const ss1: ProgramsDocType = {
+  id: "ss1",
+  name: "Starting Strength - Phase 1",
+  description:
+    "A beginner strength program that emphasizes rapid progression by increasing weight every workout through three sets of five reps of key compound lifts like squats, bench press, and deadlifts.",
+  type: "strength",
+  level: "beginner",
 };
+
+const sl5x5: ProgramsDocType = {
+  id: "sl5x5",
+  name: "StrongLifts 5x5",
+  description:
+    "A beginner strength program that emphasizes rapid progression by increasing weight every workout through five sets of five reps of key compound lifts like squats, bench press, and deadlifts.",
+  type: "strength",
+  level: "beginner",
+};
+
+export const defaultProgram = sl5x5;
 
 export async function initPrograms(db: MyDatabase) {
   await db.addCollections({
@@ -90,7 +119,8 @@ export async function initPrograms(db: MyDatabase) {
     .exec()
     .then((doc) => {
       if (!doc) {
-        db.programs.insert(defaultProgram);
+        db.programs.insert(sl5x5);
+        db.programs.insert(ss1);
       }
     });
 
