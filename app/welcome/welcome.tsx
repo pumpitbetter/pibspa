@@ -28,7 +28,7 @@ export function Welcome() {
             <ul>
               <Link
                 className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-                to="/app/programs"
+                to="/app/program"
                 rel="noreferrer"
               >
                 Use the app!

@@ -102,6 +102,24 @@ const sl5x5: ProgramsDocType = {
   level: "beginner",
 };
 
+const madcow: ProgramsDocType = {
+  id: "madcow",
+  name: "Madcow 5x5",
+  description:
+    "An intermediate strength program with weekly progression increasing weight of compound lifts like squats, bench press, and deadlifts.",
+  type: "strength",
+  level: "intermediate",
+};
+
+const w531bbb: ProgramsDocType = {
+  id: "w531bbb",
+  name: "Wendler 5/3/1 - Boring But Big",
+  description:
+    "An intermediate strength program with progression increasing weight of compound lifts every 4 week cycle.",
+  type: "strength",
+  level: "intermediate",
+};
+
 export const defaultProgram = sl5x5;
 
 export async function initPrograms(db: MyDatabase) {
@@ -121,6 +139,8 @@ export async function initPrograms(db: MyDatabase) {
       if (!doc) {
         db.programs.insert(sl5x5);
         db.programs.insert(ss1);
+        db.programs.insert(madcow);
+        db.programs.insert(w531bbb);
       }
     });
 

@@ -25,7 +25,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   return settings ? settings.toMutableJSON() : defaultSettings;
 }
 
-export default function Programs({ loaderData }: Route.ComponentProps) {
+export default function ProgramChange({ loaderData }: Route.ComponentProps) {
   return (
     <Page>
       <Header title="Switch Program" />
@@ -39,9 +39,6 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
               description={program.description}
               type={program.type}
               level={program.level}
-              onClick={() => {
-                console.log("Program clicked:", program);
-              }}
             />
           ))}
         </List>

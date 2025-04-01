@@ -31,8 +31,8 @@ export default function App() {
         <NavLink to="program" className={navLinkStyle}>
           Program
         </NavLink>
-        <NavLink to="workouts" className={navLinkStyle}>
-          Workouts
+        <NavLink to="queue" className={navLinkStyle}>
+          Queue
         </NavLink>
         <NavLink to="history" className={navLinkStyle}>
           History
