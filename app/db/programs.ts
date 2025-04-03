@@ -132,17 +132,10 @@ export async function initPrograms(db: MyDatabase) {
   });
 
   // generate initial programs
-  db.programs
-    .findOne()
-    .exec()
-    .then((doc) => {
-      if (!doc) {
-        db.programs.insert(sl5x5);
-        db.programs.insert(ss1);
-        db.programs.insert(madcow);
-        db.programs.insert(w531bbb);
-      }
-    });
+  db.programs.insertIfNotExists(sl5x5);
+  db.programs.insertIfNotExists(ss1);
+  db.programs.insertIfNotExists(madcow);
+  db.programs.insertIfNotExists(w531bbb);
 
   // add a postInsert-hook
   db.programs.postInsert(

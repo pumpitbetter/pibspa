@@ -7,6 +7,8 @@ import { wrappedValidateAjvStorage } from "rxdb/plugins/validate-ajv";
 import { initSettings, type SettingsCollection } from "./settings";
 import { initPrograms, type ProgramsCollection } from "./programs";
 import { initWorkouts, type WorkoutsCollection } from "./workouts";
+import { initExercises, type ExercisesCollection } from "./exercises";
+import { initTemplates, type TemplatesCollection } from "./templates";
 
 if (process.env.NODE_ENV === "development") {
   console.log("Development mode enabled");
@@ -18,8 +20,10 @@ addRxPlugin(RxDBUpdatePlugin);
 
 export type MyDatabaseCollections = {
   settings: SettingsCollection;
+  exercises: ExercisesCollection;
   programs: ProgramsCollection;
   workouts: WorkoutsCollection;
+  templates: TemplatesCollection;
 };
 
 export type MyDatabase = RxDatabase<MyDatabaseCollections>;
@@ -34,6 +38,8 @@ export const db: MyDatabase = await createRxDatabase<MyDatabaseCollections>({
   storage,
 });
 
+await initExercises(db);
 await initSettings(db);
 await initPrograms(db);
 await initWorkouts(db);
+await initTemplates(db);
