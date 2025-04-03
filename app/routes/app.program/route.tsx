@@ -7,6 +7,7 @@ import { defaultProgram } from "~/db/programs";
 import type { Route } from "./+types/route";
 import { Link } from "react-router";
 import { ListItem } from "~/components/ListItem";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 export async function clientLoader() {
   const settings = await db.settings.findOne().exec();
@@ -45,13 +46,24 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
         }
       />
       <MainContent>
-        <List>
-          {workouts.map((workout) => (
-            <Link to={`${workout.id}`} key={workout.id}>
-              <ListItem title={workout.name} />
-            </Link>
-          ))}
-        </List>
+        <Tabs defaultValue="templates" className="w-full px-4">
+          <TabsList className="grid w-full grid-cols-2 sticky top-[56px]">
+            <TabsTrigger value="templates">Templates</TabsTrigger>
+            <TabsTrigger value="weights">Weights</TabsTrigger>
+          </TabsList>
+          <TabsContent value="templates">
+            <List>
+              {workouts.map((workout) => (
+                <Link to={`${workout.id}`} key={workout.id}>
+                  <ListItem title={workout.name} />
+                </Link>
+              ))}
+            </List>
+          </TabsContent>
+          <TabsContent value="weights">
+            List max exercise weights here.
+          </TabsContent>
+        </Tabs>
       </MainContent>
     </Page>
   );

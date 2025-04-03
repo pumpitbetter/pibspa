@@ -10,7 +10,7 @@ export function Header({
   return (
     <header
       className={cx(
-        "sticky top-0 flex items-center justify-between h-12 px-4",
+        "sticky top-0 flex items-center justify-between min-h-[56px] px-4",
         "bg-surface text-on-surface"
       )}
     >
