@@ -37,6 +37,50 @@ export const programsSchemaLiteral = {
       enum: ["beginner", "intermediate", "advanced"],
       default: "beginner",
     },
+    exercises: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          exerciseId: {
+            type: "string",
+            maxLength: 100,
+          },
+          duration: {
+            type: "number",
+            description: "duration in seconds",
+          },
+          exerciseWeight: {
+            type: "object",
+            properties: {
+              value: {
+                type: "number", // max weight for the exercise
+              },
+              units: {
+                type: "string",
+                enum: ["kg", "lbs"],
+              },
+            },
+            required: ["value", "units"],
+          },
+          barWeight: {
+            type: "object",
+            properties: {
+              value: {
+                type: "number", // max weight for the exercise
+              },
+              units: {
+                type: "string",
+                enum: ["kg", "lbs"],
+              },
+            },
+            required: ["value", "units"],
+          },
+        },
+        required: ["exerciseId", "exerciseWeight"],
+      },
+      default: [],
+    },
   },
   required: ["id", "name", "description", "type", "level"],
   //indexes: ["firstName"],
@@ -109,6 +153,130 @@ const madcow: ProgramsDocType = {
     "An intermediate strength program with weekly progression increasing weight of compound lifts like squats, bench press, and deadlifts.",
   type: "strength",
   level: "intermediate",
+  exercises: [
+    {
+      exerciseId: "barbell-squat",
+      exerciseWeight: {
+        value: 75,
+        units: "lbs",
+      },
+      barWeight: {
+        value: 45,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "barbell-bench-press",
+      exerciseWeight: {
+        value: 75,
+        units: "lbs",
+      },
+      barWeight: {
+        value: 45,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "barbell-incline-bench-press",
+      exerciseWeight: {
+        value: 75,
+        units: "lbs",
+      },
+      barWeight: {
+        value: 45,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "barbell-deadlift",
+      exerciseWeight: {
+        value: 75,
+        units: "lbs",
+      },
+      barWeight: {
+        value: 45,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "barbell-row",
+      exerciseWeight: {
+        value: 75,
+        units: "lbs",
+      },
+      barWeight: {
+        value: 45,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "barbell-curl",
+      exerciseWeight: {
+        value: 45,
+        units: "lbs",
+      },
+      barWeight: {
+        value: 45,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "ezbar-skullcrusher",
+      exerciseWeight: {
+        value: 45,
+        units: "lbs",
+      },
+      barWeight: {
+        value: 20,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "dips",
+      exerciseWeight: {
+        value: 0,
+        units: "lbs",
+      },
+      barWeight: {
+        value: 0,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "hanging-knee-raise",
+      exerciseWeight: {
+        value: 0,
+        units: "lbs",
+      },
+      barWeight: {
+        value: 0,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "pulups",
+      exerciseWeight: {
+        value: 0,
+        units: "lbs",
+      },
+      barWeight: {
+        value: 0,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "planks",
+      exerciseWeight: {
+        value: 0,
+        units: "lbs",
+      },
+      barWeight: {
+        value: 0,
+        units: "lbs",
+      },
+      duration: 30,
+    },
+  ],
 };
 
 const w531bbb: ProgramsDocType = {

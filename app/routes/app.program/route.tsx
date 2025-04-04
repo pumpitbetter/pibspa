@@ -35,6 +35,7 @@ export async function clientLoader() {
 
 export default function Programs({ loaderData }: Route.ComponentProps) {
   const { program, workouts } = loaderData;
+
   return (
     <Page>
       <Header
@@ -61,7 +62,15 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
             </List>
           </TabsContent>
           <TabsContent value="weights">
-            List max exercise weights here.
+            <List>
+              {program.exercises?.map((item) => (
+                <ListItem
+                  key={item.exerciseId}
+                  title={item.exerciseId}
+                  content={`${item.exerciseWeight.value} ${item.exerciseWeight.units}`}
+                />
+              ))}
+            </List>
           </TabsContent>
         </Tabs>
       </MainContent>
