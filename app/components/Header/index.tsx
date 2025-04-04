@@ -2,21 +2,23 @@ import cx from "classix";
 
 export function Header({
   title,
+  left,
   right,
 }: {
   title: string;
+  left?: React.ReactNode;
   right?: React.ReactNode;
 }) {
   return (
     <header
       className={cx(
-        "sticky top-0 flex items-center justify-between min-h-[56px] px-4",
+        "sticky top-0 flex items-center justify-end min-h-[56px] px-4",
         "bg-surface text-on-surface"
       )}
     >
-      <div></div>
+      <div>{left}</div>
       <h1 className={cx("text-2xl")}>{title}</h1>
-      {right ?? <div></div>}
+      <div className="ml-auto">{right}</div>
     </header>
   );
 }

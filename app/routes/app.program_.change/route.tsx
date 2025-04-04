@@ -7,6 +7,9 @@ import { defaultProgram } from "~/db/programs";
 import type { Route } from "./+types/route";
 import { ProgramListItem } from "./program-list-item";
 import { defaultSettings } from "~/db/settings";
+import { Link } from "react-router";
+import { ChevronLeft } from "lucide-react";
+import { LinkBack } from "~/components/LinkBack";
 
 export async function clientLoader() {
   const programs = await db.programs.find().exec();
@@ -28,7 +31,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 export default function ProgramChange({ loaderData }: Route.ComponentProps) {
   return (
     <Page>
-      <Header title="Switch Program" />
+      <Header title="Switch Program" left={<LinkBack to="/app/program" />} />
       <MainContent>
         <List>
           {loaderData.map((program) => (

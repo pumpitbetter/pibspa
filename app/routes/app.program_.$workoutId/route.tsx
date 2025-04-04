@@ -7,6 +7,7 @@ import invariant from "tiny-invariant";
 import { List } from "~/components/List";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { getExerciseById } from "~/lib/utils";
+import { LinkBack } from "~/components/LinkBack";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const workout = await db.workouts
@@ -77,7 +78,7 @@ export default function ProgramWorkout({ loaderData }: Route.ComponentProps) {
 
   return (
     <Page>
-      <Header title={workout?.name} />
+      <Header title={workout?.name} left={<LinkBack to="/app/program" />} />
       <MainContent>
         <List>
           {Object.entries(groupedTemplates).map((template) => (
