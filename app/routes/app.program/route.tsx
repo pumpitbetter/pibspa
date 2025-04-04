@@ -9,6 +9,8 @@ import { Link } from "react-router";
 import { ListItem } from "~/components/ListItem";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { getExerciseById } from "~/lib/utils";
+import { DialogWeightEdit } from "./dialog-weight-edit";
+import invariant from "tiny-invariant";
 
 export async function clientLoader() {
   const settings = await db.settings.findOne().exec();
@@ -34,6 +36,45 @@ export async function clientLoader() {
     workouts: workouts ? workouts.map((w) => w.toMutableJSON()) : [],
     exercises: exercises ? exercises.map((e) => e.toMutableJSON()) : [],
   };
+}
+
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  const formData = await request.formData();
+  const programId = formData.get("programId") as string;
+  invariant(programId, "Program ID is required");
+  const exerciseId = formData.get("exerciseId") as string;
+  invariant(exerciseId, "Exercise ID is required");
+  const weight = Number(formData.get("weight") as string) ?? 0;
+  const settings = await db.settings.findOne().exec();
+  const program = await db.programs
+    .findOne({
+      selector: {
+        id: programId,
+      },
+    })
+    .exec();
+  invariant(program, "Program not found");
+  invariant(settings, "Settings not found");
+
+  await program.modify((doc) => {
+    invariant(doc.exercises, "Program has no exercises");
+    const exercises = doc.exercises.map((item) => {
+      if (item.exerciseId === exerciseId) {
+        return {
+          ...item,
+          exerciseWeight: {
+            value: weight,
+            units: settings.weigthUnit,
+          },
+        };
+      }
+      return item;
+    });
+    doc.exercises = exercises;
+    return doc;
+  });
+
+  return program.toMutableJSON();
 }
 
 export default function Programs({ loaderData }: Route.ComponentProps) {
@@ -70,16 +111,27 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
           {/* Weights Tab */}
           <TabsContent value="weights">
             <List>
-              {program.exercises?.map((item) => (
-                <ListItem
-                  key={item.exerciseId}
-                  title={
-                    getExerciseById({ exercises, exerciseId: item.exerciseId })
-                      ?.name ?? item.exerciseId
-                  }
-                  content={`${item.exerciseWeight.value} ${item.exerciseWeight.units}`}
-                />
-              ))}
+              {program.exercises?.map((item) => {
+                const exerciseName =
+                  getExerciseById({
+                    exercises,
+                    exerciseId: item.exerciseId,
+                  })?.name ?? item.exerciseId;
+                return (
+                  <DialogWeightEdit
+                    key={item.exerciseId}
+                    exerciseId={item.exerciseId}
+                    programId={program.id}
+                    exerciseName={exerciseName}
+                    exerciseWeight={item.exerciseWeight.value}
+                  >
+                    <ListItem
+                      title={exerciseName}
+                      content={`${item.exerciseWeight.value} ${item.exerciseWeight.units}`}
+                    />
+                  </DialogWeightEdit>
+                );
+              })}
             </List>
           </TabsContent>
         </Tabs>
