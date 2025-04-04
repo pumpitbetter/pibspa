@@ -18,13 +18,14 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 // This is a *layout* for the rest of the app pages
 export default function App() {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-dvh">
       <div className="flex-1">
         <Outlet />
+        <div className="min-h-[56px]"></div>
       </div>
       <nav
         className={cx(
-          "flex justify-around p-4 fixed bottom-0 w-full border-ts",
+          "flex justify-around p-4 fixed bottom-0 w-full min-h-[56px] border-ts",
           "text-on-surface bg-surface-container border-outline-variant"
         )}
       >

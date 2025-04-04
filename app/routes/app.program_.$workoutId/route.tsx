@@ -6,6 +6,7 @@ import type { Route } from "./+types/route";
 import invariant from "tiny-invariant";
 import { List } from "~/components/List";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { getExerciseById } from "~/lib/utils";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const workout = await db.workouts
@@ -38,14 +39,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export default function ProgramWorkout({ loaderData }: Route.ComponentProps) {
   const { workout, templates, exercises } = loaderData;
-
-  const getExerciseById = (exerciseId: string) => {
-    const exercise = exercises.find((e) => e.id === exerciseId);
-    if (!exercise) {
-      return null;
-    }
-    return exercise;
-  };
 
   const groupIntoCircuits = (
     array: typeof templates
@@ -92,7 +85,8 @@ export default function ProgramWorkout({ loaderData }: Route.ComponentProps) {
               <Card>
                 <CardHeader>
                   <CardTitle>
-                    {getExerciseById(template[0])?.name ?? "Unknown Exercise"}
+                    {getExerciseById({ exercises, exerciseId: template[0] })
+                      ?.name ?? "Unknown Exercise"}
                   </CardTitle>
                   {/* <CardDescription>Description</CardDescription> */}
                 </CardHeader>

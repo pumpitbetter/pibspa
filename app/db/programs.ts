@@ -254,7 +254,7 @@ const madcow: ProgramsDocType = {
       },
     },
     {
-      exerciseId: "pulups",
+      exerciseId: "pullups",
       exerciseWeight: {
         value: 0,
         units: "lbs",

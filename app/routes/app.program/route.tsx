@@ -8,6 +8,7 @@ import type { Route } from "./+types/route";
 import { Link } from "react-router";
 import { ListItem } from "~/components/ListItem";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { getExerciseById } from "~/lib/utils";
 
 export async function clientLoader() {
   const settings = await db.settings.findOne().exec();
@@ -26,15 +27,17 @@ export async function clientLoader() {
       sort: [{ order: "asc" }],
     })
     .exec();
+  const exercises = await db.exercises.find().exec();
 
   return {
     program: program ? program.toMutableJSON() : defaultProgram,
     workouts: workouts ? workouts.map((w) => w.toMutableJSON()) : [],
+    exercises: exercises ? exercises.map((e) => e.toMutableJSON()) : [],
   };
 }
 
 export default function Programs({ loaderData }: Route.ComponentProps) {
-  const { program, workouts } = loaderData;
+  const { program, workouts, exercises } = loaderData;
 
   return (
     <Page>
@@ -52,6 +55,8 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
             <TabsTrigger value="templates">Templates</TabsTrigger>
             <TabsTrigger value="weights">Weights</TabsTrigger>
           </TabsList>
+
+          {/*Templates Tab */}
           <TabsContent value="templates">
             <List>
               {workouts.map((workout) => (
@@ -61,12 +66,17 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
               ))}
             </List>
           </TabsContent>
+
+          {/* Weights Tab */}
           <TabsContent value="weights">
             <List>
               {program.exercises?.map((item) => (
                 <ListItem
                   key={item.exerciseId}
-                  title={item.exerciseId}
+                  title={
+                    getExerciseById({ exercises, exerciseId: item.exerciseId })
+                      ?.name ?? item.exerciseId
+                  }
                   content={`${item.exerciseWeight.value} ${item.exerciseWeight.units}`}
                 />
               ))}

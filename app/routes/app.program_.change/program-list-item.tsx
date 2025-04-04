@@ -43,7 +43,9 @@ export function ProgramListItem({
             <CardTitle>{title}</CardTitle>
             <CardDescription className="flex items-center gap-2 pt-3">
               {[level, type].map((item) => (
-                <Badge variant="outline">{item}</Badge>
+                <Badge variant="outline" key={item}>
+                  {item}
+                </Badge>
               ))}
             </CardDescription>
           </CardHeader>
