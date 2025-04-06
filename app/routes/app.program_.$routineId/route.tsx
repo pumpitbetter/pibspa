@@ -5,7 +5,11 @@ import { db } from "~/db/db";
 import invariant from "tiny-invariant";
 import { List } from "~/components/List";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { getExerciseById } from "~/lib/utils";
+import {
+  getExerciseById,
+  groupCircuitsIntoSets,
+  groupTemplatesIntoCircuits,
+} from "~/lib/utils";
 import { LinkBack } from "~/components/LinkBack";
 import type { Route } from "./+types/route";
 
@@ -41,40 +45,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 export default function Programroutine({ loaderData }: Route.ComponentProps) {
   const { routine, templates, exercises } = loaderData;
 
-  const groupIntoCircuits = (
-    array: typeof templates
-  ): Record<string, typeof templates> => {
-    const groupedArray = array.reduce((acc, template) => {
-      const order = template.order;
-      if (!acc[order]) {
-        acc[order] = [];
-      }
-      acc[order].push(template);
-      acc[order].sort((a, b) => (a.sequence ?? 0) - (b.sequence ?? 0));
-      return acc;
-    }, {} as Record<string, typeof templates>);
-    return groupedArray;
-  };
-
-  const groupIntoSets = (
-    groupedTemplates: Record<string, typeof templates>
-  ): Record<string, typeof templates> => {
-    return Object.entries(groupedTemplates).reduce(
-      (acc, [order, templates]) => {
-        templates.forEach((template) => {
-          const exerciseId = template.exerciseId;
-          if (!acc[exerciseId]) {
-            acc[exerciseId] = [];
-          }
-          acc[exerciseId].push(template);
-        });
-        return acc;
-      },
-      {} as Record<string, typeof templates>
-    );
-  };
-
-  const groupedTemplates = groupIntoSets(groupIntoCircuits(templates));
+  const groupedTemplates = groupCircuitsIntoSets(
+    groupTemplatesIntoCircuits(templates)
+  );
 
   return (
     <Page>

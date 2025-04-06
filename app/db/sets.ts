@@ -7,13 +7,12 @@ import {
 } from "rxdb";
 import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
-import { initMadcowTemplates } from "./templates-madcow";
 
-// routine set template
+// routine set schema
 // belongs to a particular program > routine
-export const templatesSchemaLiteral = {
-  title: "templates schema",
-  description: "describes program templates",
+export const setsSchemaLiteral = {
+  title: "sets schema",
+  description: "describes program sets",
   version: 0,
   keyCompression: false,
   primaryKey: "id",
@@ -31,12 +30,16 @@ export const templatesSchemaLiteral = {
       type: "string",
       maxLength: 100,
     },
+    workoutId: {
+      type: "string",
+      maxLength: 100,
+    },
     exerciseId: {
       type: "string",
       maxLength: 100,
     },
     order: {
-      // if the order is the same for two or more template items in a row, then it's a circuit and `sequence` is used to determine the circuit order
+      // if the order is the same for two or more set items in a row, then it's a circuit and `sequence` is used to determine the circuit order
       type: "number",
     },
     sequence: {
@@ -97,6 +100,7 @@ export const templatesSchemaLiteral = {
     "id",
     "programId",
     "routineId",
+    "workoutId",
     "exerciseId",
     "order",
     "load",
@@ -107,67 +111,61 @@ export const templatesSchemaLiteral = {
 
 const uid = new ShortUniqueId({ length: 16 });
 
-const schemaTyped = toTypedRxJsonSchema(templatesSchemaLiteral);
+const schemaTyped = toTypedRxJsonSchema(setsSchemaLiteral);
 
 // aggregate the document type from the schema
-export type TemplatesDocType = ExtractDocumentTypeFromTypedRxJsonSchema<
+export type SetsDocType = ExtractDocumentTypeFromTypedRxJsonSchema<
   typeof schemaTyped
 >;
 
-export type TemplatesDocMethods = {
+export type SetsDocMethods = {
   scream: (v: string) => string;
 };
 
-export type TemplatesDocument = RxDocument<
-  TemplatesDocType,
-  TemplatesDocMethods
->;
+export type SetsDocument = RxDocument<SetsDocType, SetsDocMethods>;
 
 // we declare one static ORM-method for the collection
-export type TemplatesCollectionMethods = {
+export type SetsCollectionMethods = {
   countAllDocuments: () => Promise<number>;
 };
 
 // and then merge all our types
-export type TemplatesCollection = RxCollection<
-  TemplatesDocType,
-  TemplatesDocMethods,
-  TemplatesCollectionMethods
+export type SetsCollection = RxCollection<
+  SetsDocType,
+  SetsDocMethods,
+  SetsCollectionMethods
 >;
 
-const templatesSchema: RxJsonSchema<TemplatesDocType> = templatesSchemaLiteral;
+const setsSchema: RxJsonSchema<SetsDocType> = setsSchemaLiteral;
 
-const templatesDocMethods: TemplatesDocMethods = {
-  scream: function (this: TemplatesDocument) {
+const setsDocMethods: SetsDocMethods = {
+  scream: function (this: SetsDocument) {
     return ""; //this.clientId + " weight units: " + this.weigthUnit;
   },
 };
 
-const templatesCollectionMethods: TemplatesCollectionMethods = {
-  countAllDocuments: async function (this: TemplatesCollection) {
+const setsCollectionMethods: SetsCollectionMethods = {
+  countAllDocuments: async function (this: SetsCollection) {
     const allDocs = await this.find().exec();
     return allDocs.length;
   },
 };
 
-export async function initTemplates(db: MyDatabase) {
+export async function initSets(db: MyDatabase) {
   await db.addCollections({
-    templates: {
-      schema: templatesSchema,
-      methods: templatesDocMethods,
-      statics: templatesCollectionMethods,
+    sets: {
+      schema: setsSchema,
+      methods: setsDocMethods,
+      statics: setsCollectionMethods,
     },
   });
 
-  // generate initial templates
-  initMadcowTemplates(db);
-
   // add a postInsert-hook
-  db.templates.postInsert(
+  db.sets.postInsert(
     function myPostInsertHook(
-      this: TemplatesCollection, // own collection is bound to the scope
-      docData: TemplatesDocType, // documents data
-      doc: TemplatesDocument // RxDocument
+      this: SetsCollection, // own collection is bound to the scope
+      docData: SetsDocType, // documents data
+      doc: SetsDocument // RxDocument
     ) {
       console.log("insert to " + this.name + "-collection: " + doc.id);
     },
