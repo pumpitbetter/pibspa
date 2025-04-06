@@ -49,8 +49,22 @@ export async function initMadcowTemplates(db: MyDatabase) {
     workoutId: "madcow-workout-1",
     exerciseId: "barbell-squat",
     order: 5,
-    load: (100 - 12.5 * 0) / 100,
+    load: 1,
     reps: 5,
+    progression: {
+      increment: {
+        value: 5,
+        kind: "weight",
+        type: "absolute",
+        frequency: 1, // every time this workout is done
+      },
+      decrement: {
+        value: 0.1, // 10% of the load
+        kind: "weight",
+        type: "percentage",
+        frequency: 3, // every 3 times this workout is done, if failed to complete the reps at this load
+      },
+    },
   });
 
   // Bench Press sets
@@ -95,8 +109,22 @@ export async function initMadcowTemplates(db: MyDatabase) {
     workoutId: "madcow-workout-1",
     exerciseId: "barbell-bench-press",
     order: 10,
-    load: (100 - 12.5 * 0) / 100,
+    load: 1,
     reps: 5,
+    progression: {
+      increment: {
+        value: 2.5,
+        kind: "weight",
+        type: "absolute",
+        frequency: 1,
+      },
+      decrement: {
+        value: 0.1,
+        kind: "weight",
+        type: "percentage",
+        frequency: 3,
+      },
+    },
   });
 
   // Barbell Row sets
@@ -141,8 +169,22 @@ export async function initMadcowTemplates(db: MyDatabase) {
     workoutId: "madcow-workout-1",
     exerciseId: "barbell-row",
     order: 15,
-    load: (100 - 12.5 * 0) / 100,
+    load: 1,
     reps: 5,
+    progression: {
+      increment: {
+        value: 2.5,
+        kind: "weight",
+        type: "absolute",
+        frequency: 1,
+      },
+      decrement: {
+        value: 0.1,
+        kind: "weight",
+        type: "percentage",
+        frequency: 3,
+      },
+    },
   });
 
   // Dip sets
@@ -171,6 +213,20 @@ export async function initMadcowTemplates(db: MyDatabase) {
     order: 18,
     load: 1,
     reps: 8,
+    progression: {
+      increment: {
+        value: 2.5,
+        kind: "weight",
+        type: "absolute",
+        frequency: 1,
+      },
+      decrement: {
+        value: 0.1,
+        kind: "weight",
+        type: "percentage",
+        frequency: 3,
+      },
+    },
   });
 
   // Hanging knee raise sets
@@ -199,6 +255,20 @@ export async function initMadcowTemplates(db: MyDatabase) {
     order: 21,
     load: 1,
     reps: 8,
+    progression: {
+      increment: {
+        value: 2.5,
+        kind: "weight",
+        type: "absolute",
+        frequency: 1,
+      },
+      decrement: {
+        value: 0.1,
+        kind: "weight",
+        type: "percentage",
+        frequency: 3,
+      },
+    },
   });
 
   // Workout B
@@ -275,6 +345,20 @@ export async function initMadcowTemplates(db: MyDatabase) {
     order: 8,
     load: 1,
     reps: 5,
+    progression: {
+      increment: {
+        value: 2.5,
+        kind: "weight",
+        type: "absolute",
+        frequency: 1,
+      },
+      decrement: {
+        value: 0.1,
+        kind: "weight",
+        type: "percentage",
+        frequency: 3,
+      },
+    },
   });
 
   // Deadlift sets
@@ -312,6 +396,20 @@ export async function initMadcowTemplates(db: MyDatabase) {
     order: 12,
     load: 1,
     reps: 5,
+    progression: {
+      increment: {
+        value: 5,
+        kind: "weight",
+        type: "absolute",
+        frequency: 1,
+      },
+      decrement: {
+        value: 0.1,
+        kind: "weight",
+        type: "percentage",
+        frequency: 3,
+      },
+    },
   });
 
   // Pullup sets
@@ -340,6 +438,20 @@ export async function initMadcowTemplates(db: MyDatabase) {
     order: 15,
     load: 1,
     reps: 8,
+    progression: {
+      increment: {
+        value: 2.5,
+        kind: "weight",
+        type: "absolute",
+        frequency: 1,
+      },
+      decrement: {
+        value: 0.1,
+        kind: "weight",
+        type: "percentage",
+        frequency: 3,
+      },
+    },
   });
 
   // Plank sets
@@ -368,6 +480,20 @@ export async function initMadcowTemplates(db: MyDatabase) {
     order: 18,
     load: 1,
     reps: 8,
+    progression: {
+      increment: {
+        value: 10,
+        kind: "seconds",
+        type: "absolute",
+        frequency: 1,
+      },
+      decrement: {
+        value: 10,
+        kind: "seconds",
+        type: "absolute",
+        frequency: 3,
+      },
+    },
   });
 
   // Workout C
@@ -416,6 +542,13 @@ export async function initMadcowTemplates(db: MyDatabase) {
     order: 5,
     load: (100 + 12.5) / 100, // app will always calculate min(load, current max weight +  weight progression for this exercise)
     reps: 3,
+    progression: {
+      increment: {
+        value: 2.5,
+        kind: "weight",
+        type: "absolute",
+      },
+    },
   });
 
   db.templates.insertIfNotExists({
@@ -471,6 +604,13 @@ export async function initMadcowTemplates(db: MyDatabase) {
     order: 11,
     load: (100 + 12.5) / 100, // app will always calculate min(load, current max weight +  weight progression for this exercise)
     reps: 3,
+    progression: {
+      increment: {
+        value: 2.5,
+        kind: "weight",
+        type: "absolute",
+      },
+    },
   });
 
   db.templates.insertIfNotExists({
@@ -526,6 +666,13 @@ export async function initMadcowTemplates(db: MyDatabase) {
     order: 17,
     load: (100 + 12.5) / 100, // app will always calculate min(load, current max weight +  weight progression for this exercise)
     reps: 3,
+    progression: {
+      increment: {
+        value: 2.5,
+        kind: "weight",
+        type: "absolute",
+      },
+    },
   });
 
   db.templates.insertIfNotExists({
@@ -563,6 +710,20 @@ export async function initMadcowTemplates(db: MyDatabase) {
     order: 21,
     load: 1,
     reps: 8,
+    progression: {
+      increment: {
+        value: 2.5,
+        kind: "weight",
+        type: "absolute",
+        frequency: 1,
+      },
+      decrement: {
+        value: 0.1,
+        kind: "weight",
+        type: "percentage",
+        frequency: 3,
+      },
+    },
   });
 
   // EZ bar skullcrusher sets
@@ -591,5 +752,19 @@ export async function initMadcowTemplates(db: MyDatabase) {
     order: 24,
     load: 1,
     reps: 8,
+    progression: {
+      increment: {
+        value: 2.5,
+        kind: "weight",
+        type: "absolute",
+        frequency: 1,
+      },
+      decrement: {
+        value: 0.1,
+        kind: "weight",
+        type: "percentage",
+        frequency: 3,
+      },
+    },
   });
 }

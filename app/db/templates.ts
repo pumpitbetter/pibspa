@@ -45,6 +45,49 @@ export const templatesSchemaLiteral = {
     reps: {
       type: "number",
     },
+    progression: {
+      type: "object",
+      properties: {
+        increment: {
+          type: "object",
+          properties: {
+            value: {
+              type: "number",
+            },
+            kind: {
+              type: "string",
+              enum: ["weight", "seconds"],
+            },
+            type: {
+              type: "string",
+              enum: ["absolute", "percentage"],
+            },
+            frequency: {
+              type: "number",
+            },
+          },
+        },
+        decrement: {
+          type: "object",
+          properties: {
+            value: {
+              type: "number",
+            },
+            kind: {
+              type: "string",
+              enum: ["weight", "seconds"],
+            },
+            type: {
+              type: "string",
+              enum: ["absolute", "percentage"],
+            },
+            frequency: {
+              type: "number",
+            },
+          },
+        },
+      },
+    },
   },
   required: ["id", "workoutId", "exerciseId", "order", "load", "reps"],
   indexes: ["workoutId"],
