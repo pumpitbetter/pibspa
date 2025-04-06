@@ -6,7 +6,7 @@ import { RxDBUpdatePlugin } from "rxdb/plugins/update";
 import { wrappedValidateAjvStorage } from "rxdb/plugins/validate-ajv";
 import { initSettings, type SettingsCollection } from "./settings";
 import { initPrograms, type ProgramsCollection } from "./programs";
-import { initWorkouts, type WorkoutsCollection } from "./workouts";
+import { initRoutines, type RoutinesCollection } from "./routines";
 import { initExercises, type ExercisesCollection } from "./exercises";
 import { initTemplates, type TemplatesCollection } from "./templates";
 
@@ -22,7 +22,7 @@ export type MyDatabaseCollections = {
   settings: SettingsCollection;
   exercises: ExercisesCollection;
   programs: ProgramsCollection;
-  workouts: WorkoutsCollection;
+  routines: RoutinesCollection;
   templates: TemplatesCollection;
 };
 
@@ -41,5 +41,5 @@ export const db: MyDatabase = await createRxDatabase<MyDatabaseCollections>({
 await initExercises(db);
 await initSettings(db);
 await initPrograms(db);
-await initWorkouts(db);
+await initRoutines(db);
 await initTemplates(db);

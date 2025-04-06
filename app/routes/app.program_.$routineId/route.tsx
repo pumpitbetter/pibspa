@@ -2,28 +2,28 @@ import { Header } from "~/components/Header";
 import { MainContent } from "~/components/MainContent";
 import { Page } from "~/components/Page";
 import { db } from "~/db/db";
-import type { Route } from "./+types/route";
 import invariant from "tiny-invariant";
 import { List } from "~/components/List";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { getExerciseById } from "~/lib/utils";
 import { LinkBack } from "~/components/LinkBack";
+import type { Route } from "./+types/route";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const workout = await db.workouts
+  const routine = await db.routines
     .findOne({
       selector: {
-        id: params.workoutId,
+        id: params.routineId,
       },
     })
     .exec();
 
-  invariant(workout, "Workout not found");
+  invariant(routine, "routine not found");
 
   const templates = await db.templates
     .find({
       selector: {
-        workoutId: workout.id,
+        routineId: routine.id,
       },
       sort: [{ order: "asc" }, { sequence: "asc" }],
     })
@@ -32,14 +32,14 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const exercises = await db.exercises.find().exec();
 
   return {
-    workout: workout.toMutableJSON(),
+    routine: routine.toMutableJSON(),
     templates: templates ? templates.map((t) => t.toMutableJSON()) : [],
     exercises: exercises ? exercises.map((e) => e.toMutableJSON()) : [],
   };
 }
 
-export default function ProgramWorkout({ loaderData }: Route.ComponentProps) {
-  const { workout, templates, exercises } = loaderData;
+export default function Programroutine({ loaderData }: Route.ComponentProps) {
+  const { routine, templates, exercises } = loaderData;
 
   const groupIntoCircuits = (
     array: typeof templates
@@ -78,7 +78,7 @@ export default function ProgramWorkout({ loaderData }: Route.ComponentProps) {
 
   return (
     <Page>
-      <Header title={workout?.name} left={<LinkBack to="/app/program" />} />
+      <Header title={routine?.name} left={<LinkBack to="/app/program" />} />
       <MainContent>
         <List>
           {Object.entries(groupedTemplates).map((template) => (

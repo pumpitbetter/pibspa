@@ -14,7 +14,7 @@ export async function clientLoader() {
       },
     })
     .exec();
-  const workouts = await db.workouts
+  const routines = await db.routines
     .find({
       selector: {
         programId: settings?.programId,
@@ -26,17 +26,17 @@ export async function clientLoader() {
 
   return {
     program: program ? program.toMutableJSON() : defaultProgram,
-    workouts: workouts ? workouts.map((w) => w.toMutableJSON()) : [],
+    routines: routines ? routines.map((w) => w.toMutableJSON()) : [],
     exercises: exercises ? exercises.map((e) => e.toMutableJSON()) : [],
   };
 }
 
 export default function Queue({ loaderData }: Route.ComponentProps) {
-  const { program, workouts, exercises } = loaderData;
+  const { program, routines, exercises } = loaderData;
   return (
     <Page>
       <Header title={program.name} />
-      <MainContent>This is a queue of upcoming program workouts.</MainContent>
+      <MainContent>This is a queue of upcoming program routines.</MainContent>
     </Page>
   );
 }

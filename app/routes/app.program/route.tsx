@@ -21,7 +21,7 @@ export async function clientLoader() {
       },
     })
     .exec();
-  const workouts = await db.workouts
+  const routines = await db.routines
     .find({
       selector: {
         programId: settings?.programId,
@@ -33,7 +33,7 @@ export async function clientLoader() {
 
   return {
     program: program ? program.toMutableJSON() : defaultProgram,
-    workouts: workouts ? workouts.map((w) => w.toMutableJSON()) : [],
+    routines: routines ? routines.map((w) => w.toMutableJSON()) : [],
     exercises: exercises ? exercises.map((e) => e.toMutableJSON()) : [],
   };
 }
@@ -78,7 +78,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 }
 
 export default function Programs({ loaderData }: Route.ComponentProps) {
-  const { program, workouts, exercises } = loaderData;
+  const { program, routines, exercises } = loaderData;
 
   return (
     <Page>
@@ -100,9 +100,9 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
           {/*Templates Tab */}
           <TabsContent value="templates">
             <List>
-              {workouts.map((workout) => (
-                <Link to={`${workout.id}`} key={workout.id}>
-                  <ListItem title={workout.name} />
+              {routines.map((routine) => (
+                <Link to={`${routine.id}`} key={routine.id}>
+                  <ListItem title={routine.name} />
                 </Link>
               ))}
             </List>

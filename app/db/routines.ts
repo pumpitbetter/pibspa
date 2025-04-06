@@ -8,9 +8,9 @@ import {
 import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
 
-export const workoutsSchemaLiteral = {
-  title: "workouts schema",
-  description: "describes program workouts",
+export const routinesSchemaLiteral = {
+  title: "routines schema",
+  description: "describes program routines",
   version: 0,
   keyCompression: false,
   primaryKey: "id",
@@ -37,83 +37,83 @@ export const workoutsSchemaLiteral = {
 
 const uid = new ShortUniqueId({ length: 16 });
 
-const schemaTyped = toTypedRxJsonSchema(workoutsSchemaLiteral);
+const schemaTyped = toTypedRxJsonSchema(routinesSchemaLiteral);
 
 // aggregate the document type from the schema
-export type WorkoutsDocType = ExtractDocumentTypeFromTypedRxJsonSchema<
+export type RoutinesDocType = ExtractDocumentTypeFromTypedRxJsonSchema<
   typeof schemaTyped
 >;
 
-export type WorkoutsDocMethods = {
+export type RoutinesDocMethods = {
   scream: (v: string) => string;
 };
 
-export type WorkoutsDocument = RxDocument<WorkoutsDocType, WorkoutsDocMethods>;
+export type RoutinesDocument = RxDocument<RoutinesDocType, RoutinesDocMethods>;
 
 // we declare one static ORM-method for the collection
-export type WorkoutsCollectionMethods = {
+export type RoutinesCollectionMethods = {
   countAllDocuments: () => Promise<number>;
 };
 
 // and then merge all our types
-export type WorkoutsCollection = RxCollection<
-  WorkoutsDocType,
-  WorkoutsDocMethods,
-  WorkoutsCollectionMethods
+export type RoutinesCollection = RxCollection<
+  RoutinesDocType,
+  RoutinesDocMethods,
+  RoutinesCollectionMethods
 >;
 
-const workoutsSchema: RxJsonSchema<WorkoutsDocType> = workoutsSchemaLiteral;
+const routinesSchema: RxJsonSchema<RoutinesDocType> = routinesSchemaLiteral;
 
-const workoutsDocMethods: WorkoutsDocMethods = {
-  scream: function (this: WorkoutsDocument) {
+const routinesDocMethods: RoutinesDocMethods = {
+  scream: function (this: RoutinesDocument) {
     return ""; //this.clientId + " weight units: " + this.weigthUnit;
   },
 };
 
-const workoutsCollectionMethods: WorkoutsCollectionMethods = {
-  countAllDocuments: async function (this: WorkoutsCollection) {
+const routinesCollectionMethods: RoutinesCollectionMethods = {
+  countAllDocuments: async function (this: RoutinesCollection) {
     const allDocs = await this.find().exec();
     return allDocs.length;
   },
 };
 
-export async function initWorkouts(db: MyDatabase) {
+export async function initRoutines(db: MyDatabase) {
   await db.addCollections({
-    workouts: {
-      schema: workoutsSchema,
-      methods: workoutsDocMethods,
-      statics: workoutsCollectionMethods,
+    routines: {
+      schema: routinesSchema,
+      methods: routinesDocMethods,
+      statics: routinesCollectionMethods,
     },
   });
 
-  // generate initial workouts
-  db.workouts.insertIfNotExists({
-    id: "madcow-workout-1",
+  // generate initial routines
+  db.routines.insertIfNotExists({
+    id: "madcow-routine-1",
     programId: "madcow",
-    name: "Workout A",
+    name: "Routine A",
     order: 1,
   });
 
-  db.workouts.insertIfNotExists({
-    id: "madcow-workout-2",
+  db.routines.insertIfNotExists({
+    id: "madcow-routine-2",
     programId: "madcow",
-    name: "Workout B",
+    name: "Routine B",
     order: 2,
   });
 
-  db.workouts.insertIfNotExists({
-    id: "madcow-workout-3",
+  db.routines.insertIfNotExists({
+    id: "madcow-routine-3",
     programId: "madcow",
-    name: "Workout C",
+    name: "Routine C",
     order: 3,
   });
 
   // add a postInsert-hook
-  db.workouts.postInsert(
+  db.routines.postInsert(
     function myPostInsertHook(
-      this: WorkoutsCollection, // own collection is bound to the scope
-      docData: WorkoutsDocType, // documents data
-      doc: WorkoutsDocument // RxDocument
+      this: RoutinesCollection, // own collection is bound to the scope
+      docData: RoutinesDocType, // documents data
+      doc: RoutinesDocument // RxDocument
     ) {
       console.log("insert to " + this.name + "-collection: " + doc.id);
     },

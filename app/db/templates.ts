@@ -9,8 +9,8 @@ import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
 import { initMadcowTemplates } from "./templates-madcow";
 
-// workout set template
-// belongs to a particular program > workout
+// routine set template
+// belongs to a particular program > routine
 export const templatesSchemaLiteral = {
   title: "templates schema",
   description: "describes program templates",
@@ -23,7 +23,7 @@ export const templatesSchemaLiteral = {
       type: "string",
       maxLength: 100, // <- the primary key must have set maxLength
     },
-    workoutId: {
+    routineId: {
       type: "string",
       maxLength: 100,
     },
@@ -89,8 +89,8 @@ export const templatesSchemaLiteral = {
       },
     },
   },
-  required: ["id", "workoutId", "exerciseId", "order", "load", "reps"],
-  indexes: ["workoutId"],
+  required: ["id", "routineId", "exerciseId", "order", "load", "reps"],
+  indexes: ["routineId"],
 } as const; // <- It is important to set 'as const' to preserve the literal type
 
 const uid = new ShortUniqueId({ length: 16 });
