@@ -12,11 +12,26 @@ import {
   groupIntoCircuits,
   getProgramExerciseWeight,
   progressProgramExercise,
+  cn,
 } from "~/lib/utils";
 import { List } from "~/components/List";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import type { SetsDocType } from "~/db/sets";
 import { defaultSettings } from "~/db/settings";
+import { Button } from "~/components/ui/button";
+import { useState } from "react";
+import type { WorkoutsDocType } from "~/db/workout";
+
+interface GroupedWorkout {
+  workout: WorkoutsDocType;
+  sets: Record<string, SetsDocType[]>;
+}
 
 export async function clientLoader() {
   const settings = await db.settings.findOne().exec();
@@ -54,7 +69,7 @@ export async function clientLoader() {
   let programExercises = p?.exercises ? [...p.exercises] : [];
 
   // group workouts into sets
-  const groupedWorkouts = workouts.map((workout) => {
+  const groupedWorkouts: GroupedWorkout[] = workouts.map((workout) => {
     const sets: SetsDocType[] = templates
       .filter((template) => {
         return template.routineId === workout.routineId;
@@ -150,16 +165,23 @@ export async function clientLoader() {
 }
 
 export default function Queue({ loaderData }: Route.ComponentProps) {
-  const { program, routines, exercises, workouts, settings } = loaderData;
+  const [workouts, setWorkouts] = useState<GroupedWorkout[]>(
+    () => loaderData.workouts
+  );
+  const { program, routines, exercises, settings } = loaderData;
 
   return (
     <Page>
       <Header title={program.name} />
       <MainContent>
         <List>
-          {workouts.map((item) => (
+          {workouts.map((item, itemIdx) => (
             <li key={item.workout.id} className="w-full p-4">
-              <Card>
+              <Card
+                className={cn(
+                  itemIdx === 0 ? "border-on-surface-container" : ""
+                )}
+              >
                 <CardHeader>
                   <CardTitle>{item.workout.name}</CardTitle>
                 </CardHeader>
@@ -182,6 +204,28 @@ export default function Queue({ loaderData }: Route.ComponentProps) {
                     );
                   })}
                 </CardContent>
+                {itemIdx === 0 && (
+                  <CardFooter className="flex justify-end gap-4">
+                    <Button
+                      variant="secondary"
+                      className="w-24"
+                      onClick={() => {
+                        // slice the first item from the workouts array
+                        setWorkouts((prev) => {
+                          const workouts = [...prev];
+                          workouts.shift();
+                          return workouts;
+                        });
+                        // update the workouts in the state
+                      }}
+                    >
+                      Skip
+                    </Button>
+                    <Button type="submit" className="w-24">
+                      Start
+                    </Button>
+                  </CardFooter>
+                )}
               </Card>
             </li>
           ))}
