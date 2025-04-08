@@ -63,6 +63,9 @@ export const programsSchemaLiteral = {
             },
             required: ["value", "units"],
           },
+          increment: {
+            type: "number",
+          },
           barWeight: {
             type: "object",
             properties: {
@@ -160,6 +163,7 @@ const madcow: ProgramsDocType = {
         value: 75,
         units: "lbs",
       },
+      increment: 5,
       barWeight: {
         value: 45,
         units: "lbs",
@@ -171,6 +175,7 @@ const madcow: ProgramsDocType = {
         value: 75,
         units: "lbs",
       },
+      increment: 2.5,
       barWeight: {
         value: 45,
         units: "lbs",
@@ -182,6 +187,7 @@ const madcow: ProgramsDocType = {
         value: 75,
         units: "lbs",
       },
+      increment: 2.5,
       barWeight: {
         value: 45,
         units: "lbs",
@@ -193,6 +199,7 @@ const madcow: ProgramsDocType = {
         value: 75,
         units: "lbs",
       },
+      increment: 5,
       barWeight: {
         value: 45,
         units: "lbs",
@@ -204,6 +211,7 @@ const madcow: ProgramsDocType = {
         value: 75,
         units: "lbs",
       },
+      increment: 2.5,
       barWeight: {
         value: 45,
         units: "lbs",
@@ -215,6 +223,7 @@ const madcow: ProgramsDocType = {
         value: 45,
         units: "lbs",
       },
+      increment: 2.5,
       barWeight: {
         value: 45,
         units: "lbs",
@@ -226,6 +235,7 @@ const madcow: ProgramsDocType = {
         value: 45,
         units: "lbs",
       },
+      increment: 2.5,
       barWeight: {
         value: 20,
         units: "lbs",
@@ -237,6 +247,7 @@ const madcow: ProgramsDocType = {
         value: 0,
         units: "lbs",
       },
+      increment: 5,
       barWeight: {
         value: 0,
         units: "lbs",
@@ -248,6 +259,7 @@ const madcow: ProgramsDocType = {
         value: 0,
         units: "lbs",
       },
+      increment: 5,
       barWeight: {
         value: 0,
         units: "lbs",
@@ -259,6 +271,7 @@ const madcow: ProgramsDocType = {
         value: 0,
         units: "lbs",
       },
+      increment: 5,
       barWeight: {
         value: 0,
         units: "lbs",
@@ -270,6 +283,7 @@ const madcow: ProgramsDocType = {
         value: 0,
         units: "lbs",
       },
+      increment: 5,
       barWeight: {
         value: 0,
         units: "lbs",

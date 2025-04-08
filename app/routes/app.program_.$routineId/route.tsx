@@ -71,7 +71,7 @@ export default function Programroutine({ loaderData }: Route.ComponentProps) {
                       >
                         <span>{item.reps} reps</span>
                         <span>x</span>
-                        <span>{item.load * 100}%</span>
+                        <span>{item.load * 100}% </span>
                       </div>
                     );
                   })}

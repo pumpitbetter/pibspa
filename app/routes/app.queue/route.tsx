@@ -16,6 +16,7 @@ import {
 import { List } from "~/components/List";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import type { SetsDocType } from "~/db/sets";
+import { defaultSettings } from "~/db/settings";
 
 export async function clientLoader() {
   const settings = await db.settings.findOne().exec();
@@ -124,13 +125,16 @@ export async function clientLoader() {
       // iterate over the sets and calculate the new weight from load
       sets.forEach((set) => {
         // clalculate the new weight
+        const exercise = programExercises.find(
+          (exercise) => exercise.exerciseId === exerciseId
+        );
 
         set.weight = getProgramExerciseWeight({
           programExercises,
           exerciseId,
           load: set.load,
           units: settings?.weigthUnit ?? "lbs",
-          increment: setWithProgression?.progression?.increment?.value ?? 5, // TODO: fix this, it should be coming from program exercises progressions
+          increment: exercise?.increment ?? 5, // TODO: fix this, it should be coming from program exercises progressions
         });
       });
     });
@@ -141,11 +145,12 @@ export async function clientLoader() {
     routines: routines ? routines.map((w) => w.toMutableJSON()) : [],
     exercises: exercises ? exercises.map((e) => e.toMutableJSON()) : [],
     workouts: groupedWorkouts,
+    settings: settings ? settings.toMutableJSON() : defaultSettings,
   };
 }
 
 export default function Queue({ loaderData }: Route.ComponentProps) {
-  const { program, routines, exercises, workouts } = loaderData;
+  const { program, routines, exercises, workouts, settings } = loaderData;
 
   return (
     <Page>
@@ -169,12 +174,9 @@ export default function Queue({ loaderData }: Route.ComponentProps) {
                           })?.name ?? "Unknown Exercise"}
                         </div>
                         <span className="text-sm text-muted-foreground">
-                          {set[1]
-                            .map(
-                              (item) =>
-                                `${item.reps}x${item.weight?.value}${item.weight?.units}`
-                            )
-                            .join(", ")}
+                          {`${set[1]
+                            .map((item) => `${item.reps}x${item.weight?.value}`)
+                            .join(", ")} (${settings.weigthUnit})`}
                         </span>
                       </div>
                     );

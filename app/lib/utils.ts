@@ -17,14 +17,17 @@ export function consoleLogFormData(formData: FormData) {
     console.log(`${key}: ${value}`);
   }
 }
+interface WithId {
+  id: string;
+}
 
-export function getExerciseById({
+export function getExerciseById<Type extends WithId>({
   exercises,
   exerciseId,
 }: {
-  exercises: ExercisesDocType[];
+  exercises: Type[];
   exerciseId: string;
-}): ExercisesDocType | null {
+}): Type | null {
   const exercise = exercises.find((e) => e.id === exerciseId);
   if (!exercise) {
     return null;
@@ -151,6 +154,11 @@ export function getProgramExerciseWeight({
   }
 
   increment = increment || 5; // Default increment if not provided
+
+  // don't ramp up with weight less then 5
+  if (load < 1 && increment < 5) {
+    increment = 5;
+  }
   const weightValue =
     load > 1
       ? Math.round(
