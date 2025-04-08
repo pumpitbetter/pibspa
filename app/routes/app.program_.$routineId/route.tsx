@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import {
   getExerciseById,
   groupCircuitsIntoSets,
-  groupTemplatesIntoCircuits,
+  groupIntoCircuits,
 } from "~/lib/utils";
 import { LinkBack } from "~/components/LinkBack";
 import type { Route } from "./+types/route";
@@ -45,9 +45,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 export default function Programroutine({ loaderData }: Route.ComponentProps) {
   const { routine, templates, exercises } = loaderData;
 
-  const groupedTemplates = groupCircuitsIntoSets(
-    groupTemplatesIntoCircuits(templates)
-  );
+  const groupedTemplates = groupCircuitsIntoSets(groupIntoCircuits(templates));
 
   return (
     <Page>

@@ -49,6 +49,19 @@ export const setsSchemaLiteral = {
     load: {
       type: "number",
     },
+    weight: {
+      type: "object",
+      properties: {
+        value: {
+          type: "number", // max weight for the exercise
+        },
+        units: {
+          type: "string",
+          enum: ["kg", "lbs"],
+        },
+      },
+      required: ["value", "units"],
+    },
     reps: {
       type: "number",
     },

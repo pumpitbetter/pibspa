@@ -6,6 +6,7 @@ import type { SetsDocType } from "~/db/sets";
 import type { TemplatesDocType } from "~/db/templates";
 import type { WorkoutsDocType } from "~/db/workout";
 import { v7 as uuidv7 } from "uuid";
+import type { ProgramsDocType } from "~/db/programs";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -45,26 +46,35 @@ export function groupSetsIntoWorkouts(
   return groupedArray;
 }
 
-export function groupTemplatesIntoCircuits(
-  array: TemplatesDocType[]
-): Record<string, TemplatesDocType[]> {
-  const groupedArray = array.reduce((acc, template) => {
-    const order = template.order;
+interface OrderedAndSequenced {
+  order: number;
+  sequence?: number;
+}
+
+export function groupIntoCircuits<Type extends OrderedAndSequenced>(
+  array: Type[]
+): Record<string, Type[]> {
+  const groupedArray = array.reduce((acc, item) => {
+    const order = item.order;
     if (!acc[order]) {
       acc[order] = [];
     }
-    acc[order].push(template);
+    acc[order].push(item);
     acc[order].sort((a, b) => (a.sequence ?? 0) - (b.sequence ?? 0));
     return acc;
-  }, {} as Record<string, TemplatesDocType[]>);
+  }, {} as Record<string, Type[]>);
   return groupedArray;
 }
 
-export function groupCircuitsIntoSets(
-  groupedTemplates: Record<string, TemplatesDocType[]>
-): Record<string, TemplatesDocType[]> {
-  return Object.entries(groupedTemplates).reduce((acc, [order, templates]) => {
-    templates.forEach((template) => {
+interface WithExerciseId {
+  exerciseId: string;
+}
+
+export function groupCircuitsIntoSets<Type extends WithExerciseId>(
+  groupedTemplates: Record<string, Type[]>
+): Record<string, Type[]> {
+  return Object.entries(groupedTemplates).reduce((acc, [order, item]) => {
+    item.forEach((template) => {
       const exerciseId = template.exerciseId;
       if (!acc[exerciseId]) {
         acc[exerciseId] = [];
@@ -72,7 +82,7 @@ export function groupCircuitsIntoSets(
       acc[exerciseId].push(template);
     });
     return acc;
-  }, {} as Record<string, TemplatesDocType[]>);
+  }, {} as Record<string, Type[]>);
 }
 
 export function generateWorkoutsFromRoutines({
@@ -98,4 +108,78 @@ export function generateWorkoutsFromRoutines({
   }
 
   return queue;
+}
+
+interface ProgramExercise {
+  exerciseId: string;
+  exerciseWeight: {
+    value: number;
+    units: "kg" | "lbs";
+  };
+  duration?: number | undefined;
+  barWeight?:
+    | {
+        value: number;
+        units: "kg" | "lbs";
+      }
+    | undefined;
+}
+
+export function getProgramExerciseWeight({
+  programExercises,
+  exerciseId,
+  load,
+  units,
+  increment,
+}: {
+  programExercises: ProgramExercise[];
+  exerciseId: string;
+  load: number;
+  units: "kg" | "lbs";
+  increment: number;
+}) {
+  if (!programExercises) {
+    return { value: 0, units }; // Default weight if program or exercises are not defined
+  }
+
+  const programExercise = programExercises.find(
+    (exercise) => exercise.exerciseId === exerciseId
+  );
+
+  if (!programExercise || !programExercise.exerciseWeight) {
+    return { value: 0, units }; // Default weight if exercise or weight is not found
+  }
+
+  increment = increment || 5; // Default increment if not provided
+  const weightValue =
+    load > 1
+      ? Math.round(
+          (programExercise.exerciseWeight.value + increment) / increment
+        ) * increment
+      : Math.round((load * programExercise.exerciseWeight.value) / increment) *
+        increment;
+
+  return {
+    value: weightValue,
+    units,
+  };
+}
+
+export function progressProgramExercise({
+  programExercises,
+  exerciseId,
+  increment,
+}: {
+  programExercises: ProgramExercise[];
+  exerciseId: string;
+  increment: number;
+}): ProgramExercise[] {
+  const transformed = programExercises.map((exercise) => {
+    if (exercise.exerciseId === exerciseId) {
+      exercise.exerciseWeight.value += increment;
+    }
+    return exercise;
+  });
+
+  return transformed;
 }
