@@ -13,6 +13,7 @@ import {
   getProgramExerciseWeight,
   progressProgramExercise,
   cn,
+  type GroupedWorkout,
 } from "~/lib/utils";
 import { List } from "~/components/List";
 import {
@@ -27,11 +28,8 @@ import { defaultSettings } from "~/db/settings";
 import { Button } from "~/components/ui/button";
 import { useState } from "react";
 import type { WorkoutsDocType } from "~/db/workout";
-
-interface GroupedWorkout {
-  workout: WorkoutsDocType;
-  sets: Record<string, SetsDocType[]>;
-}
+import { useFetcher, useNavigate } from "react-router";
+import invariant from "tiny-invariant";
 
 export async function clientLoader() {
   const settings = await db.settings.findOne().exec();
@@ -164,11 +162,40 @@ export async function clientLoader() {
   };
 }
 
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  const formData = await request.formData();
+  const groupedWorkout = JSON.parse(
+    formData.get("groupedWorkout") as string
+  ) as GroupedWorkout;
+  invariant(groupedWorkout, "groupedWorkout is required");
+  console.log("groupedWorkout", groupedWorkout);
+
+  await db.workouts.upsert({
+    id: groupedWorkout.workout.id,
+    programId: groupedWorkout.workout.programId,
+    name: groupedWorkout.workout.name,
+    order: groupedWorkout.workout.order,
+    sets: JSON.stringify(groupedWorkout.sets),
+  });
+
+  return { groupedWorkout: groupedWorkout };
+
+  // const settings = await db.settings.findOne().exec();
+}
+
 export default function Queue({ loaderData }: Route.ComponentProps) {
   const [workouts, setWorkouts] = useState<GroupedWorkout[]>(
     () => loaderData.workouts
   );
   const { program, routines, exercises, settings } = loaderData;
+  const fetcher = useFetcher();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    await fetcher.submit(event.currentTarget);
+    navigate(`/app/workouts/${workouts[0].workout.id}`);
+  };
 
   return (
     <Page>
@@ -206,24 +233,31 @@ export default function Queue({ loaderData }: Route.ComponentProps) {
                 </CardContent>
                 {itemIdx === 0 && (
                   <CardFooter className="flex justify-end gap-4">
-                    <Button
-                      variant="secondary"
-                      className="w-24"
-                      onClick={() => {
-                        // slice the first item from the workouts array
-                        setWorkouts((prev) => {
-                          const workouts = [...prev];
-                          workouts.shift();
-                          return workouts;
-                        });
-                        // update the workouts in the state
-                      }}
-                    >
-                      Skip
-                    </Button>
-                    <Button type="submit" className="w-24">
-                      Start
-                    </Button>
+                    <fetcher.Form method="post" onSubmit={handleSubmit}>
+                      <input
+                        type="hidden"
+                        name="groupedWorkout"
+                        value={JSON.stringify(item)}
+                      />
+                      <Button
+                        variant="secondary"
+                        className="w-24"
+                        onClick={() => {
+                          // slice the first item from the workouts array
+                          setWorkouts((prev) => {
+                            const workouts = [...prev];
+                            workouts.shift();
+                            return workouts;
+                          });
+                          // update the workouts in the state
+                        }}
+                      >
+                        Skip
+                      </Button>
+                      <Button type="submit" className="w-24">
+                        Start
+                      </Button>
+                    </fetcher.Form>
                   </CardFooter>
                 )}
               </Card>

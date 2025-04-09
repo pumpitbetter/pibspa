@@ -8,6 +8,11 @@ import type { WorkoutsDocType } from "~/db/workout";
 import { v7 as uuidv7 } from "uuid";
 import type { ProgramsDocType } from "~/db/programs";
 
+export interface GroupedWorkout {
+  workout: WorkoutsDocType;
+  sets: Record<string, SetsDocType[]>;
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

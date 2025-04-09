@@ -34,6 +34,10 @@ export const workoutsSchemaLiteral = {
     order: {
       type: "number",
     },
+    sets: {
+      // JSON string of all sets
+      type: "string",
+    },
   },
   required: ["id", "programId", "name", "order"],
   indexes: ["programId"],
