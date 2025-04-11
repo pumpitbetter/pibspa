@@ -46,7 +46,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   invariant(exerciseId, "Exercise ID is required");
   const weight = Number(formData.get("weight") as string) ?? 0;
   const increment = Number(formData.get("increment") as string) ?? 5;
-  console.log("increment", increment);
   const settings = await db.settings.findOne().exec();
   const program = await db.programs
     .findOne({

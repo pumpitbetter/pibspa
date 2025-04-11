@@ -11,6 +11,7 @@ import { initExercises, type ExercisesCollection } from "./exercises";
 import { initTemplates, type TemplatesCollection } from "./templates";
 import { initSets, type SetsCollection } from "./sets";
 import { initWorkouts, type WorkoutsCollection } from "./workout";
+import { initHistory, type HistoryCollection } from "./history";
 
 if (process.env.NODE_ENV === "development") {
   console.log("Development mode enabled");
@@ -28,6 +29,7 @@ export type MyDatabaseCollections = {
   templates: TemplatesCollection;
   workouts: WorkoutsCollection;
   sets: SetsCollection;
+  history: HistoryCollection;
 };
 
 export type MyDatabase = RxDatabase<MyDatabaseCollections>;
@@ -49,3 +51,4 @@ await initRoutines(db);
 await initTemplates(db);
 await initWorkouts(db);
 await initSets(db);
+await initHistory(db);

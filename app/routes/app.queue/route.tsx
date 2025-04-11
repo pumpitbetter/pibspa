@@ -27,9 +27,10 @@ import type { SetsDocType } from "~/db/sets";
 import { defaultSettings } from "~/db/settings";
 import { Button } from "~/components/ui/button";
 import { useState } from "react";
-import type { WorkoutsDocType } from "~/db/workout";
 import { useFetcher, useNavigate } from "react-router";
 import invariant from "tiny-invariant";
+import { v7 as uuidv7 } from "uuid";
+import type { HistoryDocType } from "~/db/history";
 
 export async function clientLoader() {
   const settings = await db.settings.findOne().exec();
@@ -168,19 +169,37 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     formData.get("groupedWorkout") as string
   ) as GroupedWorkout;
   invariant(groupedWorkout, "groupedWorkout is required");
-  console.log("groupedWorkout", groupedWorkout);
 
   await db.workouts.upsert({
     id: groupedWorkout.workout.id,
     programId: groupedWorkout.workout.programId,
     name: groupedWorkout.workout.name,
     order: groupedWorkout.workout.order,
-    sets: JSON.stringify(groupedWorkout.sets),
+    routineId: groupedWorkout.workout.routineId,
   });
 
-  return { groupedWorkout: groupedWorkout };
+  const r = Object.entries(groupedWorkout.sets);
+  for (const [exerciseId, sets] of r) {
+    for (const set of sets) {
+      const history: HistoryDocType = {
+        id: uuidv7(),
+        workoutId: groupedWorkout.workout.id,
+        programId: groupedWorkout.workout.programId,
+        routineId: groupedWorkout.workout.routineId ?? "",
+        exerciseId,
+        load: set.load ?? 0,
+        order: set.order ?? 0,
+        targetReps: set.reps ?? 5, // TODO: can this possibly ever be null?
+        targetWeight: set.weight ?? { value: 0, units: "lbs" },
+        liftedReps: set.reps ?? { value: 0, units: "lbs" },
+        liftedWeight: set.weight ?? { value: 0, units: "lbs" },
+        completed: false,
+      };
+      await db.history.upsert(history);
+    }
+  }
 
-  // const settings = await db.settings.findOne().exec();
+  return { groupedWorkout: groupedWorkout };
 }
 
 export default function Queue({ loaderData }: Route.ComponentProps) {

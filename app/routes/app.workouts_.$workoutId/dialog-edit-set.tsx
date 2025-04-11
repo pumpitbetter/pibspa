@@ -13,17 +13,19 @@ import { Button } from "../../components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 
-export function DialogCompleteSet({
+export function DialogEditSet({
+  setId,
   reps,
   weight,
   children,
 }: {
+  setId: string;
   reps: number;
   weight: number;
   children: React.ReactNode;
 }) {
   const fetcher = useFetcher();
-  const { weigthUnit } = useLoaderData<typeof clientLoader>();
+  // const { weigthUnit } = useLoaderData<typeof clientLoader>();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,10 +37,12 @@ export function DialogCompleteSet({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Complete Set</DialogTitle>
+          <DialogTitle>Edit</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <fetcher.Form method="post" onSubmit={handleSubmit}>
+          <input type="hidden" name="intent" value="edit" />
+          <input type="hidden" name="setId" value={setId} />
           <div className="flex flex-col gap-4 pt-2">
             <div className="grid grid-cols-2 gap-4">
               <div className="grid w-full max-w-sm items-center gap-1.5">

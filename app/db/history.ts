@@ -8,11 +8,10 @@ import {
 import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
 
-// routine set schema
-// belongs to a particular program > routine
-export const setsSchemaLiteral = {
-  title: "sets schema",
-  description: "describes program sets",
+// history schema
+export const historySchemaLiteral = {
+  title: "history schema",
+  description: "describes workout history",
   version: 0,
   keyCompression: false,
   primaryKey: "id",
@@ -39,7 +38,7 @@ export const setsSchemaLiteral = {
       maxLength: 100,
     },
     order: {
-      // if the order is the same for two or more set items in a row, then it's a circuit and `sequence` is used to determine the circuit order
+      // if the order is the same for two or more history items in a row, then it's a circuit and `sequence` is used to determine the circuit order
       type: "number",
     },
     sequence: {
@@ -49,7 +48,7 @@ export const setsSchemaLiteral = {
     load: {
       type: "number",
     },
-    weight: {
+    targetWeight: {
       type: "object",
       properties: {
         value: {
@@ -62,51 +61,24 @@ export const setsSchemaLiteral = {
       },
       required: ["value", "units"],
     },
-    reps: {
+    targetReps: {
       type: "number",
     },
-    progression: {
+    liftedWeight: {
       type: "object",
       properties: {
-        increment: {
-          type: "object",
-          properties: {
-            value: {
-              type: "number",
-            },
-            kind: {
-              type: "string",
-              enum: ["weight", "seconds"],
-            },
-            type: {
-              type: "string",
-              enum: ["absolute", "percentage"],
-            },
-            frequency: {
-              type: "number",
-            },
-          },
+        value: {
+          type: "number", // max weight for the exercise
         },
-        decrement: {
-          type: "object",
-          properties: {
-            value: {
-              type: "number",
-            },
-            kind: {
-              type: "string",
-              enum: ["weight", "seconds"],
-            },
-            type: {
-              type: "string",
-              enum: ["absolute", "percentage"],
-            },
-            frequency: {
-              type: "number",
-            },
-          },
+        units: {
+          type: "string",
+          enum: ["kg", "lbs"],
         },
       },
+      required: ["value", "units"],
+    },
+    liftedReps: {
+      type: "number",
     },
     completed: {
       type: "boolean",
@@ -121,68 +93,69 @@ export const setsSchemaLiteral = {
     "exerciseId",
     "order",
     "load",
-    "reps",
+    "targetReps",
+    "targetWeight",
   ],
   indexes: ["programId"],
 } as const; // <- It is important to set 'as const' to preserve the literal type
 
 const uid = new ShortUniqueId({ length: 16 });
 
-const schemaTyped = toTypedRxJsonSchema(setsSchemaLiteral);
+const schemaTyped = toTypedRxJsonSchema(historySchemaLiteral);
 
 // aggregate the document type from the schema
-export type SetsDocType = ExtractDocumentTypeFromTypedRxJsonSchema<
+export type HistoryDocType = ExtractDocumentTypeFromTypedRxJsonSchema<
   typeof schemaTyped
 >;
 
-export type SetsDocMethods = {
+export type HistoryDocMethods = {
   scream: (v: string) => string;
 };
 
-export type SetsDocument = RxDocument<SetsDocType, SetsDocMethods>;
+export type HistoryDocument = RxDocument<HistoryDocType, HistoryDocMethods>;
 
 // we declare one static ORM-method for the collection
-export type SetsCollectionMethods = {
+export type HistoryCollectionMethods = {
   countAllDocuments: () => Promise<number>;
 };
 
 // and then merge all our types
-export type SetsCollection = RxCollection<
-  SetsDocType,
-  SetsDocMethods,
-  SetsCollectionMethods
+export type HistoryCollection = RxCollection<
+  HistoryDocType,
+  HistoryDocMethods,
+  HistoryCollectionMethods
 >;
 
-const setsSchema: RxJsonSchema<SetsDocType> = setsSchemaLiteral;
+const historySchema: RxJsonSchema<HistoryDocType> = historySchemaLiteral;
 
-const setsDocMethods: SetsDocMethods = {
-  scream: function (this: SetsDocument) {
+const historyDocMethods: HistoryDocMethods = {
+  scream: function (this: HistoryDocument) {
     return ""; //this.clientId + " weight units: " + this.weigthUnit;
   },
 };
 
-const setsCollectionMethods: SetsCollectionMethods = {
-  countAllDocuments: async function (this: SetsCollection) {
+const historyCollectionMethods: HistoryCollectionMethods = {
+  countAllDocuments: async function (this: HistoryCollection) {
     const allDocs = await this.find().exec();
     return allDocs.length;
   },
 };
 
-export async function initSets(db: MyDatabase) {
+export async function initHistory(db: MyDatabase) {
   await db.addCollections({
-    sets: {
-      schema: setsSchema,
-      methods: setsDocMethods,
-      statics: setsCollectionMethods,
+    history: {
+      schema: historySchema,
+      methods: historyDocMethods,
+      statics: historyCollectionMethods,
     },
   });
 
   // add a postInsert-hook
-  db.sets.postInsert(
+  db.history.postInsert(
     function myPostInsertHook(
-      this: SetsCollection, // own collection is bound to the scope
-      docData: SetsDocType, // documents data
-      doc: SetsDocument // RxDocument
+      this: HistoryCollection, // own collection is bound to the scope
+      docData: HistoryDocType, // documents data
+      doc: HistoryDocument // RxDocument
     ) {
       console.log("insert to " + this.name + "-collection: " + doc.id);
     },
