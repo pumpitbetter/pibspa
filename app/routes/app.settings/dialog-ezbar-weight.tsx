@@ -10,12 +10,12 @@ import {
 } from "../../components/ui/dialog";
 import type { clientLoader } from "~/routes/app.settings/route";
 import { Button } from "../../components/ui/button";
-import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group";
 import { Label } from "../../components/ui/label";
+import { Input } from "~/components/ui/input";
 
-export function DialogWeightUnit({ children }: { children: React.ReactNode }) {
+export function DialogEzBarWeight({ children }: { children: React.ReactNode }) {
   const fetcher = useFetcher();
-  const { weigthUnit } = useLoaderData<typeof clientLoader>();
+  const { ezbarWeight } = useLoaderData<typeof clientLoader>();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,30 +27,20 @@ export function DialogWeightUnit({ children }: { children: React.ReactNode }) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Weight Unit</DialogTitle>
+          <DialogTitle>Edit</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <fetcher.Form method="post" onSubmit={handleSubmit}>
-          <input type="hidden" name="intent" value="editWeightUnit" />
+          <input type="hidden" name="intent" value="editEzBarWeight" />
           <div className="flex flex-col gap-4">
-            <RadioGroup
-              name="weigthUnit"
-              defaultValue={weigthUnit}
-              className="gap-5"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="lbs" id="lbs" />
-                <Label htmlFor="lbs" className="w-full">
-                  Pounds
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="kg" id="kg" />
-                <Label htmlFor="kg" className="w-full">
-                  Kilograms
-                </Label>
-              </div>
-            </RadioGroup>
+            <Label htmlFor="ezbarWeight">EZ Bar Weight</Label>
+            <Input
+              id="ezbarWeight"
+              name="ezbarWeight"
+              type="number"
+              placeholder=""
+              defaultValue={ezbarWeight}
+            />
             <div className="flex justify-end gap-4">
               <DialogClose asChild>
                 <Button variant="ghost">Cancel</Button>

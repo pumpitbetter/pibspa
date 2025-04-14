@@ -196,3 +196,34 @@ export function progressProgramExercise({
 
   return transformed;
 }
+
+export function calculatePlates({
+  targetWeight,
+  barbellWeight = 45,
+  availablePlates = [45, 35, 25, 10, 5, 2.5],
+}: {
+  targetWeight: number;
+  barbellWeight: number;
+  availablePlates: number[];
+}): Record<number, number> | string {
+  let remainingWeightPerSide = (targetWeight - barbellWeight) / 2;
+
+  if (remainingWeightPerSide < 0) {
+    return "Target weight cannot be less than the barbell weight.";
+  }
+
+  const platesToLoad: Record<number, number> = {};
+
+  for (const plate of availablePlates) {
+    while (remainingWeightPerSide >= plate) {
+      platesToLoad[plate] = (platesToLoad[plate] || 0) + 1;
+      remainingWeightPerSide -= plate;
+    }
+  }
+
+  if (remainingWeightPerSide > 0) {
+    return "Target weight cannot be achieved with available plates.";
+  }
+
+  return platesToLoad;
+}

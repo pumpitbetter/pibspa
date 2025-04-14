@@ -26,7 +26,31 @@ export const settingsSchemaLiteral = {
       enum: ["kg", "lbs"],
       default: "lbs",
     },
+    barbellWeight: {
+      type: "number",
+      default: 45,
+    },
+    ezbarWeight: {
+      type: "number",
+      default: 20,
+    },
+    plates: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          weight: {
+            type: "number",
+          },
+          count: {
+            type: "number",
+          },
+        },
+        required: ["weight", "count"],
+      },
+    },
     programId: {
+      // current program id
       type: "string",
       maxLength: 100,
       default: "sl5x5",
@@ -81,6 +105,16 @@ const settingsCollectionMethods: SettingsCollectionMethods = {
 export const defaultSettings: SettingsDocType = {
   clientId: uid.rnd(),
   weigthUnit: "lbs", // <- only 'kg' or 'lbs' allowed
+  barbellWeight: 45,
+  ezbarWeight: 20,
+  plates: [
+    { weight: 2.5, count: 2 },
+    { weight: 5, count: 2 },
+    { weight: 10, count: 2 },
+    { weight: 25, count: 2 },
+    { weight: 35, count: 2 },
+    { weight: 45, count: 2 },
+  ],
   programId: "sl5x5",
 };
 
