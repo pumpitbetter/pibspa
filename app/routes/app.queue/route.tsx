@@ -251,31 +251,37 @@ export default function Queue({ loaderData }: Route.ComponentProps) {
                   })}
                 </CardContent>
                 {itemIdx === 0 && (
-                  <CardFooter className="flex justify-end gap-4">
-                    <fetcher.Form method="post" onSubmit={handleSubmit}>
+                  <CardFooter>
+                    <fetcher.Form
+                      method="post"
+                      onSubmit={handleSubmit}
+                      className="w-full"
+                    >
                       <input
                         type="hidden"
                         name="groupedWorkout"
                         value={JSON.stringify(item)}
                       />
-                      <Button
-                        variant="secondary"
-                        className="w-24"
-                        onClick={() => {
-                          // slice the first item from the workouts array
-                          setWorkouts((prev) => {
-                            const workouts = [...prev];
-                            workouts.shift();
-                            return workouts;
-                          });
-                          // update the workouts in the state
-                        }}
-                      >
-                        Skip
-                      </Button>
-                      <Button type="submit" className="w-24">
-                        Start
-                      </Button>
+                      <div className="flex justify-end gap-4">
+                        <Button
+                          variant="secondary"
+                          className="w-24"
+                          onClick={() => {
+                            // slice the first item from the workouts array
+                            setWorkouts((prev) => {
+                              const workouts = [...prev];
+                              workouts.shift();
+                              return workouts;
+                            });
+                            // update the workouts in the state
+                          }}
+                        >
+                          Skip
+                        </Button>
+                        <Button type="submit" className="w-24">
+                          Start
+                        </Button>
+                      </div>
                     </fetcher.Form>
                   </CardFooter>
                 )}

@@ -54,8 +54,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   let history = await db.history.findOne({ selector: { id: setId } }).exec();
   invariant(history, "history not found");
 
-  console.log("history", history);
-
   switch (intent) {
     case "complete": {
       const completed = formData.get("completed") === "true";
@@ -89,9 +87,6 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
   const { groupedWorkout, exercises, settings } = loaderData;
   const { workout, sets } = groupedWorkout;
 
-  // console.log("workout", workout);
-  // console.log("sets", sets);
-
   return (
     <Page>
       <Header
@@ -110,17 +105,20 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
       />
       <MainContent>
         {Object.entries(sets).map(([exerciseId, exerciseSets]) => {
-          const exerciseName =
-            getExerciseById({
-              exercises,
-              exerciseId,
-            })?.name ?? "Unknown Exercise";
+          const exercise = getExerciseById({
+            exercises,
+            exerciseId,
+          });
+
+          if (!exercise) {
+            return null;
+          }
 
           return (
             <li key={exerciseId} className="list-none px-4 pb-4">
               <ExerciseCard
                 workoutId={workout.id}
-                exerciseName={exerciseName}
+                exercise={exercise}
                 sets={exerciseSets}
                 weightUnit={settings.weigthUnit}
               />

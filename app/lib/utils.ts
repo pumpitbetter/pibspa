@@ -178,6 +178,16 @@ export function getProgramExerciseWeight({
   };
 }
 
+export function exerciseUsesPlates({
+  exercise,
+}: {
+  exercise: ExercisesDocType;
+}): boolean {
+  return exercise.equipment.some(
+    (item) => item === "barbell" || item === "ezbar"
+  );
+}
+
 export function progressProgramExercise({
   programExercises,
   exerciseId,
@@ -205,25 +215,33 @@ export function calculatePlates({
   targetWeight: number;
   barbellWeight: number;
   availablePlates: number[];
-}): Record<number, number> | string {
+}): Array<number> | string {
   let remainingWeightPerSide = (targetWeight - barbellWeight) / 2;
 
   if (remainingWeightPerSide < 0) {
-    return "Target weight cannot be less than the barbell weight.";
+    return ""; // Target weight cannot be less than the barbell weight.
   }
 
   const platesToLoad: Record<number, number> = {};
 
   for (const plate of availablePlates) {
-    while (remainingWeightPerSide >= plate) {
+    if (remainingWeightPerSide >= plate) {
       platesToLoad[plate] = (platesToLoad[plate] || 0) + 1;
       remainingWeightPerSide -= plate;
     }
   }
 
   if (remainingWeightPerSide > 0) {
-    return "Target weight cannot be achieved with available plates.";
+    return "add plates..."; // Not enough plates to reach the target weight.
   }
 
-  return platesToLoad;
+  // conver to array of numbers in descending order
+  const platesArray: Array<number> = Object.entries(platesToLoad)
+    .map(([key, value]) => {
+      return Array(value).fill(Number(key));
+    })
+    .flat()
+    .sort((a, b) => b - a);
+
+  return platesArray;
 }
