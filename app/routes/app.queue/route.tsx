@@ -149,6 +149,7 @@ export async function clientLoader() {
           load: set.load,
           units: settings?.weigthUnit ?? "lbs",
           increment: exercise?.increment ?? 5, // TODO: fix this, it should be coming from program exercises progressions
+          barWeight: settings?.barbellWeight ?? 0,
         });
       });
     });

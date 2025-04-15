@@ -9,6 +9,7 @@ import { DialogWeightUnit } from "~/routes/app.settings/dialog-weight-unit";
 import { defaultSettings } from "~/db/settings";
 import { DialogBarbellWeight } from "./dialog-barbell-weight";
 import { DialogEzBarWeight } from "./dialog-ezbar-weight";
+import { Link } from "react-router";
 
 export async function clientLoader() {
   const settings = await db.settings.findOne().exec();
@@ -36,7 +37,8 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
 
   // reduce plates to a string
   const platesString = plates
-    ?.map((plate) => `${plate.count}x${plate.weight}`)
+    ?.sort((a, b) => b.weight - a.weight) // sort by descending weight
+    .map((plate) => `${plate.count}x${plate.weight}`)
     .join(", ");
 
   return (
@@ -53,7 +55,9 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
           <DialogEzBarWeight>
             <ListItem title="EZ Bar Weight" content={String(ezbarWeight)} />
           </DialogEzBarWeight>
-          <ListItem title="Plates" content={platesString} />
+          <Link to="/app/settings/plates">
+            <ListItem title="Plates" content={platesString} />
+          </Link>
         </List>
       </MainContent>
     </Page>

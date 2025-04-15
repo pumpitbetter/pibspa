@@ -30,6 +30,10 @@ export function ExerciseCard({
     .flat()
     .sort((a, b) => b - a);
 
+  const searchParams = new URLSearchParams({
+    back: "/app/workouts/" + workoutId,
+  });
+
   const calcPlates = (targetWeight: number) => {
     const barbellWeight = settings?.barbellWeight ?? 0;
     const plates = calculatePlates({
@@ -42,7 +46,10 @@ export function ExerciseCard({
     if (typeof plates === "string") {
       if (plates === "add plates...") {
         return (
-          <Link to="/app/settings" className="text-on-tertiary-container">
+          <Link
+            to={"/app/settings/plates?" + searchParams.toString()}
+            className="text-on-tertiary-container"
+          >
             {" add plates..."}
           </Link>
         );
@@ -94,9 +101,12 @@ export function ExerciseCard({
                 </span>
               </DialogEditSet>
               {exerciseUsesPlates({ exercise }) && (
-                <span className="text-xs text-muted-foreground">
+                <Link
+                  to={"/app/settings/plates?" + searchParams.toString()}
+                  className="text-xs text-muted-foreground"
+                >
                   {calcPlates(item.liftedWeight?.value || 0)}
-                </span>
+                </Link>
               )}
             </div>
           </div>

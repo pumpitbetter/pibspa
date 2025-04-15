@@ -7,8 +7,6 @@ import { defaultProgram } from "~/db/programs";
 import type { Route } from "./+types/route";
 import { ProgramListItem } from "./program-list-item";
 import { defaultSettings } from "~/db/settings";
-import { Link } from "react-router";
-import { ChevronLeft } from "lucide-react";
 import { LinkBack } from "~/components/LinkBack";
 
 export async function clientLoader() {

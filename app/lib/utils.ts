@@ -139,12 +139,14 @@ export function getProgramExerciseWeight({
   load,
   units,
   increment,
+  barWeight,
 }: {
   programExercises: ProgramExercise[];
   exerciseId: string;
   load: number;
   units: "kg" | "lbs";
   increment: number;
+  barWeight?: number;
 }) {
   if (!programExercises) {
     return { value: 0, units }; // Default weight if program or exercises are not defined
@@ -166,11 +168,18 @@ export function getProgramExerciseWeight({
   }
   const weightValue =
     load > 1
-      ? Math.round(
-          (programExercise.exerciseWeight.value + increment) / increment
-        ) * increment
-      : Math.round((load * programExercise.exerciseWeight.value) / increment) *
-        increment;
+      ? Math.max(
+          Math.round(
+            (programExercise.exerciseWeight.value + increment) / increment
+          ) * increment,
+          barWeight || 0
+        )
+      : Math.max(
+          Math.round(
+            (load * programExercise.exerciseWeight.value) / increment
+          ) * increment,
+          barWeight || 0
+        );
 
   return {
     value: weightValue,

@@ -66,19 +66,6 @@ export const programsSchemaLiteral = {
           increment: {
             type: "number",
           },
-          barWeight: {
-            type: "object",
-            properties: {
-              value: {
-                type: "number", // max weight for the exercise
-              },
-              units: {
-                type: "string",
-                enum: ["kg", "lbs"],
-              },
-            },
-            required: ["value", "units"],
-          },
         },
         required: ["exerciseId", "exerciseWeight"],
       },
@@ -164,10 +151,6 @@ const madcow: ProgramsDocType = {
         units: "lbs",
       },
       increment: 5,
-      barWeight: {
-        value: 45,
-        units: "lbs",
-      },
     },
     {
       exerciseId: "barbell-bench-press",
@@ -176,10 +159,6 @@ const madcow: ProgramsDocType = {
         units: "lbs",
       },
       increment: 2.5,
-      barWeight: {
-        value: 45,
-        units: "lbs",
-      },
     },
     {
       exerciseId: "barbell-incline-bench-press",
@@ -188,10 +167,6 @@ const madcow: ProgramsDocType = {
         units: "lbs",
       },
       increment: 2.5,
-      barWeight: {
-        value: 45,
-        units: "lbs",
-      },
     },
     {
       exerciseId: "barbell-deadlift",
@@ -200,10 +175,6 @@ const madcow: ProgramsDocType = {
         units: "lbs",
       },
       increment: 5,
-      barWeight: {
-        value: 45,
-        units: "lbs",
-      },
     },
     {
       exerciseId: "barbell-row",
@@ -212,10 +183,6 @@ const madcow: ProgramsDocType = {
         units: "lbs",
       },
       increment: 2.5,
-      barWeight: {
-        value: 45,
-        units: "lbs",
-      },
     },
     {
       exerciseId: "barbell-curl",
@@ -224,10 +191,6 @@ const madcow: ProgramsDocType = {
         units: "lbs",
       },
       increment: 2.5,
-      barWeight: {
-        value: 45,
-        units: "lbs",
-      },
     },
     {
       exerciseId: "ezbar-skullcrusher",
@@ -236,10 +199,6 @@ const madcow: ProgramsDocType = {
         units: "lbs",
       },
       increment: 2.5,
-      barWeight: {
-        value: 20,
-        units: "lbs",
-      },
     },
     {
       exerciseId: "dips",
@@ -248,10 +207,6 @@ const madcow: ProgramsDocType = {
         units: "lbs",
       },
       increment: 5,
-      barWeight: {
-        value: 0,
-        units: "lbs",
-      },
     },
     {
       exerciseId: "hanging-knee-raise",
@@ -260,10 +215,6 @@ const madcow: ProgramsDocType = {
         units: "lbs",
       },
       increment: 5,
-      barWeight: {
-        value: 0,
-        units: "lbs",
-      },
     },
     {
       exerciseId: "pullups",
@@ -272,10 +223,6 @@ const madcow: ProgramsDocType = {
         units: "lbs",
       },
       increment: 5,
-      barWeight: {
-        value: 0,
-        units: "lbs",
-      },
     },
     {
       exerciseId: "planks",
@@ -284,10 +231,6 @@ const madcow: ProgramsDocType = {
         units: "lbs",
       },
       increment: 5,
-      barWeight: {
-        value: 0,
-        units: "lbs",
-      },
       duration: 30,
     },
   ],
