@@ -27,7 +27,7 @@ import type { SetsDocType } from "~/db/sets";
 import { defaultSettings } from "~/db/settings";
 import { Button } from "~/components/ui/button";
 import { useState } from "react";
-import { useFetcher, useNavigate } from "react-router";
+import { Link, useFetcher, useNavigate } from "react-router";
 import invariant from "tiny-invariant";
 import { v7 as uuidv7 } from "uuid";
 import type { HistoryDocType } from "~/db/history";
@@ -56,12 +56,23 @@ export async function clientLoader() {
       },
     })
     .exec();
+  const activeWorkout = await db.workouts
+    .findOne({
+      selector: {
+        programId: settings?.programId,
+        finishedAt: null,
+      },
+    })
+    .exec();
 
   const exercises = await db.exercises.find().exec();
 
   const count = 9; // Number of routines to generate in the queue
 
-  const workouts = generateWorkoutsFromRoutines({ routines, count });
+  const workouts = [
+    activeWorkout,
+    ...generateWorkoutsFromRoutines({ routines, count }),
+  ].filter((i) => i !== null);
 
   // create a mutable copy of program exercises that can be progressed
   const p = program?.toMutableJSON();
@@ -175,8 +186,9 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     id: groupedWorkout.workout.id,
     programId: groupedWorkout.workout.programId,
     name: groupedWorkout.workout.name,
-    order: groupedWorkout.workout.order,
     routineId: groupedWorkout.workout.routineId,
+    startedtAt: new Date().valueOf(),
+    finishedAt: null,
   });
 
   const r = Object.entries(groupedWorkout.sets);
@@ -263,26 +275,35 @@ export default function Queue({ loaderData }: Route.ComponentProps) {
                         name="groupedWorkout"
                         value={JSON.stringify(item)}
                       />
-                      <div className="flex justify-end gap-4">
-                        <Button
-                          variant="secondary"
-                          className="w-24"
-                          onClick={() => {
-                            // slice the first item from the workouts array
-                            setWorkouts((prev) => {
-                              const workouts = [...prev];
-                              workouts.shift();
-                              return workouts;
-                            });
-                            // update the workouts in the state
-                          }}
-                        >
-                          Skip
-                        </Button>
-                        <Button type="submit" className="w-24">
-                          Start
-                        </Button>
-                      </div>
+                      {!item.workout.startedtAt && (
+                        <div className="flex justify-end gap-4">
+                          <Button
+                            variant="secondary"
+                            className="w-24"
+                            onClick={() => {
+                              // slice the first item from the workouts array
+                              setWorkouts((prev) => {
+                                const workouts = [...prev];
+                                workouts.shift();
+                                return workouts;
+                              });
+                              // update the workouts in the state
+                            }}
+                          >
+                            Skip
+                          </Button>
+                          <Button type="submit" className="w-24">
+                            Start
+                          </Button>
+                        </div>
+                      )}
+                      {item.workout.startedtAt && (
+                        <div className="flex justify-end gap-4">
+                          <Link to={`/app/workouts/${item.workout.id}`}>
+                            <Button className="w-24">Continue</Button>
+                          </Link>
+                        </div>
+                      )}
                     </fetcher.Form>
                   </CardFooter>
                 )}

@@ -3,10 +3,8 @@ import { twMerge } from "tailwind-merge";
 import type { ExercisesDocType } from "~/db/exercises";
 import type { RoutinesDocument } from "~/db/routines";
 import type { SetsDocType } from "~/db/sets";
-import type { TemplatesDocType } from "~/db/templates";
 import type { WorkoutsDocType } from "~/db/workout";
 import { v7 as uuidv7 } from "uuid";
-import type { ProgramsDocType } from "~/db/programs";
 
 export interface GroupedWorkout {
   workout: WorkoutsDocType;
