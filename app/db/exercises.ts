@@ -130,7 +130,7 @@ export async function initExercises(db: MyDatabase) {
   });
 
   // generate initial exercises
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "barbell-squat",
     name: "Barbell Squat",
     type: "strength",
@@ -139,7 +139,7 @@ export async function initExercises(db: MyDatabase) {
     tags: ["compound", "primary"],
   });
 
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "barbell-bench-press",
     name: "Barbell Bench Press",
     type: "strength",
@@ -148,7 +148,7 @@ export async function initExercises(db: MyDatabase) {
     tags: ["compound", "primary"],
   });
 
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "barbell-row",
     name: "Barbell Row",
     type: "strength",
@@ -157,7 +157,7 @@ export async function initExercises(db: MyDatabase) {
     tags: ["compound", "primary"],
   });
 
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "barbell-deadlift",
     name: "Barbell Deadlift",
     type: "strength",
@@ -166,7 +166,7 @@ export async function initExercises(db: MyDatabase) {
     tags: ["compound", "primary"],
   });
 
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "barbell-overhead-press",
     name: "Barbell Overhead Press",
     type: "strength",
@@ -175,7 +175,7 @@ export async function initExercises(db: MyDatabase) {
     tags: ["compound", "primary"],
   });
 
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "barbell-incline-bench-press",
     name: "Barbell Incline Bench Press",
     type: "strength",
@@ -184,7 +184,7 @@ export async function initExercises(db: MyDatabase) {
     tags: ["compound", "primary"],
   });
 
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "dips",
     name: "Dips",
     type: "strength",
@@ -193,7 +193,7 @@ export async function initExercises(db: MyDatabase) {
     tags: ["compound"],
   });
 
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "pullups",
     name: "Pullups",
     type: "strength",
@@ -202,7 +202,7 @@ export async function initExercises(db: MyDatabase) {
     tags: ["compound"],
   });
 
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "hanging-knee-raise",
     name: "Hanging Knee Raise",
     type: "strength",
@@ -211,7 +211,7 @@ export async function initExercises(db: MyDatabase) {
     tags: ["compound"],
   });
 
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "planks",
     name: "Planks",
     type: "strength",
@@ -220,7 +220,7 @@ export async function initExercises(db: MyDatabase) {
     tags: ["compound"],
   });
 
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "barbell-curl",
     name: "Barbell Curl",
     type: "strength",
@@ -229,7 +229,7 @@ export async function initExercises(db: MyDatabase) {
     tags: ["isolation"],
   });
 
-  db.exercises.insertIfNotExists({
+  await db.exercises.insertIfNotExists({
     id: "ezbar-skullcrusher",
     name: "EZ-Bar Skullcrusher",
     type: "strength",
@@ -239,7 +239,7 @@ export async function initExercises(db: MyDatabase) {
   });
 
   // add a postInsert-hook
-  db.exercises.postInsert(
+  await db.exercises.postInsert(
     function myPostInsertHook(
       this: ExercisesCollection, // own collection is bound to the scope
       docData: ExercisesDocType, // documents data

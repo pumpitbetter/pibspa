@@ -2,7 +2,7 @@ import invariant from "tiny-invariant";
 import { Header } from "~/components/Header";
 import { MainContent } from "~/components/MainContent";
 import { Page } from "~/components/Page";
-import { db } from "~/db/db";
+import { getDb } from "~/db/db";
 import type { Route } from "./+types/route";
 import {
   getExerciseById,
@@ -12,8 +12,11 @@ import {
 import { defaultSettings } from "~/db/settings";
 import { Button } from "~/components/ui/button";
 import { ExerciseCard } from "./exercise-card";
+import { LinkBack } from "~/components/LinkBack";
+import { useSearchParams } from "react-router";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+  const db = await getDb();
   const workout = await db.workouts
     .findOne({
       selector: {
@@ -51,6 +54,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const intent = formData.get("intent") as Intent;
   const setId = formData.get("setId") as string;
 
+  const db = await getDb();
   let history = await db.history.findOne({ selector: { id: setId } }).exec();
   invariant(history, "history not found");
 
@@ -86,22 +90,13 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 export default function Workout({ loaderData }: Route.ComponentProps) {
   const { groupedWorkout, exercises, settings } = loaderData;
   const { workout, sets } = groupedWorkout;
+  const [searchParams] = useSearchParams();
 
   return (
     <Page>
       <Header
+        left={<LinkBack to={searchParams.get("back") ?? "/app/queue"} />}
         title={workout.name}
-        right={
-          <Button
-            variant={"ghost"}
-            className="text-primary"
-            onClick={() => {
-              console.log("TODO: finish workout");
-            }}
-          >
-            Finish
-          </Button>
-        }
       />
       <MainContent>
         {Object.entries(sets).map(([exerciseId, exerciseSets]) => {
@@ -125,6 +120,24 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
             </li>
           );
         })}
+        <div className="flex justify-end gap-4 px-4 pb-4">
+          <Button
+            variant={"ghost"}
+            className="text-primary"
+            onClick={() => {
+              console.log("TODO: finish workout");
+            }}
+          >
+            Delete
+          </Button>
+          <Button
+            onClick={() => {
+              console.log("TODO: finish workout");
+            }}
+          >
+            Finish
+          </Button>
+        </div>
       </MainContent>
     </Page>
   );

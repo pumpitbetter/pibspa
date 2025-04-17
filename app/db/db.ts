@@ -39,13 +39,19 @@ const storage = wrappedValidateAjvStorage({
   storage: getRxStorageDexie(),
 });
 
-export let db: MyDatabase;
+let db: MyDatabase | null = null;
 
-(async () => {
+export async function getDb() {
+  if (db) {
+    return db;
+  }
+  // create the database
   db = await createRxDatabase<MyDatabaseCollections>({
     name: "db",
     storage,
   });
+
+  // add collections
   await initExercises(db);
   await initSettings(db);
   await initPrograms(db);
@@ -54,4 +60,6 @@ export let db: MyDatabase;
   await initWorkouts(db);
   await initSets(db);
   await initHistory(db);
-})();
+
+  return db;
+}

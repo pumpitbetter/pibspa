@@ -163,7 +163,7 @@ export async function initTemplates(db: MyDatabase) {
   initMadcowTemplates(db);
 
   // add a postInsert-hook
-  db.templates.postInsert(
+  await db.templates.postInsert(
     function myPostInsertHook(
       this: TemplatesCollection, // own collection is bound to the scope
       docData: TemplatesDocType, // documents data

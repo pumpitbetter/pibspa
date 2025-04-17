@@ -1,7 +1,7 @@
 import { Header } from "~/components/Header";
 import { MainContent } from "~/components/MainContent";
 import { Page } from "~/components/Page";
-import { db } from "~/db/db";
+import { getDb } from "~/db/db";
 import { defaultProgram } from "~/db/programs";
 import type { Route } from "./+types/route";
 
@@ -33,6 +33,7 @@ import { v7 as uuidv7 } from "uuid";
 import type { HistoryDocType } from "~/db/history";
 
 export async function clientLoader() {
+  const db = await getDb();
   const settings = await db.settings.findOne().exec();
   const program = await db.programs
     .findOne({
@@ -182,6 +183,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   ) as GroupedWorkout;
   invariant(groupedWorkout, "groupedWorkout is required");
 
+  const db = await getDb();
   await db.workouts.upsert({
     id: groupedWorkout.workout.id,
     programId: groupedWorkout.workout.programId,
@@ -238,7 +240,11 @@ export default function Queue({ loaderData }: Route.ComponentProps) {
             <li key={item.workout.id} className="w-full p-4">
               <Card
                 className={cn(
-                  itemIdx === 0 ? "border-on-surface-container" : ""
+                  itemIdx === 0
+                    ? item.workout.startedtAt
+                      ? "border-primary"
+                      : "border-on-surface-container"
+                    : ""
                 )}
               >
                 <CardHeader>
@@ -295,13 +301,6 @@ export default function Queue({ loaderData }: Route.ComponentProps) {
                           <Button type="submit" className="w-24">
                             Start
                           </Button>
-                        </div>
-                      )}
-                      {item.workout.startedtAt && (
-                        <div className="flex justify-end gap-4">
-                          <Link to={`/app/workouts/${item.workout.id}`}>
-                            <Button className="w-24">Continue</Button>
-                          </Link>
                         </div>
                       )}
                     </fetcher.Form>

@@ -87,21 +87,21 @@ export async function initRoutines(db: MyDatabase) {
   });
 
   // generate initial routines
-  db.routines.insertIfNotExists({
+  await db.routines.insertIfNotExists({
     id: "madcow-routine-1",
     programId: "madcow",
     name: "Routine A",
     order: 1,
   });
 
-  db.routines.insertIfNotExists({
+  await db.routines.insertIfNotExists({
     id: "madcow-routine-2",
     programId: "madcow",
     name: "Routine B",
     order: 2,
   });
 
-  db.routines.insertIfNotExists({
+  await db.routines.insertIfNotExists({
     id: "madcow-routine-3",
     programId: "madcow",
     name: "Routine C",
@@ -109,7 +109,7 @@ export async function initRoutines(db: MyDatabase) {
   });
 
   // add a postInsert-hook
-  db.routines.postInsert(
+  await db.routines.postInsert(
     function myPostInsertHook(
       this: RoutinesCollection, // own collection is bound to the scope
       docData: RoutinesDocType, // documents data

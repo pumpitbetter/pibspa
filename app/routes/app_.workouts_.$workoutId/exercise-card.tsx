@@ -103,7 +103,7 @@ export function ExerciseCard({
               {exerciseUsesPlates({ exercise }) && (
                 <Link
                   to={"/app/settings/plates?" + searchParams.toString()}
-                  className="text-xs text-muted-foreground"
+                  className="text-muted-foreground"
                 >
                   {calcPlates(item.liftedWeight?.value || 0)}
                 </Link>

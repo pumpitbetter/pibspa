@@ -1,7 +1,8 @@
-import { NavLink, Outlet } from "react-router";
+import { Link, NavLink, Outlet, useLoaderData } from "react-router";
 import cx from "classix";
 import type { Route } from "./+types/route";
-import { db } from "~/db/db";
+import { getDb } from "~/db/db";
+import { Button } from "~/components/ui/button";
 
 function navLinkStyle({ isActive }: { isActive: boolean }): string {
   return isActive
@@ -9,23 +10,46 @@ function navLinkStyle({ isActive }: { isActive: boolean }): string {
     : cx("text-sm", "text-on-surface hover:text-primary");
 }
 
-// invoking client side db here to create/initialize so it's ready for other routes
-export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+export async function clientLoader() {
+  const db = await getDb();
   const settings = await db.settings.findOne().exec();
-  return settings?.toMutableJSON();
+  const activeWorkout = await db.workouts
+    .findOne({
+      selector: {
+        programId: settings?.programId,
+        finishedAt: null,
+      },
+    })
+    .exec();
+
+  return {
+    activeWorkout: activeWorkout ? activeWorkout.toMutableJSON() : null,
+  };
 }
 
 // This is a *layout* for the rest of the app pages
-export default function App() {
+export default function App({ loaderData }: Route.ComponentProps) {
+  const { activeWorkout } = loaderData;
+  console.log("activeWorkout", activeWorkout);
+  const bottomNavHeight = 56; // px
   return (
     <div className="flex flex-col h-dvh">
       <div className="flex-1">
         <Outlet />
-        <div className="min-h-[56px]"></div>
+        <div className={`min-h-[${bottomNavHeight}px]`}></div>
       </div>
+      {activeWorkout && (
+        <div className={`fixed bottom-[56px] right-0`}>
+          <Link to={`/app/workouts/${activeWorkout.id}`}>
+            <Button className=" rounded-none rounded-tl-lg">
+              Continue Workout
+            </Button>
+          </Link>
+        </div>
+      )}
       <nav
         className={cx(
-          "flex justify-around p-4 fixed bottom-0 w-full min-h-[56px] border-ts",
+          `flex justify-around p-4 fixed bottom-0 w-full min-h-[${bottomNavHeight}px] border-ts`,
           "text-on-surface bg-surface-container border-outline-variant"
         )}
       >

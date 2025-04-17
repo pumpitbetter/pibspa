@@ -96,7 +96,7 @@ export async function initWorkouts(db: MyDatabase) {
   });
 
   // add a postInsert-hook
-  db.workouts.postInsert(
+  await db.workouts.postInsert(
     function myPostInsertHook(
       this: WorkoutsCollection, // own collection is bound to the scope
       docData: WorkoutsDocType, // documents data

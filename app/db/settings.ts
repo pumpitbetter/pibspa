@@ -128,7 +128,7 @@ export async function initSettings(db: MyDatabase) {
   });
 
   // generate initial settings
-  db.settings
+  await db.settings
     .findOne()
     .exec()
     .then((doc) => {
@@ -138,7 +138,7 @@ export async function initSettings(db: MyDatabase) {
     });
 
   // add a postInsert-hook
-  db.settings.postInsert(
+  await db.settings.postInsert(
     function myPostInsertHook(
       this: SettingsCollection, // own collection is bound to the scope
       docData: SettingsDocType, // documents data

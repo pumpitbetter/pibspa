@@ -1,6 +1,7 @@
-
+import { useNavigate } from "react-router";
 import type { Route } from "../+types/root";
-import { Welcome } from "../welcome/welcome";
+import { useEffect } from "react";
+import { getDb } from "~/db/db";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,6 +10,15 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
+// invoking client side db here to create/initialize so it's ready for other routes
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+  const db = await getDb();
+}
+
 export default function Home() {
-  return <Welcome />;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate("/app/queue");
+  }, []);
 }

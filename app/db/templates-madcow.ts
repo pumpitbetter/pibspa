@@ -8,7 +8,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   // routine A
 
   // Barbell Squat sets
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "ivF7ZkiARfM2M7Keez9a2t",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -18,7 +18,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "6qX4vHhkQBpLBS1MBHZLpm",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -28,7 +28,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "ithdu5RqaZuEzAbfkBTjNv",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -38,7 +38,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "aATWs7ZJaF9Mdn7JQXR82P",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -48,7 +48,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "mxYn7w7cJM6CQZSsqC3CqF",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -73,7 +73,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // Bench Press sets
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "tVmFUHxUZ8bqg31iATtdnF",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -83,7 +83,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "ctRAMxTzUpRjnHF53dhyan",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -93,7 +93,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "ePs6JuJA6yM2TaUUF3imGi",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -103,7 +103,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "npYQG18GDMiE2HAE94VaXP",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -113,7 +113,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "3eVPe9SdyH1a564VLv8ZCA",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -138,7 +138,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // Barbell Row sets
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "ikRzQZZJ2P8NpXxuS8oFTy",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -148,7 +148,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "tiA47tvRcqSeDH3cWFYsc3",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -158,7 +158,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "pc8AkLGCS19V1DdGFu3vSm",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -168,7 +168,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "s9cTP7dPWtecJJvarpW7US",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -178,7 +178,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "ft75Su2gbZEYoKi4jzyTCc",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -203,7 +203,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // Dip sets
-  db.templates.insertIfNotExists({
+  await await db.templates.insertIfNotExists({
     id: "sj6AGpGBbdZgdNFfScirm3",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -213,7 +213,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "qRGMLt2QfWdQnX7N1Qg7um",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -223,7 +223,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "xgqCuyZt1HRGSGE7pSPTX5",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -248,7 +248,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // Hanging knee raise sets
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "kEe6TMkc3xu4RnjafEDSW6",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -258,7 +258,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "1SG1KbPecumNhjUa6VtwAN",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -268,7 +268,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "hLyKjRjHDFwkmb1aNvr33D",
     programId: "madcow",
     routineId: "madcow-routine-1",
@@ -295,7 +295,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   // routine B
 
   // Barbell Squat sets
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "iRW2LuAjsXeQURtp8ogrSx",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -305,7 +305,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "rv9LUo6iRkP1VWWeTokxd9",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -315,7 +315,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "22cUxKt7F5G9xSxFLmQqqf",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -325,7 +325,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "ijVwd57YuWUNzHCnLV3mej",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -336,7 +336,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // Incline Bench Press sets
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "bfMDfWNux5XL67zMNPtjpB",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -346,7 +346,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "rUYQqJhAW25JQMKzcKPSRu",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -356,7 +356,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "aiK4Y9rknpWpash88jUFuN",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -366,7 +366,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "1fKxz6Rmrqom7Wt1zBdhP3",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -391,7 +391,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // Deadlift sets
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "mF9RnHz8FfpcADbxFPPWuJ",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -401,7 +401,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "3pYLTVRtnKATyVoXsyckDR",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -411,7 +411,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "94uHihiPKMR28P4aKmyS3t",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -421,7 +421,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "ccNqFrj5feJsQQHzM2XU4x",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -446,7 +446,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // Pullup sets
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "uunFS2R8DAKUa41yStjvRy",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -456,7 +456,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "v4Bu7DfjtQQysNPhxJsnCQ",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -466,7 +466,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "9cM7aeiwR5yUP9CotfGgUQ",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -491,7 +491,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // Plank sets
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "r5iCwNYxyTo5PC2kzZ8Hx2",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -501,7 +501,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "k7qWy1gZwQU2sRihmCjbsZ",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -511,7 +511,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "utjRLE2oXyJnVgbA3hyGd4",
     programId: "madcow",
     routineId: "madcow-routine-2",
@@ -538,7 +538,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   // routine C
 
   // Barbell Squat sets
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "fE4uG3xqR7Rm1e9dxWrYqa",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -548,7 +548,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "sXZ3Z6AkcjZzAyiAmQEiwS",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -558,7 +558,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "aYUGS8Z8ebjrHVEyc2KDRz",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -568,7 +568,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "6ysaYxyHGFsA7khFqmFeog",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -578,7 +578,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "dBnztPdAEmNoALBtLEN3Ly",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -595,7 +595,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     },
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "mmevFKe6R41RfH9PZEhVLV",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -606,7 +606,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // Bench Press sets
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "ntkjx6ghGHuAYKkNfjRWBV",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -616,7 +616,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "jWLxoJuCYw4X9LkbWA1M7v",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -626,7 +626,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "mK9BnVZ3FRarggHW3miU7S",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -636,7 +636,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "crcSp1F7xzAXnL3qvJyUK4",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -646,7 +646,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "6pUGx8sDsLW5UcaEsUexJ4",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -663,7 +663,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     },
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "kFCSdUKNMSXq9cNHuZPsmJ",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -674,7 +674,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // Barbell Row sets
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "qz6YhY37ie2Jipuf8se9ii",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -684,7 +684,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "232pS17GjAUXt2esQD4mPr",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -694,7 +694,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "iZYMXiqxhwUAWWZn7TRwME",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -704,7 +704,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "6HVcTcFcNYVexAwsoUTuGj",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -714,7 +714,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 5,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "rFGS5Dr2Me7y1gyUf8oJDx",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -731,7 +731,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     },
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "6MqtBwRRUo8kupYXzMYULV",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -742,7 +742,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // Barbell curl sets
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "5VPK9wT6ooK173mgTY3w3z",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -752,7 +752,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "4cNQ5gyx39ePYS9pJaQBY9",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -762,7 +762,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "oCC4X3bjztA2ZWqZg2pVPa",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -787,7 +787,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
   });
 
   // EZ bar skullcrusher sets
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "jYKbLb47HkzRHUK2tzsBfk",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -797,7 +797,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "99stSC2YfcHZSUsiQ6akqX",
     programId: "madcow",
     routineId: "madcow-routine-3",
@@ -807,7 +807,7 @@ export async function initMadcowTemplates(db: MyDatabase) {
     reps: 8,
   });
 
-  db.templates.insertIfNotExists({
+  await db.templates.insertIfNotExists({
     id: "mgcTxF7P6RS2odiGdkSDY7",
     programId: "madcow",
     routineId: "madcow-routine-3",

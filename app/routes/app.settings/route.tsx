@@ -1,4 +1,4 @@
-import { db } from "~/db/db";
+import { getDb } from "~/db/db";
 import type { Route } from "./+types/route";
 import { Header } from "~/components/Header";
 import { MainContent } from "~/components/MainContent";
@@ -12,6 +12,7 @@ import { DialogEzBarWeight } from "./dialog-ezbar-weight";
 import { Link } from "react-router";
 
 export async function clientLoader() {
+  const db = await getDb();
   const settings = await db.settings.findOne().exec();
   return settings ? settings.toMutableJSON() : defaultSettings;
 }
@@ -66,6 +67,7 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
 
 async function editWeightUnit(formData: FormData) {
   const weigthUnit = formData.get("weigthUnit");
+  const db = await getDb();
   const settings = await db.settings.findOne().exec();
   await settings?.update({
     $set: {
@@ -77,6 +79,7 @@ async function editWeightUnit(formData: FormData) {
 
 async function editBarbellWeight(formData: FormData) {
   const barbellWeight = Number(formData.get("barbellWeight"));
+  const db = await getDb();
   const settings = await db.settings.findOne().exec();
   await settings?.update({
     $set: {
@@ -88,6 +91,7 @@ async function editBarbellWeight(formData: FormData) {
 
 async function editEzBarWeight(formData: FormData) {
   const ezbarlWeight = Number(formData.get("ezbarWeight"));
+  const db = await getDb();
   const settings = await db.settings.findOne().exec();
   await settings?.update({
     $set: {

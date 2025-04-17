@@ -148,13 +148,13 @@
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
-  --color-input: var(--input);
+  --color-input: var(--on-surface);
   --color-border: var(--outline);
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
+  --color-muted: var(--surface-container-low);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-primary-foreground: var(--primary-foreground);
   --color-popover-foreground: var(--popover-foreground);

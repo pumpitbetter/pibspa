@@ -151,7 +151,7 @@ export async function initHistory(db: MyDatabase) {
   });
 
   // add a postInsert-hook
-  db.history.postInsert(
+  await db.history.postInsert(
     function myPostInsertHook(
       this: HistoryCollection, // own collection is bound to the scope
       docData: HistoryDocType, // documents data

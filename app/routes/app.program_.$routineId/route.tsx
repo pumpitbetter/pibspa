@@ -1,7 +1,7 @@
 import { Header } from "~/components/Header";
 import { MainContent } from "~/components/MainContent";
 import { Page } from "~/components/Page";
-import { db } from "~/db/db";
+import { getDb } from "~/db/db";
 import invariant from "tiny-invariant";
 import { List } from "~/components/List";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
@@ -14,6 +14,7 @@ import { LinkBack } from "~/components/LinkBack";
 import type { Route } from "./+types/route";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+  const db = await getDb();
   const routine = await db.routines
     .findOne({
       selector: {

@@ -257,13 +257,13 @@ export async function initPrograms(db: MyDatabase) {
   });
 
   // generate initial programs
-  db.programs.insertIfNotExists(sl5x5);
-  db.programs.insertIfNotExists(ss1);
-  db.programs.insertIfNotExists(madcow);
-  db.programs.insertIfNotExists(w531bbb);
+  await db.programs.insertIfNotExists(sl5x5);
+  await db.programs.insertIfNotExists(ss1);
+  await db.programs.insertIfNotExists(madcow);
+  await db.programs.insertIfNotExists(w531bbb);
 
   // add a postInsert-hook
-  db.programs.postInsert(
+  await db.programs.postInsert(
     function myPostInsertHook(
       this: ProgramsCollection, // own collection is bound to the scope
       docData: ProgramsDocType, // documents data

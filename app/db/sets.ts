@@ -178,7 +178,7 @@ export async function initSets(db: MyDatabase) {
   });
 
   // add a postInsert-hook
-  db.sets.postInsert(
+  await db.sets.postInsert(
     function myPostInsertHook(
       this: SetsCollection, // own collection is bound to the scope
       docData: SetsDocType, // documents data
