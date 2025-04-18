@@ -31,7 +31,7 @@ export const workoutsSchemaLiteral = {
     name: {
       type: "string",
     },
-    startedtAt: {
+    startedAt: {
       type: "number",
       default: new Date().valueOf(),
     },
@@ -40,7 +40,7 @@ export const workoutsSchemaLiteral = {
       default: null,
     },
   },
-  required: ["id", "programId", "name", "startedtAt"],
+  required: ["id", "programId", "name", "startedAt"],
   indexes: ["programId"],
 } as const; // <- It is important to set 'as const' to preserve the literal type
 

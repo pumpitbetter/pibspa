@@ -70,10 +70,11 @@ export async function clientLoader() {
 
   const count = 9; // Number of routines to generate in the queue
 
-  const workouts = [
-    activeWorkout,
-    ...generateWorkoutsFromRoutines({ routines, count }),
-  ].filter((i) => i !== null);
+  const workouts = generateWorkoutsFromRoutines({
+    routines,
+    count,
+    previousWorkout: activeWorkout?.toMutableJSON(),
+  }).filter((i) => i !== null);
 
   // create a mutable copy of program exercises that can be progressed
   const p = program?.toMutableJSON();
@@ -189,7 +190,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     programId: groupedWorkout.workout.programId,
     name: groupedWorkout.workout.name,
     routineId: groupedWorkout.workout.routineId,
-    startedtAt: new Date().valueOf(),
+    startedAt: new Date().valueOf(),
     finishedAt: null,
   });
 
@@ -241,7 +242,7 @@ export default function Queue({ loaderData }: Route.ComponentProps) {
               <Card
                 className={cn(
                   itemIdx === 0
-                    ? item.workout.startedtAt
+                    ? item.workout.startedAt
                       ? "border-primary"
                       : "border-on-surface-container"
                     : ""
@@ -281,7 +282,7 @@ export default function Queue({ loaderData }: Route.ComponentProps) {
                         name="groupedWorkout"
                         value={JSON.stringify(item)}
                       />
-                      {!item.workout.startedtAt && (
+                      {!item.workout.startedAt && (
                         <div className="flex justify-end gap-4">
                           <Button
                             variant="secondary"

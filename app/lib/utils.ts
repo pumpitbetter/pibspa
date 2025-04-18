@@ -94,22 +94,38 @@ export function groupCircuitsIntoSets<Type extends WithExerciseId>(
 export function generateWorkoutsFromRoutines({
   routines,
   count,
+  previousWorkout,
 }: {
   routines: RoutinesDocument[];
   count: number;
+  previousWorkout?: WorkoutsDocType;
 }): WorkoutsDocType[] {
   if (!routines?.length) {
     return [];
   }
 
-  const queue = [];
+  const queue: WorkoutsDocType[] = [];
+  let skip = Boolean(previousWorkout?.id);
 
   // iterate from 0 to count going through the routines from beginning to end in round robin fashion adding each routine id to the queue
   for (let i = 0; i < count; ) {
     for (let j = 0; j < routines.length && i < count; j++, i++) {
       const routine = routines[j];
       const routineId = routine.id;
-      queue.push({ ...routine.toMutableJSON(), routineId, id: uuidv7() });
+      if (routineId !== previousWorkout?.routineId && skip) {
+        continue;
+      }
+      skip = false;
+      if (routineId === previousWorkout?.routineId) {
+        queue.push(previousWorkout);
+      } else {
+        queue.push({
+          ...routine.toMutableJSON(),
+          routineId,
+          id: uuidv7(),
+          startedAt: 0,
+        });
+      }
     }
   }
 
