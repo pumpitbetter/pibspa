@@ -2,7 +2,7 @@ import invariant from "tiny-invariant";
 import { Header } from "~/components/Header";
 import { MainContent } from "~/components/MainContent";
 import { Page } from "~/components/Page";
-import { getDb } from "~/db/db";
+import { dbPromise } from "~/db/db";
 import type { Route } from "./+types/route";
 import {
   getExerciseById,
@@ -16,7 +16,7 @@ import { LinkBack } from "~/components/LinkBack";
 import { useSearchParams } from "react-router";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const db = await getDb();
+  const db = await dbPromise;
   const workout = await db.workouts
     .findOne({
       selector: {
@@ -54,7 +54,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const intent = formData.get("intent") as Intent;
   const setId = formData.get("setId") as string;
 
-  const db = await getDb();
+  const db = await dbPromise;
   let history = await db.history.findOne({ selector: { id: setId } }).exec();
   invariant(history, "history not found");
 

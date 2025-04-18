@@ -1,9 +1,11 @@
-import { createRxDatabase, type RxDatabase } from "rxdb/plugins/core";
-import { RxDBDevModePlugin } from "rxdb/plugins/dev-mode";
+import {
+  createRxDatabase,
+  type RxDatabase,
+  type RxStorage,
+} from "rxdb/plugins/core";
 import { addRxPlugin } from "rxdb/plugins/core";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { RxDBUpdatePlugin } from "rxdb/plugins/update";
-import { wrappedValidateAjvStorage } from "rxdb/plugins/validate-ajv";
 import { initSettings, type SettingsCollection } from "./settings";
 import { initPrograms, type ProgramsCollection } from "./programs";
 import { initRoutines, type RoutinesCollection } from "./routines";
@@ -13,10 +15,9 @@ import { initSets, type SetsCollection } from "./sets";
 import { initWorkouts, type WorkoutsCollection } from "./workout";
 import { initHistory, type HistoryCollection } from "./history";
 
-if (process.env.NODE_ENV === "development") {
-  console.log("Development mode enabled");
-  addRxPlugin(RxDBDevModePlugin);
-}
+// set by webpack as global
+const mode = process.env.NODE_ENV; //"production" | "development";
+console.log("mode: " + mode);
 
 // other plugins
 addRxPlugin(RxDBUpdatePlugin);
@@ -34,19 +35,20 @@ export type MyDatabaseCollections = {
 
 export type MyDatabase = RxDatabase<MyDatabaseCollections>;
 
-// wrap the validation around the main RxStorage
-const storage = wrappedValidateAjvStorage({
-  storage: getRxStorageDexie(),
-});
+let storage: RxStorage<any, any> = getRxStorageDexie();
 
-let db: MyDatabase | null = null;
-
-export async function getDb() {
-  if (db) {
-    return db;
+export const dbPromise = (async () => {
+  // import dev-mode plugins
+  if (mode === "development") {
+    await import("rxdb/plugins/dev-mode").then((module) =>
+      addRxPlugin(module.RxDBDevModePlugin)
+    );
+    await import("rxdb/plugins/validate-ajv").then((module) => {
+      storage = module.wrappedValidateAjvStorage({ storage });
+    });
   }
-  // create the database
-  db = await createRxDatabase<MyDatabaseCollections>({
+
+  const db = await createRxDatabase<MyDatabaseCollections>({
     name: "db",
     storage,
   });
@@ -62,4 +64,4 @@ export async function getDb() {
   await initHistory(db);
 
   return db;
-}
+})();

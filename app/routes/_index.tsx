@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import type { Route } from "../+types/root";
 import { useEffect } from "react";
-import { getDb } from "~/db/db";
+import { dbPromise } from "~/db/db";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,7 +12,7 @@ export function meta({}: Route.MetaArgs) {
 
 // invoking client side db here to create/initialize so it's ready for other routes
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const db = await getDb();
+  const db = await dbPromise;
 }
 
 export default function Home() {

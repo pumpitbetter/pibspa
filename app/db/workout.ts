@@ -33,7 +33,6 @@ export const workoutsSchemaLiteral = {
     },
     startedAt: {
       type: "number",
-      default: new Date().valueOf(),
     },
     finishedAt: {
       type: ["number", "null"],

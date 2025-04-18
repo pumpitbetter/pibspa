@@ -1,7 +1,7 @@
 import { Link, NavLink, Outlet, useLoaderData } from "react-router";
 import cx from "classix";
 import type { Route } from "./+types/route";
-import { getDb } from "~/db/db";
+import { dbPromise } from "~/db/db";
 import { Button } from "~/components/ui/button";
 
 function navLinkStyle({ isActive }: { isActive: boolean }): string {
@@ -11,7 +11,7 @@ function navLinkStyle({ isActive }: { isActive: boolean }): string {
 }
 
 export async function clientLoader() {
-  const db = await getDb();
+  const db = await dbPromise;
   const settings = await db.settings.findOne().exec();
   const activeWorkout = await db.workouts
     .findOne({

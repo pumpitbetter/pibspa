@@ -2,7 +2,7 @@ import { Header } from "~/components/Header";
 import { List } from "~/components/List";
 import { MainContent } from "~/components/MainContent";
 import { Page } from "~/components/Page";
-import { getDb } from "~/db/db";
+import { dbPromise } from "~/db/db";
 import { defaultProgram } from "~/db/programs";
 import type { Route } from "./+types/route";
 import { ProgramListItem } from "./program-list-item";
@@ -10,7 +10,7 @@ import { defaultSettings } from "~/db/settings";
 import { LinkBack } from "~/components/LinkBack";
 
 export async function clientLoader() {
-  const db = await getDb();
+  const db = await dbPromise;
   const programs = await db.programs.find().exec();
   return programs ? programs.map((p) => p.toMutableJSON()) : [defaultProgram];
 }
@@ -19,7 +19,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   const programId = formData.get("programId");
 
-  const db = await getDb();
+  const db = await dbPromise;
   const settings = await db.settings.findOne().exec();
   await settings?.update({
     $set: {

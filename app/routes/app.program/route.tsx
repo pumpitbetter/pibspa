@@ -2,7 +2,7 @@ import { Header } from "~/components/Header";
 import { List } from "~/components/List";
 import { MainContent } from "~/components/MainContent";
 import { Page } from "~/components/Page";
-import { getDb } from "~/db/db";
+import { dbPromise } from "~/db/db";
 import { defaultProgram } from "~/db/programs";
 import type { Route } from "./+types/route";
 import { Link } from "react-router";
@@ -13,7 +13,7 @@ import { DialogWeightEdit } from "./dialog-weight-edit";
 import invariant from "tiny-invariant";
 
 export async function clientLoader() {
-  const db = await getDb();
+  const db = await dbPromise;
   const settings = await db.settings.findOne().exec();
   const program = await db.programs
     .findOne({
@@ -48,7 +48,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const weight = Number(formData.get("weight") as string) ?? 0;
   const increment = Number(formData.get("increment") as string) ?? 5;
 
-  const db = await getDb();
+  const db = await dbPromise;
   const settings = await db.settings.findOne().exec();
   const program = await db.programs
     .findOne({

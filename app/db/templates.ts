@@ -160,7 +160,7 @@ export async function initTemplates(db: MyDatabase) {
   });
 
   // generate initial templates
-  initMadcowTemplates(db);
+  await initMadcowTemplates(db);
 
   // add a postInsert-hook
   await db.templates.postInsert(

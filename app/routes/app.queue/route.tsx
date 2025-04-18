@@ -1,7 +1,7 @@
 import { Header } from "~/components/Header";
 import { MainContent } from "~/components/MainContent";
 import { Page } from "~/components/Page";
-import { getDb } from "~/db/db";
+import { dbPromise } from "~/db/db";
 import { defaultProgram } from "~/db/programs";
 import type { Route } from "./+types/route";
 
@@ -27,13 +27,13 @@ import type { SetsDocType } from "~/db/sets";
 import { defaultSettings } from "~/db/settings";
 import { Button } from "~/components/ui/button";
 import { useState } from "react";
-import { Link, useFetcher, useNavigate } from "react-router";
+import { useFetcher, useNavigate } from "react-router";
 import invariant from "tiny-invariant";
 import { v7 as uuidv7 } from "uuid";
 import type { HistoryDocType } from "~/db/history";
 
 export async function clientLoader() {
-  const db = await getDb();
+  const db = await dbPromise;
   const settings = await db.settings.findOne().exec();
   const program = await db.programs
     .findOne({
@@ -184,7 +184,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   ) as GroupedWorkout;
   invariant(groupedWorkout, "groupedWorkout is required");
 
-  const db = await getDb();
+  const db = await dbPromise;
   await db.workouts.upsert({
     id: groupedWorkout.workout.id,
     programId: groupedWorkout.workout.programId,
