@@ -14,6 +14,8 @@ import { Button } from "~/components/ui/button";
 import { ExerciseCard } from "./exercise-card";
 import { LinkBack } from "~/components/LinkBack";
 import { useSearchParams } from "react-router";
+import { useElapsedTime } from "~/lib/hooks";
+import { EllipsisVertical } from "lucide-react";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -91,12 +93,21 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
   const { groupedWorkout, exercises, settings } = loaderData;
   const { workout, sets } = groupedWorkout;
   const [searchParams] = useSearchParams();
+  const { elapsedMinutes } = useElapsedTime(groupedWorkout.workout.startedAt);
 
   return (
     <Page>
       <Header
         left={<LinkBack to={searchParams.get("back") ?? "/app/queue"} />}
         title={workout.name}
+        right={
+          <div className="flex justify-end gap-4">
+            <div>{elapsedMinutes} mins</div>
+            <div>
+              <EllipsisVertical />
+            </div>
+          </div>
+        }
       />
       <MainContent>
         {Object.entries(sets).map(([exerciseId, exerciseSets]) => {
