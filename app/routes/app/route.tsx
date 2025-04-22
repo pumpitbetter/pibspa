@@ -30,7 +30,6 @@ export async function clientLoader() {
 // This is a *layout* for the rest of the app pages
 export default function App({ loaderData }: Route.ComponentProps) {
   const { activeWorkout } = loaderData;
-  console.log("activeWorkout", activeWorkout);
   const bottomNavHeight = 56; // px
   return (
     <div className="flex flex-col h-dvh">

@@ -82,7 +82,7 @@ export function ExerciseCard({
                 onCheckedChange={async (checked) => {
                   await fetcher.submit(
                     {
-                      intent: "complete",
+                      intent: "completeWorkout",
                       setId: item.id,
                       completed: checked ? "true" : "false",
                     },

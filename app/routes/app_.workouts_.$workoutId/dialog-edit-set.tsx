@@ -1,4 +1,4 @@
-import { useFetcher, useLoaderData } from "react-router";
+import { useFetcher } from "react-router";
 import {
   Dialog,
   DialogClose,
@@ -8,7 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../components/ui/dialog";
-import type { clientLoader } from "~/routes/app.settings/route";
 import { Button } from "../../components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
@@ -41,7 +40,7 @@ export function DialogEditSet({
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <fetcher.Form method="post" onSubmit={handleSubmit}>
-          <input type="hidden" name="intent" value="edit" />
+          <input type="hidden" name="intent" value="editWorkout" />
           <input type="hidden" name="setId" value={setId} />
           <div className="flex flex-col gap-4 pt-2">
             <div className="grid grid-cols-2 gap-4">

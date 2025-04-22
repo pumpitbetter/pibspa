@@ -113,11 +113,13 @@ export function generateWorkoutsFromRoutines({
       const routine = routines[j];
       const routineId = routine.id;
       if (routineId !== previousWorkout?.routineId && skip) {
+        // keep skipping until we find a routine that is not the same as the previous workout
         continue;
       }
-      skip = false;
-      if (routineId === previousWorkout?.routineId) {
+
+      if (routineId === previousWorkout?.routineId && skip) {
         queue.push(previousWorkout);
+        skip = false;
       } else {
         queue.push({
           ...routine.toMutableJSON(),
