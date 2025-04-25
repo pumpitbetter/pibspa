@@ -13,10 +13,12 @@ import { defaultSettings } from "~/db/settings";
 import { Button } from "~/components/ui/button";
 import { ExerciseCard } from "./exercise-card";
 import { LinkBack } from "~/components/LinkBack";
-import { useSearchParams } from "react-router";
+import { useFetcher, useSearchParams } from "react-router";
 import { useElapsedTime } from "~/lib/hooks";
 import { EllipsisVertical } from "lucide-react";
 import { DialogAlertDelete } from "./dialog-alert-delete";
+import { DialogAlertFinish } from "./dialog-alert-finish";
+import { DialogSummary } from "./dialog-summary";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -51,7 +53,12 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 
-type Intent = "completeWorkout" | "editWorkout" | "deleteWorkout";
+type Intent =
+  | "completeWorkout"
+  | "editWorkout"
+  | "deleteWorkout"
+  | "finishWorkout";
+
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   const intent = formData.get("intent") as Intent;
@@ -69,6 +76,10 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
       await deleteWorkout(formData);
       break;
     }
+    case "finishWorkout": {
+      await finishWorkout(formData);
+      break;
+    }
   }
 
   return;
@@ -79,6 +90,13 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
   const { workout, sets } = groupedWorkout;
   const [searchParams] = useSearchParams();
   const { elapsedMinutes } = useElapsedTime(groupedWorkout.workout.startedAt);
+
+  const fetcher = useFetcher();
+
+  // are all exercises completed?
+  const allCompleted = Object.values(sets).every((exerciseSets) =>
+    exerciseSets.every((set) => set.completed)
+  );
 
   return (
     <Page>
@@ -122,13 +140,28 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
               Delete
             </Button>
           </DialogAlertDelete>
-          <Button
-            onClick={() => {
-              console.log("TODO: finish workout");
-            }}
-          >
-            Finish
-          </Button>
+          {!allCompleted && (
+            <DialogAlertFinish workoutId={workout.id}>
+              <Button>Finish</Button>
+            </DialogAlertFinish>
+          )}
+          {allCompleted && (
+            <DialogSummary workoutId={workout.id}>
+              <Button
+                onClick={async () =>
+                  await fetcher.submit(
+                    {
+                      intent: "finishWorkout",
+                      workoutId: workout.id,
+                    },
+                    { method: "post" }
+                  )
+                }
+              >
+                Finish
+              </Button>
+            </DialogSummary>
+          )}
         </div>
       </MainContent>
     </Page>
@@ -202,9 +235,38 @@ async function deleteWorkout(formData: FormData) {
     .find({ selector: { workoutId } })
     .exec();
   await db.history.bulkRemove(workoutHistory);
+}
 
-  // await db.waitForLeadership();
-  // await db.requestIdlePromise();
-  // await db.workouts.awaitPersistence();
-  // await db.workouts.promiseWait(1000);
+async function finishWorkout(formData: FormData) {
+  const workoutId = formData.get("workoutId") as string;
+
+  const db = await dbPromise;
+
+  // find the workout
+  const workout = await db.workouts
+    .findOne({ selector: { id: workoutId } })
+    .exec();
+  invariant(workout, "workout not found");
+
+  // find all history items for this workout
+  const history = await db.history.find({ selector: { workoutId } }).exec();
+  invariant(history, "history not found");
+
+  const updatedWorkout = await workout.update({
+    $set: {
+      finishedAt: new Date().valueOf(),
+    },
+  });
+
+  // make sure it's gone when quering unfinished workouts
+  const settings = await db.settings.findOne().exec();
+  const w = await db.workouts
+    .findOne({
+      selector: {
+        programId: settings?.programId,
+        finishedAt: null,
+      },
+    })
+    .exec();
+  invariant(!w, "workout still found");
 }

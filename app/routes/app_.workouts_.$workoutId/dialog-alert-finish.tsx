@@ -11,7 +11,7 @@ import {
 } from "~/components/ui/alert-dialog";
 import { useFetcher, useNavigate } from "react-router";
 
-export function DialogAlertDelete({
+export function DialogAlertFinish({
   workoutId,
   children,
 }: {
@@ -26,10 +26,10 @@ export function DialogAlertDelete({
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete workout?</AlertDialogTitle>
+          <AlertDialogTitle>Finish workout?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete this
-            workout.
+            You haven't logged all sets. Are you sure you want to finish this
+            workout?
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -40,7 +40,7 @@ export function DialogAlertDelete({
               onClick={async () => {
                 await fetcher.submit(
                   {
-                    intent: "deleteWorkout",
+                    intent: "finishWorkout",
                     workoutId,
                   },
                   { method: "post" }
@@ -48,7 +48,7 @@ export function DialogAlertDelete({
                 navigate("/app/queue");
               }}
             >
-              Continue
+              Finish
             </AlertDialogAction>
           </div>
         </AlertDialogFooter>

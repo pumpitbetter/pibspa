@@ -65,6 +65,15 @@ export async function clientLoader() {
       },
     })
     .exec();
+  const lastWorkout = await db.workouts
+    .findOne({
+      selector: {
+        programId: settings?.programId,
+        finishedAt: { $ne: null },
+      },
+      sort: [{ finishedAt: "desc" }],
+    })
+    .exec();
 
   const exercises = await db.exercises.find().exec();
 
@@ -73,7 +82,8 @@ export async function clientLoader() {
   const workouts = generateWorkoutsFromRoutines({
     routines,
     count,
-    previousWorkout: activeWorkout?.toMutableJSON(),
+    previousWorkout:
+      activeWorkout?.toMutableJSON() || lastWorkout?.toMutableJSON(),
   }).filter((i) => i !== null);
 
   // create a mutable copy of program exercises that can be progressed

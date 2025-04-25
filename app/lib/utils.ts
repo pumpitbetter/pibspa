@@ -112,22 +112,24 @@ export function generateWorkoutsFromRoutines({
     for (let j = 0; j < routines.length && i < count; j++, i++) {
       const routine = routines[j];
       const routineId = routine.id;
-      if (routineId !== previousWorkout?.routineId && skip) {
+      if (skip && routineId !== previousWorkout?.routineId) {
         // keep skipping until we find a routine that is not the same as the previous workout
+        continue;
+      } else if (skip && routineId === previousWorkout?.routineId) {
+        if (null === previousWorkout?.finishedAt) {
+          // active workout (not finished, so show it in the queue))
+          queue.push(previousWorkout);
+        }
+        skip = false; // reset skip if we find a routine that is not the same as the previous workout
         continue;
       }
 
-      if (routineId === previousWorkout?.routineId && skip) {
-        queue.push(previousWorkout);
-        skip = false;
-      } else {
-        queue.push({
-          ...routine.toMutableJSON(),
-          routineId,
-          id: uuidv7(),
-          startedAt: 0,
-        });
-      }
+      queue.push({
+        ...routine.toMutableJSON(),
+        routineId,
+        id: uuidv7(),
+        startedAt: 0,
+      });
     }
   }
 
