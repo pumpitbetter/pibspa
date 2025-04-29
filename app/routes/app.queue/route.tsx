@@ -212,6 +212,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
         workoutId: groupedWorkout.workout.id,
         programId: groupedWorkout.workout.programId,
         routineId: groupedWorkout.workout.routineId ?? "",
+        templateId: set.id,
         exerciseId,
         load: set.load ?? 0,
         order: set.order ?? 0,

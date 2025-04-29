@@ -176,6 +176,59 @@ async function completeWorkout(formData: FormData) {
   const history = await db.history.findOne({ selector: { id: setId } }).exec();
   invariant(history, "history not found");
 
+  const template = await db.templates
+    .findOne({
+      selector: {
+        id: history.templateId,
+      },
+    })
+    .exec();
+  invariant(template, "template not found");
+
+  // and the template load is 100%
+  // and user is completing with target reps and weight achived
+  // and the template indicates to progress
+  // progress the weight
+  if (
+    history.load === 1 &&
+    template.progression?.increment?.value &&
+    history.liftedReps &&
+    history.liftedReps >= history.targetReps &&
+    history.liftedWeight &&
+    history.liftedWeight.value >= history.targetWeight?.value
+  ) {
+    const program = await db.programs
+      .findOne({ selector: { id: history.programId } })
+      .exec();
+    invariant(program, "program not found");
+
+    const programExercise = program.exercises?.find(
+      (exercise) => exercise.exerciseId === history.exerciseId
+    );
+    invariant(programExercise, "program exercise not found");
+
+    await program.modify((doc) => {
+      invariant(doc.exercises, "Program has no exercises");
+      const exercises = doc.exercises.map((item) => {
+        if (item.exerciseId === history.exerciseId) {
+          return {
+            ...item,
+            exerciseWeight: {
+              value:
+                programExercise.exerciseWeight?.value +
+                (programExercise.increment || 0) *
+                  (completed && history.completed === false ? 1 : -1),
+              units: programExercise.exerciseWeight?.units,
+            },
+          };
+        }
+        return item;
+      });
+      doc.exercises = exercises;
+      return doc;
+    });
+  }
+
   await history.update({
     $set: {
       completed,

@@ -25,6 +25,10 @@ export const historySchemaLiteral = {
       type: "string",
       maxLength: 100,
     },
+    templateId: {
+      type: "string",
+      maxLength: 100,
+    },
     routineId: {
       type: "string",
       maxLength: 100,
