@@ -51,7 +51,9 @@ export function DialogWeightEdit({
               <Input
                 id="weight"
                 name="weight"
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="\d*.*\d*"
                 placeholder=""
                 defaultValue={exerciseWeight}
               />
