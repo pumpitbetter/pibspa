@@ -13,9 +13,11 @@ import { useFetcher, useNavigate } from "react-router";
 
 export function DialogAlertDelete({
   workoutId,
+  setActiveItemId,
   children,
 }: {
   workoutId: string;
+  setActiveItemId: (value: string | null) => void;
   children: React.ReactNode;
 }) {
   const fetcher = useFetcher();
@@ -38,6 +40,7 @@ export function DialogAlertDelete({
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={async () => {
+                setActiveItemId(null);
                 await fetcher.submit(
                   {
                     intent: "deleteWorkout",

@@ -1,5 +1,4 @@
 import invariant from "tiny-invariant";
-import { Header } from "~/components/Header";
 import { MainContent } from "~/components/MainContent";
 import { Page } from "~/components/Page";
 import { dbPromise } from "~/db/db";
@@ -15,17 +14,14 @@ import {
 import { defaultSettings } from "~/db/settings";
 import { Button } from "~/components/ui/button";
 import { ExerciseCard } from "./exercise-card";
-import { LinkBack } from "~/components/LinkBack";
 import { useFetcher, useSearchParams } from "react-router";
-import { useElapsedTime } from "~/lib/hooks";
-import { EllipsisVertical } from "lucide-react";
 import { DialogAlertDelete } from "./dialog-alert-delete";
 import { DialogAlertFinish } from "./dialog-alert-finish";
 import { DialogSummary } from "./dialog-summary";
 import { useState } from "react";
 import { ACTIVE_INFO_PANE_HEIGHT, ActiveInfoPane } from "./active-info-pane";
-import type { HistoryDocType, HistoryDocument } from "~/db/history";
 import { WorkoutHeader } from "./workout-header";
+import { useActiveItem } from "./use-active-item-hook";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -97,7 +93,10 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
   const { workout, sets } = groupedWorkout;
   const [searchParams] = useSearchParams();
 
-  const [activeItemId, setActiveItemId] = useState<string | null>(null);
+  const { activeItemId, setActiveItemId, setNextActiveItemId } = useActiveItem(
+    sets,
+    Object.values(sets).flat()[0]?.id ?? null
+  );
 
   const activeItem = Object.values(sets)
     .find((exerciseSets) => exerciseSets.some((set) => set.id === activeItemId))
@@ -152,39 +151,46 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
           return (
             <li key={exerciseId} className="list-none px-4 pb-4">
               <ExerciseCard
-                workoutId={workout.id}
                 exercise={exercise}
                 sets={exerciseSets}
                 weightUnit={settings.weigthUnit}
                 activeItem={activeItem}
                 setActiveItemId={setActiveItemId}
+                setNextActiveItemId={setNextActiveItemId}
               />
             </li>
           );
         })}
         <div className="flex justify-end gap-4 px-4 pb-4">
-          <DialogAlertDelete workoutId={workout.id}>
+          <DialogAlertDelete
+            workoutId={workout.id}
+            setActiveItemId={setActiveItemId}
+          >
             <Button variant={"ghost"} className="text-primary">
               Delete
             </Button>
           </DialogAlertDelete>
           {!allCompleted && (
-            <DialogAlertFinish workoutId={workout.id}>
+            <DialogAlertFinish
+              workoutId={workout.id}
+              setActiveItemId={setActiveItemId}
+            >
               <Button>Finish</Button>
             </DialogAlertFinish>
           )}
           {allCompleted && (
             <DialogSummary workoutId={workout.id}>
               <Button
-                onClick={async () =>
+                onClick={async () => {
+                  setActiveItemId(null);
                   await fetcher.submit(
                     {
                       intent: "finishWorkout",
                       workoutId: workout.id,
                     },
                     { method: "post" }
-                  )
-                }
+                  );
+                }}
               >
                 Finish
               </Button>

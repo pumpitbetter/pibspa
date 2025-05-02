@@ -1,75 +1,29 @@
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { DialogEditSet } from "./dialog-edit-set";
-import { Link, useFetcher, useLoaderData } from "react-router";
+import { useFetcher, useLoaderData } from "react-router";
 import { Checkbox } from "~/components/ui/checkbox";
-import type { HistoryDocType, HistoryDocument } from "~/db/history";
-import {
-  calculatePlates,
-  cn,
-  exerciseUsesPlates,
-  getAvailablePlateCounts,
-} from "~/lib/utils";
+import type { HistoryDocType } from "~/db/history";
+import { cn } from "~/lib/utils";
 import type { clientLoader } from "./route";
 import type { ExercisesDocType } from "~/db/exercises";
 
 export function ExerciseCard({
-  workoutId,
   exercise,
   sets,
   weightUnit,
   activeItem,
   setActiveItemId,
+  setNextActiveItemId,
 }: {
-  workoutId: string;
   exercise: ExercisesDocType;
   sets: Array<HistoryDocType>;
   weightUnit: string;
   activeItem: HistoryDocType | null | undefined;
-  setActiveItemId: React.Dispatch<React.SetStateAction<string | null>>;
+  setActiveItemId: (value: string | null) => void;
+  setNextActiveItemId: (after: string) => void;
 }) {
   const fetcher = useFetcher();
   const { settings } = useLoaderData<typeof clientLoader>();
-
-  const searchParams = new URLSearchParams({
-    back: "/app/workouts/" + workoutId,
-  });
-
-  const availablePlates = getAvailablePlateCounts({
-    plates: settings?.plates ?? [],
-  });
-
-  const calcPlates = (targetWeight: number) => {
-    const barbellWeight = settings?.barbellWeight ?? 0;
-    const plates = calculatePlates({
-      targetWeight,
-      barbellWeight,
-      availablePlates,
-    });
-
-    // if plates is a string, return it
-    if (typeof plates === "string") {
-      if (plates === "add plates...") {
-        return (
-          <Link
-            to={"/app/settings/plates?" + searchParams.toString()}
-            className="text-on-tertiary-container"
-          >
-            {" add plates..."}
-          </Link>
-        );
-      } else {
-        return plates;
-      }
-    }
-
-    if (plates.length === 0) {
-      return <span>= empty bar</span>;
-    }
-    // convert to string
-
-    const platesString = "= " + plates.join(", ");
-    return platesString;
-  };
 
   return (
     <Card>
@@ -90,13 +44,23 @@ export function ExerciseCard({
             <div
               className="flex items-center px-3 gap-4"
               onClick={() => {
+                console.log("clicked", item.id);
                 setActiveItemId(item.id);
               }}
             >
               <Checkbox
                 className={cn("w-7 h-7")}
                 checked={item.completed}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
                 onCheckedChange={async (checked) => {
+                  if (checked) {
+                    setNextActiveItemId(item.id);
+                  } else {
+                    setActiveItemId(item.id);
+                  }
+
                   await fetcher.submit(
                     {
                       intent: "completeWorkout",
