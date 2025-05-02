@@ -5,6 +5,7 @@ import type { RoutinesDocument } from "~/db/routines";
 import type { SetsDocType } from "~/db/sets";
 import type { WorkoutsDocType } from "~/db/workout";
 import { v7 as uuidv7 } from "uuid";
+import type { SettingsDocType } from "~/db/settings";
 
 export interface GroupedWorkout {
   workout: WorkoutsDocType;
@@ -215,6 +216,24 @@ export function exerciseUsesPlates({
   );
 }
 
+export function getBarWeight({
+  settings,
+  exercise,
+}: {
+  settings: SettingsDocType;
+  exercise: ExercisesDocType;
+}) {
+  const isBarbell = exercise.equipment.some((item) => item === "barbell");
+  const isEzBar = exercise.equipment.some((item) => item === "ezbar");
+  if (isBarbell) {
+    return settings?.barbellWeight || 0;
+  }
+  if (isEzBar) {
+    return settings?.ezbarWeight || 0;
+  }
+  return 0;
+}
+
 export function progressProgramExercise({
   programExercises,
   exerciseId,
@@ -271,4 +290,18 @@ export function calculatePlates({
     .sort((a, b) => b - a);
 
   return platesArray;
+}
+
+export function getAvailablePlateCounts({
+  plates,
+}: {
+  plates: { count: number; weight: number }[];
+}): number[] {
+  return (
+    plates.map((plate) =>
+      Array(Math.trunc(plate.count / 2)).fill(plate.weight)
+    ) || []
+  )
+    .flat()
+    .sort((a, b) => b - a);
 }

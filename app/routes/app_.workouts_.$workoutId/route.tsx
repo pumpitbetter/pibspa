@@ -5,6 +5,9 @@ import { Page } from "~/components/Page";
 import { dbPromise } from "~/db/db";
 import type { Route } from "./+types/route";
 import {
+  cn,
+  getAvailablePlateCounts,
+  getBarWeight,
   getExerciseById,
   groupCircuitsIntoSets,
   groupIntoCircuits,
@@ -19,6 +22,10 @@ import { EllipsisVertical } from "lucide-react";
 import { DialogAlertDelete } from "./dialog-alert-delete";
 import { DialogAlertFinish } from "./dialog-alert-finish";
 import { DialogSummary } from "./dialog-summary";
+import { useState } from "react";
+import { ACTIVE_INFO_PANE_HEIGHT, ActiveInfoPane } from "./active-info-pane";
+import type { HistoryDocType, HistoryDocument } from "~/db/history";
+import { WorkoutHeader } from "./workout-header";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -89,7 +96,33 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
   const { groupedWorkout, exercises, settings } = loaderData;
   const { workout, sets } = groupedWorkout;
   const [searchParams] = useSearchParams();
-  const { elapsedMinutes } = useElapsedTime(groupedWorkout.workout.startedAt);
+
+  const [activeItemId, setActiveItemId] = useState<string | null>(null);
+
+  const activeItem = Object.values(sets)
+    .find((exerciseSets) => exerciseSets.some((set) => set.id === activeItemId))
+    ?.find((set) => set.id === activeItemId)
+    ?.toMutableJSON();
+
+  const activeExercise = activeItem
+    ? getExerciseById({
+        exercises,
+        exerciseId: activeItem.exerciseId,
+      })
+    : null;
+
+  const activeExerciseBarWeight = activeExercise
+    ? getBarWeight({
+        settings,
+        exercise: activeExercise,
+      })
+    : null;
+
+  const availablePlates = activeExerciseBarWeight
+    ? getAvailablePlateCounts({
+        plates: settings?.plates ?? [],
+      })
+    : [];
 
   const fetcher = useFetcher();
 
@@ -100,17 +133,10 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
 
   return (
     <Page>
-      <Header
-        left={<LinkBack to={searchParams.get("back") ?? "/app/queue"} />}
+      <WorkoutHeader
+        to={searchParams.get("back") ?? "/app/queue"}
         title={workout.name}
-        right={
-          <div className="flex justify-end gap-4">
-            <div>{elapsedMinutes} mins</div>
-            <div>
-              <EllipsisVertical />
-            </div>
-          </div>
-        }
+        startedAt={workout.startedAt}
       />
       <MainContent>
         {Object.entries(sets).map(([exerciseId, exerciseSets]) => {
@@ -130,6 +156,8 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
                 exercise={exercise}
                 sets={exerciseSets}
                 weightUnit={settings.weigthUnit}
+                activeItem={activeItem}
+                setActiveItemId={setActiveItemId}
               />
             </li>
           );
@@ -163,6 +191,24 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
             </DialogSummary>
           )}
         </div>
+        {activeItem !== null &&
+          activeItem !== undefined &&
+          activeExerciseBarWeight !== null &&
+          activeExerciseBarWeight !== 0 && (
+            <div>
+              <div className={ACTIVE_INFO_PANE_HEIGHT}></div>
+              <div
+                className={cn("fixed bottom-0 w-full", ACTIVE_INFO_PANE_HEIGHT)}
+              >
+                <ActiveInfoPane
+                  item={activeItem}
+                  barWeight={activeExerciseBarWeight}
+                  weight={activeItem.liftedWeight?.value ?? 0}
+                  availablePlates={availablePlates}
+                />
+              </div>
+            </div>
+          )}
       </MainContent>
     </Page>
   );

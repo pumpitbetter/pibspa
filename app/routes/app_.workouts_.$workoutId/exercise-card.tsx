@@ -2,8 +2,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { DialogEditSet } from "./dialog-edit-set";
 import { Link, useFetcher, useLoaderData } from "react-router";
 import { Checkbox } from "~/components/ui/checkbox";
-import type { HistoryDocType } from "~/db/history";
-import { calculatePlates, exerciseUsesPlates } from "~/lib/utils";
+import type { HistoryDocType, HistoryDocument } from "~/db/history";
+import {
+  calculatePlates,
+  cn,
+  exerciseUsesPlates,
+  getAvailablePlateCounts,
+} from "~/lib/utils";
 import type { clientLoader } from "./route";
 import type { ExercisesDocType } from "~/db/exercises";
 
@@ -12,26 +17,25 @@ export function ExerciseCard({
   exercise,
   sets,
   weightUnit,
+  activeItem,
+  setActiveItemId,
 }: {
   workoutId: string;
   exercise: ExercisesDocType;
   sets: Array<HistoryDocType>;
   weightUnit: string;
+  activeItem: HistoryDocType | null | undefined;
+  setActiveItemId: React.Dispatch<React.SetStateAction<string | null>>;
 }) {
   const fetcher = useFetcher();
   const { settings } = useLoaderData<typeof clientLoader>();
 
-  // given a count and value of plates, return an array of numbers
-  const availablePlates: Array<number> = (
-    settings?.plates?.map((plate) =>
-      Array(Math.trunc(plate.count / 2)).fill(plate.weight)
-    ) || []
-  )
-    .flat()
-    .sort((a, b) => b - a);
-
   const searchParams = new URLSearchParams({
     back: "/app/workouts/" + workoutId,
+  });
+
+  const availablePlates = getAvailablePlateCounts({
+    plates: settings?.plates ?? [],
   });
 
   const calcPlates = (targetWeight: number) => {
@@ -69,15 +73,28 @@ export function ExerciseCard({
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="my-0">
         <CardTitle>{exercise.name ?? "Unknown exercise"}</CardTitle>
       </CardHeader>
       <CardContent className="px-2">
-        {sets.map((item) => (
-          <div key={item.id} className="w-full">
-            <div className="flex items-center px-4">
+        {sets.map((item, index) => (
+          <div
+            key={item.id}
+            className={cn(
+              "w-full border-4 rounded-lg",
+              activeItem?.id === item.id
+                ? "border-tetriary"
+                : "border-transparent"
+            )}
+          >
+            <div
+              className="flex items-center px-3 gap-4"
+              onClick={() => {
+                setActiveItemId(item.id);
+              }}
+            >
               <Checkbox
-                className="w-7 h-7"
+                className={cn("w-7 h-7")}
                 checked={item.completed}
                 onCheckedChange={async (checked) => {
                   await fetcher.submit(
@@ -100,14 +117,6 @@ export function ExerciseCard({
                   {item.liftedReps} x {item.liftedWeight?.value} {weightUnit}
                 </span>
               </DialogEditSet>
-              {exerciseUsesPlates({ exercise }) && (
-                <Link
-                  to={"/app/settings/plates?" + searchParams.toString()}
-                  className="text-muted-foreground"
-                >
-                  {calcPlates(item.liftedWeight?.value || 0)}
-                </Link>
-              )}
             </div>
           </div>
         ))}
