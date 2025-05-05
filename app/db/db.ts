@@ -16,8 +16,7 @@ import { initWorkouts, type WorkoutsCollection } from "./workout";
 import { initHistory, type HistoryCollection } from "./history";
 
 // set by webpack as global
-const mode = process.env.NODE_ENV; //"production" | "development";
-console.log("mode: " + mode);
+const mode = process.env.NODE_ENV;
 
 // other plugins
 addRxPlugin(RxDBUpdatePlugin);

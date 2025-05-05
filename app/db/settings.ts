@@ -110,10 +110,10 @@ export const defaultSettings: SettingsDocType = {
   plates: [
     { weight: 2.5, count: 2 },
     { weight: 5, count: 2 },
-    { weight: 10, count: 2 },
+    { weight: 10, count: 4 },
     { weight: 25, count: 2 },
     { weight: 35, count: 2 },
-    { weight: 45, count: 2 },
+    { weight: 45, count: 4 },
   ],
   programId: "sl5x5",
 };
@@ -144,7 +144,7 @@ export async function initSettings(db: MyDatabase) {
       docData: SettingsDocType, // documents data
       doc: SettingsDocument // RxDocument
     ) {
-      console.log("insert to " + this.name + "-collection: " + doc.clientId);
+      // console.log("insert to " + this.name + "-collection: " + doc.clientId);
     },
     false // not async
   );

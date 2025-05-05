@@ -161,7 +161,7 @@ export async function initHistory(db: MyDatabase) {
       docData: HistoryDocType, // documents data
       doc: HistoryDocument // RxDocument
     ) {
-      console.log("insert to " + this.name + "-collection: " + doc.id);
+      // console.log("insert to " + this.name + "-collection: " + doc.id);
     },
     false // not async
   );

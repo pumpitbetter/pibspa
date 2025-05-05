@@ -269,7 +269,7 @@ export async function initPrograms(db: MyDatabase) {
       docData: ProgramsDocType, // documents data
       doc: ProgramsDocument // RxDocument
     ) {
-      console.log("insert to " + this.name + "-collection: " + doc.id);
+      // console.log("insert to " + this.name + "-collection: " + doc.id);
     },
     false // not async
   );

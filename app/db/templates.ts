@@ -169,7 +169,7 @@ export async function initTemplates(db: MyDatabase) {
       docData: TemplatesDocType, // documents data
       doc: TemplatesDocument // RxDocument
     ) {
-      console.log("insert to " + this.name + "-collection: " + doc.id);
+      // console.log("insert to " + this.name + "-collection: " + doc.id);
     },
     false // not async
   );

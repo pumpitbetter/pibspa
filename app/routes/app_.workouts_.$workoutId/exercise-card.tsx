@@ -6,6 +6,7 @@ import type { HistoryDocType } from "~/db/history";
 import { cn } from "~/lib/utils";
 import type { clientLoader } from "./route";
 import type { ExercisesDocType } from "~/db/exercises";
+import { useRestTime } from "~/lib/hooks";
 
 export function ExerciseCard({
   exercise,
@@ -23,7 +24,7 @@ export function ExerciseCard({
   setNextActiveItemId: (after: string) => void;
 }) {
   const fetcher = useFetcher();
-  const { settings } = useLoaderData<typeof clientLoader>();
+  const { startRest, stopRest } = useRestTime();
 
   return (
     <Card>
@@ -44,7 +45,6 @@ export function ExerciseCard({
             <div
               className="flex items-center px-3 gap-4"
               onClick={() => {
-                console.log("clicked", item.id);
                 setActiveItemId(item.id);
               }}
             >
@@ -57,8 +57,10 @@ export function ExerciseCard({
                 onCheckedChange={async (checked) => {
                   if (checked) {
                     setNextActiveItemId(item.id);
+                    startRest();
                   } else {
                     setActiveItemId(item.id);
+                    stopRest();
                   }
 
                   await fetcher.submit(

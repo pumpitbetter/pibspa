@@ -184,7 +184,7 @@ export async function initSets(db: MyDatabase) {
       docData: SetsDocType, // documents data
       doc: SetsDocument // RxDocument
     ) {
-      console.log("insert to " + this.name + "-collection: " + doc.id);
+      // console.log("insert to " + this.name + "-collection: " + doc.id);
     },
     false // not async
   );

@@ -115,7 +115,7 @@ export async function initRoutines(db: MyDatabase) {
       docData: RoutinesDocType, // documents data
       doc: RoutinesDocument // RxDocument
     ) {
-      console.log("insert to " + this.name + "-collection: " + doc.id);
+      // console.log("insert to " + this.name + "-collection: " + doc.id);
     },
     false // not async
   );

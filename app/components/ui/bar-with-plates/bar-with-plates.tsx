@@ -3,6 +3,7 @@ import { BarLeft } from "./bar-left";
 import { BarRight } from "./bar-right";
 import { Button } from "../button";
 import { Link } from "react-router";
+import { useRestTime } from "~/lib/hooks";
 
 const plateInfo = [
   {
@@ -72,11 +73,12 @@ export function BarWithPlates({
   plates: string | number[] | null;
   workoutId: string;
 }) {
+  const { formattedElapsedTime } = useRestTime();
   const searchParams = new URLSearchParams({
     back: "/app/workouts/" + workoutId,
   });
   return (
-    <div className="flex items-center gap-0.25 w-full px-1 text-white">
+    <div className="flex items-center justify-center gap-0.25 w-full px-1 text-white">
       <div className="flex-none">
         <div className="flex items-center gap-0.25">
           <div className="flex items-center justify-center h-[20px] min-w-[30px] rounded-l-xs text-sm font-medium bg-gray-500">
@@ -143,9 +145,19 @@ export function BarWithPlates({
           </div>
         </div>
       </div>
-      <div className="grow">
-        <div className="h-[10px] w-full bg-gray-500" />
-      </div>
+
+      {/* middle bar or elapsed time */}
+      {formattedElapsedTime === "0:00" && (
+        <div className="grow">
+          <div className="h-[10px] w-full bg-gray-500" />
+        </div>
+      )}
+
+      {formattedElapsedTime !== "0:00" && (
+        <div className="grow flex justify-center">{formattedElapsedTime}</div>
+      )}
+
+      {/* Right bar */}
       <div className="flex-none">
         <div className="flex-none flex items-center gap-0.25 ml-auto">
           <div className="flex items-center justify-center">

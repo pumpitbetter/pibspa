@@ -245,7 +245,7 @@ export async function initExercises(db: MyDatabase) {
       docData: ExercisesDocType, // documents data
       doc: ExercisesDocument // RxDocument
     ) {
-      console.log("insert to " + this.name + "-collection: " + doc.id);
+      // console.log("insert to " + this.name + "-collection: " + doc.id);
     },
     false // not async
   );
