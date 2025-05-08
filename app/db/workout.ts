@@ -33,6 +33,9 @@ export const workoutsSchemaLiteral = {
     },
     startedAt: {
       type: "number",
+      minimum: new Date(2025, 1, 1).valueOf(),
+      maximum: new Date(2125, 1, 1).valueOf(),
+      multipleOf: 1,
     },
     finishedAt: {
       type: ["number", "null"],
@@ -40,7 +43,7 @@ export const workoutsSchemaLiteral = {
     },
   },
   required: ["id", "programId", "name", "startedAt"],
-  indexes: ["programId"],
+  indexes: ["programId", "startedAt"],
 } as const; // <- It is important to set 'as const' to preserve the literal type
 
 const uid = new ShortUniqueId({ length: 16 });
