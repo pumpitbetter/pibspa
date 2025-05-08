@@ -1,10 +1,10 @@
 import { dbPromise } from "~/db/db";
 import type { Route } from "./+types/route";
-import { Header } from "~/components/Header";
-import { MainContent } from "~/components/MainContent";
-import { Page } from "~/components/Page";
-import { List } from "~/components/List";
-import { ListItem } from "~/components/ListItem";
+import { Header } from "~/components/header";
+import { MainContent } from "~/components/main-content";
+import { Page } from "~/components/page";
+import { List } from "~/components/list";
+import { ListItem } from "~/components/list-item";
 import { DialogWeightUnit } from "~/routes/app.settings/dialog-weight-unit";
 import { defaultSettings } from "~/db/settings";
 import { DialogBarbellWeight } from "./dialog-barbell-weight";

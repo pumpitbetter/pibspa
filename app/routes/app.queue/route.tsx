@@ -1,6 +1,6 @@
-import { Header } from "~/components/Header";
-import { MainContent } from "~/components/MainContent";
-import { Page } from "~/components/Page";
+import { Header } from "~/components/header";
+import { MainContent } from "~/components/main-content";
+import { Page } from "~/components/page";
 import { dbPromise } from "~/db/db";
 import { defaultProgram } from "~/db/programs";
 import type { Route } from "./+types/route";
@@ -15,7 +15,7 @@ import {
   cn,
   type GroupedWorkout,
 } from "~/lib/utils";
-import { List } from "~/components/List";
+import { List } from "~/components/list";
 import {
   Card,
   CardContent,

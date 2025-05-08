@@ -1,6 +1,6 @@
 import invariant from "tiny-invariant";
-import { MainContent } from "~/components/MainContent";
-import { Page } from "~/components/Page";
+import { MainContent } from "~/components/main-content";
+import { Page } from "~/components/page";
 import { dbPromise } from "~/db/db";
 import type { Route } from "./+types/route";
 import {
@@ -22,6 +22,7 @@ import { useState } from "react";
 import { ACTIVE_INFO_PANE_HEIGHT, ActiveInfoPane } from "./active-info-pane";
 import { WorkoutHeader } from "./workout-header";
 import { useActiveItem } from "./use-active-item-hook";
+import { useRestTime } from "~/lib/hooks";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -92,6 +93,7 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
   const { groupedWorkout, exercises, settings } = loaderData;
   const { workout, sets } = groupedWorkout;
   const [searchParams] = useSearchParams();
+  const { elapsedRestTime } = useRestTime();
 
   const { activeItemId, setActiveItemId, setNextActiveItemId } = useActiveItem(
     sets,
@@ -199,8 +201,9 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
         </div>
         {activeItem !== null &&
           activeItem !== undefined &&
-          activeExerciseBarWeight !== null &&
-          activeExerciseBarWeight !== 0 && (
+          ((activeExerciseBarWeight !== null &&
+            activeExerciseBarWeight !== 0) ||
+            elapsedRestTime != 0) && (
             <div>
               <div className={ACTIVE_INFO_PANE_HEIGHT}></div>
               <div
@@ -208,7 +211,7 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
               >
                 <ActiveInfoPane
                   item={activeItem}
-                  barWeight={activeExerciseBarWeight}
+                  barWeight={activeExerciseBarWeight || 0}
                   weight={activeItem.liftedWeight?.value ?? 0}
                   availablePlates={availablePlates}
                 />

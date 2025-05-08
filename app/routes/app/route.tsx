@@ -40,7 +40,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
       {activeWorkout && (
         <div className={`fixed bottom-[56px] right-0`}>
           <Link to={`/app/workouts/${activeWorkout.id}`}>
-            <Button className=" rounded-none rounded-tl-lg">
+            <Button className="min-h-[56px] rounded-none rounded-tl-lg">
               Continue Workout
             </Button>
           </Link>

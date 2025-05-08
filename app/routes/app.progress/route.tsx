@@ -1,6 +1,6 @@
-import { Header } from "~/components/Header";
-import { MainContent } from "~/components/MainContent";
-import { Page } from "~/components/Page";
+import { Header } from "~/components/header";
+import { MainContent } from "~/components/main-content";
+import { Page } from "~/components/page";
 
 export default function Progress() {
   return (

@@ -1,6 +1,6 @@
 import { EllipsisVertical } from "lucide-react";
-import { Header } from "~/components/Header";
-import { LinkBack } from "~/components/LinkBack";
+import { Header } from "~/components/header";
+import { LinkBack } from "~/components/link-back";
 import { useElapsedTime } from "~/lib/hooks";
 
 export function WorkoutHeader({

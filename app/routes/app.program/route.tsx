@@ -1,12 +1,12 @@
-import { Header } from "~/components/Header";
-import { List } from "~/components/List";
-import { MainContent } from "~/components/MainContent";
-import { Page } from "~/components/Page";
+import { Header } from "~/components/header";
+import { List } from "~/components/list";
+import { MainContent } from "~/components/main-content";
+import { Page } from "~/components/page";
 import { dbPromise } from "~/db/db";
 import { defaultProgram } from "~/db/programs";
 import type { Route } from "./+types/route";
 import { Link } from "react-router";
-import { ListItem } from "~/components/ListItem";
+import { ListItem } from "~/components/list-item";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { getExerciseById } from "~/lib/utils";
 import { DialogWeightEdit } from "./dialog-weight-edit";

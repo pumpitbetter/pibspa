@@ -1,16 +1,16 @@
-import { Header } from "~/components/Header";
-import { MainContent } from "~/components/MainContent";
-import { Page } from "~/components/Page";
+import { Header } from "~/components/header";
+import { MainContent } from "~/components/main-content";
+import { Page } from "~/components/page";
 import { dbPromise } from "~/db/db";
 import invariant from "tiny-invariant";
-import { List } from "~/components/List";
+import { List } from "~/components/list";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import {
   getExerciseById,
   groupCircuitsIntoSets,
   groupIntoCircuits,
 } from "~/lib/utils";
-import { LinkBack } from "~/components/LinkBack";
+import { LinkBack } from "~/components/link-back";
 import type { Route } from "./+types/route";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

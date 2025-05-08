@@ -1,6 +1,7 @@
 import { Link } from "react-router";
-import { BarWithPlates } from "~/components/ui/bar-with-plates/bar-with-plates";
+import { BarWithPlates } from "~/components/bar-with-plates";
 import type { HistoryDocType } from "~/db/history";
+import { useRestTime } from "~/lib/hooks";
 import { calculatePlates, cn } from "~/lib/utils";
 
 export const ACTIVE_INFO_PANE_HEIGHT = "min-h-[80px]";
@@ -16,6 +17,7 @@ export function ActiveInfoPane({
   weight: number;
   availablePlates: number[];
 }) {
+  const { elapsedRestTime } = useRestTime();
   const plates = barWeight
     ? calculatePlates({
         targetWeight: weight,
@@ -50,7 +52,7 @@ export function ActiveInfoPane({
         ACTIVE_INFO_PANE_HEIGHT
       )}
     >
-      {barWeight && (
+      {(barWeight || elapsedRestTime) && (
         <BarWithPlates
           barWeight={barWeight}
           plates={plates}
