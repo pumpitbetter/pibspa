@@ -7,6 +7,9 @@ import {
 } from "rxdb";
 import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
+import { madcowRoutines } from "./routines-madcow";
+import { five31Routines } from "./routines-five31";
+import { five31HypertrophyRoutines } from "./routines-five31-hypertrophy";
 
 export const routinesSchemaLiteral = {
   title: "routines schema",
@@ -86,147 +89,9 @@ export async function initRoutines(db: MyDatabase) {
     },
   });
 
-  // Madcow routines
-  await db.routines.insertIfNotExists({
-    id: "madcow-routine-1",
-    programId: "madcow",
-    name: "Routine A",
-    order: 1,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "madcow-routine-2",
-    programId: "madcow",
-    name: "Routine B",
-    order: 2,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "madcow-routine-3",
-    programId: "madcow",
-    name: "Routine C",
-    order: 3,
-  });
-
-  //
-  // Five31 routines
-  //
-
-  // Week 1
-  await db.routines.insertIfNotExists({
-    id: "531-1",
-    programId: "531",
-    name: "Day 1",
-    order: 1,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-2",
-    programId: "531",
-    name: "Day 2",
-    order: 2,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-3",
-    programId: "531",
-    name: "Day 3",
-    order: 3,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-4",
-    programId: "531",
-    name: "Day 4",
-    order: 4,
-  });
-
-  // Week 2
-  await db.routines.insertIfNotExists({
-    id: "531-5",
-    programId: "531",
-    name: "Day 5",
-    order: 5,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-6",
-    programId: "531",
-    name: "Day 6",
-    order: 6,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-7",
-    programId: "531",
-    name: "Day 7",
-    order: 7,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-8",
-    programId: "531",
-    name: "Day 8",
-    order: 8,
-  });
-
-  // Week 3
-  await db.routines.insertIfNotExists({
-    id: "531-9",
-    programId: "531",
-    name: "Day 9",
-    order: 9,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-10",
-    programId: "531",
-    name: "Day 10",
-    order: 10,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-11",
-    programId: "531",
-    name: "Day 11",
-    order: 11,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-12",
-    programId: "531",
-    name: "Day 12",
-    order: 12,
-  });
-
-  // Week 4
-  await db.routines.insertIfNotExists({
-    id: "531-13",
-    programId: "531",
-    name: "Day 13",
-    order: 13,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-14",
-    programId: "531",
-    name: "Day 14",
-    order: 14,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-15",
-    programId: "531",
-    name: "Day 15",
-    order: 15,
-  });
-
-  await db.routines.insertIfNotExists({
-    id: "531-16",
-    programId: "531",
-    name: "Day 16",
-    order: 16,
-  });
+  await db.routines.bulkInsert(madcowRoutines);
+  await db.routines.bulkInsert(five31Routines);
+  await db.routines.bulkInsert(five31HypertrophyRoutines);
 
   // add a postInsert-hook
   await db.routines.postInsert(

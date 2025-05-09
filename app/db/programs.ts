@@ -7,6 +7,11 @@ import {
 } from "rxdb";
 import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
+import { threeBy8 } from "./programs-threeBy8";
+import { fiveBy5 } from "./programs-fiveBy5";
+import { madcow } from "./programs-madcow";
+import { five31 } from "./programs-five31";
+import { five31Hypertrophy } from "./programs-five31-hypertrophy";
 
 export const programsSchemaLiteral = {
   title: "programs schema",
@@ -115,152 +120,6 @@ const programsCollectionMethods: ProgramsCollectionMethods = {
   },
 };
 
-const threeBy8: ProgramsDocType = {
-  id: "3x8",
-  name: "3x8",
-  description:
-    "A beginner strength program that emphasizes rapid progression by increasing weight every workout through three sets of five reps of key compound lifts like squats, bench press, and deadlifts.",
-  type: "strength",
-  level: "beginner",
-};
-
-const fiveBy5: ProgramsDocType = {
-  id: "5x5",
-  name: "5x5",
-  description:
-    "A beginner strength program that emphasizes rapid progression by increasing weight every workout through five sets of five reps of key compound lifts like squats, bench press, and deadlifts.",
-  type: "strength",
-  level: "beginner",
-};
-
-const madcow: ProgramsDocType = {
-  id: "madcow",
-  name: "Madcow 5x5",
-  description:
-    "An intermediate strength program with weekly progression increasing weight of compound lifts like squats, bench press, and deadlifts.",
-  type: "strength",
-  level: "intermediate",
-  exercises: [
-    {
-      exerciseId: "barbell-squat",
-      exerciseWeight: {
-        value: 75,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "barbell-bench-press",
-      exerciseWeight: {
-        value: 75,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "barbell-incline-bench-press",
-      exerciseWeight: {
-        value: 75,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "barbell-deadlift",
-      exerciseWeight: {
-        value: 75,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "barbell-row",
-      exerciseWeight: {
-        value: 75,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "barbell-curl",
-      exerciseWeight: {
-        value: 45,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "ezbar-skullcrusher",
-      exerciseWeight: {
-        value: 45,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "dips",
-      exerciseWeight: {
-        value: 0,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "hanging-knee-raise",
-      exerciseWeight: {
-        value: 0,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "pullups",
-      exerciseWeight: {
-        value: 0,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "planks",
-      exerciseWeight: {
-        value: 0,
-        units: "lbs",
-      },
-      duration: 30,
-    },
-  ],
-};
-
-const five31: ProgramsDocType = {
-  id: "531",
-  name: "5/3/1",
-  description:
-    "An intermediate strength program with progression increasing weight of compound lifts every 4 week cycle.",
-  type: "strength",
-  level: "intermediate",
-  exercises: [
-    {
-      exerciseId: "barbell-squat",
-      exerciseWeight: {
-        value: 135,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "barbell-bench-press",
-      exerciseWeight: {
-        value: 135,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "barbell-deadlift",
-      exerciseWeight: {
-        value: 135,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "barbell-overhead-press",
-      exerciseWeight: {
-        value: 65,
-        units: "lbs",
-      },
-    },
-  ],
-};
-
 export const defaultProgram = fiveBy5;
 
 export async function initPrograms(db: MyDatabase) {
@@ -277,6 +136,7 @@ export async function initPrograms(db: MyDatabase) {
   await db.programs.insertIfNotExists(threeBy8);
   await db.programs.insertIfNotExists(madcow);
   await db.programs.insertIfNotExists(five31);
+  await db.programs.insertIfNotExists(five31Hypertrophy);
 
   // add a postInsert-hook
   await db.programs.postInsert(

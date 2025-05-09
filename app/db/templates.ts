@@ -9,6 +9,7 @@ import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
 import { initMadcowTemplates } from "./templates-madcow";
 import { init531Templates } from "./templates-531";
+import { init531HypertrophyTemplates } from "./template-531-hypertrophy";
 
 // routine set template
 // belongs to a particular program > routine
@@ -163,6 +164,7 @@ export async function initTemplates(db: MyDatabase) {
   // generate initial templates
   await initMadcowTemplates(db);
   await init531Templates(db);
+  await init531HypertrophyTemplates(db);
 
   // add a postInsert-hook
   await db.templates.postInsert(

@@ -238,6 +238,24 @@ export async function initExercises(db: MyDatabase) {
     tags: ["isolation"],
   });
 
+  await db.exercises.insertIfNotExists({
+    id: "bumbbell-row-one-arm",
+    name: "Dumbbell Row (One Arm)",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["dumbbell", "flatbench"],
+    tags: ["compound", "primary"],
+  });
+
+  await db.exercises.insertIfNotExists({
+    id: "leg-curl",
+    name: "Leg Curl",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["machine"],
+    tags: ["compound", "primary"],
+  });
+
   // add a postInsert-hook
   await db.exercises.postInsert(
     function myPostInsertHook(
