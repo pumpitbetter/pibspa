@@ -18,14 +18,12 @@ export function DialogWeightEdit({
   programId,
   exerciseName,
   exerciseWeight,
-  increment,
 }: {
   children: React.ReactNode;
   exerciseId: string;
   programId: string;
   exerciseName: string;
   exerciseWeight: number;
-  increment: number;
 }) {
   const fetcher = useFetcher();
 
@@ -47,7 +45,7 @@ export function DialogWeightEdit({
           <input type="hidden" name="programId" value={programId} />
           <div className="flex flex-col gap-4">
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="weight">Max weight</Label>
+              <Label htmlFor="weight">Training Max Weight</Label>
               <Input
                 id="weight"
                 name="weight"
@@ -56,18 +54,6 @@ export function DialogWeightEdit({
                 pattern="\d*.*\d*"
                 placeholder=""
                 defaultValue={exerciseWeight}
-              />
-            </div>
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="increment">Increment</Label>
-              <Input
-                id="increment"
-                name="increment"
-                type="text"
-                inputMode="numeric"
-                pattern="\d*.*\d*"
-                placeholder=""
-                defaultValue={increment}
               />
             </div>
             <div className="flex justify-end gap-4">

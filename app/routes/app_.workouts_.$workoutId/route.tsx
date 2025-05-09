@@ -18,7 +18,6 @@ import { useFetcher, useSearchParams } from "react-router";
 import { DialogAlertDelete } from "./dialog-alert-delete";
 import { DialogAlertFinish } from "./dialog-alert-finish";
 import { DialogSummary } from "./dialog-summary";
-import { useState } from "react";
 import { ACTIVE_INFO_PANE_HEIGHT, ActiveInfoPane } from "./active-info-pane";
 import { WorkoutHeader } from "./workout-header";
 import { useActiveItem } from "./use-active-item-hook";
@@ -57,19 +56,15 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 
-type Intent =
-  | "completeWorkout"
-  | "editWorkout"
-  | "deleteWorkout"
-  | "finishWorkout";
+type Intent = "completeSet" | "editWorkout" | "deleteWorkout" | "finishWorkout";
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   const intent = formData.get("intent") as Intent;
 
   switch (intent) {
-    case "completeWorkout": {
-      await completeWorkout(formData);
+    case "completeSet": {
+      await completeSet(formData);
       break;
     }
     case "editWorkout": {
@@ -223,7 +218,7 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
   );
 }
 
-async function completeWorkout(formData: FormData) {
+async function completeSet(formData: FormData) {
   const completed = formData.get("completed") === "true";
   const setId = formData.get("setId") as string;
 
@@ -240,12 +235,10 @@ async function completeWorkout(formData: FormData) {
     .exec();
   invariant(template, "template not found");
 
-  // and the template load is 100%
   // and user is completing with target reps and weight achived
   // and the template indicates to progress
   // progress the weight
   if (
-    history.load === 1 &&
     template.progression?.increment?.value &&
     history.liftedReps &&
     history.liftedReps >= history.targetReps &&
@@ -271,7 +264,7 @@ async function completeWorkout(formData: FormData) {
             exerciseWeight: {
               value:
                 programExercise.exerciseWeight?.value +
-                (programExercise.increment || 0) *
+                (template.progression?.increment?.value || 0) *
                   (completed && history.completed === false ? 1 : -1),
               units: programExercise.exerciseWeight?.units,
             },

@@ -65,7 +65,7 @@ export function ExerciseCard({
 
                   await fetcher.submit(
                     {
-                      intent: "completeWorkout",
+                      intent: "completeSet",
                       setId: item.id,
                       completed: checked ? "true" : "false",
                     },

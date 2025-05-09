@@ -77,7 +77,7 @@ export async function clientLoader() {
 
   const exercises = await db.exercises.find().exec();
 
-  const count = 9; // Number of routines to generate in the queue
+  const count = 16; // Number of routines to generate in the queue
 
   const workouts = generateWorkoutsFromRoutines({
     routines,
@@ -171,7 +171,7 @@ export async function clientLoader() {
           exerciseId,
           load: set.load,
           units: settings?.weigthUnit ?? "lbs",
-          increment: exercise?.increment ?? 5, // TODO: fix this, it should be coming from program exercises progressions
+          increment: set?.progression?.increment?.value ?? 5,
           barWeight: settings?.barbellWeight ?? 0,
         });
       });

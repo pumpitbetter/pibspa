@@ -111,7 +111,7 @@ export function generateWorkoutsFromRoutines({
 
   // iterate from 0 to count going through the routines from beginning to end in round robin fashion adding each routine id to the queue
   for (let i = 0; i < count; ) {
-    for (let j = 0; j < routines.length && i < count; j++, i++) {
+    for (let j = 0; j < routines.length && i < count; j++) {
       const routine = routines[j];
       const routineId = routine.id;
       if (skip && routineId !== previousWorkout?.routineId) {
@@ -121,6 +121,7 @@ export function generateWorkoutsFromRoutines({
         if (null === previousWorkout?.finishedAt) {
           // active workout (not finished, so show it in the queue))
           queue.push(previousWorkout);
+          i++;
         }
         skip = false; // reset skip if we find a routine that is not the same as the previous workout
         continue;
@@ -132,6 +133,7 @@ export function generateWorkoutsFromRoutines({
         id: uuidv7(),
         startedAt: 0,
       });
+      i++;
     }
   }
 

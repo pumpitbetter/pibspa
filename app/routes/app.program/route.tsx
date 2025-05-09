@@ -46,7 +46,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const exerciseId = formData.get("exerciseId") as string;
   invariant(exerciseId, "Exercise ID is required");
   const weight = Number(formData.get("weight") as string) ?? 0;
-  const increment = Number(formData.get("increment") as string) ?? 5;
 
   const db = await dbPromise;
   const settings = await db.settings.findOne().exec();
@@ -70,7 +69,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
             value: weight,
             units: settings.weigthUnit,
           },
-          increment: increment,
         };
       }
       return item;
@@ -129,11 +127,10 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
                     programId={program.id}
                     exerciseName={exerciseName}
                     exerciseWeight={item.exerciseWeight.value}
-                    increment={item.increment ?? 5}
                   >
                     <ListItem
                       title={exerciseName}
-                      content={`${item.exerciseWeight.value} ${item.exerciseWeight.units} ( +${item.increment} )`}
+                      content={`${item.exerciseWeight.value} ${item.exerciseWeight.units}`}
                     />
                   </DialogWeightEdit>
                 );

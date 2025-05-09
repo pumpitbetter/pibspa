@@ -63,9 +63,6 @@ export const programsSchemaLiteral = {
             },
             required: ["value", "units"],
           },
-          increment: {
-            type: "number",
-          },
         },
         required: ["exerciseId", "exerciseWeight"],
       },
@@ -118,18 +115,18 @@ const programsCollectionMethods: ProgramsCollectionMethods = {
   },
 };
 
-const ss1: ProgramsDocType = {
-  id: "ss1",
-  name: "Starting Strength - Phase 1",
+const threeBy8: ProgramsDocType = {
+  id: "3x8",
+  name: "3x8",
   description:
     "A beginner strength program that emphasizes rapid progression by increasing weight every workout through three sets of five reps of key compound lifts like squats, bench press, and deadlifts.",
   type: "strength",
   level: "beginner",
 };
 
-const sl5x5: ProgramsDocType = {
-  id: "sl5x5",
-  name: "StrongLifts 5x5",
+const fiveBy5: ProgramsDocType = {
+  id: "5x5",
+  name: "5x5",
   description:
     "A beginner strength program that emphasizes rapid progression by increasing weight every workout through five sets of five reps of key compound lifts like squats, bench press, and deadlifts.",
   type: "strength",
@@ -150,7 +147,6 @@ const madcow: ProgramsDocType = {
         value: 75,
         units: "lbs",
       },
-      increment: 5,
     },
     {
       exerciseId: "barbell-bench-press",
@@ -158,7 +154,6 @@ const madcow: ProgramsDocType = {
         value: 75,
         units: "lbs",
       },
-      increment: 2.5,
     },
     {
       exerciseId: "barbell-incline-bench-press",
@@ -166,7 +161,6 @@ const madcow: ProgramsDocType = {
         value: 75,
         units: "lbs",
       },
-      increment: 2.5,
     },
     {
       exerciseId: "barbell-deadlift",
@@ -174,7 +168,6 @@ const madcow: ProgramsDocType = {
         value: 75,
         units: "lbs",
       },
-      increment: 5,
     },
     {
       exerciseId: "barbell-row",
@@ -182,7 +175,6 @@ const madcow: ProgramsDocType = {
         value: 75,
         units: "lbs",
       },
-      increment: 2.5,
     },
     {
       exerciseId: "barbell-curl",
@@ -190,7 +182,6 @@ const madcow: ProgramsDocType = {
         value: 45,
         units: "lbs",
       },
-      increment: 2.5,
     },
     {
       exerciseId: "ezbar-skullcrusher",
@@ -198,7 +189,6 @@ const madcow: ProgramsDocType = {
         value: 45,
         units: "lbs",
       },
-      increment: 2.5,
     },
     {
       exerciseId: "dips",
@@ -206,7 +196,6 @@ const madcow: ProgramsDocType = {
         value: 0,
         units: "lbs",
       },
-      increment: 5,
     },
     {
       exerciseId: "hanging-knee-raise",
@@ -214,7 +203,6 @@ const madcow: ProgramsDocType = {
         value: 0,
         units: "lbs",
       },
-      increment: 5,
     },
     {
       exerciseId: "pullups",
@@ -222,7 +210,6 @@ const madcow: ProgramsDocType = {
         value: 0,
         units: "lbs",
       },
-      increment: 5,
     },
     {
       exerciseId: "planks",
@@ -230,22 +217,51 @@ const madcow: ProgramsDocType = {
         value: 0,
         units: "lbs",
       },
-      increment: 5,
       duration: 30,
     },
   ],
 };
 
-const w531bbb: ProgramsDocType = {
-  id: "w531bbb",
-  name: "Wendler 5/3/1 - Boring But Big",
+const five31: ProgramsDocType = {
+  id: "531",
+  name: "5/3/1",
   description:
     "An intermediate strength program with progression increasing weight of compound lifts every 4 week cycle.",
   type: "strength",
   level: "intermediate",
+  exercises: [
+    {
+      exerciseId: "barbell-squat",
+      exerciseWeight: {
+        value: 135,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "barbell-bench-press",
+      exerciseWeight: {
+        value: 135,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "barbell-deadlift",
+      exerciseWeight: {
+        value: 135,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "barbell-overhead-press",
+      exerciseWeight: {
+        value: 65,
+        units: "lbs",
+      },
+    },
+  ],
 };
 
-export const defaultProgram = sl5x5;
+export const defaultProgram = fiveBy5;
 
 export async function initPrograms(db: MyDatabase) {
   await db.addCollections({
@@ -257,10 +273,10 @@ export async function initPrograms(db: MyDatabase) {
   });
 
   // generate initial programs
-  await db.programs.insertIfNotExists(sl5x5);
-  await db.programs.insertIfNotExists(ss1);
+  await db.programs.insertIfNotExists(fiveBy5);
+  await db.programs.insertIfNotExists(threeBy8);
   await db.programs.insertIfNotExists(madcow);
-  await db.programs.insertIfNotExists(w531bbb);
+  await db.programs.insertIfNotExists(five31);
 
   // add a postInsert-hook
   await db.programs.postInsert(
