@@ -14,6 +14,7 @@ import {
   progressProgramExercise,
   cn,
   type GroupedWorkout,
+  getBarWeight,
 } from "~/lib/utils";
 import { List } from "~/components/list";
 import {
@@ -35,6 +36,7 @@ import type { HistoryDocType } from "~/db/history";
 export async function clientLoader() {
   const db = await dbPromise;
   const settings = await db.settings.findOne().exec();
+  invariant(settings, "Settings not found.");
   const program = await db.programs
     .findOne({
       selector: {
@@ -172,7 +174,16 @@ export async function clientLoader() {
           load: set.load,
           units: settings?.weigthUnit ?? "lbs",
           increment: set?.progression?.increment?.value ?? 5,
-          barWeight: settings?.barbellWeight ?? 0,
+          barWeight:
+            exercises?.length && exerciseId?.length
+              ? getBarWeight({
+                  settings: settings?.toMutableJSON(),
+                  exercise: getExerciseById({
+                    exercises,
+                    exerciseId,
+                  })!.toMutableJSON(),
+                })
+              : 0,
         });
       });
     });

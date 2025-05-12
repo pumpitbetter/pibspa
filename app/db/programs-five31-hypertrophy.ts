@@ -9,7 +9,14 @@ export const five31Hypertrophy: ProgramsDocType = {
   level: "intermediate",
   exercises: [
     {
-      exerciseId: "barbell-squat",
+      exerciseId: "barbell-overhead-press",
+      exerciseWeight: {
+        value: 65,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "barbell-deadlift",
       exerciseWeight: {
         value: 135,
         units: "lbs",
@@ -23,16 +30,23 @@ export const five31Hypertrophy: ProgramsDocType = {
       },
     },
     {
-      exerciseId: "barbell-deadlift",
+      exerciseId: "barbell-squat",
       exerciseWeight: {
         value: 135,
         units: "lbs",
       },
     },
     {
-      exerciseId: "barbell-overhead-press",
+      exerciseId: "dumbbell-row-one-arm",
       exerciseWeight: {
-        value: 65,
+        value: 20,
+        units: "lbs",
+      },
+    },
+    {
+      exerciseId: "leg-curl",
+      exerciseWeight: {
+        value: 45,
         units: "lbs",
       },
     },
@@ -47,20 +61,6 @@ export const five31Hypertrophy: ProgramsDocType = {
       exerciseId: "hanging-knee-raise",
       exerciseWeight: {
         value: 0,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "bumbbell-row-one-arm",
-      exerciseWeight: {
-        value: 20,
-        units: "lbs",
-      },
-    },
-    {
-      exerciseId: "leg-curl",
-      exerciseWeight: {
-        value: 45,
         units: "lbs",
       },
     },

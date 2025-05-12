@@ -239,7 +239,7 @@ export async function initExercises(db: MyDatabase) {
   });
 
   await db.exercises.insertIfNotExists({
-    id: "bumbbell-row-one-arm",
+    id: "dumbbell-row-one-arm",
     name: "Dumbbell Row (One Arm)",
     type: "strength",
     track: ["weight"],
