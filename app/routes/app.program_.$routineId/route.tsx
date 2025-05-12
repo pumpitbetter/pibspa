@@ -14,6 +14,7 @@ import {
 } from "~/lib/utils";
 import { LinkBack } from "~/components/link-back";
 import type { Route } from "./+types/route";
+import { DialogRepsLoadEdit } from "./dialog-reps-load-edit";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -57,6 +58,22 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     program: program.toMutableJSON(),
     settings: settings.toMutableJSON(),
   };
+}
+
+type Intent = "editRoutine";
+
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  const formData = await request.formData();
+  const intent = formData.get("intent") as Intent;
+
+  switch (intent) {
+    case "editRoutine": {
+      await editRoutine(formData);
+      break;
+    }
+  }
+
+  return;
 }
 
 export default function Programroutine({ loaderData }: Route.ComponentProps) {
@@ -107,21 +124,25 @@ export default function Programroutine({ loaderData }: Route.ComponentProps) {
                           })
                         : { value: 0, units: settings.weigthUnit };
                       return (
-                        <div
+                        <DialogRepsLoadEdit
                           key={`${item.id}-${item.order}-${item.sequence}`}
-                          className="flex gap-2 py-3"
+                          templateId={item.id}
+                          reps={item.reps}
+                          load={item.load}
                         >
-                          <span>{item.reps} reps</span>
-                          <span>x</span>
-                          <span>{item.load * 100}%</span>
-                          <span className="text-on-surface-variant">/</span>
-                          <span className="text-on-surface-variant">
-                            {weight.value}
-                          </span>
-                          <span className="text-on-surface-variant">
-                            {programExercise?.exerciseWeight?.units}
-                          </span>
-                        </div>
+                          <div className="flex gap-2 py-3">
+                            <span>{item.reps} reps</span>
+                            <span>x</span>
+                            <span>{item.load * 100}%</span>
+                            <span className="text-on-surface-variant">/</span>
+                            <span className="text-on-surface-variant">
+                              {weight.value}
+                            </span>
+                            <span className="text-on-surface-variant">
+                              {programExercise?.exerciseWeight?.units}
+                            </span>
+                          </div>
+                        </DialogRepsLoadEdit>
                       );
                     })}
                   </CardContent>
@@ -134,4 +155,26 @@ export default function Programroutine({ loaderData }: Route.ComponentProps) {
       </MainContent>
     </Page>
   );
+}
+
+async function editRoutine(formData: FormData) {
+  const templateId = formData.get("templateId") as string;
+  invariant(templateId, "templateId not found");
+
+  const reps = Number(formData.get("reps") as string);
+  const load = Number(formData.get("load") as string);
+
+  const db = await dbPromise;
+
+  const template = await db.templates
+    .findOne({ selector: { id: templateId } })
+    .exec();
+  invariant(template, "template not found");
+
+  await template.update({
+    $set: {
+      load: load / 100,
+      reps: reps,
+    },
+  });
 }
