@@ -39,14 +39,14 @@ export const five31Hypertrophy: ProgramsDocType = {
     {
       exerciseId: "dumbbell-row-one-arm",
       exerciseWeight: {
-        value: 20,
+        value: 40,
         units: "lbs",
       },
     },
     {
       exerciseId: "leg-curl",
       exerciseWeight: {
-        value: 45,
+        value: 60,
         units: "lbs",
       },
     },
