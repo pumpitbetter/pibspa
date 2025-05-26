@@ -30,6 +30,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.85,
       reps: 5,
+      amrep: true,
     },
     // hypertrophy sets
     {
@@ -155,6 +156,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.85,
       reps: 5,
+      amrep: true,
     },
     // hypertrophy sets
     {
@@ -280,6 +282,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.85,
       reps: 5,
+      amrep: true,
     },
     // hypertrophy sets
     {
@@ -405,6 +408,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.85,
       reps: 5,
+      amrep: true,
     },
     // hypertrophy sets
     {
@@ -530,6 +534,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.9,
       reps: 3,
+      amrep: true,
     },
     // hypertrophy sets
     {
@@ -655,6 +660,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.9,
       reps: 3,
+      amrep: true,
     },
     // hypertrophy sets
     {
@@ -780,6 +786,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.9,
       reps: 3,
+      amrep: true,
     },
     // hypertrophy sets
     {
@@ -905,6 +912,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.9,
       reps: 3,
+      amrep: true,
     },
     // hypertrophy sets
     {
@@ -1030,6 +1038,21 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.95,
       reps: 1,
+      amrep: true,
+      progression: {
+        increment: {
+          value: 10,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+        },
+        decrement: {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+        },
+      },
     },
     // hypertrophy sets
     {
@@ -1155,6 +1178,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.95,
       reps: 1,
+      amrep: true,
       progression: {
         increment: {
           value: 10,
@@ -1294,6 +1318,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.95,
       reps: 1,
+      amrep: true,
       progression: {
         increment: {
           value: 10,
@@ -1433,6 +1458,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.95,
       reps: 1,
+      amrep: true,
       progression: {
         increment: {
           value: 10,
@@ -1572,6 +1598,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.6,
       reps: 5,
+      amrep: true,
     },
     // hypertrophy sets
     {
@@ -1697,6 +1724,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.6,
       reps: 5,
+      amrep: true,
     },
     // hypertrophy sets
     {
@@ -1822,6 +1850,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.6,
       reps: 5,
+      amrep: true,
     },
     // hypertrophy sets
     {
@@ -1947,6 +1976,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       order: 3,
       load: 0.6,
       reps: 5,
+      amrep: true,
     },
     // hypertrophy sets
     {

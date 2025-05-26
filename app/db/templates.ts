@@ -51,6 +51,10 @@ export const templatesSchemaLiteral = {
     reps: {
       type: "number",
     },
+    amrep: {
+      type: "boolean",
+      default: false,
+    },
     progression: {
       type: "object",
       properties: {

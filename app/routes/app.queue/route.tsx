@@ -227,6 +227,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
         exerciseId,
         load: set.load ?? 0,
         order: set.order ?? 0,
+        amrep: set.amrep ?? false,
         targetReps: set.reps ?? 5, // TODO: can this possibly ever be null?
         targetWeight: set.weight ?? { value: 0, units: "lbs" },
         liftedReps: set.reps ?? { value: 0, units: "lbs" },

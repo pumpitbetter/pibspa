@@ -80,7 +80,8 @@ export function ExerciseCard({
                 weight={item.liftedWeight?.value ?? 0}
               >
                 <span className="px-2 py-4">
-                  {item.liftedReps} x {item.liftedWeight?.value} {weightUnit}
+                  {item.liftedReps}
+                  {item.amrep && "+"} x {item.liftedWeight?.value} {weightUnit}
                 </span>
               </DialogEditSet>
             </div>

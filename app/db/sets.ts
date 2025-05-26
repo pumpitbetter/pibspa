@@ -65,6 +65,10 @@ export const setsSchemaLiteral = {
     reps: {
       type: "number",
     },
+    amrep: {
+      type: "boolean",
+      default: false,
+    },
     progression: {
       type: "object",
       properties: {

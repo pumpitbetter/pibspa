@@ -52,6 +52,10 @@ export const historySchemaLiteral = {
     load: {
       type: "number",
     },
+    amrep: {
+      type: "boolean",
+      default: false,
+    },
     targetWeight: {
       type: "object",
       properties: {
