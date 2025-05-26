@@ -10,6 +10,7 @@ import {
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { useFetcher, useNavigate } from "react-router";
+import { useRestTime } from "~/lib/hooks";
 
 export function DialogAlertFinish({
   workoutId,
@@ -20,6 +21,7 @@ export function DialogAlertFinish({
   setActiveItemId: (value: string | null) => void;
   children: React.ReactNode;
 }) {
+  const { stopRest } = useRestTime();
   const fetcher = useFetcher();
   const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ export function DialogAlertFinish({
             <AlertDialogAction
               onClick={async () => {
                 setActiveItemId(null);
+                stopRest();
                 await fetcher.submit(
                   {
                     intent: "finishWorkout",

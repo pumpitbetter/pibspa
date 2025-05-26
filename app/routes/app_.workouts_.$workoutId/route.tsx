@@ -88,7 +88,7 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
   const { groupedWorkout, exercises, settings } = loaderData;
   const { workout, sets } = groupedWorkout;
   const [searchParams] = useSearchParams();
-  const { elapsedRestTime } = useRestTime();
+  const { elapsedRestTime, stopRest } = useRestTime();
 
   const { activeItemId, setActiveItemId, setNextActiveItemId } = useActiveItem(
     sets,
@@ -133,6 +133,7 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
         to={searchParams.get("back") ?? "/app/queue"}
         title={workout.name}
         startedAt={workout.startedAt}
+        finishedAt={workout.finishedAt}
       />
       <MainContent>
         {Object.entries(sets).map(([exerciseId, exerciseSets]) => {
@@ -154,6 +155,7 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
                 activeItem={activeItem}
                 setActiveItemId={setActiveItemId}
                 setNextActiveItemId={setNextActiveItemId}
+                workoutFinished={!!workout.finishedAt}
               />
             </li>
           );
@@ -167,7 +169,7 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
               Delete
             </Button>
           </DialogAlertDelete>
-          {!allCompleted && (
+          {!allCompleted && !workout.finishedAt && (
             <DialogAlertFinish
               workoutId={workout.id}
               setActiveItemId={setActiveItemId}
@@ -180,6 +182,7 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
               <Button
                 onClick={async () => {
                   setActiveItemId(null);
+                  stopRest();
                   await fetcher.submit(
                     {
                       intent: "finishWorkout",

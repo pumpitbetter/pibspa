@@ -15,6 +15,7 @@ export function ExerciseCard({
   activeItem,
   setActiveItemId,
   setNextActiveItemId,
+  workoutFinished,
 }: {
   exercise: ExercisesDocType;
   sets: Array<HistoryDocType>;
@@ -22,6 +23,7 @@ export function ExerciseCard({
   activeItem: HistoryDocType | null | undefined;
   setActiveItemId: (value: string | null) => void;
   setNextActiveItemId: (after: string) => void;
+  workoutFinished: boolean;
 }) {
   const fetcher = useFetcher();
   const { startRest, stopRest } = useRestTime();
@@ -57,10 +59,10 @@ export function ExerciseCard({
                 onCheckedChange={async (checked) => {
                   if (checked) {
                     setNextActiveItemId(item.id);
-                    startRest();
+                    !workoutFinished && startRest();
                   } else {
                     setActiveItemId(item.id);
-                    stopRest();
+                    !workoutFinished && stopRest();
                   }
 
                   await fetcher.submit(

@@ -7,19 +7,24 @@ export function WorkoutHeader({
   to,
   title,
   startedAt,
+  finishedAt,
 }: {
   to: string;
   title: string;
   startedAt: number;
+  finishedAt?: number | null;
 }) {
   const { elapsedMinutes } = useElapsedTime(startedAt);
+  const length = finishedAt
+    ? Math.round((finishedAt - startedAt) / 60000)
+    : elapsedMinutes;
   return (
     <Header
       left={<LinkBack to={to} />}
       title={title}
       right={
         <div className="flex justify-end gap-4">
-          <div>{elapsedMinutes} mins</div>
+          <div>{length} mins</div>
           <div>
             <EllipsisVertical />
           </div>
