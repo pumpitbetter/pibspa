@@ -10,6 +10,7 @@ import { type MyDatabase } from "./db";
 import { madcowRoutines } from "./routines-madcow";
 import { five31Routines } from "./routines-five31";
 import { five31HypertrophyRoutines } from "./routines-five31-hypertrophy";
+import { five31TridentRoutines } from "./routines-five31-trident";
 
 export const routinesSchemaLiteral = {
   title: "routines schema",
@@ -92,6 +93,7 @@ export async function initRoutines(db: MyDatabase) {
   await db.routines.bulkInsert(madcowRoutines);
   await db.routines.bulkInsert(five31Routines);
   await db.routines.bulkInsert(five31HypertrophyRoutines);
+  await db.routines.bulkInsert(five31TridentRoutines);
 
   // add a postInsert-hook
   await db.routines.postInsert(

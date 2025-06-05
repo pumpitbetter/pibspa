@@ -167,6 +167,15 @@ export async function initExercises(db: MyDatabase) {
   });
 
   await db.exercises.insertIfNotExists({
+    id: "barbell-good-morning",
+    name: "Barbell Good Morning",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["barbell"],
+    tags: ["compound", "primary"],
+  });
+
+  await db.exercises.insertIfNotExists({
     id: "barbell-overhead-press",
     name: "Barbell Overhead Press",
     type: "strength",
@@ -250,6 +259,24 @@ export async function initExercises(db: MyDatabase) {
   await db.exercises.insertIfNotExists({
     id: "leg-curl",
     name: "Leg Curl",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["machine"],
+    tags: ["compound", "primary"],
+  });
+
+  await db.exercises.insertIfNotExists({
+    id: "dumbbell-bench-press",
+    name: "Dumbbell Bench Press",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["dumbbell", "flatbench"],
+    tags: ["compound", "primary"],
+  });
+
+  await db.exercises.insertIfNotExists({
+    id: "leg-press",
+    name: "Leg Press",
     type: "strength",
     track: ["weight"],
     equipment: ["machine"],

@@ -337,7 +337,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-3",
       exerciseId: "dumbbell-row-one-arm",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -346,7 +346,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-3",
       exerciseId: "dumbbell-row-one-arm",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -355,7 +355,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-3",
       exerciseId: "dumbbell-row-one-arm",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -364,7 +364,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-3",
       exerciseId: "dumbbell-row-one-arm",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -373,7 +373,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-3",
       exerciseId: "dumbbell-row-one-arm",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
 
@@ -589,7 +589,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-5",
       exerciseId: "pullups",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -598,7 +598,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-5",
       exerciseId: "pullups",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -607,7 +607,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-5",
       exerciseId: "pullups",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -616,7 +616,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-5",
       exerciseId: "pullups",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -625,7 +625,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-5",
       exerciseId: "pullups",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
 
@@ -715,7 +715,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-6",
       exerciseId: "hanging-knee-raise",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -724,7 +724,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-6",
       exerciseId: "hanging-knee-raise",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -733,7 +733,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-6",
       exerciseId: "hanging-knee-raise",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -742,7 +742,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-6",
       exerciseId: "hanging-knee-raise",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -751,7 +751,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-6",
       exerciseId: "hanging-knee-raise",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
 
@@ -967,7 +967,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-8",
       exerciseId: "leg-curl",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -976,7 +976,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-8",
       exerciseId: "leg-curl",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -985,7 +985,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-8",
       exerciseId: "leg-curl",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -994,7 +994,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-8",
       exerciseId: "leg-curl",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1003,7 +1003,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-8",
       exerciseId: "leg-curl",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
 
@@ -1107,7 +1107,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-9",
       exerciseId: "pullups",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1116,7 +1116,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-9",
       exerciseId: "pullups",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1125,7 +1125,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-9",
       exerciseId: "pullups",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1134,7 +1134,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-9",
       exerciseId: "pullups",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1143,7 +1143,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-9",
       exerciseId: "pullups",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
 
@@ -1247,7 +1247,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-10",
       exerciseId: "hanging-knee-raise",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1256,7 +1256,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-10",
       exerciseId: "hanging-knee-raise",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1265,7 +1265,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-10",
       exerciseId: "hanging-knee-raise",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1274,7 +1274,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-10",
       exerciseId: "hanging-knee-raise",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1283,7 +1283,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-10",
       exerciseId: "hanging-knee-raise",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
 
@@ -1387,7 +1387,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-11",
       exerciseId: "dumbbell-row-one-arm",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1396,7 +1396,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-11",
       exerciseId: "dumbbell-row-one-arm",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1405,7 +1405,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-11",
       exerciseId: "dumbbell-row-one-arm",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1414,7 +1414,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-11",
       exerciseId: "dumbbell-row-one-arm",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1423,7 +1423,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-11",
       exerciseId: "dumbbell-row-one-arm",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
 
@@ -1527,7 +1527,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-12",
       exerciseId: "leg-curl",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1536,7 +1536,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-12",
       exerciseId: "leg-curl",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1545,7 +1545,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-12",
       exerciseId: "leg-curl",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1554,7 +1554,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-12",
       exerciseId: "leg-curl",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1563,7 +1563,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-12",
       exerciseId: "leg-curl",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
 
@@ -1653,7 +1653,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-13",
       exerciseId: "pullups",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1662,7 +1662,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-13",
       exerciseId: "pullups",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1671,7 +1671,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-13",
       exerciseId: "pullups",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1680,7 +1680,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-13",
       exerciseId: "pullups",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1689,7 +1689,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-13",
       exerciseId: "pullups",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
 
@@ -1779,7 +1779,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-14",
       exerciseId: "hanging-knee-raise",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1788,7 +1788,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-14",
       exerciseId: "hanging-knee-raise",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1797,7 +1797,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-14",
       exerciseId: "hanging-knee-raise",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1806,7 +1806,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-14",
       exerciseId: "hanging-knee-raise",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1815,7 +1815,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-14",
       exerciseId: "hanging-knee-raise",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
 
@@ -1905,7 +1905,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-15",
       exerciseId: "dumbbell-row-one-arm",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1914,7 +1914,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-15",
       exerciseId: "dumbbell-row-one-arm",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1923,7 +1923,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-15",
       exerciseId: "dumbbell-row-one-arm",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1932,7 +1932,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-15",
       exerciseId: "dumbbell-row-one-arm",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -1941,7 +1941,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-15",
       exerciseId: "dumbbell-row-one-arm",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
 
@@ -2031,7 +2031,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-16",
       exerciseId: "leg-curl",
       order: 9,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -2040,7 +2040,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-16",
       exerciseId: "leg-curl",
       order: 10,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -2049,7 +2049,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-16",
       exerciseId: "leg-curl",
       order: 11,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -2058,7 +2058,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-16",
       exerciseId: "leg-curl",
       order: 12,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
     {
@@ -2067,7 +2067,7 @@ export async function init531HypertrophyTemplates(db: MyDatabase) {
       routineId: "531-hypertrophy-16",
       exerciseId: "leg-curl",
       order: 13,
-      load: 0.5,
+      load: 1,
       reps: 10,
     },
   ];
