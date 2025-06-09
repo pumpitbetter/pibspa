@@ -13,6 +13,8 @@ import { madcow } from "./programs-madcow";
 import { five31 } from "./programs-five31";
 import { five31Hypertrophy } from "./programs-five31-hypertrophy";
 import { five31Trident } from "./programs-five31-trident";
+import { Square } from "lucide-react";
+import { five31Fusion } from "./programs-five31-fusion";
 
 export const programsSchemaLiteral = {
   title: "programs schema",
@@ -139,6 +141,7 @@ export async function initPrograms(db: MyDatabase) {
   await db.programs.insertIfNotExists(five31);
   await db.programs.insertIfNotExists(five31Hypertrophy);
   await db.programs.insertIfNotExists(five31Trident);
+  await db.programs.insertIfNotExists(five31Fusion);
 
   // add a postInsert-hook
   await db.programs.postInsert(
