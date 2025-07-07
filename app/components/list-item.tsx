@@ -7,7 +7,7 @@ export function ListItem({
   onClick,
 }: {
   title: string;
-  content?: string;
+  content?: React.ReactNode;
   action?: React.ReactNode;
   onClick?: () => void;
 }) {
