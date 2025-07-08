@@ -31,11 +31,13 @@ export async function clientLoader() {
     })
     .exec();
   const exercises = await db.exercises.find().exec();
+  const templates = await db.templates.find().exec();
 
   return {
     program: program ? program.toMutableJSON() : defaultProgram,
     routines: routines ? routines.map((w) => w.toMutableJSON()) : [],
     exercises: exercises ? exercises.map((e) => e.toMutableJSON()) : [],
+    templates: templates ? templates.map((t) => t.toMutableJSON()) : [],
   };
 }
 
@@ -81,7 +83,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 }
 
 export default function Programs({ loaderData }: Route.ComponentProps) {
-  const { program, routines, exercises } = loaderData;
+  const { program, routines, exercises, templates } = loaderData;
 
   return (
     <Page>
@@ -103,11 +105,32 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
           {/*Templates Tab */}
           <TabsContent value="templates">
             <List>
-              {routines.map((routine) => (
-                <Link to={`${routine.id}`} key={routine.id}>
-                  <ListItem title={routine.name} />
-                </Link>
-              ))}
+              {routines.map((routine) => {
+                const routineTemplates = templates.filter(
+                  (t) => t.routineId === routine.id
+                );
+                const exerciseNames = [
+                  ...new Set(
+                    routineTemplates.map((t) => {
+                      return (
+                        getExerciseById({
+                          exercises,
+                          exerciseId: t.exerciseId,
+                        })?.name ?? t.exerciseId
+                      );
+                    })
+                  ),
+                ];
+
+                return (
+                  <Link to={`${routine.id}`} key={routine.id}>
+                    <ListItem
+                      title={routine.name}
+                      content={exerciseNames.join(", ")}
+                    />
+                  </Link>
+                );
+              })}
             </List>
           </TabsContent>
 
