@@ -126,11 +126,7 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
                   <Link to={`${routine.id}`} key={routine.id}>
                     <ListItem
                       title={routine.name}
-                      content={
-                        <span className="text-xs text-gray-500">
-                          {exerciseNames.join(", ")}
-                        </span>
-                      }
+                      content={exerciseNames.join(", ")}
                     />
                   </Link>
                 );
