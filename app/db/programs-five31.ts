@@ -7,6 +7,7 @@ export const five31: ProgramsDocType = {
     "An intermediate strength program with progression increasing weight of compound lifts every 4 week cycle.",
   type: "strength",
   level: "intermediate",
+  ownerId: "system",
   exercises: [
     {
       exerciseId: "barbell-squat",

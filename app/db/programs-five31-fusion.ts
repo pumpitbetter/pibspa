@@ -7,6 +7,7 @@ export const five31Fusion: ProgramsDocType = {
     "A 4-day per week strength program blending 5/3/1 progression for multiple compound lifts per session with focused pulling assistance. Designed for strength and time efficiency.",
   type: "strength",
   level: "intermediate", // Or "advanced" depending on the intensity and volume perception
+  ownerId: "system",
   exercises: [
     {
       exerciseId: "barbell-overhead-press", // Used in Day 1 & Day 3

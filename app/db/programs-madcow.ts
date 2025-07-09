@@ -7,6 +7,7 @@ export const madcow: ProgramsDocType = {
     "An intermediate strength program with weekly progression increasing weight of compound lifts like squats, bench press, and deadlifts.",
   type: "strength",
   level: "intermediate",
+  ownerId: "system",
   exercises: [
     {
       exerciseId: "barbell-squat",

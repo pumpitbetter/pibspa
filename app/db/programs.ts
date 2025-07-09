@@ -45,6 +45,10 @@ export const programsSchemaLiteral = {
       enum: ["beginner", "intermediate", "advanced"],
       default: "beginner",
     },
+    ownerId: {
+      type: "string",
+      maxLength: 100,
+    },
     exercises: {
       type: "array",
       items: {
@@ -77,7 +81,7 @@ export const programsSchemaLiteral = {
       default: [],
     },
   },
-  required: ["id", "name", "description", "type", "level"],
+  required: ["id", "name", "description", "type", "level", "ownerId"],
   //indexes: ["firstName"],
 } as const; // <- It is important to set 'as const' to preserve the literal type
 

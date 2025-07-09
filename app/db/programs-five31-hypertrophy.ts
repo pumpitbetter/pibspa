@@ -7,6 +7,7 @@ export const five31Hypertrophy: ProgramsDocType = {
     "An intermediate strength and bulking program with progression increasing weight of compound lifts every 4 week cycle.  The main strength lifts are followed by accessory volume work to promote muscle bulk.",
   type: "strength",
   level: "intermediate",
+  ownerId: "system",
   exercises: [
     {
       exerciseId: "barbell-overhead-press",

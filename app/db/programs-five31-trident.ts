@@ -7,6 +7,7 @@ export const five31Trident: ProgramsDocType = {
     "An intermediate strength program with progression increasing weight of compound lifts every 4 week cycle.  One big lift plus two complementary accessory lifts per session",
   type: "strength",
   level: "intermediate",
+  ownerId: "system",
   exercises: [
     {
       exerciseId: "barbell-overhead-press",
