@@ -4,6 +4,7 @@ import { Page } from "~/components/page";
 import { List } from "~/components/list";
 import { ListItem } from "~/components/list-item";
 import { dbPromise } from "~/db/db";
+import { useNavigate } from "react-router";
 import type { Route } from "./+types/route";
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
@@ -92,9 +93,10 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
 
 export default function Progress({ loaderData }: Route.ComponentProps) {
   const { exerciseResults } = loaderData;
+  const navigate = useNavigate();
 
   const handleExercisePress = (exerciseId: string, exerciseName: string) => {
-    console.log(`Pressed exercise: ${exerciseName} (ID: ${exerciseId})`);
+    navigate(`/app/progress/exercise/${exerciseId}`);
   };
 
   return (
