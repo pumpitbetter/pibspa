@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Header } from "~/components/header";
 import { MainContent } from "~/components/main-content";
 import { Page } from "~/components/page";
@@ -6,6 +7,10 @@ import { ListItem } from "~/components/list-item";
 import { dbPromise } from "~/db/db";
 import { useNavigate } from "react-router";
 import type { Route } from "./+types/route";
+import { Heart } from "lucide-react";
+import ShortUniqueId from "short-unique-id";
+
+const uid = new ShortUniqueId({ length: 10 });
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -22,6 +27,12 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
       },
     })
     .exec();
+
+  // Get all progress exercise favorites
+  const favorites = await db.progressExerciseFavorites.find().exec();
+  const favoriteExerciseIds = new Set(
+    favorites.map((fav) => fav.toMutableJSON().exerciseId)
+  );
 
   // Get all workouts to access their dates
   const workouts = await db.workouts.find().exec();
@@ -88,12 +99,55 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
 
   return {
     exerciseResults,
+    favoriteExerciseIds,
   };
 }
 
 export default function Progress({ loaderData }: Route.ComponentProps) {
-  const { exerciseResults } = loaderData;
+  const { exerciseResults, favoriteExerciseIds } = loaderData;
   const navigate = useNavigate();
+
+  // Sort exercises: favorites first (alphabetically), then non-favorites (alphabetically)
+  const [favorites, setFavorites] = useState<Set<string>>(
+    new Set(favoriteExerciseIds)
+  );
+
+  const toggleFavorite = async (exerciseId: string) => {
+    const db = await dbPromise;
+    const newFavorites = new Set(favorites);
+
+    if (favorites.has(exerciseId)) {
+      // Remove from favorites
+      newFavorites.delete(exerciseId);
+      const existingFavorite = await db.progressExerciseFavorites
+        .findOne({
+          selector: { exerciseId },
+        })
+        .exec();
+      if (existingFavorite) {
+        await existingFavorite.remove();
+      }
+    } else {
+      // Add to favorites
+      newFavorites.add(exerciseId);
+      await db.progressExerciseFavorites.insert({
+        id: uid.rnd(),
+        exerciseId,
+        createdAt: Date.now(),
+      });
+    }
+
+    setFavorites(newFavorites);
+  };
+
+  // Organize exercises into favorites and non-favorites
+  const favoriteExercises = exerciseResults
+    .filter((result) => favorites.has(result.exercise.id))
+    .sort((a, b) => a.exercise.name.localeCompare(b.exercise.name));
+
+  const nonFavoriteExercises = exerciseResults
+    .filter((result) => !favorites.has(result.exercise.id))
+    .sort((a, b) => a.exercise.name.localeCompare(b.exercise.name));
 
   const handleExercisePress = (exerciseId: string, exerciseName: string) => {
     navigate(`/app/progress/exercise/${exerciseId}`);
@@ -110,13 +164,53 @@ export default function Progress({ loaderData }: Route.ComponentProps) {
           </div>
         ) : (
           <List>
-            {exerciseResults.map((result) => (
+            {favoriteExercises.map((result) => (
               <ListItem
                 key={result.exercise.id}
                 title={result.exercise.name}
                 content={`${result.maxWeight} ${result.units}`}
                 onClick={() =>
                   handleExercisePress(result.exercise.id, result.exercise.name)
+                }
+                action={
+                  <Heart
+                    className={`w-6 h-6 ${
+                      favorites.has(result.exercise.id)
+                        ? "fill-tertiary text-tertiary"
+                        : "text-outline"
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(result.exercise.id);
+                    }}
+                  />
+                }
+              />
+            ))}
+            {favoriteExercises.length > 0 &&
+              nonFavoriteExercises.length > 0 && (
+                <div className="border-t border-b-outline-variant mx-4 my-2" />
+              )}
+            {nonFavoriteExercises.map((result) => (
+              <ListItem
+                key={result.exercise.id}
+                title={result.exercise.name}
+                content={`${result.maxWeight} ${result.units}`}
+                onClick={() =>
+                  handleExercisePress(result.exercise.id, result.exercise.name)
+                }
+                action={
+                  <Heart
+                    className={`w-6 h-6 ${
+                      favorites.has(result.exercise.id)
+                        ? "fill-tertiary text-tertiary"
+                        : "text-outline"
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(result.exercise.id);
+                    }}
+                  />
                 }
               />
             ))}
