@@ -3,7 +3,9 @@ import { MainContent } from "~/components/main-content";
 import { Page } from "~/components/page";
 import { LinkBack } from "~/components/link-back";
 import { ExerciseProgressChart } from "~/components/exercise-progress-chart";
+import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { dbPromise } from "~/db/db";
+import { useState, useMemo } from "react";
 
 interface LoaderArgs {
   params: {
@@ -115,6 +117,39 @@ interface ComponentProps {
 
 export default function ExerciseProgress({ loaderData }: ComponentProps) {
   const { exercise, chartData } = loaderData;
+  const [selectedTimeframe, setSelectedTimeframe] = useState("all");
+
+  // Filter chart data based on selected timeframe
+  const filteredChartData = useMemo(() => {
+    if (selectedTimeframe === "all") {
+      return chartData;
+    }
+
+    const now = new Date();
+    const cutoffDate = new Date();
+
+    switch (selectedTimeframe) {
+      case "1m":
+        cutoffDate.setMonth(now.getMonth() - 1);
+        break;
+      case "3m":
+        cutoffDate.setMonth(now.getMonth() - 3);
+        break;
+      case "6m":
+        cutoffDate.setMonth(now.getMonth() - 6);
+        break;
+      case "1y":
+        cutoffDate.setFullYear(now.getFullYear() - 1);
+        break;
+      default:
+        return chartData;
+    }
+
+    return chartData.filter(item => {
+      const itemDate = new Date(item.date);
+      return itemDate >= cutoffDate;
+    });
+  }, [chartData, selectedTimeframe]);
 
   return (
     <Page>
@@ -132,16 +167,35 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
               <p className="text-sm text-on-surface-variant mb-4">
                 Max weight lifted in each workout
               </p>
+              
+              {/* Time frame selector */}
+              <Tabs 
+                value={selectedTimeframe} 
+                onValueChange={setSelectedTimeframe}
+                className="w-full"
+              >
+                <TabsList className="grid w-full grid-cols-5">
+                  <TabsTrigger value="1m">1M</TabsTrigger>
+                  <TabsTrigger value="3m">3M</TabsTrigger>
+                  <TabsTrigger value="6m">6M</TabsTrigger>
+                  <TabsTrigger value="1y">1Y</TabsTrigger>
+                  <TabsTrigger value="all">All</TabsTrigger>
+                </TabsList>
+              </Tabs>
             </div>
+            
             <div className="w-full">
-              <ExerciseProgressChart data={chartData} />
+              <ExerciseProgressChart data={filteredChartData} />
             </div>
+            
             <div className="px-4 text-sm text-on-surface-variant">
-              <p>Total workouts: {chartData.length}</p>
-              {chartData.length > 0 && (
+              <p>
+                {selectedTimeframe === "all" ? "Total" : "Filtered"} workouts: {filteredChartData.length}
+              </p>
+              {filteredChartData.length > 0 && (
                 <p>
-                  Latest: {chartData[chartData.length - 1].weight}{" "}
-                  {chartData[chartData.length - 1].units}
+                  Latest: {filteredChartData[filteredChartData.length - 1].weight}{" "}
+                  {filteredChartData[filteredChartData.length - 1].units}
                 </p>
               )}
             </div>
