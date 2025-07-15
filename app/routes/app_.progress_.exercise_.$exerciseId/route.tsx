@@ -10,6 +10,28 @@ import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { dbPromise } from "~/db/db";
 import { useState, useMemo, useEffect, useRef } from "react";
 
+// Constants for timeframe filtering
+const TIMEFRAME_MONTHS = {
+  "1m": 1,
+  "3m": 3,
+  "6m": 6,
+  "1y": 12,
+} as const;
+
+type TimeframeKey = keyof typeof TIMEFRAME_MONTHS;
+
+// Utility function to get cutoff date for timeframe
+const getCutoffDate = (timeframe: string): Date | null => {
+  if (timeframe === "all") return null;
+  
+  const months = TIMEFRAME_MONTHS[timeframe as TimeframeKey];
+  if (!months) return null;
+  
+  const cutoffDate = new Date();
+  cutoffDate.setMonth(cutoffDate.getMonth() - months);
+  return cutoffDate;
+};
+
 interface LoaderArgs {
   params: {
     exerciseId: string;
@@ -50,27 +72,23 @@ export async function clientLoader({ params }: LoaderArgs) {
     workoutMap.set(workoutData.id, workoutData);
   });
 
-  // Process history to build chart data
-  const chartData = [];
-  const volumeData = [];
-  const workoutStats = new Map<
-    string,
-    { maxWeight: number; date: number; units: string; workoutName: string }
-  >();
-  const workoutVolumes = new Map<
-    string,
-    { totalVolume: number; date: number; units: string; workoutName: string }
-  >();
-  const workoutReps = new Map<
-    string,
-    { totalReps: number; date: number; workoutName: string }
-  >();
-  const workoutOneRMs = new Map<
-    string,
-    { maxOneRM: number; date: number; units: string; workoutName: string }
-  >();
+  // Process history to build aggregated workout data
+  const workoutAggregates = new Map<string, {
+    maxWeight: number;
+    totalVolume: number;
+    totalReps: number;
+    maxOneRM: number;
+    date: number;
+    units: string;
+    workoutName: string;
+  }>();
 
-  // Group by workout and find max weight per workout + calculate volume + calculate reps + calculate 1RM
+  // Helper function to calculate 1RM using Brzycki formula
+  const calculateOneRM = (weight: number, reps: number): number => {
+    return reps <= 15 ? weight * (36 / (37 - reps)) : 0;
+  };
+
+  // Single pass through history entries to aggregate all data
   for (const entry of historyEntries) {
     const historyData = entry.toMutableJSON();
 
@@ -85,105 +103,66 @@ export async function clientLoader({ params }: LoaderArgs) {
       const currentUnits = historyData.liftedWeight.units;
       const currentReps = historyData.liftedReps;
       const setVolume = currentWeight * currentReps;
+      const calculatedOneRM = calculateOneRM(currentWeight, currentReps);
 
       const workout = workoutMap.get(workoutId);
       if (workout) {
         const workoutDate = workout.startedAt || 0;
         const workoutName = workout.name || "Workout";
 
-        // Update max weight tracking
-        const existing = workoutStats.get(workoutId);
-        if (!existing || currentWeight > existing.maxWeight) {
-          workoutStats.set(workoutId, {
+        const existing = workoutAggregates.get(workoutId);
+        if (!existing) {
+          workoutAggregates.set(workoutId, {
             maxWeight: currentWeight,
-            date: workoutDate,
-            units: currentUnits,
-            workoutName: workoutName,
-          });
-        }
-
-        // Update volume tracking
-        const existingVolume = workoutVolumes.get(workoutId);
-        if (!existingVolume) {
-          workoutVolumes.set(workoutId, {
             totalVolume: setVolume,
+            totalReps: currentReps,
+            maxOneRM: calculatedOneRM,
             date: workoutDate,
             units: currentUnits,
             workoutName: workoutName,
           });
         } else {
-          existingVolume.totalVolume += setVolume;
-        }
-
-        // Update reps tracking
-        const existingReps = workoutReps.get(workoutId);
-        if (!existingReps) {
-          workoutReps.set(workoutId, {
-            totalReps: currentReps,
-            date: workoutDate,
-            workoutName: workoutName,
-          });
-        } else {
-          existingReps.totalReps += currentReps;
-        }
-
-        // Calculate and update 1RM tracking using Brzycki formula
-        // 1RM = weight × (36 / (37 - reps))
-        // Only calculate if reps <= 15 for accuracy
-        if (currentReps <= 15) {
-          const calculatedOneRM = currentWeight * (36 / (37 - currentReps));
-          const existingOneRM = workoutOneRMs.get(workoutId);
-          if (!existingOneRM || calculatedOneRM > existingOneRM.maxOneRM) {
-            workoutOneRMs.set(workoutId, {
-              maxOneRM: calculatedOneRM,
-              date: workoutDate,
-              units: currentUnits,
-              workoutName: workoutName,
-            });
-          }
+          existing.maxWeight = Math.max(existing.maxWeight, currentWeight);
+          existing.totalVolume += setVolume;
+          existing.totalReps += currentReps;
+          existing.maxOneRM = Math.max(existing.maxOneRM, calculatedOneRM);
         }
       }
     }
   }
 
-  // Convert to chart data format and sort by date
-  const chartDataArray = Array.from(workoutStats.values())
-    .sort((a, b) => a.date - b.date)
-    .map((stat) => ({
-      date: new Date(stat.date).toLocaleDateString(),
-      weight: stat.maxWeight,
-      units: stat.units,
-      workoutName: stat.workoutName,
-    }));
+  // Helper function to create chart data from aggregated workout data
+  const createChartDataArrays = (aggregates: Map<string, any>) => {
+    const sortedAggregates = Array.from(aggregates.values()).sort((a, b) => a.date - b.date);
+    
+    return {
+      chartData: sortedAggregates.map((stat) => ({
+        date: new Date(stat.date).toLocaleDateString(),
+        weight: stat.maxWeight,
+        units: stat.units,
+        workoutName: stat.workoutName,
+      })),
+      volumeData: sortedAggregates.map((stat) => ({
+        date: new Date(stat.date).toLocaleDateString(),
+        volume: stat.totalVolume,
+        units: stat.units,
+        workoutName: stat.workoutName,
+      })),
+      repsData: sortedAggregates.map((stat) => ({
+        date: new Date(stat.date).toLocaleDateString(),
+        reps: stat.totalReps,
+        workoutName: stat.workoutName,
+      })),
+      oneRMData: sortedAggregates.map((stat) => ({
+        date: new Date(stat.date).toLocaleDateString(),
+        oneRM: Math.round(stat.maxOneRM * 100) / 100,
+        units: stat.units,
+        workoutName: stat.workoutName,
+      })),
+    };
+  };
 
-  // Convert volume data to chart format
-  const volumeDataArray = Array.from(workoutVolumes.values())
-    .sort((a, b) => a.date - b.date)
-    .map((stat) => ({
-      date: new Date(stat.date).toLocaleDateString(),
-      volume: stat.totalVolume,
-      units: stat.units,
-      workoutName: stat.workoutName,
-    }));
-
-  // Convert reps data to chart format
-  const repsDataArray = Array.from(workoutReps.values())
-    .sort((a, b) => a.date - b.date)
-    .map((stat) => ({
-      date: new Date(stat.date).toLocaleDateString(),
-      reps: stat.totalReps,
-      workoutName: stat.workoutName,
-    }));
-
-  // Convert 1RM data to chart format
-  const oneRMDataArray = Array.from(workoutOneRMs.values())
-    .sort((a, b) => a.date - b.date)
-    .map((stat) => ({
-      date: new Date(stat.date).toLocaleDateString(),
-      oneRM: Math.round(stat.maxOneRM * 100) / 100, // Round to 2 decimal places
-      units: stat.units,
-      workoutName: stat.workoutName,
-    }));
+  const { chartData: chartDataArray, volumeData: volumeDataArray, repsData: repsDataArray, oneRMData: oneRMDataArray } = createChartDataArrays(workoutAggregates);
 
   return {
     exercise: exercise.toMutableJSON(),
@@ -226,6 +205,46 @@ interface ComponentProps {
   };
 }
 
+// Statistics component for displaying latest workout stats
+interface StatisticsProps {
+  selectedTimeframe: string;
+  chartData: any[];
+  volumeData: any[];
+  repsData: any[];
+  oneRMData: any[];
+}
+
+function WorkoutStatistics({ selectedTimeframe, chartData, volumeData, repsData, oneRMData }: StatisticsProps) {
+  if (chartData.length === 0) return null;
+
+  const latest = {
+    weight: chartData[chartData.length - 1],
+    volume: volumeData[volumeData.length - 1],
+    reps: repsData[repsData.length - 1],
+    oneRM: oneRMData[oneRMData.length - 1],
+  };
+
+  return (
+    <div className="px-4 text-sm text-on-surface-variant">
+      <p>
+        {selectedTimeframe === "all" ? "Total" : "Filtered"} workouts: {chartData.length}
+      </p>
+      <div className="space-y-1">
+        <p>Latest Max Weight: {latest.weight.weight} {latest.weight.units}</p>
+        {latest.volume && (
+          <p>Latest Volume: {latest.volume.volume.toLocaleString()} {latest.volume.units}</p>
+        )}
+        {latest.reps && (
+          <p>Latest Reps: {latest.reps.reps.toLocaleString()}</p>
+        )}
+        {latest.oneRM && (
+          <p>Latest Est. 1RM: {latest.oneRM.oneRM} {latest.oneRM.units}</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function ExerciseProgress({ loaderData }: ComponentProps) {
   const { exercise, chartData, volumeData, repsData, oneRMData } = loaderData;
   const [selectedTimeframe, setSelectedTimeframe] = useState("all");
@@ -251,45 +270,14 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
 
   // Filter all data based on selected timeframe
   const filteredData = useMemo(() => {
-    if (selectedTimeframe === "all") {
-      return {
-        chartData,
-        volumeData,
-        repsData,
-        oneRMData,
-      };
-    }
-
-    const now = new Date();
-    const cutoffDate = new Date();
-
-    switch (selectedTimeframe) {
-      case "1m":
-        cutoffDate.setMonth(now.getMonth() - 1);
-        break;
-      case "3m":
-        cutoffDate.setMonth(now.getMonth() - 3);
-        break;
-      case "6m":
-        cutoffDate.setMonth(now.getMonth() - 6);
-        break;
-      case "1y":
-        cutoffDate.setFullYear(now.getFullYear() - 1);
-        break;
-      default:
-        return {
-          chartData,
-          volumeData,
-          repsData,
-          oneRMData,
-        };
+    const cutoffDate = getCutoffDate(selectedTimeframe);
+    
+    if (!cutoffDate) {
+      return { chartData, volumeData, repsData, oneRMData };
     }
 
     const filterByDate = <T extends { date: string }>(data: T[]): T[] =>
-      data.filter((item) => {
-        const itemDate = new Date(item.date);
-        return itemDate >= cutoffDate;
-      });
+      data.filter((item) => new Date(item.date) >= cutoffDate);
 
     return {
       chartData: filterByDate(chartData),
@@ -364,48 +352,13 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
                 <ExerciseOneRMChart data={filteredOneRMData} />
               </div>
 
-              <div className="px-4 text-sm text-on-surface-variant">
-                <p>
-                  {selectedTimeframe === "all" ? "Total" : "Filtered"} workouts:{" "}
-                  {filteredChartData.length}
-                </p>
-                {filteredChartData.length > 0 && (
-                  <div className="space-y-1">
-                    <p>
-                      Latest Max Weight:{" "}
-                      {filteredChartData[filteredChartData.length - 1].weight}{" "}
-                      {filteredChartData[filteredChartData.length - 1].units}
-                    </p>
-                    {filteredVolumeData.length > 0 && (
-                      <p>
-                        Latest Volume:{" "}
-                        {filteredVolumeData[
-                          filteredVolumeData.length - 1
-                        ].volume.toLocaleString()}{" "}
-                        {
-                          filteredVolumeData[filteredVolumeData.length - 1]
-                            .units
-                        }
-                      </p>
-                    )}
-                    {filteredRepsData.length > 0 && (
-                      <p>
-                        Latest Reps:{" "}
-                        {filteredRepsData[
-                          filteredRepsData.length - 1
-                        ].reps.toLocaleString()}
-                      </p>
-                    )}
-                    {filteredOneRMData.length > 0 && (
-                      <p>
-                        Latest Est. 1RM:{" "}
-                        {filteredOneRMData[filteredOneRMData.length - 1].oneRM}{" "}
-                        {filteredOneRMData[filteredOneRMData.length - 1].units}
-                      </p>
-                    )}
-                  </div>
-                )}
-              </div>
+              <WorkoutStatistics
+                selectedTimeframe={selectedTimeframe}
+                chartData={filteredChartData}
+                volumeData={filteredVolumeData}
+                repsData={filteredRepsData}
+                oneRMData={filteredOneRMData}
+              />
             </div>
           </div>
         </div>
