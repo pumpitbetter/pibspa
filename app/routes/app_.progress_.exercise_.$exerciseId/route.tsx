@@ -4,6 +4,7 @@ import { Page } from "~/components/page";
 import { LinkBack } from "~/components/link-back";
 import { ExerciseProgressChart } from "~/components/exercise-progress-chart";
 import { ExerciseVolumeChart } from "~/components/exercise-volume-chart";
+import { ExerciseRepsChart } from "~/components/exercise-reps-chart";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { dbPromise } from "~/db/db";
 import { useState, useMemo } from "react";
@@ -59,8 +60,12 @@ export async function clientLoader({ params }: LoaderArgs) {
     string,
     { totalVolume: number; date: number; units: string; workoutName: string }
   >();
+  const workoutReps = new Map<
+    string,
+    { totalReps: number; date: number; workoutName: string }
+  >();
 
-  // Group by workout and find max weight per workout + calculate volume
+  // Group by workout and find max weight per workout + calculate volume + calculate reps
   for (const entry of historyEntries) {
     const historyData = entry.toMutableJSON();
 
@@ -104,6 +109,18 @@ export async function clientLoader({ params }: LoaderArgs) {
         } else {
           existingVolume.totalVolume += setVolume;
         }
+
+        // Update reps tracking
+        const existingReps = workoutReps.get(workoutId);
+        if (!existingReps) {
+          workoutReps.set(workoutId, {
+            totalReps: currentReps,
+            date: workoutDate,
+            workoutName: workoutName,
+          });
+        } else {
+          existingReps.totalReps += currentReps;
+        }
       }
     }
   }
@@ -128,10 +145,20 @@ export async function clientLoader({ params }: LoaderArgs) {
       workoutName: stat.workoutName,
     }));
 
+  // Convert reps data to chart format
+  const repsDataArray = Array.from(workoutReps.values())
+    .sort((a, b) => a.date - b.date)
+    .map((stat) => ({
+      date: new Date(stat.date).toLocaleDateString(),
+      reps: stat.totalReps,
+      workoutName: stat.workoutName,
+    }));
+
   return {
     exercise: exercise.toMutableJSON(),
     chartData: chartDataArray,
     volumeData: volumeDataArray,
+    repsData: repsDataArray,
   };
 }
 
@@ -153,11 +180,16 @@ interface ComponentProps {
       units: string;
       workoutName: string;
     }>;
+    repsData: Array<{
+      date: string;
+      reps: number;
+      workoutName: string;
+    }>;
   };
 }
 
 export default function ExerciseProgress({ loaderData }: ComponentProps) {
-  const { exercise, chartData, volumeData } = loaderData;
+  const { exercise, chartData, volumeData, repsData } = loaderData;
   const [selectedTimeframe, setSelectedTimeframe] = useState("all");
 
   // Filter chart data based on selected timeframe
@@ -224,6 +256,38 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
     });
   }, [volumeData, selectedTimeframe]);
 
+  // Filter reps data based on selected timeframe
+  const filteredRepsData = useMemo(() => {
+    if (selectedTimeframe === "all") {
+      return repsData;
+    }
+
+    const now = new Date();
+    const cutoffDate = new Date();
+
+    switch (selectedTimeframe) {
+      case "1m":
+        cutoffDate.setMonth(now.getMonth() - 1);
+        break;
+      case "3m":
+        cutoffDate.setMonth(now.getMonth() - 3);
+        break;
+      case "6m":
+        cutoffDate.setMonth(now.getMonth() - 6);
+        break;
+      case "1y":
+        cutoffDate.setFullYear(now.getFullYear() - 1);
+        break;
+      default:
+        return repsData;
+    }
+
+    return repsData.filter((item) => {
+      const itemDate = new Date(item.date);
+      return itemDate >= cutoffDate;
+    });
+  }, [repsData, selectedTimeframe]);
+
   return (
     <Page>
       <Header title={exercise.name} left={<LinkBack to="/app/progress" />} />
@@ -252,7 +316,7 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
               </Tabs>
             </div>
 
-            <p className="text-sm text-on-surface-variant mb-4 px-6">
+            <p className="text-sm text-on-surface-variant mb-4 px-6 pt-6">
               Max weight lifted in each workout:
             </p>
             <div className="w-full">
@@ -264,6 +328,13 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
             </p>
             <div className="w-full">
               <ExerciseVolumeChart data={filteredVolumeData} />
+            </div>
+
+            <p className="text-sm text-on-surface-variant mb-4 px-6 mt-8">
+              Total reps lifted in each workout:
+            </p>
+            <div className="w-full">
+              <ExerciseRepsChart data={filteredRepsData} />
             </div>
 
             <div className="px-4 text-sm text-on-surface-variant">
@@ -281,8 +352,18 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
                   {filteredVolumeData.length > 0 && (
                     <p>
                       Latest Volume:{" "}
-                      {filteredVolumeData[filteredVolumeData.length - 1].volume.toLocaleString()}{" "}
+                      {filteredVolumeData[
+                        filteredVolumeData.length - 1
+                      ].volume.toLocaleString()}{" "}
                       {filteredVolumeData[filteredVolumeData.length - 1].units}
+                    </p>
+                  )}
+                  {filteredRepsData.length > 0 && (
+                    <p>
+                      Latest Reps:{" "}
+                      {filteredRepsData[
+                        filteredRepsData.length - 1
+                      ].reps.toLocaleString()}
                     </p>
                   )}
                 </div>
