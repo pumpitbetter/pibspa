@@ -145,7 +145,7 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
         return chartData;
     }
 
-    return chartData.filter(item => {
+    return chartData.filter((item) => {
       const itemDate = new Date(item.date);
       return itemDate >= cutoffDate;
     });
@@ -163,14 +163,9 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
         ) : (
           <div className="space-y-4">
             <div className="px-4">
-              <h2 className="text-lg font-semibold mb-2">Progress Over Time</h2>
-              <p className="text-sm text-on-surface-variant mb-4">
-                Max weight lifted in each workout
-              </p>
-              
               {/* Time frame selector */}
-              <Tabs 
-                value={selectedTimeframe} 
+              <Tabs
+                value={selectedTimeframe}
                 onValueChange={setSelectedTimeframe}
                 className="w-full"
               >
@@ -183,18 +178,23 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
                 </TabsList>
               </Tabs>
             </div>
-            
+
+            <p className="text-sm text-on-surface-variant mb-4 px-6">
+              Max weight lifted in each workout:
+            </p>
             <div className="w-full">
               <ExerciseProgressChart data={filteredChartData} />
             </div>
-            
+
             <div className="px-4 text-sm text-on-surface-variant">
               <p>
-                {selectedTimeframe === "all" ? "Total" : "Filtered"} workouts: {filteredChartData.length}
+                {selectedTimeframe === "all" ? "Total" : "Filtered"} workouts:{" "}
+                {filteredChartData.length}
               </p>
               {filteredChartData.length > 0 && (
                 <p>
-                  Latest: {filteredChartData[filteredChartData.length - 1].weight}{" "}
+                  Latest:{" "}
+                  {filteredChartData[filteredChartData.length - 1].weight}{" "}
                   {filteredChartData[filteredChartData.length - 1].units}
                 </p>
               )}
