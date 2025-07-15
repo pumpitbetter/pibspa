@@ -1,7 +1,7 @@
 import React from "react";
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -15,31 +15,32 @@ import {
 } from "~/components/ui/chart";
 import { cn } from "~/lib/utils";
 
-interface ExerciseProgressChartProps {
+interface ExerciseVolumeChartProps {
   data: Array<{
     date: string;
-    weight: number;
+    volume: number;
+    units: string;
     workoutName?: string;
   }>;
   className?: string;
 }
 
 const chartConfig = {
-  weight: {
-    label: "Weight",
-    color: "hsl(var(--tertiary))",
+  volume: {
+    label: "Volume",
+    color: "hsl(var(--primary))",
   },
 };
 
-export function ExerciseProgressChart({
+export function ExerciseVolumeChart({
   data,
   className,
-}: ExerciseProgressChartProps) {
+}: ExerciseVolumeChartProps) {
   return (
     <div className={cn("w-full", className)}>
       <ChartContainer config={chartConfig} className="h-[400px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
+          <BarChart
             data={data}
             margin={{
               top: 20,
@@ -72,7 +73,7 @@ export function ExerciseProgressChart({
                         <div className="space-y-1">
                           <p className="font-medium">{label}</p>
                           <p className="text-sm">
-                            Weight: {payload[0].value}{" "}
+                            Volume: {payload[0].value?.toLocaleString()}{" "}
                             {payload[0].payload.units || "lbs"}
                           </p>
                           {payload[0].payload.workoutName && (
@@ -88,15 +89,12 @@ export function ExerciseProgressChart({
                 return null;
               }}
             />
-            <Line
-              type="monotone"
-              dataKey="weight"
-              stroke="var(--tertiary)"
-              strokeWidth={2}
-              dot={{ fill: "var(--tertiary)", strokeWidth: 2, r: 4 }}
-              activeDot={{ r: 6, stroke: "var(--tertiary)", strokeWidth: 2 }}
+            <Bar
+              dataKey="volume"
+              fill="var(--tertiary)"
+              radius={[4, 4, 0, 0]}
             />
-          </LineChart>
+          </BarChart>
         </ResponsiveContainer>
       </ChartContainer>
     </div>

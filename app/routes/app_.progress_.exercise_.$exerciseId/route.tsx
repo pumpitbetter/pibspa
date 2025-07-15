@@ -3,6 +3,7 @@ import { MainContent } from "~/components/main-content";
 import { Page } from "~/components/page";
 import { LinkBack } from "~/components/link-back";
 import { ExerciseProgressChart } from "~/components/exercise-progress-chart";
+import { ExerciseVolumeChart } from "~/components/exercise-volume-chart";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { dbPromise } from "~/db/db";
 import { useState, useMemo } from "react";
@@ -49,28 +50,38 @@ export async function clientLoader({ params }: LoaderArgs) {
 
   // Process history to build chart data
   const chartData = [];
+  const volumeData = [];
   const workoutStats = new Map<
     string,
     { maxWeight: number; date: number; units: string; workoutName: string }
   >();
+  const workoutVolumes = new Map<
+    string,
+    { totalVolume: number; date: number; units: string; workoutName: string }
+  >();
 
-  // Group by workout and find max weight per workout
+  // Group by workout and find max weight per workout + calculate volume
   for (const entry of historyEntries) {
     const historyData = entry.toMutableJSON();
 
     if (
       historyData.liftedWeight?.value !== undefined &&
-      historyData.liftedWeight.value >= 0
+      historyData.liftedWeight.value >= 0 &&
+      historyData.liftedReps !== undefined &&
+      historyData.liftedReps > 0
     ) {
       const workoutId = historyData.workoutId;
       const currentWeight = historyData.liftedWeight.value;
       const currentUnits = historyData.liftedWeight.units;
+      const currentReps = historyData.liftedReps;
+      const setVolume = currentWeight * currentReps;
 
       const workout = workoutMap.get(workoutId);
       if (workout) {
         const workoutDate = workout.startedAt || 0;
         const workoutName = workout.name || "Workout";
 
+        // Update max weight tracking
         const existing = workoutStats.get(workoutId);
         if (!existing || currentWeight > existing.maxWeight) {
           workoutStats.set(workoutId, {
@@ -79,6 +90,19 @@ export async function clientLoader({ params }: LoaderArgs) {
             units: currentUnits,
             workoutName: workoutName,
           });
+        }
+
+        // Update volume tracking
+        const existingVolume = workoutVolumes.get(workoutId);
+        if (!existingVolume) {
+          workoutVolumes.set(workoutId, {
+            totalVolume: setVolume,
+            date: workoutDate,
+            units: currentUnits,
+            workoutName: workoutName,
+          });
+        } else {
+          existingVolume.totalVolume += setVolume;
         }
       }
     }
@@ -94,9 +118,20 @@ export async function clientLoader({ params }: LoaderArgs) {
       workoutName: stat.workoutName,
     }));
 
+  // Convert volume data to chart format
+  const volumeDataArray = Array.from(workoutVolumes.values())
+    .sort((a, b) => a.date - b.date)
+    .map((stat) => ({
+      date: new Date(stat.date).toLocaleDateString(),
+      volume: stat.totalVolume,
+      units: stat.units,
+      workoutName: stat.workoutName,
+    }));
+
   return {
     exercise: exercise.toMutableJSON(),
     chartData: chartDataArray,
+    volumeData: volumeDataArray,
   };
 }
 
@@ -112,11 +147,17 @@ interface ComponentProps {
       units: string;
       workoutName: string;
     }>;
+    volumeData: Array<{
+      date: string;
+      volume: number;
+      units: string;
+      workoutName: string;
+    }>;
   };
 }
 
 export default function ExerciseProgress({ loaderData }: ComponentProps) {
-  const { exercise, chartData } = loaderData;
+  const { exercise, chartData, volumeData } = loaderData;
   const [selectedTimeframe, setSelectedTimeframe] = useState("all");
 
   // Filter chart data based on selected timeframe
@@ -150,6 +191,38 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
       return itemDate >= cutoffDate;
     });
   }, [chartData, selectedTimeframe]);
+
+  // Filter volume data based on selected timeframe
+  const filteredVolumeData = useMemo(() => {
+    if (selectedTimeframe === "all") {
+      return volumeData;
+    }
+
+    const now = new Date();
+    const cutoffDate = new Date();
+
+    switch (selectedTimeframe) {
+      case "1m":
+        cutoffDate.setMonth(now.getMonth() - 1);
+        break;
+      case "3m":
+        cutoffDate.setMonth(now.getMonth() - 3);
+        break;
+      case "6m":
+        cutoffDate.setMonth(now.getMonth() - 6);
+        break;
+      case "1y":
+        cutoffDate.setFullYear(now.getFullYear() - 1);
+        break;
+      default:
+        return volumeData;
+    }
+
+    return volumeData.filter((item) => {
+      const itemDate = new Date(item.date);
+      return itemDate >= cutoffDate;
+    });
+  }, [volumeData, selectedTimeframe]);
 
   return (
     <Page>
@@ -186,17 +259,33 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
               <ExerciseProgressChart data={filteredChartData} />
             </div>
 
+            <p className="text-sm text-on-surface-variant mb-4 px-6 mt-8">
+              Total volume (weight × reps) in each workout:
+            </p>
+            <div className="w-full">
+              <ExerciseVolumeChart data={filteredVolumeData} />
+            </div>
+
             <div className="px-4 text-sm text-on-surface-variant">
               <p>
                 {selectedTimeframe === "all" ? "Total" : "Filtered"} workouts:{" "}
                 {filteredChartData.length}
               </p>
               {filteredChartData.length > 0 && (
-                <p>
-                  Latest:{" "}
-                  {filteredChartData[filteredChartData.length - 1].weight}{" "}
-                  {filteredChartData[filteredChartData.length - 1].units}
-                </p>
+                <div className="space-y-1">
+                  <p>
+                    Latest Max Weight:{" "}
+                    {filteredChartData[filteredChartData.length - 1].weight}{" "}
+                    {filteredChartData[filteredChartData.length - 1].units}
+                  </p>
+                  {filteredVolumeData.length > 0 && (
+                    <p>
+                      Latest Volume:{" "}
+                      {filteredVolumeData[filteredVolumeData.length - 1].volume.toLocaleString()}{" "}
+                      {filteredVolumeData[filteredVolumeData.length - 1].units}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
           </div>
