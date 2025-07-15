@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { EllipsisVertical } from "lucide-react";
 
 export function ProgramListItem({
   id,
@@ -40,14 +41,29 @@ export function ProgramListItem({
         <input type="hidden" name="programId" value={id} />
         <Card>
           <CardHeader>
-            <CardTitle>{title}</CardTitle>
-            <CardDescription className="flex items-center gap-2 pt-3">
-              {[level, type].map((item) => (
-                <Badge variant="outline" key={item}>
-                  {item}
-                </Badge>
-              ))}
-            </CardDescription>
+            <div className="flex justify-between items-start">
+              <div>
+                <CardTitle>{title}</CardTitle>
+                <CardDescription className="flex items-center gap-2 pt-3">
+                  {[level, type].map((item) => (
+                    <Badge variant="outline" key={item}>
+                      {item}
+                    </Badge>
+                  ))}
+                </CardDescription>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="-mt-2 -mr-4"
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log("More options clicked");
+                }}
+              >
+                <EllipsisVertical className="h-4 w-4" />
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>{description}</CardContent>
           <CardFooter className="flex justify-end">
