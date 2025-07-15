@@ -8,7 +8,7 @@ import { ExerciseRepsChart } from "~/components/exercise-reps-chart";
 import { ExerciseOneRMChart } from "~/components/exercise-one-rm-chart";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { dbPromise } from "~/db/db";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 
 interface LoaderArgs {
   params: {
@@ -230,6 +230,25 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
   const { exercise, chartData, volumeData, repsData, oneRMData } = loaderData;
   const [selectedTimeframe, setSelectedTimeframe] = useState("all");
 
+  // Refs for scroll position preservation
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollPositionRef = useRef<number>(0);
+
+  // Save scroll position when timeframe changes
+  const handleTimeframeChange = (newTimeframe: string) => {
+    if (scrollContainerRef.current) {
+      scrollPositionRef.current = scrollContainerRef.current.scrollTop;
+    }
+    setSelectedTimeframe(newTimeframe);
+  };
+
+  // Restore scroll position after timeframe change
+  useEffect(() => {
+    if (scrollContainerRef.current && scrollPositionRef.current > 0) {
+      scrollContainerRef.current.scrollTop = scrollPositionRef.current;
+    }
+  }, [selectedTimeframe]);
+
   // Filter chart data based on selected timeframe
   const filteredChartData = useMemo(() => {
     if (selectedTimeframe === "all") {
@@ -361,19 +380,21 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
   return (
     <Page>
       <Header title={exercise.name} left={<LinkBack to="/app/progress" />} />
-      <MainContent>
-        {chartData.length === 0 ? (
+      {chartData.length === 0 ? (
+        <MainContent>
           <div className="p-4 text-center text-on-surface-variant">
             <h2 className="text-lg font-semibold mb-2">No Progress Data</h2>
             <p>No workout history found for {exercise.name}</p>
           </div>
-        ) : (
-          <div className="space-y-4">
-            <div className="px-4">
-              {/* Time frame selector */}
+        </MainContent>
+      ) : (
+        <div className="flex flex-col h-full">
+          {/* Sticky tabs container */}
+          <div className="sticky top-0 z-10 bg-background border-border">
+            <div className="px-4 py-3">
               <Tabs
                 value={selectedTimeframe}
-                onValueChange={setSelectedTimeframe}
+                onValueChange={handleTimeframeChange}
                 className="w-full"
               >
                 <TabsList className="grid w-full grid-cols-5">
@@ -385,77 +406,85 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
                 </TabsList>
               </Tabs>
             </div>
+          </div>
 
-            <p className="text-sm text-on-surface-variant mb-4 px-6 pt-6">
-              Max weight lifted in each workout:
-            </p>
-            <div className="w-full">
-              <ExerciseProgressChart data={filteredChartData} />
-            </div>
-
-            <p className="text-sm text-on-surface-variant mb-4 px-6 mt-8">
-              Total volume (weight × reps) in each workout:
-            </p>
-            <div className="w-full">
-              <ExerciseVolumeChart data={filteredVolumeData} />
-            </div>
-
-            <p className="text-sm text-on-surface-variant mb-4 px-6 mt-8">
-              Total reps lifted in each workout:
-            </p>
-            <div className="w-full">
-              <ExerciseRepsChart data={filteredRepsData} />
-            </div>
-
-            <p className="text-sm text-on-surface-variant mb-4 px-6 mt-8">
-              Estimated 1RM (One Rep Max) for each workout:
-            </p>
-            <div className="w-full">
-              <ExerciseOneRMChart data={filteredOneRMData} />
-            </div>
-
-            <div className="px-4 text-sm text-on-surface-variant">
-              <p>
-                {selectedTimeframe === "all" ? "Total" : "Filtered"} workouts:{" "}
-                {filteredChartData.length}
+          {/* Scrollable content */}
+          <div ref={scrollContainerRef} className="flex-1 overflow-y-auto">
+            <div className="space-y-4 pb-4">
+              <p className="text-sm text-on-surface-variant mb-4 px-6 pt-6">
+                Max weight lifted in each workout:
               </p>
-              {filteredChartData.length > 0 && (
-                <div className="space-y-1">
-                  <p>
-                    Latest Max Weight:{" "}
-                    {filteredChartData[filteredChartData.length - 1].weight}{" "}
-                    {filteredChartData[filteredChartData.length - 1].units}
-                  </p>
-                  {filteredVolumeData.length > 0 && (
+              <div className="w-full">
+                <ExerciseProgressChart data={filteredChartData} />
+              </div>
+
+              <p className="text-sm text-on-surface-variant mb-4 px-6 mt-8">
+                Total volume (weight × reps) in each workout:
+              </p>
+              <div className="w-full">
+                <ExerciseVolumeChart data={filteredVolumeData} />
+              </div>
+
+              <p className="text-sm text-on-surface-variant mb-4 px-6 mt-8">
+                Total reps lifted in each workout:
+              </p>
+              <div className="w-full">
+                <ExerciseRepsChart data={filteredRepsData} />
+              </div>
+
+              <p className="text-sm text-on-surface-variant mb-4 px-6 mt-8">
+                Estimated 1RM (One Rep Max) for each workout:
+              </p>
+              <div className="w-full">
+                <ExerciseOneRMChart data={filteredOneRMData} />
+              </div>
+
+              <div className="px-4 text-sm text-on-surface-variant">
+                <p>
+                  {selectedTimeframe === "all" ? "Total" : "Filtered"} workouts:{" "}
+                  {filteredChartData.length}
+                </p>
+                {filteredChartData.length > 0 && (
+                  <div className="space-y-1">
                     <p>
-                      Latest Volume:{" "}
-                      {filteredVolumeData[
-                        filteredVolumeData.length - 1
-                      ].volume.toLocaleString()}{" "}
-                      {filteredVolumeData[filteredVolumeData.length - 1].units}
+                      Latest Max Weight:{" "}
+                      {filteredChartData[filteredChartData.length - 1].weight}{" "}
+                      {filteredChartData[filteredChartData.length - 1].units}
                     </p>
-                  )}
-                  {filteredRepsData.length > 0 && (
-                    <p>
-                      Latest Reps:{" "}
-                      {filteredRepsData[
-                        filteredRepsData.length - 1
-                      ].reps.toLocaleString()}
-                    </p>
-                  )}
-                  {filteredOneRMData.length > 0 && (
-                    <p>
-                      Latest Est. 1RM:{" "}
-                      {filteredOneRMData[filteredOneRMData.length - 1].oneRM}{" "}
-                      {filteredOneRMData[filteredOneRMData.length - 1].units}
-                    </p>
-                  )}
-                </div>
-              )}
+                    {filteredVolumeData.length > 0 && (
+                      <p>
+                        Latest Volume:{" "}
+                        {filteredVolumeData[
+                          filteredVolumeData.length - 1
+                        ].volume.toLocaleString()}{" "}
+                        {
+                          filteredVolumeData[filteredVolumeData.length - 1]
+                            .units
+                        }
+                      </p>
+                    )}
+                    {filteredRepsData.length > 0 && (
+                      <p>
+                        Latest Reps:{" "}
+                        {filteredRepsData[
+                          filteredRepsData.length - 1
+                        ].reps.toLocaleString()}
+                      </p>
+                    )}
+                    {filteredOneRMData.length > 0 && (
+                      <p>
+                        Latest Est. 1RM:{" "}
+                        {filteredOneRMData[filteredOneRMData.length - 1].oneRM}{" "}
+                        {filteredOneRMData[filteredOneRMData.length - 1].units}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        )}
-      </MainContent>
+        </div>
+      )}
     </Page>
   );
 }
