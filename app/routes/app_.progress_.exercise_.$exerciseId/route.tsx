@@ -249,10 +249,15 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
     }
   }, [selectedTimeframe]);
 
-  // Filter chart data based on selected timeframe
-  const filteredChartData = useMemo(() => {
+  // Filter all data based on selected timeframe
+  const filteredData = useMemo(() => {
     if (selectedTimeframe === "all") {
-      return chartData;
+      return {
+        chartData,
+        volumeData,
+        repsData,
+        oneRMData,
+      };
     }
 
     const now = new Date();
@@ -272,110 +277,30 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
         cutoffDate.setFullYear(now.getFullYear() - 1);
         break;
       default:
-        return chartData;
+        return {
+          chartData,
+          volumeData,
+          repsData,
+          oneRMData,
+        };
     }
 
-    return chartData.filter((item) => {
-      const itemDate = new Date(item.date);
-      return itemDate >= cutoffDate;
-    });
-  }, [chartData, selectedTimeframe]);
+    const filterByDate = <T extends { date: string }>(data: T[]): T[] =>
+      data.filter((item) => {
+        const itemDate = new Date(item.date);
+        return itemDate >= cutoffDate;
+      });
 
-  // Filter volume data based on selected timeframe
-  const filteredVolumeData = useMemo(() => {
-    if (selectedTimeframe === "all") {
-      return volumeData;
-    }
+    return {
+      chartData: filterByDate(chartData),
+      volumeData: filterByDate(volumeData),
+      repsData: filterByDate(repsData),
+      oneRMData: filterByDate(oneRMData),
+    };
+  }, [chartData, volumeData, repsData, oneRMData, selectedTimeframe]);
 
-    const now = new Date();
-    const cutoffDate = new Date();
-
-    switch (selectedTimeframe) {
-      case "1m":
-        cutoffDate.setMonth(now.getMonth() - 1);
-        break;
-      case "3m":
-        cutoffDate.setMonth(now.getMonth() - 3);
-        break;
-      case "6m":
-        cutoffDate.setMonth(now.getMonth() - 6);
-        break;
-      case "1y":
-        cutoffDate.setFullYear(now.getFullYear() - 1);
-        break;
-      default:
-        return volumeData;
-    }
-
-    return volumeData.filter((item) => {
-      const itemDate = new Date(item.date);
-      return itemDate >= cutoffDate;
-    });
-  }, [volumeData, selectedTimeframe]);
-
-  // Filter reps data based on selected timeframe
-  const filteredRepsData = useMemo(() => {
-    if (selectedTimeframe === "all") {
-      return repsData;
-    }
-
-    const now = new Date();
-    const cutoffDate = new Date();
-
-    switch (selectedTimeframe) {
-      case "1m":
-        cutoffDate.setMonth(now.getMonth() - 1);
-        break;
-      case "3m":
-        cutoffDate.setMonth(now.getMonth() - 3);
-        break;
-      case "6m":
-        cutoffDate.setMonth(now.getMonth() - 6);
-        break;
-      case "1y":
-        cutoffDate.setFullYear(now.getFullYear() - 1);
-        break;
-      default:
-        return repsData;
-    }
-
-    return repsData.filter((item) => {
-      const itemDate = new Date(item.date);
-      return itemDate >= cutoffDate;
-    });
-  }, [repsData, selectedTimeframe]);
-
-  // Filter 1RM data based on selected timeframe
-  const filteredOneRMData = useMemo(() => {
-    if (selectedTimeframe === "all") {
-      return oneRMData;
-    }
-
-    const now = new Date();
-    const cutoffDate = new Date();
-
-    switch (selectedTimeframe) {
-      case "1m":
-        cutoffDate.setMonth(now.getMonth() - 1);
-        break;
-      case "3m":
-        cutoffDate.setMonth(now.getMonth() - 3);
-        break;
-      case "6m":
-        cutoffDate.setMonth(now.getMonth() - 6);
-        break;
-      case "1y":
-        cutoffDate.setFullYear(now.getFullYear() - 1);
-        break;
-      default:
-        return oneRMData;
-    }
-
-    return oneRMData.filter((item) => {
-      const itemDate = new Date(item.date);
-      return itemDate >= cutoffDate;
-    });
-  }, [oneRMData, selectedTimeframe]);
+  // Destructure filtered data for easier access
+  const { chartData: filteredChartData, volumeData: filteredVolumeData, repsData: filteredRepsData, oneRMData: filteredOneRMData } = filteredData;
 
   return (
     <Page>
