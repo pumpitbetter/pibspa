@@ -52,7 +52,15 @@ export function ProgramListItem({
                   ))}
                 </CardDescription>
               </div>
-              <Button variant="ghost" size="icon" className="-mt-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="-mt-2 -mr-4"
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log("More options clicked");
+                }}
+              >
                 <EllipsisVertical className="h-4 w-4" />
               </Button>
             </div>
