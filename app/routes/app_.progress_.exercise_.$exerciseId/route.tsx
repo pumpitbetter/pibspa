@@ -5,6 +5,7 @@ import { LinkBack } from "~/components/link-back";
 import { ExerciseProgressChart } from "~/components/exercise-progress-chart";
 import { ExerciseVolumeChart } from "~/components/exercise-volume-chart";
 import { ExerciseRepsChart } from "~/components/exercise-reps-chart";
+import { ExerciseOneRMChart } from "~/components/exercise-one-rm-chart";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { dbPromise } from "~/db/db";
 import { useState, useMemo } from "react";
@@ -64,8 +65,12 @@ export async function clientLoader({ params }: LoaderArgs) {
     string,
     { totalReps: number; date: number; workoutName: string }
   >();
+  const workoutOneRMs = new Map<
+    string,
+    { maxOneRM: number; date: number; units: string; workoutName: string }
+  >();
 
-  // Group by workout and find max weight per workout + calculate volume + calculate reps
+  // Group by workout and find max weight per workout + calculate volume + calculate reps + calculate 1RM
   for (const entry of historyEntries) {
     const historyData = entry.toMutableJSON();
 
@@ -121,6 +126,22 @@ export async function clientLoader({ params }: LoaderArgs) {
         } else {
           existingReps.totalReps += currentReps;
         }
+
+        // Calculate and update 1RM tracking using Brzycki formula
+        // 1RM = weight × (36 / (37 - reps))
+        // Only calculate if reps <= 15 for accuracy
+        if (currentReps <= 15) {
+          const calculatedOneRM = currentWeight * (36 / (37 - currentReps));
+          const existingOneRM = workoutOneRMs.get(workoutId);
+          if (!existingOneRM || calculatedOneRM > existingOneRM.maxOneRM) {
+            workoutOneRMs.set(workoutId, {
+              maxOneRM: calculatedOneRM,
+              date: workoutDate,
+              units: currentUnits,
+              workoutName: workoutName,
+            });
+          }
+        }
       }
     }
   }
@@ -154,11 +175,22 @@ export async function clientLoader({ params }: LoaderArgs) {
       workoutName: stat.workoutName,
     }));
 
+  // Convert 1RM data to chart format
+  const oneRMDataArray = Array.from(workoutOneRMs.values())
+    .sort((a, b) => a.date - b.date)
+    .map((stat) => ({
+      date: new Date(stat.date).toLocaleDateString(),
+      oneRM: Math.round(stat.maxOneRM * 100) / 100, // Round to 2 decimal places
+      units: stat.units,
+      workoutName: stat.workoutName,
+    }));
+
   return {
     exercise: exercise.toMutableJSON(),
     chartData: chartDataArray,
     volumeData: volumeDataArray,
     repsData: repsDataArray,
+    oneRMData: oneRMDataArray,
   };
 }
 
@@ -185,11 +217,17 @@ interface ComponentProps {
       reps: number;
       workoutName: string;
     }>;
+    oneRMData: Array<{
+      date: string;
+      oneRM: number;
+      units: string;
+      workoutName: string;
+    }>;
   };
 }
 
 export default function ExerciseProgress({ loaderData }: ComponentProps) {
-  const { exercise, chartData, volumeData, repsData } = loaderData;
+  const { exercise, chartData, volumeData, repsData, oneRMData } = loaderData;
   const [selectedTimeframe, setSelectedTimeframe] = useState("all");
 
   // Filter chart data based on selected timeframe
@@ -288,6 +326,38 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
     });
   }, [repsData, selectedTimeframe]);
 
+  // Filter 1RM data based on selected timeframe
+  const filteredOneRMData = useMemo(() => {
+    if (selectedTimeframe === "all") {
+      return oneRMData;
+    }
+
+    const now = new Date();
+    const cutoffDate = new Date();
+
+    switch (selectedTimeframe) {
+      case "1m":
+        cutoffDate.setMonth(now.getMonth() - 1);
+        break;
+      case "3m":
+        cutoffDate.setMonth(now.getMonth() - 3);
+        break;
+      case "6m":
+        cutoffDate.setMonth(now.getMonth() - 6);
+        break;
+      case "1y":
+        cutoffDate.setFullYear(now.getFullYear() - 1);
+        break;
+      default:
+        return oneRMData;
+    }
+
+    return oneRMData.filter((item) => {
+      const itemDate = new Date(item.date);
+      return itemDate >= cutoffDate;
+    });
+  }, [oneRMData, selectedTimeframe]);
+
   return (
     <Page>
       <Header title={exercise.name} left={<LinkBack to="/app/progress" />} />
@@ -337,6 +407,13 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
               <ExerciseRepsChart data={filteredRepsData} />
             </div>
 
+            <p className="text-sm text-on-surface-variant mb-4 px-6 mt-8">
+              Estimated 1RM (One Rep Max) for each workout:
+            </p>
+            <div className="w-full">
+              <ExerciseOneRMChart data={filteredOneRMData} />
+            </div>
+
             <div className="px-4 text-sm text-on-surface-variant">
               <p>
                 {selectedTimeframe === "all" ? "Total" : "Filtered"} workouts:{" "}
@@ -364,6 +441,13 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
                       {filteredRepsData[
                         filteredRepsData.length - 1
                       ].reps.toLocaleString()}
+                    </p>
+                  )}
+                  {filteredOneRMData.length > 0 && (
+                    <p>
+                      Latest Est. 1RM:{" "}
+                      {filteredOneRMData[filteredOneRMData.length - 1].oneRM}{" "}
+                      {filteredOneRMData[filteredOneRMData.length - 1].units}
                     </p>
                   )}
                 </div>
