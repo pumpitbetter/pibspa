@@ -13,6 +13,7 @@ import { five31HypertrophyRoutines } from "./routines-five31-hypertrophy";
 import { five31TridentRoutines } from "./routines-five31-trident";
 import { five31FusionRoutines } from "./routines-five31-fusion";
 import { threeBy8Routines } from "./routines-threeBy8";
+import { fiveBy5Routines } from "./routines-fiveBy5";
 
 export const routinesSchemaLiteral = {
   title: "routines schema",
@@ -93,6 +94,7 @@ export async function initRoutines(db: MyDatabase) {
   });
 
   await db.routines.bulkInsert(madcowRoutines);
+  await db.routines.bulkInsert(fiveBy5Routines);
   await db.routines.bulkInsert(five31Routines);
   await db.routines.bulkInsert(five31HypertrophyRoutines);
   await db.routines.bulkInsert(five31TridentRoutines);

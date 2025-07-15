@@ -13,6 +13,7 @@ import { init531HypertrophyTemplates } from "./template-531-hypertrophy";
 import { init531TridentTemplates } from "./template-531-trident";
 import { init531FusionTemplates } from "./template-531-fusion";
 import { initThreeBy8Templates } from "./templates-threeBy8";
+import { initFiveBy5Templates } from "./templates-fiveBy5";
 
 // routine set template
 // belongs to a particular program > routine
@@ -170,6 +171,7 @@ export async function initTemplates(db: MyDatabase) {
 
   // generate initial templates
   await initMadcowTemplates(db);
+  await initFiveBy5Templates(db);
   await init531Templates(db);
   await init531HypertrophyTemplates(db);
   await init531TridentTemplates(db);
