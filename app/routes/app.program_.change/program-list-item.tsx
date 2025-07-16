@@ -16,6 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { MoreVertical } from "lucide-react";
+import { DialogDeleteProgram } from "./dialog-delete-program";
+import { useEffect, useState } from "react";
 
 export function ProgramListItem({
   id,
@@ -23,6 +25,7 @@ export function ProgramListItem({
   description,
   type,
   level,
+  ownerId,
   onClick,
 }: {
   id: string;
@@ -30,11 +33,14 @@ export function ProgramListItem({
   description: string;
   type: string;
   level: string;
+  ownerId: string;
   onClick?: () => void;
 }) {
   const fetcher = useFetcher();
   const navigate = useNavigate();
   const cloneFetcher = useFetcher();
+  const deleteFetcher = useFetcher();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,6 +54,31 @@ export function ProgramListItem({
       { method: "post" }
     );
   };
+
+  const handleDelete = () => {
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    deleteFetcher.submit(
+      { programId: id, intent: "delete" },
+      { method: "post" }
+    );
+    setIsDeleteDialogOpen(false);
+  };
+
+  useEffect(() => {
+    if (deleteFetcher.state === "idle" && deleteFetcher.data) {
+      if (deleteFetcher.data.ok) {
+        // Program deleted successfully, revalidate the loader data
+        fetcher.load("/app/program/change");
+      } else {
+        // Handle error, e.g., display a toast notification
+        console.error("Failed to delete program:", deleteFetcher.data.error);
+        alert("Failed to delete program: " + deleteFetcher.data.error); // Basic error display
+      }
+    }
+  }, [deleteFetcher.state, deleteFetcher.data, fetcher]);
 
   return (
     <li className="w-full p-4" onClick={onClick}>
@@ -72,6 +103,11 @@ export function ProgramListItem({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onSelect={handleClone}>Clone</DropdownMenuItem>
+                {ownerId !== "system" && (
+                  <DropdownMenuItem onSelect={handleDelete}>
+                    Delete
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -84,6 +120,11 @@ export function ProgramListItem({
           </fetcher.Form>
         </CardFooter>
       </Card>
+      <DialogDeleteProgram
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </li>
   );
 }
