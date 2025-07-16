@@ -16,8 +16,14 @@ import { LinkBack } from "~/components/link-back";
 import type { Route } from "./+types/route";
 import { DialogRepsLoadEdit } from "./dialog-reps-load-edit";
 import { Button } from "~/components/ui/button";
-import { Plus } from "lucide-react";
-import { Link } from "react-router";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
+import { Plus, MoreVertical, Trash2 } from "lucide-react";
+import { Link, Form } from "react-router";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -63,7 +69,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 
-type Intent = "editRoutine";
+type Intent = "editRoutine" | "deleteExercise";
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
@@ -72,6 +78,10 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   switch (intent) {
     case "editRoutine": {
       await editRoutine(formData);
+      break;
+    }
+    case "deleteExercise": {
+      await deleteExercise(formData);
       break;
     }
   }
@@ -86,8 +96,8 @@ export default function Programroutine({ loaderData }: Route.ComponentProps) {
 
   return (
     <Page>
-      <Header 
-        title={routine?.name} 
+      <Header
+        title={routine?.name}
         left={<LinkBack to="/app/program" />}
         right={
           program?.ownerId !== "system" ? (
@@ -111,10 +121,32 @@ export default function Programroutine({ loaderData }: Route.ComponentProps) {
               <li key={template[0]} className="w-full p-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle>
-                      {exercise?.name ?? "Unknown Exercise"}
-                    </CardTitle>
-                    {/* <CardDescription>Description</CardDescription> */}
+                    <div className="flex items-center justify-between">
+                      <CardTitle>
+                        {exercise?.name ?? "Unknown Exercise"}
+                      </CardTitle>
+                      {program?.ownerId !== "system" && (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm">
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <Form method="post">
+                              <input type="hidden" name="intent" value="deleteExercise" />
+                              <input type="hidden" name="exerciseId" value={template[0]} />
+                              <DropdownMenuItem asChild>
+                                <button type="submit" className="flex w-full items-center gap-2 text-on-surface-variant">
+                                  <Trash2 className="h-4 w-4 text-on-surface-variant" />
+                                  Delete
+                                </button>
+                              </DropdownMenuItem>
+                            </Form>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent>
                     {template[1].map((item) => {
@@ -139,26 +171,35 @@ export default function Programroutine({ loaderData }: Route.ComponentProps) {
                             barWeight,
                           })
                         : { value: 0, units: settings.weigthUnit };
-                      return (
+                      
+                      const exerciseDisplay = (
+                        <div className="flex gap-2 py-3">
+                          <span>{item.reps} reps</span>
+                          <span>x</span>
+                          <span>{item.load * 100}%</span>
+                          <span className="text-on-surface-variant">/</span>
+                          <span className="text-on-surface-variant">
+                            {weight.value}
+                          </span>
+                          <span className="text-on-surface-variant">
+                            {programExercise?.exerciseWeight?.units}
+                          </span>
+                        </div>
+                      );
+
+                      return program?.ownerId !== "system" ? (
                         <DialogRepsLoadEdit
                           key={`${item.id}-${item.order}-${item.sequence}`}
                           templateId={item.id}
                           reps={item.reps}
                           load={item.load}
                         >
-                          <div className="flex gap-2 py-3">
-                            <span>{item.reps} reps</span>
-                            <span>x</span>
-                            <span>{item.load * 100}%</span>
-                            <span className="text-on-surface-variant">/</span>
-                            <span className="text-on-surface-variant">
-                              {weight.value}
-                            </span>
-                            <span className="text-on-surface-variant">
-                              {programExercise?.exerciseWeight?.units}
-                            </span>
-                          </div>
+                          {exerciseDisplay}
                         </DialogRepsLoadEdit>
+                      ) : (
+                        <div key={`${item.id}-${item.order}-${item.sequence}`}>
+                          {exerciseDisplay}
+                        </div>
                       );
                     })}
                   </CardContent>
@@ -193,4 +234,16 @@ async function editRoutine(formData: FormData) {
       reps: reps,
     },
   });
+}
+
+async function deleteExercise(formData: FormData) {
+  const exerciseId = formData.get("exerciseId") as string;
+  invariant(exerciseId, "exerciseId not found");
+
+  const db = await dbPromise;
+
+  // Delete all templates for this exercise
+  await db.templates
+    .find({ selector: { exerciseId } })
+    .remove();
 }
