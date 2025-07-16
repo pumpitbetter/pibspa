@@ -9,7 +9,7 @@ import { ExerciseSearchAndFilter } from "./exercise-search-and-filter";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 import { Plus } from "lucide-react";
-import { Form, Link } from "react-router";
+import { Form, Link, redirect } from "react-router";
 import type { ExercisesDocType } from "~/db/exercises";
 import type { RoutinesDocType } from "~/db/routines";
 import type { ProgramsDocType } from "~/db/programs";
@@ -58,6 +58,12 @@ export async function clientAction({ request, params }: ClientActionArgs) {
 
   const db = await dbPromise;
 
+  // Get the routine to extract the program ID
+  const routine = await db.routines.findOne(params.routineId).exec();
+  if (!routine) {
+    return { error: "Routine not found" };
+  }
+
   // Get the highest order number for the routine
   const existingTemplates = await db.templates
     .find({ selector: { routineId: params.routineId } })
@@ -71,10 +77,11 @@ export async function clientAction({ request, params }: ClientActionArgs) {
   // Create templates for each selected exercise
   const newTemplates = selectedExerciseIds.map((exerciseId, index) => ({
     id: crypto.randomUUID(),
-    programId: params.routineId.split("-routine-")[0], // Extract program ID from routine ID
+    programId: routine.programId, // Use the actual program ID from the routine
     routineId: params.routineId,
     exerciseId,
     order: maxOrder + index + 1,
+    sequence: 1, // Single exercise, not a circuit
     load: 1.0,
     reps: 5, // Default reps
     progression: {
@@ -95,7 +102,8 @@ export async function clientAction({ request, params }: ClientActionArgs) {
 
   await db.templates.bulkInsert(newTemplates);
 
-  return { success: true, addedCount: selectedExerciseIds.length };
+  // Redirect back to the routine page after successful insertion
+  return redirect(`/app/program/${params.routineId}`);
 }
 
 export default function AddExercisesRoute({
