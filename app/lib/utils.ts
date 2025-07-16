@@ -6,7 +6,6 @@ import type { SetsDocType } from "~/db/sets";
 import type { WorkoutsDocType } from "~/db/workout";
 import { v7 as uuidv7 } from "uuid";
 import type { SettingsDocType } from "~/db/settings";
-import { createContext } from "react";
 
 export interface GroupedWorkout {
   workout: WorkoutsDocType;

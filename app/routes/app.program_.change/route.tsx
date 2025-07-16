@@ -8,7 +8,7 @@ import type { Route } from "./+types/route";
 import { ProgramListItem } from "./program-list-item";
 import { defaultSettings } from "~/db/settings";
 import { LinkBack } from "~/components/link-back";
-import { ulid } from "ulid";
+import { v7 as uuidv7 } from "uuid";
 
 export async function clientLoader() {
   const db = await dbPromise;
@@ -21,67 +21,11 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const programId = formData.get("programId") as string;
   const intent = formData.get("intent");
 
-  const db = await dbPromise;
-
   if (intent === "clone") {
-    const programToClone = await db.programs.findOne(programId).exec();
-    if (!programToClone) {
-      throw new Response("Program not found", { status: 404 });
-    }
-
-    const settings = await db.settings.findOne().exec();
-    const newProgramId = ulid();
-
-    const newProgram: ProgramsDocType = {
-      id: newProgramId,
-      name: `${programToClone.name} (Cloned)`,
-      description: programToClone.description,
-      type: programToClone.type,
-      level: programToClone.level,
-      ownerId: settings?.clientId ?? "",
-      exercises: programToClone.exercises,
-    };
-
-    const routinesToClone = await db.routines
-      .find({ selector: { programId } })
-      .exec();
-
-    const routineIdMap: { [key: string]: string } = {};
-
-    const newRoutines = routinesToClone.map((routine) => {
-      const newRoutine = {
-        ...routine.toJSON(),
-        id: ulid(),
-        programId: newProgramId,
-      };
-      routineIdMap[routine.id] = newRoutine.id;
-      return newRoutine;
-    });
-
-    const templatesToClone = await db.templates
-      .find({ selector: { programId } })
-      .exec();
-    const newTemplates = templatesToClone.map((template) => ({
-      ...template.toJSON(),
-      id: ulid(),
-      programId: newProgramId,
-      routineId: routineIdMap[template.routineId] ?? "",
-    }));
-
-    await db.programs.insert(newProgram);
-    await db.routines.bulkInsert(newRoutines);
-    await db.templates.bulkInsert(newTemplates);
-
-    return { ok: true };
+    return await handleCloneProgram(programId);
   }
 
-  const settings = await db.settings.findOne().exec();
-  await settings?.update({
-    $set: {
-      programId,
-    },
-  });
-  return settings ? settings.toMutableJSON() : defaultSettings;
+  return await handleSwitchProgram(programId);
 }
 
 export default function ProgramChange({ loaderData }: Route.ComponentProps) {
@@ -104,4 +48,74 @@ export default function ProgramChange({ loaderData }: Route.ComponentProps) {
       </MainContent>
     </Page>
   );
+}
+
+//
+// helper functions
+//
+
+async function handleCloneProgram(programId: string) {
+  const db = await dbPromise;
+
+  const programToClone = await db.programs.findOne(programId).exec();
+  if (!programToClone) {
+    throw new Response("Program not found", { status: 404 });
+  }
+
+  const settings = await db.settings.findOne().exec();
+  const newProgramId = uuidv7();
+
+  const newProgram: ProgramsDocType = {
+    id: newProgramId,
+    name: `${programToClone.name} (Cloned)`,
+    description: programToClone.description,
+    type: programToClone.type,
+    level: programToClone.level,
+    ownerId: settings?.clientId ?? "",
+    exercises: programToClone.exercises,
+  };
+
+  const routinesToClone = await db.routines
+    .find({ selector: { programId } })
+    .exec();
+
+  const routineIdMap: { [key: string]: string } = {};
+
+  const newRoutines = routinesToClone.map((routine) => {
+    const newRoutine = {
+      ...routine.toJSON(),
+      id: uuidv7(),
+      programId: newProgramId,
+    };
+    routineIdMap[routine.id] = newRoutine.id;
+    return newRoutine;
+  });
+
+  const templatesToClone = await db.templates
+    .find({ selector: { programId } })
+    .exec();
+  const newTemplates = templatesToClone.map((template) => ({
+    ...template.toJSON(),
+    id: uuidv7(),
+    programId: newProgramId,
+    routineId: routineIdMap[template.routineId] ?? "",
+  }));
+
+  await db.programs.insert(newProgram);
+  await db.routines.bulkInsert(newRoutines);
+  await db.templates.bulkInsert(newTemplates);
+
+  return { ok: true };
+}
+
+async function handleSwitchProgram(programId: string) {
+  const db = await dbPromise;
+
+  const settings = await db.settings.findOne().exec();
+  await settings?.update({
+    $set: {
+      programId,
+    },
+  });
+  return settings ? settings.toMutableJSON() : defaultSettings;
 }
