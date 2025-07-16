@@ -15,6 +15,9 @@ import {
 import { LinkBack } from "~/components/link-back";
 import type { Route } from "./+types/route";
 import { DialogRepsLoadEdit } from "./dialog-reps-load-edit";
+import { Button } from "~/components/ui/button";
+import { Plus } from "lucide-react";
+import { Link } from "react-router";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -83,7 +86,20 @@ export default function Programroutine({ loaderData }: Route.ComponentProps) {
 
   return (
     <Page>
-      <Header title={routine?.name} left={<LinkBack to="/app/program" />} />
+      <Header 
+        title={routine?.name} 
+        left={<LinkBack to="/app/program" />}
+        right={
+          program?.ownerId !== "system" ? (
+            <Link to={`/app/program/${routine?.id}/add-exercises`}>
+              <Button size="sm" variant="ghost">
+                <Plus className="h-4 w-4" />
+                Add
+              </Button>
+            </Link>
+          ) : null
+        }
+      />
       <MainContent>
         <List>
           {Object.entries(groupedTemplates).map((template) => {

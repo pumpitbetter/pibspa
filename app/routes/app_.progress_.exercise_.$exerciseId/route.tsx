@@ -23,10 +23,10 @@ type TimeframeKey = keyof typeof TIMEFRAME_MONTHS;
 // Utility function to get cutoff date for timeframe
 const getCutoffDate = (timeframe: string): Date | null => {
   if (timeframe === "all") return null;
-  
+
   const months = TIMEFRAME_MONTHS[timeframe as TimeframeKey];
   if (!months) return null;
-  
+
   const cutoffDate = new Date();
   cutoffDate.setMonth(cutoffDate.getMonth() - months);
   return cutoffDate;
@@ -73,15 +73,18 @@ export async function clientLoader({ params }: LoaderArgs) {
   });
 
   // Process history to build aggregated workout data
-  const workoutAggregates = new Map<string, {
-    maxWeight: number;
-    totalVolume: number;
-    totalReps: number;
-    maxOneRM: number;
-    date: number;
-    units: string;
-    workoutName: string;
-  }>();
+  const workoutAggregates = new Map<
+    string,
+    {
+      maxWeight: number;
+      totalVolume: number;
+      totalReps: number;
+      maxOneRM: number;
+      date: number;
+      units: string;
+      workoutName: string;
+    }
+  >();
 
   // Helper function to calculate 1RM using Brzycki formula
   const calculateOneRM = (weight: number, reps: number): number => {
@@ -133,8 +136,10 @@ export async function clientLoader({ params }: LoaderArgs) {
 
   // Helper function to create chart data from aggregated workout data
   const createChartDataArrays = (aggregates: Map<string, any>) => {
-    const sortedAggregates = Array.from(aggregates.values()).sort((a, b) => a.date - b.date);
-    
+    const sortedAggregates = Array.from(aggregates.values()).sort(
+      (a, b) => a.date - b.date
+    );
+
     return {
       chartData: sortedAggregates.map((stat) => ({
         date: new Date(stat.date).toLocaleDateString(),
@@ -162,7 +167,12 @@ export async function clientLoader({ params }: LoaderArgs) {
     };
   };
 
-  const { chartData: chartDataArray, volumeData: volumeDataArray, repsData: repsDataArray, oneRMData: oneRMDataArray } = createChartDataArrays(workoutAggregates);
+  const {
+    chartData: chartDataArray,
+    volumeData: volumeDataArray,
+    repsData: repsDataArray,
+    oneRMData: oneRMDataArray,
+  } = createChartDataArrays(workoutAggregates);
 
   return {
     exercise: exercise.toMutableJSON(),
@@ -214,7 +224,13 @@ interface StatisticsProps {
   oneRMData: any[];
 }
 
-function WorkoutStatistics({ selectedTimeframe, chartData, volumeData, repsData, oneRMData }: StatisticsProps) {
+function WorkoutStatistics({
+  selectedTimeframe,
+  chartData,
+  volumeData,
+  repsData,
+  oneRMData,
+}: StatisticsProps) {
   if (chartData.length === 0) return null;
 
   const latest = {
@@ -227,18 +243,24 @@ function WorkoutStatistics({ selectedTimeframe, chartData, volumeData, repsData,
   return (
     <div className="px-4 text-sm text-on-surface-variant">
       <p>
-        {selectedTimeframe === "all" ? "Total" : "Filtered"} workouts: {chartData.length}
+        {selectedTimeframe === "all" ? "Total" : "Filtered"} workouts:{" "}
+        {chartData.length}
       </p>
       <div className="space-y-1">
-        <p>Latest Max Weight: {latest.weight.weight} {latest.weight.units}</p>
+        <p>
+          Latest Max Weight: {latest.weight.weight} {latest.weight.units}
+        </p>
         {latest.volume && (
-          <p>Latest Volume: {latest.volume.volume.toLocaleString()} {latest.volume.units}</p>
+          <p>
+            Latest Volume: {latest.volume.volume.toLocaleString()}{" "}
+            {latest.volume.units}
+          </p>
         )}
-        {latest.reps && (
-          <p>Latest Reps: {latest.reps.reps.toLocaleString()}</p>
-        )}
+        {latest.reps && <p>Latest Reps: {latest.reps.reps.toLocaleString()}</p>}
         {latest.oneRM && (
-          <p>Latest Est. 1RM: {latest.oneRM.oneRM} {latest.oneRM.units}</p>
+          <p>
+            Latest Est. 1RM: {latest.oneRM.oneRM} {latest.oneRM.units}
+          </p>
         )}
       </div>
     </div>
@@ -271,7 +293,7 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
   // Filter all data based on selected timeframe
   const filteredData = useMemo(() => {
     const cutoffDate = getCutoffDate(selectedTimeframe);
-    
+
     if (!cutoffDate) {
       return { chartData, volumeData, repsData, oneRMData };
     }
@@ -288,7 +310,12 @@ export default function ExerciseProgress({ loaderData }: ComponentProps) {
   }, [chartData, volumeData, repsData, oneRMData, selectedTimeframe]);
 
   // Destructure filtered data for easier access
-  const { chartData: filteredChartData, volumeData: filteredVolumeData, repsData: filteredRepsData, oneRMData: filteredOneRMData } = filteredData;
+  const {
+    chartData: filteredChartData,
+    volumeData: filteredVolumeData,
+    repsData: filteredRepsData,
+    oneRMData: filteredOneRMData,
+  } = filteredData;
 
   return (
     <Page>
