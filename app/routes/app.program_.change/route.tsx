@@ -3,7 +3,7 @@ import { List } from "~/components/list";
 import { MainContent } from "~/components/main-content";
 import { Page } from "~/components/page";
 import { dbPromise } from "~/db/db";
-import { defaultProgram } from "~/db/programs";
+import { defaultProgram, type ProgramsDocType } from "~/db/programs";
 import type { Route } from "./+types/route";
 import { ProgramListItem } from "./program-list-item";
 import { defaultSettings } from "~/db/settings";
@@ -32,11 +32,14 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     const settings = await db.settings.findOne().exec();
     const newProgramId = ulid();
 
-    const newProgram = {
-      ...programToClone.toJSON(),
+    const newProgram: ProgramsDocType = {
       id: newProgramId,
       name: `${programToClone.name} (Cloned)`,
-      ownerId: settings?.clientId,
+      description: programToClone.description,
+      type: programToClone.type,
+      level: programToClone.level,
+      ownerId: settings?.clientId ?? "",
+      exercises: programToClone.exercises,
     };
 
     const routinesToClone = await db.routines
