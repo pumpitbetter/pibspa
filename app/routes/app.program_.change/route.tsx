@@ -42,11 +42,18 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     const routinesToClone = await db.routines
       .find({ selector: { programId } })
       .exec();
-    const newRoutines = routinesToClone.map((routine) => ({
-      ...routine.toJSON(),
-      id: ulid(),
-      programId: newProgramId,
-    }));
+
+    const routineIdMap: { [key: string]: string } = {};
+
+    const newRoutines = routinesToClone.map((routine) => {
+      const newRoutine = {
+        ...routine.toJSON(),
+        id: ulid(),
+        programId: newProgramId,
+      };
+      routineIdMap[routine.id] = newRoutine.id;
+      return newRoutine;
+    });
 
     const templatesToClone = await db.templates
       .find({ selector: { programId } })
@@ -55,8 +62,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
       ...template.toJSON(),
       id: ulid(),
       programId: newProgramId,
-      routineId:
-        newRoutines.find((r) => r.name === template.routineId)?.id ?? "",
+      routineId: routineIdMap[template.routineId] ?? "",
     }));
 
     await db.programs.insert(newProgram);
