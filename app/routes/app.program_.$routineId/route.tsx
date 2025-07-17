@@ -15,6 +15,7 @@ import {
 import { LinkBack } from "~/components/link-back";
 import type { Route } from "./+types/route";
 import { DialogRepsLoadEdit } from "./dialog-reps-load-edit";
+import { DialogSetsEdit } from "./dialog-sets-edit";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -22,8 +23,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { Plus, MoreVertical, Trash2 } from "lucide-react";
+import { Plus, MoreVertical, Trash2, Hash } from "lucide-react";
 import { Link, Form } from "react-router";
+import { useState } from "react";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -69,7 +71,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 
-type Intent = "editRoutine" | "deleteExercise";
+type Intent = "editRoutine" | "deleteExercise" | "updateSets";
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
@@ -84,13 +86,26 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
       await deleteExercise(formData);
       break;
     }
+    case "updateSets": {
+      await updateSets(formData);
+      break;
+    }
   }
 
   return;
 }
 
-export default function Programroutine({ loaderData }: Route.ComponentProps) {
+export default function Programoutine({ loaderData }: Route.ComponentProps) {
   const { routine, templates, exercises, program, settings } = loaderData;
+  const [uiState, setUiState] = useState<{
+    openDropdown: string | null;
+    dialogOpen: boolean;
+    dialogExerciseId: string | null;
+  }>({
+    openDropdown: null,
+    dialogOpen: false,
+    dialogExerciseId: null,
+  });
 
   const groupedTemplates = groupCircuitsIntoSets(groupIntoCircuits(templates));
 
@@ -126,18 +141,50 @@ export default function Programroutine({ loaderData }: Route.ComponentProps) {
                         {exercise?.name ?? "Unknown Exercise"}
                       </CardTitle>
                       {program?.ownerId !== "system" && (
-                        <DropdownMenu>
+                        <DropdownMenu
+                          open={uiState.openDropdown === template[0]}
+                          onOpenChange={(open) =>
+                            setUiState((prev) => ({
+                              ...prev,
+                              openDropdown: open ? template[0] : null,
+                            }))
+                          }
+                        >
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="sm">
                               <MoreVertical className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
+                            <DropdownMenuItem
+                              onSelect={() => {
+                                setUiState((prev) => ({
+                                  ...prev,
+                                  openDropdown: null,
+                                  dialogOpen: true,
+                                  dialogExerciseId: template[0],
+                                }));
+                              }}
+                            >
+                              <Hash className="h-4 w-4 text-on-surface-variant mr-2" />
+                              Sets ({template[1].length})
+                            </DropdownMenuItem>
                             <Form method="post">
-                              <input type="hidden" name="intent" value="deleteExercise" />
-                              <input type="hidden" name="exerciseId" value={template[0]} />
+                              <input
+                                type="hidden"
+                                name="intent"
+                                value="deleteExercise"
+                              />
+                              <input
+                                type="hidden"
+                                name="exerciseId"
+                                value={template[0]}
+                              />
                               <DropdownMenuItem asChild>
-                                <button type="submit" className="flex w-full items-center gap-2 text-on-surface-variant">
+                                <button
+                                  type="submit"
+                                  className="flex w-full items-center gap-2 text-on-surface-variant"
+                                >
                                   <Trash2 className="h-4 w-4 text-on-surface-variant" />
                                   Delete
                                 </button>
@@ -146,6 +193,23 @@ export default function Programroutine({ loaderData }: Route.ComponentProps) {
                           </DropdownMenuContent>
                         </DropdownMenu>
                       )}
+                      {/* Dialog moved outside the DropdownMenu */}
+                      <DialogSetsEdit
+                        exerciseId={template[0]}
+                        routineId={routine.id}
+                        currentSetCount={template[1].length}
+                        isOpen={
+                          uiState.dialogOpen &&
+                          uiState.dialogExerciseId === template[0]
+                        }
+                        onOpenChange={(open) =>
+                          setUiState((prev) => ({
+                            ...prev,
+                            dialogOpen: open,
+                            dialogExerciseId: open ? template[0] : null,
+                          }))
+                        }
+                      />
                     </div>
                   </CardHeader>
                   <CardContent>
@@ -171,7 +235,7 @@ export default function Programroutine({ loaderData }: Route.ComponentProps) {
                             barWeight,
                           })
                         : { value: 0, units: settings.weigthUnit };
-                      
+
                       const exerciseDisplay = (
                         <div className="flex gap-2 py-3">
                           <span>{item.reps} reps</span>
@@ -243,7 +307,72 @@ async function deleteExercise(formData: FormData) {
   const db = await dbPromise;
 
   // Delete all templates for this exercise
-  await db.templates
-    .find({ selector: { exerciseId } })
-    .remove();
+  await db.templates.find({ selector: { exerciseId } }).remove();
+}
+
+async function updateSets(formData: FormData) {
+  const exerciseId = formData.get("exerciseId") as string;
+  const setCount = Number(formData.get("setCount") as string);
+  const routineId = formData.get("routineId") as string;
+
+  invariant(exerciseId, "exerciseId not found");
+  invariant(routineId, "routineId not found");
+  invariant(setCount > 0, "setCount must be greater than 0");
+
+  const db = await dbPromise;
+
+  // Get current templates for this exercise in this routine
+  const currentTemplates = await db.templates
+    .find({
+      selector: {
+        exerciseId,
+        routineId,
+      },
+    })
+    .exec();
+
+  const currentCount = currentTemplates.length;
+
+  if (setCount === currentCount) {
+    // No change needed
+    return;
+  }
+
+  if (setCount > currentCount) {
+    // Add new sets
+    const setsToAdd = setCount - currentCount;
+    const lastTemplate = currentTemplates[currentTemplates.length - 1];
+
+    if (lastTemplate) {
+      const newTemplates = [];
+      const baseSequence = lastTemplate.sequence || 1;
+      const templateData = lastTemplate.toMutableJSON();
+
+      for (let i = 0; i < setsToAdd; i++) {
+        newTemplates.push({
+          id: crypto.randomUUID(),
+          programId: templateData.programId,
+          routineId: templateData.routineId,
+          exerciseId: templateData.exerciseId,
+          order: templateData.order,
+          sequence: baseSequence + i + 1,
+          load: templateData.load,
+          reps: templateData.reps,
+          progression: templateData.progression,
+          amrep: templateData.amrep,
+        });
+      }
+      await db.templates.bulkInsert(newTemplates);
+    }
+  } else {
+    // Remove sets (remove from the end)
+    const setsToRemove = currentCount - setCount;
+    const templatesOrderedBySequence = currentTemplates.sort(
+      (a, b) => (b.sequence || 1) - (a.sequence || 1)
+    );
+
+    for (let i = 0; i < setsToRemove; i++) {
+      await templatesOrderedBySequence[i].remove();
+    }
+  }
 }
