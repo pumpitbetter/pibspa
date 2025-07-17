@@ -29,18 +29,18 @@ export function ExerciseSearchAndFilter({
 }: ExerciseSearchAndFilterProps) {
   // Derive unique equipment types from exercises data
   const equipmentTypes = Array.from(
-    new Set(exercises.flatMap(exercise => exercise.equipment))
+    new Set(exercises.flatMap((exercise) => exercise.equipment))
   ).sort();
 
   // Derive unique exercise types from exercises data
   const exerciseTypes = Array.from(
-    new Set(exercises.map(exercise => exercise.type))
+    new Set(exercises.map((exercise) => exercise.type))
   ).sort();
 
   const handleEquipmentToggle = (equipment: string) => {
     onEquipmentFilterChange(
       equipmentFilter.includes(equipment)
-        ? equipmentFilter.filter(e => e !== equipment)
+        ? equipmentFilter.filter((e) => e !== equipment)
         : [...equipmentFilter, equipment]
     );
   };
@@ -48,7 +48,7 @@ export function ExerciseSearchAndFilter({
   const handleTypeToggle = (type: string) => {
     onTypeFilterChange(
       typeFilter.includes(type)
-        ? typeFilter.filter(t => t !== type)
+        ? typeFilter.filter((t) => t !== type)
         : [...typeFilter, type]
     );
   };
@@ -68,18 +68,10 @@ export function ExerciseSearchAndFilter({
 
       {/* Quick Actions */}
       <div className="flex gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onSelectAll}
-        >
+        <Button variant="outline" size="sm" onClick={onSelectAll}>
           Select All
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onClearSelection}
-        >
+        <Button variant="outline" size="sm" onClick={onClearSelection}>
           Clear All
         </Button>
       </div>
@@ -94,7 +86,9 @@ export function ExerciseSearchAndFilter({
           {equipmentTypes.map((equipment) => (
             <Badge
               key={equipment}
-              variant={equipmentFilter.includes(equipment) ? "default" : "outline"}
+              variant={
+                equipmentFilter.includes(equipment) ? "default" : "outline"
+              }
               className="cursor-pointer capitalize"
               onClick={() => handleEquipmentToggle(equipment)}
             >

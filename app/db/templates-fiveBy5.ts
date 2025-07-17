@@ -25,7 +25,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1, // 10% deload
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3, // after 3 failed attempts
       },
@@ -49,7 +49,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -73,7 +73,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -97,7 +97,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -121,7 +121,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -146,7 +146,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -170,7 +170,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -194,7 +194,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -218,7 +218,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -242,7 +242,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -267,7 +267,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -291,7 +291,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -315,7 +315,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -339,7 +339,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -363,7 +363,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -390,7 +390,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -414,7 +414,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -438,7 +438,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -462,7 +462,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -486,7 +486,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -511,7 +511,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -535,7 +535,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -559,7 +559,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -583,7 +583,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -607,7 +607,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },
@@ -632,7 +632,7 @@ export async function initFiveBy5Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1,
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3,
       },

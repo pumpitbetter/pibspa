@@ -24,7 +24,7 @@ export async function initThreeBy8Templates(db: MyDatabase) {
     routineId: "3x8-routine-1",
     exerciseId: "barbell-squat",
     order: 2,
-    load: 0.90, // 90% of max for second set
+    load: 0.9, // 90% of max for second set
     reps: 8,
   });
 
@@ -45,7 +45,7 @@ export async function initThreeBy8Templates(db: MyDatabase) {
       },
       decrement: {
         value: 0.1, // 10% deload
-        kind: "weight", 
+        kind: "weight",
         type: "percentage",
         frequency: 3, // after 3 failed attempts
       },
@@ -69,7 +69,7 @@ export async function initThreeBy8Templates(db: MyDatabase) {
     routineId: "3x8-routine-1",
     exerciseId: "barbell-bench-press",
     order: 5,
-    load: 0.90,
+    load: 0.9,
     reps: 8,
   });
 
@@ -85,7 +85,7 @@ export async function initThreeBy8Templates(db: MyDatabase) {
       increment: {
         value: 2.5,
         kind: "weight",
-        type: "absolute", 
+        type: "absolute",
         frequency: 1,
       },
       decrement: {
@@ -141,7 +141,7 @@ export async function initThreeBy8Templates(db: MyDatabase) {
     routineId: "3x8-routine-2",
     exerciseId: "barbell-squat",
     order: 2,
-    load: 0.90,
+    load: 0.9,
     reps: 8,
   });
 
@@ -186,7 +186,7 @@ export async function initThreeBy8Templates(db: MyDatabase) {
     routineId: "3x8-routine-2",
     exerciseId: "barbell-overhead-press",
     order: 5,
-    load: 0.90,
+    load: 0.9,
     reps: 8,
   });
 
@@ -231,7 +231,7 @@ export async function initThreeBy8Templates(db: MyDatabase) {
     routineId: "3x8-routine-2",
     exerciseId: "barbell-row",
     order: 8,
-    load: 0.90,
+    load: 0.9,
     reps: 8,
   });
 
