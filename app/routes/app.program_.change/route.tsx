@@ -25,6 +25,10 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     return await handleCloneProgram(programId);
   }
 
+  if (intent === "delete") {
+    return await handleDeleteProgram(programId);
+  }
+
   return await handleSwitchProgram(programId);
 }
 
@@ -42,6 +46,7 @@ export default function ProgramChange({ loaderData }: Route.ComponentProps) {
               description={program.description}
               type={program.type}
               level={program.level}
+              ownerId={program.ownerId}
             />
           ))}
         </List>
@@ -53,6 +58,26 @@ export default function ProgramChange({ loaderData }: Route.ComponentProps) {
 //
 // helper functions
 //
+
+async function handleDeleteProgram(programId: string) {
+  const db = await dbPromise;
+
+  const programToDelete = await db.programs.findOne(programId).exec();
+  if (!programToDelete) {
+    throw new Response("Program not found", { status: 404 });
+  }
+
+  if (programToDelete.ownerId === "system") {
+    return { ok: false, error: "Cannot delete system programs" };
+  }
+
+  await db.routines.find({ selector: { programId } }).remove();
+  await db.templates.find({ selector: { programId } }).remove();
+  await db.history.find({ selector: { programId } }).remove();
+  await programToDelete.remove();
+
+  return { ok: true };
+}
 
 async function handleCloneProgram(programId: string) {
   const db = await dbPromise;

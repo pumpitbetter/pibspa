@@ -16,6 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { MoreVertical } from "lucide-react";
+import { DialogDeleteProgram } from "./dialog-delete-program";
+import { useEffect, useState } from "react";
 
 export function ProgramListItem({
   id,
@@ -23,6 +25,7 @@ export function ProgramListItem({
   description,
   type,
   level,
+  ownerId,
   onClick,
 }: {
   id: string;
@@ -30,23 +33,38 @@ export function ProgramListItem({
   description: string;
   type: string;
   level: string;
+  ownerId: string;
   onClick?: () => void;
 }) {
   const fetcher = useFetcher();
   const navigate = useNavigate();
   const cloneFetcher = useFetcher();
+  const deleteFetcher = useFetcher();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSelect = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await fetcher.submit(event.currentTarget);
     navigate("/app/program");
   };
 
   const handleClone = () => {
-    cloneFetcher.submit(
-      { programId: id, intent: "clone" },
+    cloneFetcher.submit({ programId: id, intent: "clone" }, { method: "post" });
+  };
+
+  const handleDelete = () => {
+    // Use setTimeout to ensure the dialog opens after the click event completes
+    setTimeout(() => {
+      setIsDeleteDialogOpen(true);
+    }, 0);
+  };
+
+  const handleConfirmDelete = () => {
+    deleteFetcher.submit(
+      { programId: id, intent: "delete" },
       { method: "post" }
     );
+    setIsDeleteDialogOpen(false);
   };
 
   return (
@@ -71,19 +89,31 @@ export function ProgramListItem({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onSelect={handleClone}>Clone</DropdownMenuItem>
+                <DropdownMenuItem onSelect={handleClone}>
+                  Clone
+                </DropdownMenuItem>
+                {ownerId !== "system" && (
+                  <DropdownMenuItem onSelect={handleDelete}>
+                    Delete
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </CardHeader>
         <CardContent>{description}</CardContent>
         <CardFooter className="flex justify-end">
-          <fetcher.Form method="post" onSubmit={handleSubmit}>
+          <fetcher.Form method="post" onSubmit={handleSelect}>
             <input type="hidden" name="programId" value={id} />
             <Button type="submit">Select</Button>
           </fetcher.Form>
         </CardFooter>
       </Card>
+      <DialogDeleteProgram
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </li>
   );
 }
