@@ -42,7 +42,7 @@ export function ProgramListItem({
   const deleteFetcher = useFetcher();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSelect = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await fetcher.submit(event.currentTarget);
     navigate("/app/program");
@@ -66,19 +66,6 @@ export function ProgramListItem({
     );
     setIsDeleteDialogOpen(false);
   };
-
-  useEffect(() => {
-    if (deleteFetcher.state === "idle" && deleteFetcher.data) {
-      if (deleteFetcher.data.ok) {
-        // Program deleted successfully, revalidate the loader data
-        fetcher.load("/app/program/change");
-      } else {
-        // Handle error, e.g., display a toast notification
-        console.error("Failed to delete program:", deleteFetcher.data.error);
-        alert("Failed to delete program: " + deleteFetcher.data.error); // Basic error display
-      }
-    }
-  }, [deleteFetcher.state, deleteFetcher.data, fetcher]);
 
   return (
     <li className="w-full p-4" onClick={onClick}>
@@ -116,7 +103,7 @@ export function ProgramListItem({
         </CardHeader>
         <CardContent>{description}</CardContent>
         <CardFooter className="flex justify-end">
-          <fetcher.Form method="post" onSubmit={handleSubmit}>
+          <fetcher.Form method="post" onSubmit={handleSelect}>
             <input type="hidden" name="programId" value={id} />
             <Button type="submit">Select</Button>
           </fetcher.Form>
