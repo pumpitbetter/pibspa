@@ -49,14 +49,14 @@ export function ProgramListItem({
   };
 
   const handleClone = () => {
-    cloneFetcher.submit(
-      { programId: id, intent: "clone" },
-      { method: "post" }
-    );
+    cloneFetcher.submit({ programId: id, intent: "clone" }, { method: "post" });
   };
 
   const handleDelete = () => {
-    setIsDeleteDialogOpen(true);
+    // Use setTimeout to ensure the dialog opens after the click event completes
+    setTimeout(() => {
+      setIsDeleteDialogOpen(true);
+    }, 0);
   };
 
   const handleConfirmDelete = () => {
@@ -102,7 +102,9 @@ export function ProgramListItem({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onSelect={handleClone}>Clone</DropdownMenuItem>
+                <DropdownMenuItem onSelect={handleClone}>
+                  Clone
+                </DropdownMenuItem>
                 {ownerId !== "system" && (
                   <DropdownMenuItem onSelect={handleDelete}>
                     Delete
