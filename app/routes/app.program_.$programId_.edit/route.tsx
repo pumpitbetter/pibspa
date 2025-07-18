@@ -3,9 +3,21 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import { dbPromise } from "~/db/db";
 import type { Route } from "./+types/route";
 import { useEffect, useState } from "react";
+import { Page } from "~/components/page";
+import { Header } from "~/components/header";
+import { MainContent } from "~/components/main-content";
+import { LinkBack } from "~/components/link-back";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -68,30 +80,40 @@ export default function EditProgram({ loaderData }: Route.ComponentProps) {
       <Header title="Edit Program" left={<LinkBack to="/app/program/change" />} />
       <MainContent>
         {error && <p className="text-red-500">{error}</p>}
-        <fetcher.Form method="post" className="flex flex-col gap-4">
-          <input type="hidden" name="intent" value="program_update" />
-          <input type="hidden" name="programId" value={programId} />
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="name">Name</Label>
-            <Input
-              type="text"
-              id="name"
-              name="name"
-              defaultValue={loaderData?.name}
-            />
-          </div>
-          <div className="grid w-full gap-1.5">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              name="description"
-              defaultValue={loaderData?.description}
-            />
-          </div>
-          <Button type="submit" className="self-end">
-            Save
-          </Button>
-        </fetcher.Form>
+        <Card>
+          <CardHeader>
+            <CardTitle>Edit Program Details</CardTitle>
+            <CardDescription>
+              Make changes to your program here. Click save when you're done.
+            </CardDescription>
+          </CardHeader>
+          <fetcher.Form method="post">
+            <CardContent className="flex flex-col gap-4">
+              <input type="hidden" name="intent" value="program_update" />
+              <input type="hidden" name="programId" value={programId} />
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  defaultValue={loaderData?.name}
+                />
+              </div>
+              <div className="grid w-full gap-1.5">
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  defaultValue={loaderData?.description}
+                />
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-end pt-4">
+              <Button type="submit">Save</Button>
+            </CardFooter>
+          </fetcher.Form>
+        </Card>
       </MainContent>
     </Page>
   );
