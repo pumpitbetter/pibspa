@@ -5,7 +5,7 @@ import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { dbPromise } from "~/db/db";
 import type { Route } from "./+types/route";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
@@ -24,11 +24,15 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     const db = await dbPromise;
     const program = await db.programs.findOne(programId).exec();
 
-    if (program?.ownerId === "system") {
+    if (!program) {
+      return new Response("Program not found", { status: 404 });
+    }
+
+    if (program.ownerId === "system") {
       return new Response("Cannot edit system programs", { status: 403 });
     }
 
-    await program?.update({
+    await program.update({
       $set: {
         name,
         description,
@@ -49,10 +53,13 @@ export default function EditProgram({ loaderData }: Route.ComponentProps) {
   const { programId } = useParams();
   const fetcher = useFetcher();
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (fetcher.data?.ok) {
       navigate("/app/program/change");
+    } else if (fetcher.data) {
+      setError("Failed to save changes. Please try again.");
     }
   }, [fetcher.data, navigate]);
 
@@ -60,6 +67,7 @@ export default function EditProgram({ loaderData }: Route.ComponentProps) {
     <Page>
       <Header title="Edit Program" left={<LinkBack to="/app/program/change" />} />
       <MainContent>
+        {error && <p className="text-red-500">{error}</p>}
         <fetcher.Form method="post" className="flex flex-col gap-4">
           <input type="hidden" name="intent" value="program_update" />
           <input type="hidden" name="programId" value={programId} />
