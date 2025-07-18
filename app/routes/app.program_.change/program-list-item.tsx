@@ -67,6 +67,10 @@ export function ProgramListItem({
     setIsDeleteDialogOpen(false);
   };
 
+  const handleEdit = () => {
+    navigate(`/app/program/${id}/edit`);
+  };
+
   return (
     <li className="w-full p-4" onClick={onClick}>
       <Card>
@@ -89,9 +93,10 @@ export function ProgramListItem({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onSelect={handleClone}>
-                  Clone
-                </DropdownMenuItem>
+                {ownerId !== "system" && (
+                  <DropdownMenuItem onSelect={handleEdit}>Edit</DropdownMenuItem>
+                )}
+                <DropdownMenuItem onSelect={handleClone}>Clone</DropdownMenuItem>
                 {ownerId !== "system" && (
                   <DropdownMenuItem onSelect={handleDelete}>
                     Delete
