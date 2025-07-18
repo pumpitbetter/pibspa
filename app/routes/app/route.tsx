@@ -1,4 +1,10 @@
-import { Link, NavLink, Outlet, useLoaderData } from "react-router";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLoaderData,
+  useMatches,
+} from "react-router";
 import cx from "classix";
 import type { Route } from "./+types/route";
 import { dbPromise } from "~/db/db";
@@ -30,44 +36,50 @@ export async function clientLoader() {
 // This is a *layout* for the rest of the app pages
 export default function App({ loaderData }: Route.ComponentProps) {
   const { activeWorkout } = loaderData;
+  const matches = useMatches();
+  const showBottomNav = !matches.some((match) => match.handle?.hideBottomNav);
   const bottomNavHeight = 56; // px
   return (
     <div className="flex flex-col h-dvh">
       <div className="flex-1">
         <Outlet />
-        <div className={`min-h-[${bottomNavHeight}px]`}></div>
+        {showBottomNav && <div className={`min-h-[${bottomNavHeight}px]`}></div>}
       </div>
       {activeWorkout && (
-        <div className={`fixed bottom-[56px] right-0`}>
+        <div
+          className={`fixed bottom-[${showBottomNav ? 56 : 0}px] right-0 w-full`}
+        >
           <Link to={`/app/workouts/${activeWorkout.id}`}>
-            <Button className="min-h-[56px] rounded-none rounded-tl-lg">
+            <Button className="min-h-[56px] rounded-none w-full">
               Continue Workout
             </Button>
           </Link>
         </div>
       )}
-      <nav
-        className={cx(
-          `flex justify-around p-4 fixed bottom-0 w-full min-h-[${bottomNavHeight}px] border-ts`,
-          "text-on-surface bg-surface-container border-outline-variant"
-        )}
-      >
-        <NavLink to="program" className={navLinkStyle}>
-          Program
-        </NavLink>
-        <NavLink to="queue" className={navLinkStyle}>
-          Queue
-        </NavLink>
-        <NavLink to="history" className={navLinkStyle}>
-          History
-        </NavLink>
-        <NavLink to="progress" className={navLinkStyle}>
-          Progress
-        </NavLink>
-        <NavLink to="settings" className={navLinkStyle}>
-          Settings
-        </NavLink>
-      </nav>
+      {showBottomNav && (
+        <nav
+          className={cx(
+            `flex justify-around p-4 fixed bottom-0 w-full min-h-[${bottomNavHeight}px] border-t`,
+            "text-on-surface bg-surface-container border-outline-variant"
+          )}
+        >
+          <NavLink to="program" className={navLinkStyle}>
+            Program
+          </NavLink>
+          <NavLink to="queue" className={navLinkStyle}>
+            Queue
+          </NavLink>
+          <NavLink to="history" className={navLinkStyle}>
+            History
+          </NavLink>
+          <NavLink to="progress" className={navLinkStyle}>
+            Progress
+          </NavLink>
+          <NavLink to="settings" className={navLinkStyle}>
+            Settings
+          </NavLink>
+        </nav>
+      )}
     </div>
   );
 }
