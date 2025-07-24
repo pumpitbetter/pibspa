@@ -77,16 +77,13 @@ export default function EditProgram({ loaderData }: Route.ComponentProps) {
 
   return (
     <Page>
-      <Header title="Edit Program" left={<LinkBack to="/app/program/change" />} />
+      <Header
+        title="Edit Program"
+        left={<LinkBack to="/app/program/change" />}
+      />
       <MainContent>
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-error">{error}</p>}
         <Card>
-          <CardHeader>
-            <CardTitle>Edit Program Details</CardTitle>
-            <CardDescription>
-              Make changes to your program here. Click save when you're done.
-            </CardDescription>
-          </CardHeader>
           <fetcher.Form method="post">
             <CardContent className="flex flex-col gap-4">
               <input type="hidden" name="intent" value="program_update" />
@@ -105,6 +102,7 @@ export default function EditProgram({ loaderData }: Route.ComponentProps) {
                 <Textarea
                   id="description"
                   name="description"
+                  rows={5}
                   defaultValue={loaderData?.description}
                 />
               </div>
@@ -118,4 +116,3 @@ export default function EditProgram({ loaderData }: Route.ComponentProps) {
     </Page>
   );
 }
-
