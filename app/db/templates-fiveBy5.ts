@@ -1,14 +1,7 @@
-import type { MyDatabase } from "./db";
+import type { TemplatesDocType } from "./templates";
 
-export async function initFiveBy5Templates(db: MyDatabase) {
-  //
-  // StrongLifts 5x5 Program
-  //
-
-  // WORKOUT A: Squat, Bench Press, Barbell Row
-
-  // Barbell Squat sets (5 sets of 5 reps)
-  await db.templates.insertIfNotExists({
+export const fiveBy5TemplatesData: TemplatesDocType[] = [
+  {
     id: "5x5-squat-a-1",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -30,9 +23,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3, // after 3 failed attempts
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-squat-a-2",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -54,9 +46,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-squat-a-3",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -78,9 +69,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-squat-a-4",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -102,9 +92,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-squat-a-5",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -126,10 +115,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  // Barbell Bench Press sets (5 sets of 5 reps)
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-bench-a-1",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -151,9 +138,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-bench-a-2",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -175,9 +161,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-bench-a-3",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -199,9 +184,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-bench-a-4",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -223,9 +207,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-bench-a-5",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -247,10 +230,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  // Barbell Row sets (5 sets of 5 reps)
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-row-a-1",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -272,9 +253,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-row-a-2",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -296,9 +276,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-row-a-3",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -320,9 +299,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-row-a-4",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -344,9 +322,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-row-a-5",
     programId: "5x5",
     routineId: "5x5-routine-a",
@@ -368,12 +345,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  // WORKOUT B: Squat, Overhead Press, Deadlift
-
-  // Barbell Squat sets (5 sets of 5 reps)
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-squat-b-1",
     programId: "5x5",
     routineId: "5x5-routine-b",
@@ -395,9 +368,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-squat-b-2",
     programId: "5x5",
     routineId: "5x5-routine-b",
@@ -419,9 +391,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-squat-b-3",
     programId: "5x5",
     routineId: "5x5-routine-b",
@@ -443,9 +414,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-squat-b-4",
     programId: "5x5",
     routineId: "5x5-routine-b",
@@ -467,9 +437,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-squat-b-5",
     programId: "5x5",
     routineId: "5x5-routine-b",
@@ -491,10 +460,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  // Barbell Overhead Press sets (5 sets of 5 reps)
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-ohp-b-1",
     programId: "5x5",
     routineId: "5x5-routine-b",
@@ -516,9 +483,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-ohp-b-2",
     programId: "5x5",
     routineId: "5x5-routine-b",
@@ -540,9 +506,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-ohp-b-3",
     programId: "5x5",
     routineId: "5x5-routine-b",
@@ -564,9 +529,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-ohp-b-4",
     programId: "5x5",
     routineId: "5x5-routine-b",
@@ -588,9 +552,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-ohp-b-5",
     programId: "5x5",
     routineId: "5x5-routine-b",
@@ -612,10 +575,8 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-
-  // Barbell Deadlift set (1 set of 5 reps)
-  await db.templates.insertIfNotExists({
+  },
+  {
     id: "5x5-deadlift-b-1",
     programId: "5x5",
     routineId: "5x5-routine-b",
@@ -637,5 +598,5 @@ export async function initFiveBy5Templates(db: MyDatabase) {
         frequency: 3,
       },
     },
-  });
-}
+  },
+];

@@ -7,14 +7,8 @@ import {
 } from "rxdb";
 import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
-import { threeBy8 } from "./programs-threeBy8";
+import { programsData } from "./programs-data";
 import { fiveBy5 } from "./programs-fiveBy5";
-import { madcow } from "./programs-madcow";
-import { five31 } from "./programs-five31";
-import { five31Hypertrophy } from "./programs-five31-hypertrophy";
-import { five31Trident } from "./programs-five31-trident";
-import { Square } from "lucide-react";
-import { five31Fusion } from "./programs-five31-fusion";
 
 export const programsSchemaLiteral = {
   title: "programs schema",
@@ -135,17 +129,27 @@ export async function initPrograms(db: MyDatabase) {
       schema: programsSchema,
       methods: programsDocMethods,
       statics: programsCollectionMethods,
+      // No migration strategies needed for version 0
+      // When you need to migrate to version 1, uncomment and modify:
+      /*
+      migrationStrategies: {
+        // Version 1: Example migration from version 0 to 1
+        1: async function (oldDoc: any) {
+          // Transform old document to new schema
+          // Example: oldDoc.newField = 'defaultValue';
+          return oldDoc;
+        },
+      },
+      */
     },
   });
 
-  // generate initial programs
-  await db.programs.insertIfNotExists(fiveBy5);
-  await db.programs.insertIfNotExists(threeBy8);
-  await db.programs.insertIfNotExists(madcow);
-  await db.programs.insertIfNotExists(five31);
-  await db.programs.insertIfNotExists(five31Hypertrophy);
-  await db.programs.insertIfNotExists(five31Trident);
-  await db.programs.insertIfNotExists(five31Fusion);
+  // Check if we need to seed initial data (only on first run)
+  const count = await db.programs.count().exec();
+  if (count === 0) {
+    // Generate initial programs using bulk insert
+    await db.programs.bulkInsert(programsData);
+  }
 
   // add a postInsert-hook
   await db.programs.postInsert(

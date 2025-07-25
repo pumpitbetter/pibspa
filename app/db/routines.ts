@@ -90,16 +90,33 @@ export async function initRoutines(db: MyDatabase) {
       schema: routinesSchema,
       methods: routinesDocMethods,
       statics: routinesCollectionMethods,
+      // No migration strategies needed for version 0
+      // When you need to migrate to version 1, uncomment and modify:
+      /*
+      migrationStrategies: {
+        // Version 1: Example migration from version 0 to 1
+        1: async function (oldDoc: any) {
+          // Transform old document to new schema
+          // Example: oldDoc.newField = 'defaultValue';
+          return oldDoc;
+        },
+      },
+      */
     },
   });
 
-  await db.routines.bulkInsert(madcowRoutines);
-  await db.routines.bulkInsert(fiveBy5Routines);
-  await db.routines.bulkInsert(five31Routines);
-  await db.routines.bulkInsert(five31HypertrophyRoutines);
-  await db.routines.bulkInsert(five31TridentRoutines);
-  await db.routines.bulkInsert(five31FusionRoutines);
-  await db.routines.bulkInsert(threeBy8Routines);
+  // Check if we need to seed initial data (only on first run)
+  const count = await db.routines.count().exec();
+  if (count === 0) {
+    // Generate initial routines using bulk insert
+    await db.routines.bulkInsert(madcowRoutines);
+    await db.routines.bulkInsert(fiveBy5Routines);
+    await db.routines.bulkInsert(five31Routines);
+    await db.routines.bulkInsert(five31HypertrophyRoutines);
+    await db.routines.bulkInsert(five31TridentRoutines);
+    await db.routines.bulkInsert(five31FusionRoutines);
+    await db.routines.bulkInsert(threeBy8Routines);
+  }
 
   // add a postInsert-hook
   await db.routines.postInsert(

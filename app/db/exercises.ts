@@ -126,11 +126,27 @@ export async function initExercises(db: MyDatabase) {
       schema: exercisesSchema,
       methods: exercisesDocMethods,
       statics: exercisesCollectionMethods,
+      // No migration strategies needed for version 0
+      // When you need to migrate to version 1, uncomment and modify:
+      /*
+      migrationStrategies: {
+        // Version 1: Example migration from version 0 to 1
+        1: async function (oldDoc: any) {
+          // Transform old document to new schema
+          // Example: oldDoc.newField = 'defaultValue';
+          return oldDoc;
+        },
+      },
+      */
     },
   });
 
-  // Generate initial exercises using bulk insert
-  await db.exercises.bulkInsert(exercisesData);
+  // Check if we need to seed initial data (only on first run)
+  const count = await db.exercises.count().exec();
+  if (count === 0) {
+    // Generate initial exercises using bulk insert
+    await db.exercises.bulkInsert(exercisesData);
+  }
 
   // add a postInsert-hook
   await db.exercises.postInsert(
