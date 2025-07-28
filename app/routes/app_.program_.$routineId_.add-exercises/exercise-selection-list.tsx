@@ -17,16 +17,29 @@ export function ExerciseSelectionList({
   const getEquipmentIcon = (equipment: string) => {
     const icons: Record<string, string> = {
       barbell: "🏋️",
-      dumbbell: "🥊",
-      bodyweight: "💪",
-      machine: "⚙️",
-      kettlebell: "🔔",
+      dumbbell: "🏋️‍♀️",
+      ezbar: "〰️",
+      kettlebell: "�",
       band: "🎗️",
+      machine: "⚙️",
+      bodyweight: "💪",
+      treadmill: "🏃‍♂️",
+      bike: "🚴‍♂️",
+      elliptical: "🏃‍♀️",
+      rower: "�‍♂️",
+      stairmaster: "🪜",
+      jumprope: "🪢",
       squatrack: "🏗️",
       flatbench: "🪑",
       inclinebench: "📐",
       pullupbar: "🚧",
       dipbar: "🤸",
+      medicineball: "⚽",
+      sled: "🛷",
+      battlerope: "🪢",
+      tire: "🛞",
+      other: "🏃",
+      none: "❌",
     };
     return icons[equipment] || "🏃";
   };

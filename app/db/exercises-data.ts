@@ -1,140 +1,30 @@
 import type { ExercisesDocType } from "./exercises";
+import { barbellExercises } from "./exercises-barbell";
+import { dumbbellExercises } from "./exercises-dumbbell";
+import { cableExercises } from "./exercises-cable";
+import { machineExercises } from "./exercises-machine";
+import { bodyweightExercises } from "./exercises-bodyweight";
+import { bandExercises } from "./exercises-band";
+import { kettlebellExercises } from "./exercises-kettlebell";
+import { medicineballExercises } from "./exercises-medicineball";
+import { plyometricExercises } from "./exercises-plyometric";
+import { isometricExercises } from "./exercises-isometric";
+import { cardioEquipmentExercises } from "./exercises-cardio-equipment";
+import { functionalExercises } from "./exercises-functional";
+import { otherExercises } from "./exercises-other";
 
 export const exercisesData: ExercisesDocType[] = [
-  {
-    id: "barbell-squat",
-    name: "Barbell Squat",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell", "squatrack"],
-    tags: ["compound", "primary"],
-  },
-  {
-    id: "barbell-bench-press",
-    name: "Barbell Bench Press",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell", "flatbench"],
-    tags: ["compound", "primary"],
-  },
-  {
-    id: "barbell-row",
-    name: "Barbell Row",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell"],
-    tags: ["compound", "primary"],
-  },
-  {
-    id: "barbell-deadlift",
-    name: "Barbell Deadlift",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell"],
-    tags: ["compound", "primary"],
-  },
-  {
-    id: "barbell-good-morning",
-    name: "Barbell Good Morning",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell"],
-    tags: ["compound", "primary"],
-  },
-  {
-    id: "barbell-overhead-press",
-    name: "Barbell Overhead Press",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell"],
-    tags: ["compound", "primary"],
-  },
-  {
-    id: "barbell-incline-bench-press",
-    name: "Barbell Incline Bench Press",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell", "inclinebench"],
-    tags: ["compound", "primary"],
-  },
-  {
-    id: "dips",
-    name: "Dips",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["dipbar"],
-    tags: ["compound"],
-  },
-  {
-    id: "pullups",
-    name: "Pullups",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["pullupbar"],
-    tags: ["compound"],
-  },
-  {
-    id: "hanging-knee-raise",
-    name: "Hanging Knee Raise",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["pullupbar"],
-    tags: ["compound"],
-  },
-  {
-    id: "planks",
-    name: "Planks",
-    type: "strength",
-    track: ["weight", "time"],
-    equipment: ["bodyweight"],
-    tags: ["compound"],
-  },
-  {
-    id: "barbell-curl",
-    name: "Barbell Curl",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell"],
-    tags: ["isolation"],
-  },
-  {
-    id: "ezbar-skullcrusher",
-    name: "EZ-Bar Skullcrusher",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["ezbar"],
-    tags: ["isolation"],
-  },
-  {
-    id: "dumbbell-row-one-arm",
-    name: "Dumbbell Row (One Arm)",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["dumbbell", "flatbench"],
-    tags: ["compound", "primary"],
-  },
-  {
-    id: "leg-curl",
-    name: "Leg Curl",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["machine"],
-    tags: ["compound", "primary"],
-  },
-  {
-    id: "dumbbell-bench-press",
-    name: "Dumbbell Bench Press",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["dumbbell", "flatbench"],
-    tags: ["compound", "primary"],
-  },
-  {
-    id: "leg-press",
-    name: "Leg Press",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["machine"],
-    tags: ["compound", "primary"],
-  },
+  ...barbellExercises,
+  ...dumbbellExercises,
+  ...cableExercises,
+  ...machineExercises,
+  ...bodyweightExercises,
+  ...bandExercises,
+  ...kettlebellExercises,
+  ...medicineballExercises,
+  ...plyometricExercises,
+  ...isometricExercises,
+  ...cardioEquipmentExercises,
+  ...functionalExercises,
+  ...otherExercises,
 ];
