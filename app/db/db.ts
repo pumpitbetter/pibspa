@@ -6,6 +6,7 @@ import {
 import { addRxPlugin } from "rxdb/plugins/core";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { RxDBUpdatePlugin } from "rxdb/plugins/update";
+import { RxDBMigrationPlugin } from "rxdb/plugins/migration-schema";
 import { initSettings, type SettingsCollection } from "./settings";
 import { initPrograms, type ProgramsCollection } from "./programs";
 import { initRoutines, type RoutinesCollection } from "./routines";
@@ -24,6 +25,7 @@ const mode = process.env.NODE_ENV;
 
 // other plugins
 addRxPlugin(RxDBUpdatePlugin);
+addRxPlugin(RxDBMigrationPlugin);
 
 export type MyDatabaseCollections = {
   settings: SettingsCollection;

@@ -124,18 +124,27 @@ export async function initSettings(db: MyDatabase) {
       schema: settingsSchema,
       methods: settingsDocMethods,
       statics: settingsCollectionMethods,
+      // No migration strategies needed for version 0
+      // When you need to migrate to version 1, uncomment and modify:
+      /*
+      migrationStrategies: {
+        // Version 1: Example migration from version 0 to 1
+        1: async function (oldDoc: any) {
+          // Transform old document to new schema
+          // Example: oldDoc.newField = 'defaultValue';
+          return oldDoc;
+        },
+      },
+      */
     },
   });
 
-  // generate initial settings
-  await db.settings
-    .findOne()
-    .exec()
-    .then((doc) => {
-      if (!doc) {
-        db.settings.insert(defaultSettings);
-      }
-    });
+  // Check if we need to seed initial data (only on first run)
+  const count = await db.settings.count().exec();
+  if (count === 0) {
+    // Generate initial settings
+    await db.settings.insert(defaultSettings);
+  }
 
   // add a postInsert-hook
   await db.settings.postInsert(

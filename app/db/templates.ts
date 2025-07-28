@@ -7,13 +7,19 @@ import {
 } from "rxdb";
 import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
-import { initMadcowTemplates } from "./templates-madcow";
-import { init531Templates } from "./templates-531";
-import { init531HypertrophyTemplates } from "./template-531-hypertrophy";
-import { init531TridentTemplates } from "./template-531-trident";
+import { madcowTemplatesData } from "./templates-madcow";
+import { fiveBy5TemplatesData } from "./templates-fiveBy5";
+import { threeBy8TemplatesData } from "./templates-threeBy8";
+import { five31TemplatesData, init531Templates } from "./templates-531";
+import {
+  five31HypertrophyTemplatesData,
+  init531HypertrophyTemplates,
+} from "./template-531-hypertrophy";
+import {
+  five31TridentTemplatesData,
+  init531TridentTemplates,
+} from "./template-531-trident";
 import { init531FusionTemplates } from "./template-531-fusion";
-import { initThreeBy8Templates } from "./templates-threeBy8";
-import { initFiveBy5Templates } from "./templates-fiveBy5";
 
 // routine set template
 // belongs to a particular program > routine
@@ -166,17 +172,38 @@ export async function initTemplates(db: MyDatabase) {
       schema: templatesSchema,
       methods: templatesDocMethods,
       statics: templatesCollectionMethods,
+      // No migration strategies needed for version 0
+      // When you need to migrate to version 1, uncomment and modify:
+      /*
+      migrationStrategies: {
+        // Version 1: Example migration from version 0 to 1
+        1: async function (oldDoc: any) {
+          // Transform old document to new schema
+          // Example: oldDoc.newField = 'defaultValue';
+          return oldDoc;
+        },
+      },
+      */
     },
   });
 
-  // generate initial templates
-  await initMadcowTemplates(db);
-  await initFiveBy5Templates(db);
-  await init531Templates(db);
-  await init531HypertrophyTemplates(db);
-  await init531TridentTemplates(db);
-  await init531FusionTemplates(db);
-  await initThreeBy8Templates(db);
+  // Seed initial data if collection is empty (proper RxDB pattern)
+  const count = await db.templates.count().exec();
+  if (count === 0) {
+    // Use bulk insert for converted templates (better performance)
+    await db.templates.bulkInsert(madcowTemplatesData);
+    await db.templates.bulkInsert(fiveBy5TemplatesData);
+    await db.templates.bulkInsert(threeBy8TemplatesData);
+    await db.templates.bulkInsert(five31TemplatesData);
+    await db.templates.bulkInsert(five31HypertrophyTemplatesData);
+    await db.templates.bulkInsert(five31TridentTemplatesData);
+
+    // 5/3/1 Fusion uses dynamic generation, so we keep the function call
+    await init531FusionTemplates(db);
+
+    const totalCount = await db.templates.count().exec();
+    console.log(`Templates initialized: ${totalCount} total records`);
+  }
 
   // add a postInsert-hook
   await db.templates.postInsert(

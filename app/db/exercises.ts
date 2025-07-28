@@ -7,7 +7,7 @@ import {
 } from "rxdb";
 import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
-import { max } from "rxjs";
+import { exercisesData } from "./exercises-data";
 
 export const exercisesSchemaLiteral = {
   title: "exercises schema",
@@ -59,6 +59,11 @@ export const exercisesSchemaLiteral = {
           "inclinebench",
           "pullupbar",
           "dipbar",
+          "medicineball",
+          "sled",
+          "battlerope",
+          "tire",
+          "other",
           "none",
         ],
       },
@@ -126,162 +131,27 @@ export async function initExercises(db: MyDatabase) {
       schema: exercisesSchema,
       methods: exercisesDocMethods,
       statics: exercisesCollectionMethods,
+      // No migration strategies needed for version 0
+      // When you need to migrate to version 1, uncomment and modify:
+      /*
+      migrationStrategies: {
+        // Version 1: Example migration from version 0 to 1
+        1: async function (oldDoc: any) {
+          // Transform old document to new schema
+          // Example: oldDoc.newField = 'defaultValue';
+          return oldDoc;
+        },
+      },
+      */
     },
   });
 
-  // generate initial exercises
-  await db.exercises.insertIfNotExists({
-    id: "barbell-squat",
-    name: "Barbell Squat",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell", "squatrack"],
-    tags: ["compound", "primary"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "barbell-bench-press",
-    name: "Barbell Bench Press",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell", "flatbench"],
-    tags: ["compound", "primary"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "barbell-row",
-    name: "Barbell Row",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell"],
-    tags: ["compound", "primary"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "barbell-deadlift",
-    name: "Barbell Deadlift",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell"],
-    tags: ["compound", "primary"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "barbell-good-morning",
-    name: "Barbell Good Morning",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell"],
-    tags: ["compound", "primary"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "barbell-overhead-press",
-    name: "Barbell Overhead Press",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell"],
-    tags: ["compound", "primary"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "barbell-incline-bench-press",
-    name: "Barbell Incline Bench Press",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell", "inclinebench"],
-    tags: ["compound", "primary"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "dips",
-    name: "Dips",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["dipbar"],
-    tags: ["compound"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "pullups",
-    name: "Pullups",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["pullupbar"],
-    tags: ["compound"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "hanging-knee-raise",
-    name: "Hanging Knee Raise",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["pullupbar"],
-    tags: ["compound"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "planks",
-    name: "Planks",
-    type: "strength",
-    track: ["weight", "time"],
-    equipment: ["bodyweight"],
-    tags: ["compound"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "barbell-curl",
-    name: "Barbell Curl",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["barbell"],
-    tags: ["isolation"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "ezbar-skullcrusher",
-    name: "EZ-Bar Skullcrusher",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["ezbar"],
-    tags: ["isolation"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "dumbbell-row-one-arm",
-    name: "Dumbbell Row (One Arm)",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["dumbbell", "flatbench"],
-    tags: ["compound", "primary"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "leg-curl",
-    name: "Leg Curl",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["machine"],
-    tags: ["compound", "primary"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "dumbbell-bench-press",
-    name: "Dumbbell Bench Press",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["dumbbell", "flatbench"],
-    tags: ["compound", "primary"],
-  });
-
-  await db.exercises.insertIfNotExists({
-    id: "leg-press",
-    name: "Leg Press",
-    type: "strength",
-    track: ["weight"],
-    equipment: ["machine"],
-    tags: ["compound", "primary"],
-  });
+  // Check if we need to seed initial data (only on first run)
+  const count = await db.exercises.count().exec();
+  if (count === 0) {
+    // Generate initial exercises using bulk insert
+    await db.exercises.bulkInsert(exercisesData);
+  }
 
   // add a postInsert-hook
   await db.exercises.postInsert(
