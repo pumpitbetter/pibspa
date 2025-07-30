@@ -15,6 +15,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.65,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "cc3qM7cmq2fybEuAuvXyjD",
@@ -24,6 +25,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.75,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "xkadDjufVw4bJk9fb7vZ5F",
@@ -33,6 +35,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.85,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
 
   // Day 2
@@ -44,6 +47,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.65,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "3iZARMuqtXWk5rc5wtx874",
@@ -53,6 +57,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.75,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "4YzAHYAMAFMdJe3qCZKH5Y",
@@ -62,6 +67,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.85,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
 
   // Day 3
@@ -73,6 +79,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.65,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "6PkLvcYAJcSRZp6PAe8Tv5",
@@ -82,6 +89,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.75,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "nD8U69reVn2dySdzmHMxP4",
@@ -91,6 +99,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.85,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
 
   // Day 4
@@ -102,6 +111,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.65,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "rc6DrAudvZVCXb4YkUHgEd",
@@ -111,6 +121,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.75,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "pcMQvbNsKeBKyeLzt2gHTB",
@@ -120,6 +131,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.85,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
 
   //
@@ -135,6 +147,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.7,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "h3zYFazix7FspjurmD4agD",
@@ -144,6 +157,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.8,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "ae16jAWGv9xSns3KZ5J7bR",
@@ -153,6 +167,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.9,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
 
   // Day 6
@@ -164,6 +179,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.7,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "9cBuP2EYEzbaW3r1tCjT9P",
@@ -173,6 +189,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.8,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "3T2uYckqtmR5KWEL2xfKoF",
@@ -182,6 +199,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.9,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
 
   // Day 7
@@ -193,6 +211,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.7,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "n3YQuZaDDk6JgPPPFSZWFq",
@@ -202,6 +221,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.8,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "cd1QZmpu7Y7xVV2Btf3mNu",
@@ -211,6 +231,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.9,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   // Day 8
   {
@@ -221,6 +242,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.7,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "1UnsJCLAfKDffRMa5FAoVF",
@@ -230,6 +252,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.8,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "iCWPsXcQ2HFgKAt1XYD8uG",
@@ -239,6 +262,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.9,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
 
   //
@@ -254,6 +278,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.75,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "sSFmBbomtYWMungtXtPe6U",
@@ -263,6 +288,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.85,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "2LCCW9khQUHM6eosyaKjSU",
@@ -272,6 +298,27 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.95,
     reps: 1,
+    repRange: { min: 1, max: 1 },
+    progression: {
+      increment: [
+        {
+          value: 10,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
+    },
   },
 
   // Day 10
@@ -283,6 +330,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.75,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "sj7cWDvt7SQ6nh8xbzSYCa",
@@ -292,6 +340,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.85,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "vvaajTAErgdZikAmYXxFbW",
@@ -301,19 +350,26 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.95,
     reps: 1,
+    repRange: { min: 1, max: 1 },
     progression: {
-      increment: {
-        value: 10,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1, // every time this routine is done
-      },
-      decrement: {
-        value: 0.1, // 10% of the load
-        kind: "weight",
-        type: "percentage",
-        frequency: 3, // every 3 times this routine is done, if failed to complete the reps at this load
-      },
+      increment: [
+        {
+          value: 10,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
 
@@ -326,6 +382,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.75,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "3NUYRQXkFuvFSYpv5XwsJC",
@@ -335,6 +392,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.85,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "r2q3rY98jgnadyBW6XVYiX",
@@ -344,19 +402,26 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.95,
     reps: 1,
+    repRange: { min: 1, max: 1 },
     progression: {
-      increment: {
-        value: 10,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1, // every time this routine is done
-      },
-      decrement: {
-        value: 0.1, // 10% of the load
-        kind: "weight",
-        type: "percentage",
-        frequency: 3, // every 3 times this routine is done, if failed to complete the reps at this load
-      },
+      increment: [
+        {
+          value: 10,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
 
@@ -369,6 +434,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.75,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "nzjFWdq1TfPnP5BBX53gE4",
@@ -378,6 +444,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.85,
     reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "7SjT9LnvqSBXuhH5arMPXz",
@@ -387,19 +454,26 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.95,
     reps: 1,
+    repRange: { min: 1, max: 1 },
     progression: {
-      increment: {
-        value: 10,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1, // every time this routine is done
-      },
-      decrement: {
-        value: 0.1, // 10% of the load
-        kind: "weight",
-        type: "percentage",
-        frequency: 3, // every 3 times this routine is done, if failed to complete the reps at this load
-      },
+      increment: [
+        {
+          value: 10,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
 
@@ -414,6 +488,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.4,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "wz8EtUAsmiWQbQ6tEofxHi",
@@ -423,6 +498,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.5,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "3J431EHWLjDyxN5pgztLss",
@@ -432,6 +508,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.6,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
 
   // Day 14
@@ -443,6 +520,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.4,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "sBxotSRv7pTt3D6WMcGCYW",
@@ -452,6 +530,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.5,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "6AetDMzFDtBCryCfF9hMHW",
@@ -461,6 +540,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.6,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
 
   // Day 15
@@ -472,6 +552,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.4,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "1pJwmGHQ7mazwsGcmKrMPV",
@@ -481,6 +562,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.5,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "cicEH3V7Fbdm4wsNA4p9q7",
@@ -490,6 +572,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.6,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
 
   // Day 16
@@ -501,6 +584,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 0.4,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "2UHVdsEjsEjmb7naNTWkfF",
@@ -510,6 +594,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 0.5,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "8HHyFJun7G5aLYeZT9RxP5",
@@ -519,6 +604,7 @@ export const five31TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 0.6,
     reps: 5,
+    repRange: { min: 5, max: 5 },
   },
 ];
 

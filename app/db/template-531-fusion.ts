@@ -65,12 +65,15 @@ function getProgression(exerciseId: string) {
   }
   if (incrementValue > 0) {
     return {
-      increment: {
-        value: incrementValue,
-        kind: "weight" as "weight",
-        type: "absolute" as "absolute",
-        frequency: 1,
-      },
+      increment: [
+        {
+          value: incrementValue,
+          kind: "weight" as const,
+          type: "absolute" as const,
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
     };
   }
   return undefined;

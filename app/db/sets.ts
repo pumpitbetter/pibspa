@@ -72,42 +72,60 @@ export const setsSchemaLiteral = {
     progression: {
       type: "object",
       properties: {
+        type: {
+          type: "string",
+          enum: ["linear", "double", "percentage"],
+        },
         increment: {
-          type: "object",
-          properties: {
-            value: {
-              type: "number",
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              value: {
+                type: "number",
+              },
+              kind: {
+                type: "string",
+                enum: ["weight", "seconds", "reps"],
+              },
+              type: {
+                type: "string",
+                enum: ["absolute", "percentage"],
+              },
+              frequency: {
+                type: "number",
+              },
+              condition: {
+                type: "string",
+              },
             },
-            kind: {
-              type: "string",
-              enum: ["weight", "seconds"],
-            },
-            type: {
-              type: "string",
-              enum: ["absolute", "percentage"],
-            },
-            frequency: {
-              type: "number",
-            },
+            required: ["value", "kind", "type", "frequency"],
           },
         },
         decrement: {
-          type: "object",
-          properties: {
-            value: {
-              type: "number",
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              value: {
+                type: "number",
+              },
+              kind: {
+                type: "string",
+                enum: ["weight", "seconds", "reps"],
+              },
+              type: {
+                type: "string",
+                enum: ["absolute", "percentage"],
+              },
+              frequency: {
+                type: "number",
+              },
+              condition: {
+                type: "string",
+              },
             },
-            kind: {
-              type: "string",
-              enum: ["weight", "seconds"],
-            },
-            type: {
-              type: "string",
-              enum: ["absolute", "percentage"],
-            },
-            frequency: {
-              type: "number",
-            },
+            required: ["value", "kind", "type", "frequency"],
           },
         },
       },

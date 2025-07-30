@@ -1039,18 +1039,24 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     reps: 1,
     amrep: true,
     progression: {
-      increment: {
-        value: 10,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 10,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max"
+        }
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency"
+        }
+      ],
     },
   },
   // hypertrophy sets
@@ -1179,18 +1185,24 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     reps: 1,
     amrep: true,
     progression: {
-      increment: {
-        value: 10,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 10,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max"
+        }
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency"
+        }
+      ],
     },
   },
   // hypertrophy sets
@@ -1319,18 +1331,24 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     reps: 1,
     amrep: true,
     progression: {
-      increment: {
-        value: 10,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 10,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max"
+        }
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency"
+        }
+      ],
     },
   },
   // hypertrophy sets
@@ -1459,18 +1477,24 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     reps: 1,
     amrep: true,
     progression: {
-      increment: {
-        value: 10,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 10,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max"
+        }
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency"
+        }
+      ],
     },
   },
   // hypertrophy sets

@@ -20,6 +20,7 @@ import {
   init531TridentTemplates,
 } from "./template-531-trident";
 import { init531FusionTemplates } from "./template-531-fusion";
+import { fiveDayUpperLowerTemplatesData } from "./templates-five-day-upper-lower";
 
 // routine set template
 // belongs to a particular program > routine
@@ -61,6 +62,17 @@ export const templatesSchemaLiteral = {
     reps: {
       type: "number",
     },
+    repRange: {
+      type: "object",
+      properties: {
+        min: {
+          type: "number",
+        },
+        max: {
+          type: "number",
+        },
+      },
+    },
     amrep: {
       type: "boolean",
       default: false,
@@ -69,41 +81,55 @@ export const templatesSchemaLiteral = {
       type: "object",
       properties: {
         increment: {
-          type: "object",
-          properties: {
-            value: {
-              type: "number",
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              value: {
+                type: "number",
+              },
+              kind: {
+                type: "string",
+                enum: ["weight", "seconds", "reps"],
+              },
+              type: {
+                type: "string",
+                enum: ["absolute", "percentage"],
+              },
+              frequency: {
+                type: "number",
+              },
+              condition: {
+                type: "string",
+              },
             },
-            kind: {
-              type: "string",
-              enum: ["weight", "seconds"],
-            },
-            type: {
-              type: "string",
-              enum: ["absolute", "percentage"],
-            },
-            frequency: {
-              type: "number",
-            },
+            required: ["value", "kind", "type", "frequency"],
           },
         },
         decrement: {
-          type: "object",
-          properties: {
-            value: {
-              type: "number",
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              value: {
+                type: "number",
+              },
+              kind: {
+                type: "string",
+                enum: ["weight", "seconds", "reps"],
+              },
+              type: {
+                type: "string",
+                enum: ["absolute", "percentage"],
+              },
+              frequency: {
+                type: "number",
+              },
+              condition: {
+                type: "string",
+              },
             },
-            kind: {
-              type: "string",
-              enum: ["weight", "seconds"],
-            },
-            type: {
-              type: "string",
-              enum: ["absolute", "percentage"],
-            },
-            frequency: {
-              type: "number",
-            },
+            required: ["value", "kind", "type", "frequency"],
           },
         },
       },
@@ -197,6 +223,7 @@ export async function initTemplates(db: MyDatabase) {
     await db.templates.bulkInsert(five31TemplatesData);
     await db.templates.bulkInsert(five31HypertrophyTemplatesData);
     await db.templates.bulkInsert(five31TridentTemplatesData);
+    await db.templates.bulkInsert(fiveDayUpperLowerTemplatesData);
 
     // 5/3/1 Fusion uses dynamic generation, so we keep the function call
     await init531FusionTemplates(db);

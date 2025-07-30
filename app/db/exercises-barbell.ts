@@ -42,6 +42,14 @@ export const barbellExercises: ExercisesDocType[] = [
     tags: ["compound", "primary"],
   },
   {
+    id: "barbell-back-extension",
+    name: "Barbell Back Extension",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["barbell"],
+    tags: ["compound", "primary"],
+  },
+  {
     id: "barbell-overhead-press",
     name: "Barbell Overhead Press",
     type: "strength",
@@ -130,6 +138,14 @@ export const barbellExercises: ExercisesDocType[] = [
     tags: ["compound", "primary"],
   },
   {
+    id: "barbell-pin-press",
+    name: "Barbell Pin Press",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["barbell", "squatrack"],
+    tags: ["compound", "primary"],
+  },
+  {
     id: "barbell-bent-over-row",
     name: "Barbell Bent Over Row",
     type: "strength",
@@ -143,6 +159,14 @@ export const barbellExercises: ExercisesDocType[] = [
     type: "strength",
     track: ["weight"],
     equipment: ["barbell"],
+    tags: ["compound", "primary"],
+  },
+  {
+    id: "barbell-chest-supported-row",
+    name: "Barbell Chest-Supported Row",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["barbell", "inclinebench"],
     tags: ["compound", "primary"],
   },
   {

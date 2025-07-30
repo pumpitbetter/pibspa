@@ -9,19 +9,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 1.0, // 100% of max for working set
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1, // every workout
-      },
-      decrement: {
-        value: 0.1, // 10% deload
-        kind: "weight",
-        type: "percentage",
-        frequency: 3, // after 3 failed attempts
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -32,19 +39,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -55,19 +69,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -78,19 +99,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 4,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -101,19 +129,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 5,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -124,19 +159,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 6,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -147,19 +189,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 7,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -170,19 +219,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 8,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -193,19 +249,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 9,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -216,19 +279,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 10,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -239,19 +309,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 11,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -262,19 +339,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 12,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -285,19 +369,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 13,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -308,19 +399,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 14,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -331,19 +429,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 15,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -354,19 +459,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 1,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -377,19 +489,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 2,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -400,19 +519,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 3,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -423,19 +549,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 4,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -446,19 +579,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 5,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -469,19 +609,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 6,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -492,19 +639,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 7,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -515,19 +669,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 8,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -538,19 +699,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 9,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -561,19 +729,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 10,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
   {
@@ -584,19 +759,26 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     order: 11,
     load: 1.0,
     reps: 5,
+    repRange: { min: 5, max: 5 },
     progression: {
-      increment: {
-        value: 10, // Deadlift progresses by 10 lbs
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 10,
+          kind: "weight",
+          type: "absolute",
+          frequency: 1,
+          condition: "reps >= repRange.max",
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight",
+          type: "percentage",
+          frequency: 3,
+          condition: "failed >= frequency",
+        },
+      ],
     },
   },
 ];
