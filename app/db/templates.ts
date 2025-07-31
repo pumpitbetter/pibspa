@@ -56,12 +56,13 @@ export const templatesSchemaLiteral = {
       // if not a circuit, then this is null
       type: "number",
     },
+    
+    // Weight configuration (optional for static exercises like flows)
     load: {
-      type: "number",
+      type: "number", // Percentage of cached max weight (0.85 = 85%)
     },
-    reps: {
-      type: "number",
-    },
+    
+    // Rep configuration
     repRange: {
       type: "object",
       properties: {
@@ -72,77 +73,38 @@ export const templatesSchemaLiteral = {
           type: "number",
         },
       },
+      required: ["min", "max"],
     },
+    
+    // Time configuration
+    timeRange: {
+      type: "object",
+      properties: {
+        min: {
+          type: "number", // seconds
+        },
+        max: {
+          type: "number", // seconds
+        },
+      },
+      required: ["min", "max"],
+    },
+    
+    // Workout structure (keep existing)
     amrep: {
       type: "boolean",
       default: false,
     },
-    progression: {
-      type: "object",
-      properties: {
-        increment: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              value: {
-                type: "number",
-              },
-              kind: {
-                type: "string",
-                enum: ["weight", "seconds", "reps"],
-              },
-              type: {
-                type: "string",
-                enum: ["absolute", "percentage"],
-              },
-              frequency: {
-                type: "number",
-              },
-              condition: {
-                type: "string",
-              },
-            },
-            required: ["value", "kind", "type", "frequency"],
-          },
-        },
-        decrement: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              value: {
-                type: "number",
-              },
-              kind: {
-                type: "string",
-                enum: ["weight", "seconds", "reps"],
-              },
-              type: {
-                type: "string",
-                enum: ["absolute", "percentage"],
-              },
-              frequency: {
-                type: "number",
-              },
-              condition: {
-                type: "string",
-              },
-            },
-            required: ["value", "kind", "type", "frequency"],
-          },
-        },
-      },
+    restTime: {
+      type: "number", // Seconds between sets
     },
   },
   required: [
     "id",
     "programId",
-    "routineId",
+    "routineId", 
     "exerciseId",
     "order",
-    "load",
-    "reps",
   ],
   indexes: ["programId"],
 } as const; // <- It is important to set 'as const' to preserve the literal type
@@ -198,18 +160,6 @@ export async function initTemplates(db: MyDatabase) {
       schema: templatesSchema,
       methods: templatesDocMethods,
       statics: templatesCollectionMethods,
-      // No migration strategies needed for version 0
-      // When you need to migrate to version 1, uncomment and modify:
-      /*
-      migrationStrategies: {
-        // Version 1: Example migration from version 0 to 1
-        1: async function (oldDoc: any) {
-          // Transform old document to new schema
-          // Example: oldDoc.newField = 'defaultValue';
-          return oldDoc;
-        },
-      },
-      */
     },
   });
 

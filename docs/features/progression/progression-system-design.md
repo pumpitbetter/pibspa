@@ -64,17 +64,24 @@ interface Template {
   programId: string;
   routineId: string;
   exerciseId: string;
-  order: number;
+  order: number; // Workout sequence order
+  sequence?: number; // Circuit/superset sequence (when order is shared)
   load?: number; // Percentage of cached max weight (optional for static exercises)
   reps?: number; // Target reps (optional for time-based or flow exercises)
   repRange?: { min: number; max: number }; // For rep progression
   timeRange?: { min: number; max: number }; // For time progression  
   duration?: number; // Fixed duration in seconds (for flow exercises)
-  videoUrl?: string; // YouTube or other video URL (for flow exercises)
-  supersetGroup?: string; // "A1", "A2", etc.
-  circuitGroup?: string; // "round-1", "round-2", etc.
-  restTime?: number; // Seconds
+  restTime?: number; // Seconds between sets
+  amrep?: boolean; // As many reps as possible
 }
+```
+
+**Circuit/Superset Logic:**
+- **Same `order`** = Circuit/Superset (exercises performed back-to-back)
+- **`sequence`** = Order within the circuit (1, 2, 3, etc.)
+- **Different `order`** = Sequential exercises with rest between
+- **Superset** = Circuit of 2 exercises
+- **Circuit** = Circuit of 3+ exercises
 ```
 
 ### Program Exercise Configuration
@@ -230,7 +237,21 @@ Week 13: 15 lbs × 30s → Failure (3 times) → 10 lbs × 30s (weight deload)
 ### Supersets & Circuits
 - Progression is per-exercise, not per-workout-structure
 - Each exercise in superset/circuit can have different progression rules
+- **Circuit/Superset Detection**: Same `order` value + different `sequence` values
 - Execution patterns don't affect progression calculations
+
+**Example Circuit:**
+```typescript
+// A1: Bench Press
+{ order: 1, sequence: 1, exerciseId: "bench-press" }
+// A2: Barbell Row  
+{ order: 1, sequence: 2, exerciseId: "barbell-row" }
+// A3: Overhead Press
+{ order: 1, sequence: 3, exerciseId: "overhead-press" }
+
+// B1: Next exercise
+{ order: 2, sequence: 1, exerciseId: "squat" }
+```
 
 ### Percentage-Based Calculations
 - Both progression and deload support percentage calculations
