@@ -19,6 +19,10 @@ import {
   initProgressExerciseFavorites,
   type ProgressExerciseFavoritesCollection,
 } from "./progress-exercise-favorites";
+import {
+  initProgramExercises,
+  type ProgramExerciseCollection,
+} from "./program-exercises";
 
 // set by webpack as global
 const mode = process.env.NODE_ENV;
@@ -37,6 +41,7 @@ export type MyDatabaseCollections = {
   sets: SetsCollection;
   history: HistoryCollection;
   progressExerciseFavorites: ProgressExerciseFavoritesCollection;
+  programExercises: ProgramExerciseCollection;
 };
 
 export type MyDatabase = RxDatabase<MyDatabaseCollections>;
@@ -69,6 +74,7 @@ export const dbPromise = (async () => {
   await initSets(db);
   await initHistory(db);
   await initProgressExerciseFavorites(db);
+  await initProgramExercises(db);
 
   return db;
 })();

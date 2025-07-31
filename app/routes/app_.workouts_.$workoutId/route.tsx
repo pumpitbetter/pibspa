@@ -11,6 +11,10 @@ import {
   groupCircuitsIntoSets,
   groupIntoCircuits,
 } from "~/lib/utils";
+import { 
+  processWorkoutProgression,
+  type WorkoutPerformance 
+} from "~/lib/queue-integration";
 import { defaultSettings } from "~/db/settings";
 import { Button } from "~/components/ui/button";
 import { ExerciseCard } from "./exercise-card";
@@ -229,56 +233,6 @@ async function completeSet(formData: FormData) {
   const history = await db.history.findOne({ selector: { id: setId } }).exec();
   invariant(history, "history not found");
 
-  const template = await db.templates
-    .findOne({
-      selector: {
-        id: history.templateId,
-      },
-    })
-    .exec();
-  invariant(template, "template not found");
-
-  // and user is completing with target reps and weight achived
-  // and the template indicates to progress
-  // progress the weight
-  if (
-    template.progression?.increment?.value &&
-    history.liftedReps &&
-    history.liftedReps >= history.targetReps &&
-    history.liftedWeight &&
-    history.liftedWeight.value >= history.targetWeight?.value
-  ) {
-    const program = await db.programs
-      .findOne({ selector: { id: history.programId } })
-      .exec();
-    invariant(program, "program not found");
-
-    const programExercise = program.exercises?.find(
-      (exercise) => exercise.exerciseId === history.exerciseId
-    );
-    invariant(programExercise, "program exercise not found");
-
-    await program.modify((doc) => {
-      invariant(doc.exercises, "Program has no exercises");
-      const exercises = doc.exercises.map((item) => {
-        if (item.exerciseId === history.exerciseId) {
-          return {
-            ...item,
-            exerciseWeight: {
-              value:
-                programExercise.exerciseWeight?.value +
-                (template.progression?.increment?.value || 0) *
-                  (completed && history.completed === false ? 1 : -1),
-              units: programExercise.exerciseWeight?.units,
-            },
-          };
-        }
-        return item;
-      });
-      doc.exercises = exercises;
-      return doc;
-    });
-  }
 
   await history.update({
     $set: {
@@ -355,6 +309,47 @@ async function finishWorkout(formData: FormData) {
   // find all history items for this workout
   const history = await db.history.find({ selector: { workoutId } }).exec();
   invariant(history, "history not found");
+
+  // Process progression for completed workout
+  try {
+    // Group history by exercise to create workout performance data
+    const exerciseGroups = new Map<string, typeof history>();
+    
+    for (const historyItem of history) {
+      const exerciseId = historyItem.exerciseId;
+      if (!exerciseGroups.has(exerciseId)) {
+        exerciseGroups.set(exerciseId, []);
+      }
+      exerciseGroups.get(exerciseId)!.push(historyItem);
+    }
+
+    // Convert to workout performance format
+    const workoutPerformances: WorkoutPerformance[] = Array.from(exerciseGroups.entries()).map(
+      ([exerciseId, sets]) => ({
+        exerciseId,
+        sets: sets.map(set => ({
+          weight: set.liftedWeight?.value,
+          reps: set.liftedReps,
+          duration: undefined, // TODO: Duration not tracked in current history
+          completed: set.completed ?? false,
+          rpe: undefined // TODO: RPE not tracked in current history
+        })),
+        completed: sets.every(set => set.completed ?? false)
+      })
+    );
+
+    // Process progression using new system
+    const progressionResults = await processWorkoutProgression(
+      db,
+      workout.programId,
+      workoutPerformances
+    );
+
+    console.log('Progression results:', progressionResults);
+  } catch (error) {
+    console.error('Error processing workout progression:', error);
+    // Continue with workout completion even if progression fails
+  }
 
   const updatedWorkout = await workout.update({
     $set: {

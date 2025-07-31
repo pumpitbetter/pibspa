@@ -1,0 +1,234 @@
+/**
+ * Progression Integration Service
+ * 
+ * Integrates the new 4-type progression system with the existing workout queue.
+ * Replaces the old array-based progression logic with the new engine.
+ */
+
+import type { MyDatabase } from "~/db/db";
+import type { TemplatesDocType } from "~/db/templates";
+import type { ProgramExerciseDocType } from "~/db/program-exercises";
+import type { ExercisesDocType } from "~/db/exercises";
+import type { SettingsDocType } from "~/db/settings";
+import { 
+  calculateProgression, 
+  type ExercisePerformance, 
+  type ProgressionState, 
+  type ProgressionResult 
+} from "./progression-engine";
+
+// Weight calculation result
+export interface WeightCalculation {
+  weight: number;
+  units: string;
+  load: number; // Percentage used
+}
+
+/**
+ * Get current progression state for an exercise in a program
+ */
+export async function getProgressionState(
+  db: MyDatabase,
+  programId: string,
+  exerciseId: string
+): Promise<ProgressionState | null> {
+  const programExercise = await db.programExercises.findOne({
+    selector: { 
+      programId,
+      exerciseId 
+    }
+  }).exec();
+
+  if (!programExercise) {
+    return null;
+  }
+
+  const doc = programExercise.toMutableJSON();
+  return {
+    maxWeight: doc.maxWeight,
+    maxReps: doc.maxReps,
+    maxTime: doc.maxTime,
+    consecutiveFailures: doc.consecutiveFailures,
+    lastProgressionDate: doc.lastProgressionDate ? new Date(doc.lastProgressionDate) : undefined
+  };
+}
+
+/**
+ * Update progression state in the database
+ */
+export async function updateProgressionState(
+  db: MyDatabase,
+  programId: string,
+  exerciseId: string,
+  result: ProgressionResult
+): Promise<void> {
+  const programExercise = await db.programExercises.findOne({
+    selector: { programId, exerciseId }
+  }).exec();
+
+  if (!programExercise) {
+    throw new Error(`ProgramExercise not found: ${programId}-${exerciseId}`);
+  }
+
+  const updates: Partial<ProgramExerciseDocType> = {
+    consecutiveFailures: result.newConsecutiveFailures,
+    lastUpdated: new Date().toISOString()
+  };
+
+  if (result.progressionOccurred) {
+    updates.lastProgressionDate = new Date().toISOString();
+  }
+
+  if (result.newMaxWeight !== undefined) {
+    updates.maxWeight = result.newMaxWeight;
+  }
+
+  if (result.newMaxReps !== undefined) {
+    updates.maxReps = result.newMaxReps;
+  }
+
+  if (result.newMaxTime !== undefined) {
+    updates.maxTime = result.newMaxTime;
+  }
+
+  await programExercise.patch(updates);
+}
+
+/**
+ * Calculate weight for a template based on current progression state
+ */
+export async function calculateTemplateWeight(
+  db: MyDatabase,
+  template: TemplatesDocType,
+  settings: SettingsDocType,
+  exercise: ExercisesDocType
+): Promise<WeightCalculation> {
+  
+  // Get progression state for this exercise
+  const state = await getProgressionState(db, template.programId, template.exerciseId);
+  
+  if (!state?.maxWeight || !template.load) {
+    // No progression state or no load specified - use minimal weight
+    return {
+      weight: getBarWeight(exercise, settings),
+      units: settings.weigthUnit || 'lbs',
+      load: template.load || 0
+    };
+  }
+
+  // Calculate weight based on load percentage of max
+  const targetWeight = state.maxWeight * template.load;
+  const barWeight = getBarWeight(exercise, settings);
+  const finalWeight = Math.max(targetWeight, barWeight);
+
+  return {
+    weight: finalWeight,
+    units: settings.weigthUnit || 'lbs',
+    load: template.load
+  };
+}
+
+/**
+ * Process progression for an exercise after workout completion
+ */
+export async function processExerciseProgression(
+  db: MyDatabase,
+  programId: string,
+  exerciseId: string,
+  performance: ExercisePerformance,
+  template: { repRange?: { min: number; max: number }; timeRange?: { min: number; max: number }; load?: number }
+): Promise<ProgressionResult | null> {
+  
+  // Get progression configuration
+  const programExercise = await db.programExercises.findOne({
+    selector: { programId, exerciseId }
+  }).exec();
+
+  if (!programExercise) {
+    console.warn(`No progression configuration found for ${programId}-${exerciseId}`);
+    return null;
+  }
+
+  const config = programExercise.progression;
+  const currentState = await getProgressionState(db, programId, exerciseId);
+
+  if (!currentState) {
+    console.warn(`No progression state found for ${programId}-${exerciseId}`);
+    return null;
+  }
+
+  // Calculate progression with proper type assertion
+  const result = calculateProgression(config as any, currentState, performance, template);
+
+  // Update state in database
+  if (result.progressionOccurred || result.newConsecutiveFailures !== currentState.consecutiveFailures) {
+    await updateProgressionState(db, programId, exerciseId, result);
+  }
+
+  return result;
+}
+
+/**
+ * Check if an exercise should trigger progression based on routine configuration
+ */
+export async function shouldTriggerProgression(
+  db: MyDatabase,
+  routineId: string,
+  exerciseId: string
+): Promise<boolean> {
+  
+  // For now, default to true since routineExercises collection doesn't exist yet
+  // This can be extended later when routine-specific progression controls are added
+  return true;
+}
+
+/**
+ * Initialize progression state for a new program exercise
+ */
+export async function initializeProgressionState(
+  db: MyDatabase,
+  programId: string,
+  exerciseId: string,
+  config: ProgramExerciseDocType['progression'],
+  initialMaxWeight?: number,
+  initialMaxReps?: number,
+  initialMaxTime?: number
+): Promise<void> {
+  
+  const id = `${programId}-${exerciseId}`;
+  
+  const programExercise: ProgramExerciseDocType = {
+    id,
+    programId,
+    exerciseId,
+    maxWeight: initialMaxWeight,
+    maxReps: initialMaxReps,
+    maxTime: initialMaxTime,
+    consecutiveFailures: 0,
+    lastUpdated: new Date().toISOString(),
+    progression: config
+  };
+
+  await db.programExercises.upsert(programExercise);
+}
+
+/**
+ * Get bar weight based on exercise equipment and settings
+ */
+function getBarWeight(exercise: ExercisesDocType, settings: SettingsDocType): number {
+  if (!exercise.equipment?.includes('barbell')) {
+    return 0;
+  }
+
+  // Use user-configured barbell weight from settings
+  // Fallback to 45 (lbs) or 20 (kg) if not set
+  const unit = settings.weigthUnit || 'lbs';
+  const barbellWeight = settings.barbellWeight;
+
+  if (typeof barbellWeight === 'number' && barbellWeight > 0) {
+    return barbellWeight;
+  }
+
+  // Fallback defaults
+  return unit === 'kg' ? 20 : 45;
+}

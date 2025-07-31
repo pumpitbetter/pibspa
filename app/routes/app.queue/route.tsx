@@ -10,12 +10,15 @@ import {
   getExerciseById,
   groupCircuitsIntoSets,
   groupIntoCircuits,
-  getProgramExerciseWeight,
-  progressProgramExercise,
   cn,
   type GroupedWorkout,
-  getBarWeight,
 } from "~/lib/utils";
+import { 
+  enhanceTemplatesWithProgression,
+  getCurrentExerciseWeight,
+  processWorkoutProgression,
+  type WeightCalculation 
+} from "~/lib/queue-integration";
 import { List } from "~/components/list";
 import {
   Card,
@@ -88,24 +91,36 @@ export async function clientLoader() {
       activeWorkout?.toMutableJSON() || lastWorkout?.toMutableJSON(),
   }).filter((i) => i !== null);
 
-  // create a mutable copy of program exercises that can be progressed
-  const p = program?.toMutableJSON();
-  let programExercises = p?.exercises ? [...p.exercises] : [];
+  // Enhance templates with progression-calculated weights
+  const templateDocs = templates.map(t => t.toMutableJSON());
+  const enhancedTemplates = await enhanceTemplatesWithProgression(db, templateDocs);
 
-  // group workouts into sets
+  // group workouts into sets using enhanced templates
   const groupedWorkouts: GroupedWorkout[] = workouts.map((workout) => {
-    const sets: SetsDocType[] = templates
-      .filter((template) => {
-        return template.routineId === workout.routineId;
-      })
-      .sort((a, b) => {
-        return a.order - b.order;
-      })
-      .map((template) => template.toMutableJSON())
-      .map((t) => ({
-        ...t,
+    const workoutTemplates = enhancedTemplates.filter((template) => {
+      return template.routineId === workout.routineId;
+    })
+    .sort((a, b) => {
+      return a.order - b.order;
+    });
+
+    const sets: SetsDocType[] = workoutTemplates
+      .map((template) => ({
+        id: template.id,
+        programId: template.programId,
+        routineId: template.routineId,
+        exerciseId: template.exerciseId,
+        order: template.order,
+        sequence: template.sequence,
+        load: template.load || 0,
         workoutId: workout.id,
-        weight: { value: 0, units: settings?.weigthUnit ?? "lbs" },
+        weight: { 
+          value: template.calculatedWeight.weight, 
+          units: template.calculatedWeight.units as "kg" | "lbs"
+        },
+        reps: template.repRange?.max || 5, // Use max reps from range, fallback to 5
+        amrep: template.amrep || false,
+        restTime: template.restTime,
       }));
 
     const groupedSets = groupCircuitsIntoSets<SetsDocType>(
@@ -113,80 +128,6 @@ export async function clientLoader() {
     );
 
     return { workout, sets: groupedSets };
-  });
-
-  // calculate progressions and weights
-  groupedWorkouts.forEach((item, index) => {
-    const { sets, workout } = item;
-
-    Object.entries(sets).map((setInfo) => {
-      const [exerciseId, sets] = setInfo;
-
-      // do we have a set with progression?
-      const setWithProgression = sets.find((set) => {
-        return (
-          set.progression?.increment?.value &&
-          set.progression?.increment?.value > 0 &&
-          set.progression?.increment?.frequency &&
-          set.progression?.increment?.frequency > 0
-        );
-      });
-
-      // progress if we have find N previous workouts with the same template and exerciseId where N is progression increment frequency
-      if (setWithProgression) {
-        const frequency =
-          setWithProgression.progression?.increment?.frequency ?? 1;
-        const increment = setWithProgression.progression?.increment?.value ?? 0;
-
-        let previousSuccessfullRoutines = 0;
-        for (let i = index - 1; i >= 0; i--) {
-          const previousWorkout = groupedWorkouts[i];
-          if (previousWorkout.workout.routineId !== workout.routineId) {
-            // skip over workouts with different routineId
-            continue;
-          }
-
-          // for now assume it was successfull
-          previousSuccessfullRoutines++;
-        }
-
-        if (previousSuccessfullRoutines >= frequency) {
-          // we have N previous workouts with the same template and exerciseId
-          // progress the weight
-          programExercises = progressProgramExercise({
-            programExercises,
-            exerciseId,
-            increment,
-          });
-        }
-      }
-
-      // iterate over the sets and calculate the new weight from load
-      sets.forEach((set) => {
-        // clalculate the new weight
-        const exercise = programExercises.find(
-          (exercise) => exercise.exerciseId === exerciseId
-        );
-
-        set.weight = getProgramExerciseWeight({
-          programExercises,
-          exerciseId,
-          load: set.load,
-          units: settings?.weigthUnit ?? "lbs",
-          increment: set?.progression?.increment?.value ?? 5,
-          barWeight:
-            exercises?.length && exerciseId?.length
-              ? getBarWeight({
-                  settings: settings?.toMutableJSON(),
-                  exercise: getExerciseById({
-                    exercises,
-                    exerciseId,
-                  })!.toMutableJSON(),
-                })
-              : 0,
-        });
-      });
-    });
   });
 
   return {
