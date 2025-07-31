@@ -1,101 +1,113 @@
 /**
- * Progression System Types
+ * Progression System Types - Template-Level Configuration
  * 
- * Defines the four progression types and their configuration options.
- * This forms the foundation of the new progression system.
+ * Defines progression configuration that lives directly in templates.
+ * Presence of progressionConfig indicates progression is enabled.
  */
 
-// Base progression configuration
-export interface BaseProgressionConfig {
+export interface ProgressionConfig {
   type: 'linear' | 'reps' | 'time' | 'none';
+  
+  // Which sets count for progression (optional - if not specified, all sets count)
+  progressionSets?: number[]; // e.g., [3] for only 3rd set
+  
+  // Multi-stage progression control (not applicable for 'none' type)
+  enableWeightProgression?: boolean; // For reps/time types
+  
+  // Increment configuration (not applicable for 'none' type)
+  incrementType?: 'fixed' | 'percentage';
+  weightIncrement?: number; // Fixed lbs OR percentage
+  repsIncrement?: number; // For reps type
+  timeIncrement?: number; // For time type (seconds)
+  
+  // Rounding (for percentage calculations)
+  weightRoundingIncrement?: number; // 2.5, 5, 10 lbs
+  timeRoundingIncrement?: number; // 5, 10 seconds
+  
+  // Deload configuration (not applicable for 'none' type)
+  deloadStrategy?: 'weight-only' | 'reps-only' | 'time-only' | 'time-then-weight' | 'percentage';
+  deloadType?: 'fixed' | 'percentage';
+  deloadAmount?: number; // Fixed amount OR percentage
+  failureThreshold?: number; // Consecutive failures before deload
 }
 
-// Linear progression - pure weight progression
-export interface LinearProgressionConfig extends BaseProgressionConfig {
-  type: 'linear';
-  increment: {
-    amount: number;
-    unit: 'absolute' | 'percentage';
-  };
-  deload?: {
-    amount: number;
-    unit: 'absolute' | 'percentage';
-    trigger: {
-      consecutiveFails: number;
-    };
-  };
-  rounding?: {
-    increment: number; // e.g., 2.5 for plate increments
-  };
-}
+/**
+ * Progression examples for common use cases
+ */
+export const ProgressionExamples = {
+  // Traditional strength training
+  linearProgression: {
+    type: 'linear' as const,
+    incrementType: 'fixed' as const,
+    weightIncrement: 5, // +5 lbs each success
+    weightRoundingIncrement: 2.5,
+    deloadStrategy: 'weight-only' as const,
+    deloadType: 'percentage' as const,
+    deloadAmount: 10, // -10% on deload
+    failureThreshold: 3
+  },
 
-// Rep progression - double progression (reps then weight)
-export interface RepProgressionConfig extends BaseProgressionConfig {
-  type: 'reps';
-  repsIncrement: number; // How many reps to add each success
-  weightIncrement: {
-    amount: number;
-    unit: 'absolute' | 'percentage';
-  };
-  deload?: {
-    amount: number;
-    unit: 'absolute' | 'percentage';
-    trigger: {
-      consecutiveFails: number;
-    };
-  };
-  rounding?: {
-    increment: number;
-  };
-}
+  // Double progression (6-8 reps, then add weight)
+  repProgression: {
+    type: 'reps' as const,
+    enableWeightProgression: true,
+    incrementType: 'fixed' as const,
+    weightIncrement: 5, // +5 lbs when reps maxed
+    repsIncrement: 1,
+    weightRoundingIncrement: 2.5,
+    deloadStrategy: 'weight-only' as const,
+    deloadType: 'fixed' as const,
+    deloadAmount: 5, // -5 lbs on deload
+    failureThreshold: 3
+  },
 
-// Time progression - time progression with optional weight progression  
-export interface TimeProgressionConfig extends BaseProgressionConfig {
-  type: 'time';
-  timeIncrement: number; // Seconds to add each success
-  weightIncrement?: {
-    amount: number;
-    unit: 'absolute' | 'percentage';
-  };
-  deload?: {
-    amount: number;
-    unit: 'absolute' | 'percentage';
-    trigger: {
-      consecutiveFails: number;
-    };
-  };
-  rounding?: {
-    timeIncrement?: number; // e.g., 5 second increments
-    weightIncrement?: number; // e.g., 2.5 lb increments
-  };
-}
+  // Time progression with weight (30-60s, then add weight)
+  timeProgression: {
+    type: 'time' as const,
+    enableWeightProgression: true,
+    incrementType: 'fixed' as const,
+    timeIncrement: 10, // +10 seconds
+    weightIncrement: 5, // +5 lbs when time maxed
+    timeRoundingIncrement: 5,
+    weightRoundingIncrement: 2.5,
+    deloadStrategy: 'time-then-weight' as const,
+    deloadType: 'fixed' as const,
+    deloadAmount: 15, // -15 seconds, then -5 lbs if needed
+    failureThreshold: 3
+  },
 
-// No progression - static parameters (for flow exercises, videos, etc.)
-export interface NoProgressionConfig extends BaseProgressionConfig {
-  type: 'none';
-  // No additional configuration needed
-}
+  // 5/3/1 AMRAP progression (only final set triggers progression)
+  amrapProgression: {
+    type: 'linear' as const,
+    progressionSets: [3], // Only 3rd set counts
+    incrementType: 'fixed' as const,
+    weightIncrement: 10, // +10 lbs for deadlift/squat
+    weightRoundingIncrement: 2.5,
+    deloadStrategy: 'percentage' as const,
+    deloadType: 'percentage' as const,
+    deloadAmount: 10, // -10% on deload
+    failureThreshold: 3
+  },
 
-// Union type for all progression configurations
-export type ProgressionConfig = 
-  | LinearProgressionConfig 
-  | RepProgressionConfig 
-  | TimeProgressionConfig 
-  | NoProgressionConfig;
+  // No progression (static exercises)
+  noProgression: {
+    type: 'none' as const
+  }
+};
 
 // Helper type guards for type checking
-export const isLinearProgression = (config: ProgressionConfig): config is LinearProgressionConfig => {
+export const isLinearProgression = (config: ProgressionConfig): config is ProgressionConfig & { type: 'linear' } => {
   return config.type === 'linear';
 };
 
-export const isRepProgression = (config: ProgressionConfig): config is RepProgressionConfig => {
+export const isRepProgression = (config: ProgressionConfig): config is ProgressionConfig & { type: 'reps' } => {
   return config.type === 'reps';
 };
 
-export const isTimeProgression = (config: ProgressionConfig): config is TimeProgressionConfig => {
+export const isTimeProgression = (config: ProgressionConfig): config is ProgressionConfig & { type: 'time' } => {
   return config.type === 'time';
 };
 
-export const isNoProgression = (config: ProgressionConfig): config is NoProgressionConfig => {
+export const isNoProgression = (config: ProgressionConfig): config is ProgressionConfig & { type: 'none' } => {
   return config.type === 'none';
 };

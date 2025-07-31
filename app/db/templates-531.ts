@@ -14,7 +14,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.65,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -24,7 +23,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.75,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -34,7 +32,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.85,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
 
@@ -46,7 +43,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.65,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -56,7 +52,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.75,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -66,7 +61,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.85,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
 
@@ -78,7 +72,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.65,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -88,7 +81,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.75,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -98,7 +90,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.85,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
 
@@ -110,7 +101,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.65,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -120,7 +110,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.75,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -130,7 +119,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.85,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
 
@@ -146,7 +134,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.7,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -156,7 +143,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.8,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -166,7 +152,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.9,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
 
@@ -178,7 +163,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.7,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -188,7 +172,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.8,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -198,7 +181,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.9,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
 
@@ -210,7 +192,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.7,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -220,7 +201,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.8,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -230,7 +210,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.9,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   // Day 8
@@ -241,7 +220,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.7,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -251,7 +229,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.8,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -261,7 +238,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.9,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
 
@@ -277,7 +253,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.75,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -287,7 +262,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.85,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -297,27 +271,17 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.95,
-    reps: 1,
     repRange: { min: 1, max: 1 },
-    progression: {
-      increment: [
-        {
-          value: 10,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      progressionSets: [3], // This set (order 3) triggers progression
+      incrementType: "fixed" as const,
+      weightIncrement: 5, // +5 lbs for overhead press
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 10, // -10% on deload
+      failureThreshold: 3,
     },
   },
 
@@ -329,7 +293,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.75,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -339,7 +302,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.85,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -349,27 +311,17 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.95,
-    reps: 1,
     repRange: { min: 1, max: 1 },
-    progression: {
-      increment: [
-        {
-          value: 10,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      progressionSets: [3], // This set (order 3) triggers progression
+      incrementType: "fixed" as const,
+      weightIncrement: 10, // +10 lbs for deadlift
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 10, // -10% on deload
+      failureThreshold: 3,
     },
   },
 
@@ -381,7 +333,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.75,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -391,7 +342,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.85,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -401,27 +351,17 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.95,
-    reps: 1,
     repRange: { min: 1, max: 1 },
-    progression: {
-      increment: [
-        {
-          value: 10,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      progressionSets: [3], // This set (order 3) triggers progression
+      incrementType: "fixed" as const,
+      weightIncrement: 5, // +5 lbs for bench press
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 10, // -10% on deload
+      failureThreshold: 3,
     },
   },
 
@@ -433,7 +373,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.75,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -443,7 +382,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.85,
-    reps: 3,
     repRange: { min: 3, max: 3 },
   },
   {
@@ -453,27 +391,17 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.95,
-    reps: 1,
     repRange: { min: 1, max: 1 },
-    progression: {
-      increment: [
-        {
-          value: 10,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      progressionSets: [3], // This set (order 3) triggers progression
+      incrementType: "fixed" as const,
+      weightIncrement: 10, // +10 lbs for squat
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 10, // -10% on deload
+      failureThreshold: 3,
     },
   },
 
@@ -487,7 +415,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.4,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -497,7 +424,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.5,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -507,7 +433,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.6,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
 
@@ -519,7 +444,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.4,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -529,7 +453,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.5,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -539,7 +462,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.6,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
 
@@ -551,7 +473,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.4,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -561,7 +482,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.5,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -571,7 +491,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.6,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
 
@@ -583,7 +502,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.4,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -593,7 +511,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.5,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -603,7 +520,6 @@ export const five31TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.6,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
 ];

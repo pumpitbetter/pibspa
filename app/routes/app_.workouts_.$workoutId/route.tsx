@@ -342,6 +342,7 @@ async function finishWorkout(formData: FormData) {
     const progressionResults = await processWorkoutProgression(
       db,
       workout.programId,
+      workout.routineId || "",
       workoutPerformances
     );
 

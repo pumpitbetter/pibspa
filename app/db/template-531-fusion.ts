@@ -99,13 +99,19 @@ export async function init531FusionTemplates(db: MyDatabase) {
         exerciseId: "barbell-overhead-press",
         order: ++orderDay1,
         load: setParams.load,
-        reps: setParams.reps,
+        repRange: { min: setParams.reps, max: setParams.reps },
         amrep: setParams.amrep || false,
-        progression:
-          weekIndex === 2 && setIndex === weekParams.sets.length - 1
-            ? getProgression("barbell-overhead-press")
-            : undefined,
-      });
+        progressionConfig: weekIndex === 2 && setIndex === weekParams.sets.length - 1 ? {
+      type: "linear",
+      progressionSets: [3], // Only this set counts for progression
+      incrementType: "fixed",
+      weightIncrement: 10, // +10 lbs for deadlift
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage",
+      deloadType: "percentage", 
+      deloadAmount: 10, // -10% on deload
+      failureThreshold: 3, } : undefined
+    });
     });
     // Deadlift (5/3/1)
     weekParams.sets.forEach((setParams, setIndex) => {
@@ -116,12 +122,18 @@ export async function init531FusionTemplates(db: MyDatabase) {
         exerciseId: "barbell-deadlift",
         order: ++orderDay1,
         load: setParams.load,
-        reps: setParams.reps,
+        repRange: { min: setParams.reps, max: setParams.reps },
         amrep: setParams.amrep || false,
-        progression:
-          weekIndex === 2 && setIndex === weekParams.sets.length - 1
-            ? getProgression("barbell-deadlift")
-            : undefined,
+                progressionConfig: weekIndex === 2 && setIndex === weekParams.sets.length - 1 ? {
+      type: "linear",
+      progressionSets: [3], // Only this set counts for progression
+      incrementType: "fixed",
+      weightIncrement: 10, // +10 lbs for deadlift
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage",
+      deloadType: "percentage", 
+      deloadAmount: 10, // -10% on deload
+      failureThreshold: 3, } : undefined
       });
     });
     // Pullups (5x10)
@@ -133,7 +145,7 @@ export async function init531FusionTemplates(db: MyDatabase) {
         exerciseId: "pullups",
         order: ++orderDay1,
         load: 1, // Indicates user-defined weight or bodyweight
-        reps: 10,
+        repRange: { min: 10, max: 10 },
       });
     }
 
@@ -150,12 +162,19 @@ export async function init531FusionTemplates(db: MyDatabase) {
         exerciseId: "barbell-bench-press",
         order: ++orderDay2,
         load: setParams.load,
-        reps: setParams.reps,
+        repRange: { min: setParams.reps, max: setParams.reps },
         amrep: setParams.amrep || false,
-        progression:
-          weekIndex === 2 && setIndex === weekParams.sets.length - 1
-            ? getProgression("barbell-bench-press")
-            : undefined,
+        progressionConfig: weekIndex === 2 && setIndex === weekParams.sets.length - 1 ? {
+          type: "linear",
+          progressionSets: [3], // Only this set counts for progression
+          incrementType: "fixed",
+          weightIncrement: 10, // +10 lbs for overhead press
+          weightRoundingIncrement: 2.5,
+          deloadStrategy: "percentage",
+          deloadType: "percentage",
+          deloadAmount: 10, // -10% on deload
+          failureThreshold: 3,
+        } : undefined,
       });
     });
     // Squats (5/3/1)
@@ -167,12 +186,23 @@ export async function init531FusionTemplates(db: MyDatabase) {
         exerciseId: "barbell-squat",
         order: ++orderDay2,
         load: setParams.load,
-        reps: setParams.reps,
+        repRange: { min: setParams.reps, max: setParams.reps },
         amrep: setParams.amrep || false,
-        progression:
+        progressionConfig:
           weekIndex === 2 && setIndex === weekParams.sets.length - 1
-            ? getProgression("barbell-squat")
+            ? {
+                type: "linear",
+                progressionSets: [3], // Only this set counts for progression
+                incrementType: "fixed",
+                weightIncrement: 10, // +10 lbs for overhead press
+                weightRoundingIncrement: 2.5,
+                deloadStrategy: "percentage",
+                deloadType: "percentage",
+                deloadAmount: 10, // -10% on deload
+                failureThreshold: 3,
+              }
             : undefined,
+            
       });
     });
     // Dumbbell Rows (5x10)
@@ -184,7 +214,7 @@ export async function init531FusionTemplates(db: MyDatabase) {
         exerciseId: "dumbbell-row-one-arm",
         order: ++orderDay2,
         load: 1,
-        reps: 10,
+        repRange: { min: 10, max: 10 },
       });
     }
 
@@ -201,12 +231,19 @@ export async function init531FusionTemplates(db: MyDatabase) {
         exerciseId: "barbell-overhead-press",
         order: ++orderDay3,
         load: setParams.load,
-        reps: setParams.reps,
+        repRange: { min: setParams.reps, max: setParams.reps },
         amrep: setParams.amrep || false,
-        progression:
-          weekIndex === 2 && setIndex === weekParams.sets.length - 1
-            ? getProgression("barbell-overhead-press")
-            : undefined,
+        progressionConfig: weekIndex === 2 && setIndex === weekParams.sets.length - 1 ? {
+          type: "linear",
+          progressionSets: [3], // Only this set counts for progression
+          incrementType: "fixed",
+          weightIncrement: 10, // +10 lbs for overhead press
+          weightRoundingIncrement: 2.5,
+          deloadStrategy: "percentage",
+          deloadType: "percentage",
+          deloadAmount: 10, // -10% on deload
+          failureThreshold: 3,
+        } : undefined,
       });
     });
     // Barbell Rows (5/3/1)
@@ -218,12 +255,19 @@ export async function init531FusionTemplates(db: MyDatabase) {
         exerciseId: "barbell-row",
         order: ++orderDay3,
         load: setParams.load,
-        reps: setParams.reps,
+        repRange: { min: setParams.reps, max: setParams.reps },
         amrep: setParams.amrep || false,
-        progression:
-          weekIndex === 2 && setIndex === weekParams.sets.length - 1
-            ? getProgression("barbell-row")
-            : undefined,
+        progressionConfig: weekIndex === 2 && setIndex === weekParams.sets.length - 1 ? {
+          type: "linear",
+          progressionSets: [3], // Only this set counts for progression
+          incrementType: "fixed",
+          weightIncrement: 10, // +10 lbs for overhead press
+          weightRoundingIncrement: 2.5,
+          deloadStrategy: "percentage",
+          deloadType: "percentage",
+          deloadAmount: 10, // -10% on deload
+          failureThreshold: 3,
+        } : undefined,
       });
     });
 
@@ -240,12 +284,19 @@ export async function init531FusionTemplates(db: MyDatabase) {
         exerciseId: "barbell-squat",
         order: ++orderDay4,
         load: setParams.load,
-        reps: setParams.reps,
+        repRange: { min: setParams.reps, max: setParams.reps },
         amrep: setParams.amrep || false,
-        progression:
-          weekIndex === 2 && setIndex === weekParams.sets.length - 1
-            ? getProgression("barbell-squat")
-            : undefined,
+            progressionConfig: weekIndex === 2 && setIndex === weekParams.sets.length - 1 ? {
+              type: "linear",
+              progressionSets: [3], // Only this set counts for progression
+              incrementType: "fixed",
+              weightIncrement: 10, // +10 lbs for overhead press
+              weightRoundingIncrement: 2.5,
+              deloadStrategy: "percentage",
+              deloadType: "percentage",
+              deloadAmount: 10, // -10% on deload
+              failureThreshold: 3,
+            } : undefined,
       });
     });
     // Bench Press (5/3/1)
@@ -257,12 +308,19 @@ export async function init531FusionTemplates(db: MyDatabase) {
         exerciseId: "barbell-bench-press",
         order: ++orderDay4,
         load: setParams.load,
-        reps: setParams.reps,
+        repRange: { min: setParams.reps, max: setParams.reps },
         amrep: setParams.amrep || false,
-        progression:
-          weekIndex === 2 && setIndex === weekParams.sets.length - 1
-            ? getProgression("barbell-bench-press")
-            : undefined,
+        progressionConfig: weekIndex === 2 && setIndex === weekParams.sets.length - 1 ? {
+          type: "linear",
+          progressionSets: [3], // Only this set counts for progression
+          incrementType: "fixed",
+          weightIncrement: 10, // +10 lbs for overhead press
+          weightRoundingIncrement: 2.5,
+          deloadStrategy: "percentage",
+          deloadType: "percentage",
+          deloadAmount: 10, // -10% on deload
+          failureThreshold: 3,
+        } : undefined,
       });
     });
     // Pullups (5x10)
@@ -274,7 +332,7 @@ export async function init531FusionTemplates(db: MyDatabase) {
         exerciseId: "pullups",
         order: ++orderDay4,
         load: 1,
-        reps: 10,
+        repRange: { min: 10, max: 10 },
       });
     }
   }

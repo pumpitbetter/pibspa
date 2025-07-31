@@ -118,7 +118,7 @@ export async function clientLoader() {
           value: template.calculatedWeight.weight, 
           units: template.calculatedWeight.units as "kg" | "lbs"
         },
-        reps: template.repRange?.max || 5, // Use max reps from range, fallback to 5
+        reps: template.repRange?.max || template.repRange?.min || 5, // Use max reps from range, fallback to min, then 5
         amrep: template.amrep || false,
         restTime: template.restTime,
       }));

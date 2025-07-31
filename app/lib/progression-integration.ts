@@ -136,9 +136,21 @@ export async function processExerciseProgression(
   programId: string,
   exerciseId: string,
   performance: ExercisePerformance,
-  template: { repRange?: { min: number; max: number }; timeRange?: { min: number; max: number }; load?: number }
+  routineId: string
 ): Promise<ProgressionResult | null> {
   
+  // Check if progression should be triggered based on template configuration
+  const shouldProgress = await shouldTriggerProgression(db, routineId, exerciseId);
+  
+  if (!shouldProgress) {
+    return {
+      progressionOccurred: false,
+      newConsecutiveFailures: 0,
+      action: 'maintain',
+      details: 'Progression disabled for this exercise/routine'
+    };
+  }
+
   // Get progression configuration
   const programExercise = await db.programExercises.findOne({
     selector: { programId, exerciseId }
@@ -157,8 +169,19 @@ export async function processExerciseProgression(
     return null;
   }
 
+  // Get template information for context
+  const template = await db.templates.findOne({
+    selector: { routineId, exerciseId }
+  }).exec();
+
+  const templateContext = template ? {
+    repRange: template.repRange,
+    timeRange: template.timeRange,
+    load: template.load
+  } : {};
+
   // Calculate progression with proper type assertion
-  const result = calculateProgression(config as any, currentState, performance, template);
+  const result = calculateProgression(config as any, currentState, performance, templateContext);
 
   // Update state in database
   if (result.progressionOccurred || result.newConsecutiveFailures !== currentState.consecutiveFailures) {
@@ -169,16 +192,47 @@ export async function processExerciseProgression(
 }
 
 /**
- * Check if an exercise should trigger progression based on routine configuration
+ * Check if an exercise should trigger progression based on template configuration
  */
 export async function shouldTriggerProgression(
   db: MyDatabase,
   routineId: string,
-  exerciseId: string
+  exerciseId: string,
+  setOrder?: number
 ): Promise<boolean> {
   
-  // For now, default to true since routineExercises collection doesn't exist yet
-  // This can be extended later when routine-specific progression controls are added
+  // Find template for this routine and exercise
+  const template = await db.templates.findOne({
+    selector: { 
+      routineId,
+      exerciseId 
+    }
+  }).exec();
+
+  if (!template) {
+    console.warn(`No template found for ${routineId}-${exerciseId}`);
+    return false;
+  }
+
+  const templateDoc = template.toMutableJSON();
+
+  // Check if progression is enabled for this template
+  if (templateDoc.progressionEnabled === false) {
+    return false;
+  }
+
+  // If no specific sets are configured, all sets count
+  if (!templateDoc.progressionSets || templateDoc.progressionSets.length === 0) {
+    return true;
+  }
+
+  // If a specific set order is provided, check if it's in the progression sets
+  if (setOrder !== undefined) {
+    return templateDoc.progressionSets.includes(setOrder);
+  }
+
+  // If no set order provided but progression sets are configured, 
+  // we can't determine - default to true for safety
   return true;
 }
 

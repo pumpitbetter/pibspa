@@ -34,6 +34,9 @@ A three-type progression system that covers all common training patterns with co
 interface ProgressionConfig {
   type: 'linear' | 'reps' | 'time' | 'none';
   
+  // Which sets count for progression (optional - if not specified, all sets count)
+  progressionSets?: number[]; // e.g., [3] for only 3rd set
+  
   // Multi-stage progression control (not applicable for 'none' type)
   enableWeightProgression?: boolean; // For reps/time types
   
@@ -67,14 +70,26 @@ interface Template {
   order: number; // Workout sequence order
   sequence?: number; // Circuit/superset sequence (when order is shared)
   load?: number; // Percentage of cached max weight (optional for static exercises)
-  reps?: number; // Target reps (optional for time-based or flow exercises)
-  repRange?: { min: number; max: number }; // For rep progression
-  timeRange?: { min: number; max: number }; // For time progression  
+  repRange?: { min: number; max: number }; // For both fixed reps (min=max) and rep progression
+  timeRange?: { min: number; max: number }; // For both fixed time (min=max) and time progression  
   duration?: number; // Fixed duration in seconds (for flow exercises)
   restTime?: number; // Seconds between sets
   amrep?: boolean; // As many reps as possible
+  
+  // Progression configuration (optional - presence indicates progression enabled)
+  progressionConfig?: ProgressionConfig;
 }
 ```
+
+**Rep Configuration:**
+- **Fixed reps**: Use `repRange: { min: 5, max: 5 }` for "5 reps exactly"
+- **Rep progression**: Use `repRange: { min: 6, max: 8 }` for "6-8 reps, progress when you hit 8"
+- **Consistency**: Always use `repRange`, never a separate `reps` field
+
+**Time Configuration:**
+- **Fixed time**: Use `timeRange: { min: 30, max: 30 }` for "30 seconds exactly"  
+- **Time progression**: Use `timeRange: { min: 30, max: 60 }` for "30-60 seconds, progress when you hit 60"
+- **Consistency**: Always use `timeRange`, never a separate `time` field
 
 **Circuit/Superset Logic:**
 - **Same `order`** = Circuit/Superset (exercises performed back-to-back)
@@ -84,7 +99,7 @@ interface Template {
 - **Circuit** = Circuit of 3+ exercises
 ```
 
-### Program Exercise Configuration
+### Program Exercise State
 ```typescript
 interface ProgramExercise {
   programId: string;
@@ -94,19 +109,14 @@ interface ProgramExercise {
   maxTime?: number; // Current working time (for time progression)
   lastUpdated?: Date; // Optional for static exercises
   consecutiveFailures?: number; // Optional for static exercises
-  progression: ProgressionConfig;
 }
 ```
 
-### Routine Exercise Controls
-```typescript
-interface RoutineExercise {
-  routineId: string;
-  exerciseId: string;
-  progressionEnabled: boolean; // Can this routine trigger progression?
-  progressionSets?: number[]; // Which set orders count (optional)
-}
-```
+**Key Changes from Original Design:**
+- **Progression configuration moved to templates**: Each template can have its own `progressionConfig`
+- **No separate program-exercises progression config**: Eliminates the problem of same exercise used differently
+- **Self-contained templates**: Progression rules are defined where they're used
+- **Simplified control**: Presence of `progressionConfig` indicates progression is enabled
 
 ## Progression Examples
 
@@ -175,20 +185,23 @@ interface RoutineExercise {
 
 ## Key Design Principles
 
-### 1. Exercise-Level Progression
-- Progression is checked after completing ALL sets for an exercise
-- No arbitrary "progression set" designation needed
-- Matches real-world training patterns
+### 1. Template-Level Progression
+- Progression configuration is defined per template, not per exercise globally
+- Enables same exercise to have different progression rules in different contexts
+- **Main lift**: Barbell squat with linear progression
+- **Accessory**: Same barbell squat with no progression (static weight)
+- Eliminates complexity of program-level exercise configuration
 
 ### 2. Cached Max Weights
 - Current max weights stored in ProgramExercise table for O(1) performance
 - Templates use percentage-based loading (load: 0.85 = 85% of max)
 - All ramp sets automatically scale when max changes
 
-### 3. Routine-Specific Control
-- Some routines can trigger progression, others can't (e.g., Madcow Monday vs Wednesday)
-- Configurable which sets count for progression (e.g., only final AMRAP set)
-- Supports complex periodization schemes
+### 3. Simplified Progression Control
+- **Presence of `progressionConfig`** = progression enabled for this template
+- **Absence of `progressionConfig`** = no progression (static exercise)
+- **`progressionSets` within config** = which specific sets trigger progression
+- No separate boolean flags needed
 
 ### 4. Flexible Increment Types
 - **Fixed**: Traditional approach (+5 lbs, +10 seconds)

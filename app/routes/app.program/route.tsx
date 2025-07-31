@@ -9,6 +9,7 @@ import { Link } from "react-router";
 import { ListItem } from "~/components/list-item";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { getExerciseById } from "~/lib/utils";
+import { updateProgressionState, getProgressionState } from "~/lib/progression-integration";
 import { DialogWeightEdit } from "./dialog-weight-edit";
 import invariant from "tiny-invariant";
 
@@ -32,12 +33,22 @@ export async function clientLoader() {
     .exec();
   const exercises = await db.exercises.find().exec();
   const templates = await db.templates.find().exec();
+  
+  const programExercises = await db.programExercises
+    .find({
+      selector: {
+        programId: settings?.programId,
+      },
+    })
+    .exec();
 
   return {
     program: program ? program.toMutableJSON() : defaultProgram,
     routines: routines ? routines.map((w) => w.toMutableJSON()) : [],
     exercises: exercises ? exercises.map((e) => e.toMutableJSON()) : [],
     templates: templates ? templates.map((t) => t.toMutableJSON()) : [],
+    programExercises: programExercises ? programExercises.map((pe) => pe.toMutableJSON()) : [],
+    settings: settings ? settings.toMutableJSON() : { weigthUnit: 'lbs' },
   };
 }
 
@@ -50,40 +61,38 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const weight = Number(formData.get("weight") as string) ?? 0;
 
   const db = await dbPromise;
-  const settings = await db.settings.findOne().exec();
-  const program = await db.programs
-    .findOne({
-      selector: {
-        id: programId,
-      },
-    })
-    .exec();
-  invariant(program, "Program not found");
-  invariant(settings, "Settings not found");
-
-  await program.modify((doc) => {
-    invariant(doc.exercises, "Program has no exercises");
-    const exercises = doc.exercises.map((item) => {
-      if (item.exerciseId === exerciseId) {
-        return {
-          ...item,
-          exerciseWeight: {
-            value: weight,
-            units: settings.weigthUnit,
-          },
-        };
-      }
-      return item;
+  
+  // Update the progression state
+  const currentState = await getProgressionState(db, programId, exerciseId);
+  
+  if (currentState) {
+    // Update existing progression state with new max weight
+    await updateProgressionState(db, programId, exerciseId, {
+      progressionOccurred: false,
+      newMaxWeight: weight,
+      newConsecutiveFailures: currentState.consecutiveFailures,
+      action: 'maintain',
+      details: 'Manual weight update'
     });
-    doc.exercises = exercises;
-    return doc;
-  });
+  } else {
+    // Create new progression state if it doesn't exist
+    const programExercise = await db.programExercises.findOne({
+      selector: { programId, exerciseId }
+    }).exec();
+    
+    if (programExercise) {
+      await programExercise.patch({
+        maxWeight: weight,
+        lastUpdated: new Date().toISOString()
+      });
+    }
+  }
 
-  return program.toMutableJSON();
+  return { success: true };
 }
 
 export default function Programs({ loaderData }: Route.ComponentProps) {
-  const { program, routines, exercises, templates } = loaderData;
+  const { program, routines, exercises, templates, programExercises, settings } = loaderData;
 
   return (
     <Page>
@@ -137,7 +146,7 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
           {/* Weights Tab */}
           <TabsContent value="weights">
             <List>
-              {program.exercises?.map((item) => {
+              {programExercises.map((item) => {
                 const exerciseName =
                   getExerciseById({
                     exercises,
@@ -149,11 +158,11 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
                     exerciseId={item.exerciseId}
                     programId={program.id}
                     exerciseName={exerciseName}
-                    exerciseWeight={item.exerciseWeight.value}
+                    exerciseWeight={item.maxWeight || 0}
                   >
                     <ListItem
                       title={exerciseName}
-                      content={`${item.exerciseWeight.value} ${item.exerciseWeight.units}`}
+                      content={`${item.maxWeight || 0} ${settings.weigthUnit || 'lbs'}`}
                     />
                   </DialogWeightEdit>
                 );

@@ -14,7 +14,6 @@ import {
   calculateTemplateWeight,
   processExerciseProgression,
   getProgressionState,
-  shouldTriggerProgression,
   type WeightCalculation 
 } from "./progression-integration";
 export type { WeightCalculation } from "./progression-integration";
@@ -135,6 +134,7 @@ export async function getCurrentExerciseWeight(
 export async function processWorkoutProgression(
   db: MyDatabase,
   programId: string,
+  routineId: string,
   workoutPerformances: WorkoutPerformance[]
 ): Promise<Map<string, { progressionOccurred: boolean; description: string }>> {
   
@@ -149,27 +149,13 @@ export async function processWorkoutProgression(
       // Convert workout performance to progression engine format
       const exercisePerformance = convertWorkoutToExercisePerformance(performance);
       
-      // Get template info for context
-      const template = await getTemplateForExercise(db, programId, performance.exerciseId);
-      
-      // Check if progression should be triggered
-      const shouldProgress = await shouldTriggerProgression(db, programId, performance.exerciseId);
-      
-      if (!shouldProgress) {
-        results.set(performance.exerciseId, {
-          progressionOccurred: false,
-          description: "Progression disabled for this exercise"
-        });
-        continue;
-      }
-
       // Process progression
       const result = await processExerciseProgression(
         db,
         programId,
         performance.exerciseId,
         exercisePerformance,
-        template || {}
+        routineId
       );
 
       if (result) {
@@ -286,34 +272,5 @@ function convertWorkoutToExercisePerformance(
       completed: set.completed,
       failed: !set.completed
     }))
-  };
-}
-
-/**
- * Helper function to get template information for an exercise
- */
-async function getTemplateForExercise(
-  db: MyDatabase,
-  programId: string,
-  exerciseId: string
-): Promise<{ repRange?: { min: number; max: number }; timeRange?: { min: number; max: number }; load?: number } | null> {
-  
-  // Find a template for this exercise in the program
-  const template = await db.templates.findOne({
-    selector: {
-      programId,
-      exerciseId
-    }
-  }).exec();
-
-  if (!template) {
-    return null;
-  }
-
-  const doc = template.toMutableJSON();
-  return {
-    repRange: doc.repRange,
-    timeRange: doc.timeRange,
-    load: doc.load
   };
 }

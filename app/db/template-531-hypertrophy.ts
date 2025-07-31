@@ -10,7 +10,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.65,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "mZ2xVb7Lp9Qw3Er1Tg6Yh5N",
@@ -19,7 +19,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Jk5Lm8Qw2Zx1Vb3Er7Tg4Q",
@@ -28,7 +28,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.85,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // hypertrophy sets
@@ -39,7 +39,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "pQ2rS3tU4vW5xY6zA7bC8dE",
@@ -48,7 +48,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "fG9hJ0kL1mN2oP3qR4sT5uV",
@@ -57,7 +57,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "wX6yZ7aB8cD9eF0gH1iJ2kL",
@@ -66,7 +66,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "M3nO4pQ5rS6tU7vW8xY9zA0",
@@ -75,7 +75,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -85,7 +85,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "S8tU9vW0xY1zA2bC3dE4fG5",
@@ -94,7 +94,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "hJ6kL7mN8oP9qR0sT1uV2wX",
@@ -103,7 +103,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "yZ3aB4cD5eF6gH7iJ8kL9mN",
@@ -112,7 +112,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "O0pQ1rS2tU3vW4xY5zA6bC7",
@@ -121,7 +121,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -136,7 +136,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.65,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Lp7Zx1Vb3Er6Tg2Yh9Nq5S",
@@ -145,7 +145,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Yh9Nq3Wb5Lp8Zx1Vb2Er6T",
@@ -154,7 +154,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.85,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // hypertrophy sets
@@ -165,7 +165,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3U",
@@ -174,7 +174,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg3V",
@@ -183,7 +183,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1W",
@@ -192,7 +192,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6X",
@@ -201,7 +201,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -211,7 +211,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "U5vW6xY7zA8bC9dE0fG1hJ2",
@@ -220,7 +220,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "kL3mN4oP5qR6sT7uV8wX9yZ",
@@ -229,7 +229,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "aB1cD2eF3gH4iJ5kL6mN7oP",
@@ -238,7 +238,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Q1rS2tU3vW4xY5zA6bC7dE8",
@@ -247,7 +247,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -262,7 +262,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.65,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Tg4Nq7Wb2Lp8Zx1Vb3Er6V",
@@ -271,7 +271,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Vb3Er6Tg2Yh9Nq5Wb7Lp8W",
@@ -280,7 +280,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.85,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // hypertrophy sets
@@ -291,7 +291,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3Y",
@@ -300,7 +300,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2Z",
@@ -309,7 +309,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1a",
@@ -318,7 +318,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6b",
@@ -327,7 +327,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -337,7 +337,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "kL2mN3oP4qR5sT6uV7wX8yZ",
@@ -346,7 +346,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Y2vT7yL4nW9sK1pJ6zB5mR8u",
@@ -355,7 +355,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "M5nW2vQ8yT1sL6pJ9zB4kR7a",
@@ -364,7 +364,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "T4yQ9vL2nW7sK1pJ8zB5mR3u",
@@ -373,7 +373,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -388,7 +388,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.65,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1Y",
@@ -397,7 +397,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6Z",
@@ -406,7 +406,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.85,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // hypertrophy sets
@@ -417,7 +417,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3b",
@@ -426,7 +426,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2c",
@@ -435,7 +435,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1d",
@@ -444,7 +444,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6e",
@@ -453,7 +453,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -463,7 +463,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3g",
@@ -472,7 +472,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2h",
@@ -481,7 +481,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1i",
@@ -490,7 +490,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "W2xY3zA4bC5dE6fG7hJ8kL9",
@@ -499,7 +499,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -514,7 +514,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.7,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "Q1vT6yL3nW8sK2pJ9zB5mR4u",
@@ -523,7 +523,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.8,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "N7wT2yQ5vL8sK3pJ1zB6mR9a",
@@ -532,7 +532,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.9,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
     amrep: true,
   },
   // hypertrophy sets
@@ -543,7 +543,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "D5kM2nW8vQ1yT6sL9pJ4zB7a",
@@ -552,7 +552,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "S3nF8vQ1tL6yB9kJ2zP5mW0r",
@@ -561,7 +561,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "P6jB3lK8yQ2vT9mS4nW0fR5u",
@@ -570,7 +570,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "K2lM3nO4pQ5rS6tU7vW8xY9",
@@ -579,7 +579,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -589,7 +589,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "C7dE8fG9hJ0kL1mN2oP3qR4",
@@ -598,7 +598,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "mN0oP1qR2sT3uV4wX5yZ6aB",
@@ -607,7 +607,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Lp8Zx1Vb3Er6Tg2Yh9Nq5K",
@@ -616,7 +616,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Q7rS8tU9vW0xY1zA2bC3dE4",
@@ -625,7 +625,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -640,7 +640,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.7,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "V9qS4nL1yT8wK2mJ7pB5fR3z",
@@ -649,7 +649,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.8,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "L2wT7yQ4vN9sK1pM8jB5fR3x",
@@ -658,7 +658,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.9,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
     amrep: true,
   },
   // hypertrophy sets
@@ -669,7 +669,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2d",
@@ -678,7 +678,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1e",
@@ -687,7 +687,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6f",
@@ -696,7 +696,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Lp8Zx1Vb3Er6Tg2Yh9Nq5g",
@@ -705,7 +705,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -715,7 +715,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2i",
@@ -724,7 +724,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1j",
@@ -733,7 +733,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6k",
@@ -742,7 +742,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Lp8Zx1Vb3Er6Tg2Yh9Nq5l",
@@ -751,7 +751,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -766,7 +766,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.7,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "U4cM9dS2wE8hV7qA5tN1rZ3x",
@@ -775,7 +775,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.8,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "sT5uV6wX7yZ8aB9cD0eF1gH",
@@ -784,7 +784,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.9,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
     amrep: true,
   },
   // hypertrophy sets
@@ -795,7 +795,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3n",
@@ -804,7 +804,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2o",
@@ -813,7 +813,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1p",
@@ -822,7 +822,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6q",
@@ -831,7 +831,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -841,7 +841,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3s",
@@ -850,7 +850,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2t",
@@ -859,7 +859,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1u",
@@ -868,7 +868,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6v",
@@ -877,7 +877,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -892,7 +892,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.7,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "fG5hJ6kL7mN8oP9qR0sT1uV",
@@ -901,7 +901,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.8,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3L",
@@ -910,7 +910,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.9,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
     amrep: true,
   },
   // hypertrophy sets
@@ -921,7 +921,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2x",
@@ -930,7 +930,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "C3kM8nW1vQ6yT9sL2pJ5zB7a",
@@ -939,7 +939,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "E9wT4yQ1vL7sK2pJ8zB5mR6u",
@@ -948,7 +948,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "H6nW3vQ9yT2sL5pJ1zB8kR4a",
@@ -957,7 +957,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -967,7 +967,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3z",
@@ -976,7 +976,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2A",
@@ -985,7 +985,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1B",
@@ -994,7 +994,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6C",
@@ -1003,7 +1003,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1018,7 +1018,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1N",
@@ -1027,7 +1027,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.85,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6O",
@@ -1036,27 +1036,18 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.95,
-    reps: 1,
+    repRange: { min: 1, max: 1 },
     amrep: true,
-    progression: {
-      increment: [
-        {
-          value: 10,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max"
-        }
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency"
-        }
-      ],
+    progressionConfig: {
+      type: "linear",
+      progressionSets: [3], // Only this set counts for progression
+      incrementType: "fixed",
+      weightIncrement: 10, // +10 lbs for overhead press
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage",
+      deloadType: "percentage", 
+      deloadAmount: 10, // -10% on deload
+      failureThreshold: 3,
     },
   },
   // hypertrophy sets
@@ -1067,7 +1058,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "X7kM2nW5vQ8yT1sL9pJ3zB6a",
@@ -1076,7 +1067,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Q8wR2eT5yU7iO1p0AzX4cV6b",
@@ -1085,7 +1076,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "M2nP4qS6tV8xZ0aC3dF5hJ7l",
@@ -1094,7 +1085,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "W9yB2vN5sK8pJ1zR4mT7uQ0x",
@@ -1103,7 +1094,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -1113,7 +1104,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "S5uV8wX1yZ4aB7cD0eF3hJ6k",
@@ -1122,7 +1113,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "J7mN0oP3qR6sT9uV2wX5yZ8a",
@@ -1131,7 +1122,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "C1dE4fG7hJ0kL3mN6oP9qR2s",
@@ -1140,7 +1131,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "T8uV1wX4yZ7aB0cD3eF6hJ9k",
@@ -1149,7 +1140,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1164,7 +1155,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3Q",
@@ -1173,7 +1164,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.85,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2R",
@@ -1182,27 +1173,18 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.95,
-    reps: 1,
+    repRange: { min: 1, max: 1 },
     amrep: true,
-    progression: {
-      increment: [
-        {
-          value: 10,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max"
-        }
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency"
-        }
-      ],
+    progressionConfig: {
+      type: "linear",
+      progressionSets: [3], // Only this set counts for progression
+      incrementType: "fixed",
+      weightIncrement: 10, // +10 lbs for deadlift
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage",
+      deloadType: "percentage", 
+      deloadAmount: 10, // -10% on deload
+      failureThreshold: 3,
     },
   },
   // hypertrophy sets
@@ -1213,7 +1195,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6U",
@@ -1222,7 +1204,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Lp8Zx1Vb3Er6Tg2Yh9Nq5V",
@@ -1231,7 +1213,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3W",
@@ -1240,7 +1222,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "P2qR5sT8uV1wX4yZ7aB0cD3e",
@@ -1249,7 +1231,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -1259,7 +1241,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "F6hJ9kL2mN5oP8qR1sT4uV7w",
@@ -1268,7 +1250,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "R4sT7uV0wX3yZ6aB9cD2eF5h",
@@ -1277,7 +1259,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "G8jK1mN4pQ7sT0vW3yZ6bC9d",
@@ -1286,7 +1268,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3X",
@@ -1295,7 +1277,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1310,7 +1292,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6T",
@@ -1319,7 +1301,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.85,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "Lp8Zx1Vb3Er6Tg2Yh9Nq5U",
@@ -1328,27 +1310,18 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.95,
-    reps: 1,
+    repRange: { min: 1, max: 1 },
     amrep: true,
-    progression: {
-      increment: [
-        {
-          value: 10,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max"
-        }
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency"
-        }
-      ],
+    progressionConfig: {
+      type: "linear",
+      progressionSets: [3], // Only this set counts for progression
+      incrementType: "fixed",
+      weightIncrement: 5, // +5 lbs for bench press
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage",
+      deloadType: "percentage", 
+      deloadAmount: 10, // -10% on deload
+      failureThreshold: 3,
     },
   },
   // hypertrophy sets
@@ -1359,7 +1332,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "B6cD9fG2hJ5kL8mN1pQ4sT7v",
@@ -1368,7 +1341,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "W0xY3zB6cD9eF2hJ5kL8mN1p",
@@ -1377,7 +1350,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Q4sT7vW0xY3zB6cD9eF2hJ5k",
@@ -1386,7 +1359,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Lp8Zx1Vb3Er6Tg2Yh9Nq5c",
@@ -1395,7 +1368,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -1405,7 +1378,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "F2hJ5kL8mN1pQ4sT7vW0xY3z",
@@ -1414,7 +1387,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "B6cD9eF2hJ5kL8mN1pQ4sT7v",
@@ -1423,7 +1396,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "V7nQ3xL8yT2sW5kJ0zF9bM4p",
@@ -1432,7 +1405,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Lp8Zx1Vb3Er6Tg2Yh9Nq5D",
@@ -1441,7 +1414,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1456,7 +1429,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2W",
@@ -1465,7 +1438,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.85,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1X",
@@ -1474,27 +1447,18 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.95,
-    reps: 1,
+    repRange: { min: 1, max: 1 },
     amrep: true,
-    progression: {
-      increment: [
-        {
-          value: 10,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max"
-        }
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency"
-        }
-      ],
+    progressionConfig: {
+      type: "linear",
+      progressionSets: [3], // Only this set counts for progression
+      incrementType: "fixed",
+      weightIncrement: 10, // +10 lbs for squat
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage",
+      deloadType: "percentage", 
+      deloadAmount: 10, // -10% on deload
+      failureThreshold: 3,
     },
   },
   // hypertrophy sets
@@ -1505,7 +1469,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "R2sT4uV6wX8yZ1aB3cD5eF7h",
@@ -1514,7 +1478,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "K9lM0nO2pQ4rS7tU1vW3xY5z",
@@ -1523,7 +1487,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "J8kL4mN6oP9qR1sT3uV5wX7y",
@@ -1532,7 +1496,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Z6aB2cD8eF0gH5iJ7kL1mN3o",
@@ -1541,7 +1505,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -1551,7 +1515,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "F3hJ5kL7mN9pQ1rS8tU0vW2x",
@@ -1560,7 +1524,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Y4zA6bC8dE1fG3hJ9kL2mN5o",
@@ -1569,7 +1533,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Q7rS1tU3vW5xY9zA0bC2dE4f",
@@ -1578,7 +1542,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "G6hJ8kL0mN2pQ5rS7tU9vW1x",
@@ -1587,7 +1551,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1602,7 +1566,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.4,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Lp8Zx1Vb3Er6Tg2Yh9Nq5Z",
@@ -1611,7 +1575,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.5,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3a",
@@ -1620,7 +1584,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.6,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // hypertrophy sets
@@ -1631,7 +1595,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "P9qR1sT3uV5wX7yZ0aB2cD4e",
@@ -1640,7 +1604,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "F6hJ8kL1mN3oP5qR7sT9uV0w",
@@ -1649,7 +1613,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "X2yZ4aB6cD8eF0gH3iJ5kL7m",
@@ -1658,7 +1622,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "N9pQ1rS3tU5vW7xY0zA2bC4d",
@@ -1667,7 +1631,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -1677,7 +1641,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "V3wX5yZ7aB9cD1eF3hJ6kL8m",
@@ -1686,7 +1650,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "N0pQ2rS4tU6vW8xY1zA3bC5d",
@@ -1695,7 +1659,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "E7fG9hJ2kL4mN6oP8qR0sT3u",
@@ -1704,7 +1668,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Q5nR8vL2yT6sW9kJ3zF1bM7pX",
@@ -1713,7 +1677,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1728,7 +1692,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.4,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1c",
@@ -1737,7 +1701,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.5,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6d",
@@ -1746,7 +1710,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.6,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // hypertrophy sets
@@ -1757,7 +1721,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "S2uV5wX8yZ1aB4cD6eF9hJ0kL",
@@ -1766,7 +1730,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "K1lM4nO7pQ2rS5tU8vW0xY3zB",
@@ -1775,7 +1739,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "J3kL6mN9oP2qR5sT8uV1wX4yZ",
@@ -1784,7 +1748,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Z8aB1cD4eF7gH0iJ3kL6mN9oP",
@@ -1793,7 +1757,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -1803,7 +1767,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "F3hJ6kL8mN1pQ4sT7vW0xY2zB",
@@ -1812,7 +1776,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Y4zA7bC9dE1fG3hJ5kL2mN6oP",
@@ -1821,7 +1785,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Q6rS1tU4vW5xY8zA0bC2dE3fG",
@@ -1830,7 +1794,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "G7hJ9kL2mN4pQ5rS8tU1vW3xY",
@@ -1839,7 +1803,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1854,7 +1818,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.4,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3f",
@@ -1863,7 +1827,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.5,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2g",
@@ -1872,7 +1836,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.6,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // hypertrophy sets
@@ -1883,7 +1847,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "F9hJ2kL5mN8pQ1rS4tU7vW0xY",
@@ -1892,7 +1856,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "X6yZ9aB2cD5eF8hJ1kL4mN7oP",
@@ -1901,7 +1865,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "R3sT6uV9wX2yZ5aB8cD1eF4hJ",
@@ -1910,7 +1874,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "G0kL3mN6oP9qR2sT5uV8wX1yZ",
@@ -1919,7 +1883,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -1929,7 +1893,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Lp8Zx1Vb3Er6Tg2Yh9Nq5i",
@@ -1938,7 +1902,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Tg2Yh9Nq5Wb7Lp8Zx1Vb3j",
@@ -1947,7 +1911,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Nq5Wb7Lp8Zx1Vb3Er6Tg2k",
@@ -1956,7 +1920,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "Er6Tg2Yh9Nq5Wb7Lp8Zx1l",
@@ -1965,7 +1929,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1980,7 +1944,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.4,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Yh9Nq5Wb7Lp8Zx1Vb3Er6i",
@@ -1989,7 +1953,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.5,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "Lp8Zx1Vb3Er6Tg2Yh9Nq5j",
@@ -1998,7 +1962,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.6,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // hypertrophy sets
@@ -2009,7 +1973,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 4,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "B2cD5eF8hJ1kL4mN7oP0qR3sT",
@@ -2018,7 +1982,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 5,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "N1pQ4sT7vW0xY3zB6cD9eF2hJ",
@@ -2027,7 +1991,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 6,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "W7xY0zB3cD6eF9hJ2kL5mN8pQ",
@@ -2036,7 +2000,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 7,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "V4wX7yZ0aB3cD6eF9hJ2kL5mN",
@@ -2045,7 +2009,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 8,
     load: 0.5,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets
   {
@@ -2055,7 +2019,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "F6hJ9kL2mN4pQ5rS8tU1vW3xY",
@@ -2064,7 +2028,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "U8vW1xY4zB7cD0eF3hJ6kL9mN",
@@ -2073,7 +2037,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "C5dE8fG1hJ4kL7mN0pQ3sT6uV",
@@ -2082,7 +2046,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "T2uV5wX8yZ1aB4cD7eF0hJ3kL",
@@ -2091,7 +2055,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 ];
 

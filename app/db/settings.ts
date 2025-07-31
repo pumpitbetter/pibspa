@@ -115,7 +115,7 @@ export const defaultSettings: SettingsDocType = {
     { weight: 35, count: 2 },
     { weight: 45, count: 4 },
   ],
-  programId: "sl5x5",
+  programId: "5x5",
 };
 
 export async function initSettings(db: MyDatabase) {
