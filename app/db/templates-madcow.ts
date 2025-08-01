@@ -9,7 +9,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: (100 - 12.5 * 4) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -19,7 +18,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: (100 - 12.5 * 3) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -29,7 +27,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: (100 - 12.5 * 2) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -39,7 +36,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 4,
     load: (100 - 12.5 * 1) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -49,27 +45,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 5,
     load: 1,
-    reps: 5,
     repRange: { min: 5, max: 5 },
-    progression: {
-      increment: [
-        {
-          value: 5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -79,7 +64,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 6,
     load: (100 - 12.5 * 4) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -89,7 +73,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 7,
     load: (100 - 12.5 * 3) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -99,7 +82,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 8,
     load: (100 - 12.5 * 2) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -109,7 +91,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 9,
     load: (100 - 12.5 * 1) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -119,27 +100,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 10,
     load: 1,
-    reps: 5,
     repRange: { min: 5, max: 5 },
-    progression: {
-      increment: [
-        {
-          value: 2.5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+     progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 2.5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -149,7 +119,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 11,
     load: (100 - 12.5 * 4) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -159,7 +128,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 12,
     load: (100 - 12.5 * 3) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -169,7 +137,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 13,
     load: (100 - 12.5 * 2) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -179,7 +146,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 14,
     load: (100 - 12.5 * 1) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -189,27 +155,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 15,
     load: 1,
-    reps: 5,
     repRange: { min: 5, max: 5 },
-    progression: {
-      increment: [
-        {
-          value: 2.5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 2.5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -219,7 +174,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 16,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -229,7 +183,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 17,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -239,27 +192,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 18,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
-    progression: {
-      increment: [
-        {
-          value: 2.5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -269,7 +211,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 19,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -279,7 +220,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 20,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -289,27 +229,18 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 21,
     load: 1,
-    reps: 8,
-    repRange: { min: 8, max: 8 },
-    progression: {
-      increment: [
-        {
-          value: 2.5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    repRange: { min: 3, max: 10 },
+    progressionConfig: {
+      type: "reps" as const,
+      incrementType: "fixed" as const,
+      repsIncrement: 1,
+      enableWeightProgression: true,
+      weightIncrement: 5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -319,7 +250,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: (100 - 12.5 * 4) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -329,7 +259,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: (100 - 12.5 * 3) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -339,7 +268,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: (100 - 12.5 * 2) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -349,7 +277,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 4,
     load: (100 - 12.5 * 2) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -359,7 +286,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-incline-bench-press",
     order: 5,
     load: (100 - 12.5 * 3) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -369,7 +295,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-incline-bench-press",
     order: 6,
     load: (100 - 12.5 * 2) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -379,7 +304,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-incline-bench-press",
     order: 7,
     load: (100 - 12.5 * 1) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -389,27 +313,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-incline-bench-press",
     order: 8,
     load: 1,
-    reps: 5,
     repRange: { min: 5, max: 5 },
-    progression: {
-      increment: [
-        {
-          value: 2.5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 2.5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -419,7 +332,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 9,
     load: (100 - 12.5 * 3) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -429,7 +341,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 10,
     load: (100 - 12.5 * 2) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -439,7 +350,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 11,
     load: (100 - 12.5 * 1) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -449,27 +359,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 12,
     load: 1,
-    reps: 5,
     repRange: { min: 5, max: 5 },
-    progression: {
-      increment: [
-        {
-          value: 5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 10,
+      weightRoundingIncrement: 5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -479,7 +378,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 13,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -489,7 +387,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 14,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -499,27 +396,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 15,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
-    progression: {
-      increment: [
-        {
-          value: 2.5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -529,8 +415,7 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "planks",
     order: 16,
     load: 1,
-    reps: 8,
-    repRange: { min: 8, max: 8 },
+    timeRange: { min: 10, max: 60 },
   },
   {
     id: "k7qWy1gZwQU2sRihmCjbsZ",
@@ -539,8 +424,7 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "planks",
     order: 17,
     load: 1,
-    reps: 8,
-    repRange: { min: 8, max: 8 },
+    timeRange: { min: 10, max: 60 },
   },
   {
     id: "utjRLE2oXyJnVgbA3hyGd4",
@@ -549,27 +433,19 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "planks",
     order: 18,
     load: 1,
-    reps: 8,
-    repRange: { min: 8, max: 8 },
-    progression: {
-      increment: [
-        {
-          value: 10,
-          kind: "seconds",
-          type: "absolute",
-          frequency: 1,
-          condition: "true",
-        },
-      ],
-      decrement: [
-        {
-          value: 10,
-          kind: "seconds",
-          type: "absolute",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    timeRange: { min: 10, max: 60 },
+    progressionConfig: {
+      type: "time" as const,
+      timeIncrement: 10,
+      timeRoundingIncrement: 10,
+      enableWeightProgression: true,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 5,
+      deloadStrategy: "time-then-weight" as const,
+      deloadType: "fixed" as const,
+      deloadAmount: 5,
+      failureThreshold: 3,
     },
   },
   {
@@ -579,7 +455,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: (100 - 12.5 * 4) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -589,7 +464,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: (100 - 12.5 * 3) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -599,7 +473,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: (100 - 12.5 * 2) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -609,7 +482,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 4,
     load: (100 - 12.5 * 1) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -619,18 +491,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 5,
     load: (100 + 12.5) / 100,
-    reps: 3,
     repRange: { min: 3, max: 3 },
-    progression: {
-      increment: [
-        {
-          value: 2.5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "true",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 10,
+      weightRoundingIncrement: 10,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -640,7 +510,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 6,
     load: (100 - 12.5 * 2) / 100,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -650,7 +519,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 7,
     load: (100 - 12.5 * 4) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -660,7 +528,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 8,
     load: (100 - 12.5 * 3) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -670,7 +537,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 9,
     load: (100 - 12.5 * 2) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -680,7 +546,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 10,
     load: (100 - 12.5 * 1) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -690,18 +555,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 11,
     load: (100 + 12.5) / 100,
-    reps: 3,
     repRange: { min: 3, max: 3 },
-    progression: {
-      increment: [
-        {
-          value: 2.5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "true",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 2.5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -711,7 +574,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 12,
     load: (100 - 12.5 * 2) / 100,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -721,7 +583,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 13,
     load: (100 - 12.5 * 4) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -731,7 +592,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 14,
     load: (100 - 12.5 * 3) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -741,7 +601,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 15,
     load: (100 - 12.5 * 2) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -751,7 +610,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 16,
     load: (100 - 12.5 * 1) / 100,
-    reps: 5,
     repRange: { min: 5, max: 5 },
   },
   {
@@ -761,18 +619,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 17,
     load: (100 + 12.5) / 100,
-    reps: 3,
     repRange: { min: 3, max: 3 },
-    progression: {
-      increment: [
-        {
-          value: 2.5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "true",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 2.5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -782,7 +638,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 18,
     load: (100 - 12.5 * 2) / 100,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -792,7 +647,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-curl",
     order: 19,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -802,7 +656,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-curl",
     order: 20,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -812,27 +665,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-curl",
     order: 21,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
-    progression: {
-      increment: [
-        {
-          value: 2.5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 2.5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -842,7 +684,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "ezbar-skullcrusher",
     order: 22,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -852,7 +693,6 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "ezbar-skullcrusher",
     order: 23,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
   },
   {
@@ -862,27 +702,16 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     exerciseId: "ezbar-skullcrusher",
     order: 24,
     load: 1,
-    reps: 8,
     repRange: { min: 8, max: 8 },
-    progression: {
-      increment: [
-        {
-          value: 2.5,
-          kind: "weight",
-          type: "absolute",
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-      decrement: [
-        {
-          value: 0.1,
-          kind: "weight",
-          type: "percentage",
-          frequency: 3,
-          condition: "failed >= frequency",
-        },
-      ],
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 2.5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
 ];
