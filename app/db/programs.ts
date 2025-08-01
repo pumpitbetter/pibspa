@@ -43,37 +43,6 @@ export const programsSchemaLiteral = {
       type: "string",
       maxLength: 100,
     },
-    exercises: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          exerciseId: {
-            type: "string",
-            maxLength: 100,
-          },
-          duration: {
-            type: "number",
-            description: "duration in seconds",
-          },
-          exerciseWeight: {
-            type: "object",
-            properties: {
-              value: {
-                type: "number", // max weight for the exercise
-              },
-              units: {
-                type: "string",
-                enum: ["kg", "lbs"],
-              },
-            },
-            required: ["value", "units"],
-          },
-        },
-        required: ["exerciseId", "exerciseWeight"],
-      },
-      default: [],
-    },
   },
   required: ["id", "name", "description", "type", "level", "ownerId"],
   //indexes: ["firstName"],

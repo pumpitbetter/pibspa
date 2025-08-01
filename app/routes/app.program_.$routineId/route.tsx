@@ -67,7 +67,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   // Enhance templates with progression-calculated weights
   const templateDocs = templates.map(t => t.toMutableJSON());
-  const enhancedTemplates = await enhanceTemplatesWithProgression(db, templateDocs);
+  const enhancedTemplates = await enhanceTemplatesWithProgression(db, templateDocs, 0); // Use 0 for current workout
 
   return {
     routine: routine.toMutableJSON(),

@@ -53,11 +53,9 @@ export const programExerciseSchemaLiteral = {
     },
     lastProgressionDate: {
       type: "string", // ISO date string
-      format: "date-time",
     },
     lastUpdated: {
       type: "string", // ISO date string
-      format: "date-time",
     },
   },
   required: ["id", "programId", "exerciseId", "consecutiveFailures", "lastUpdated"],
@@ -137,10 +135,6 @@ export async function initProgramExercises(db: MyDatabase) {
     },
   });
 
-  // Initialize data if collection is empty
-  const existingCount = await db.programExercises.count().exec();
-  if (existingCount === 0) {
-    const { init531FusionProgramExercises } = await import("./program-exercises-531-fusion");
-    await init531FusionProgramExercises(db);
-  }
+  // Note: Progression state will be initialized automatically when exercises are first used
+  // via the initializeProgressionState function in progression-integration.ts
 }

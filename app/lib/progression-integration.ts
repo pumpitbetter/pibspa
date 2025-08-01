@@ -101,7 +101,8 @@ export async function calculateTemplateWeight(
   db: MyDatabase,
   template: TemplatesDocType,
   settings: SettingsDocType,
-  exercise: ExercisesDocType
+  exercise: ExercisesDocType,
+  workoutIndex: number = 0 // 0 = current workout, 1 = next workout, etc.
 ): Promise<WeightCalculation> {
   
   // Get progression state for this exercise
@@ -116,10 +117,37 @@ export async function calculateTemplateWeight(
     };
   }
 
+  let targetWeight = state.maxWeight;
+
+  // For linear progression, calculate the weight based on workout index
+  if (template.progressionConfig?.type === 'linear') {
+    const config = template.progressionConfig;
+    
+    // Check if there's actual workout history (lastProgressionDate exists)
+    const hasWorkoutHistory = state.lastProgressionDate !== undefined;
+  
+    // Determine how many increments to apply
+    let incrementsToApply = 0;
+    
+    if (!hasWorkoutHistory) {
+      // No workout history - use workoutIndex directly
+      incrementsToApply = workoutIndex;
+    } else {
+      // Has workout history - calculate based on progression since last update
+      // This would require more complex logic to determine progression
+      incrementsToApply = workoutIndex;
+    }
+    
+    // Apply increments only if > 0
+    if (incrementsToApply > 0 && config.weightIncrement) {
+      targetWeight = state.maxWeight + (incrementsToApply * config.weightIncrement);
+    }
+  }
+
   // Calculate weight based on load percentage of max
-  const targetWeight = state.maxWeight * template.load;
+  const finalTargetWeight = targetWeight * template.load;
   const barWeight = getBarWeight(exercise, settings);
-  const finalWeight = Math.max(targetWeight, barWeight);
+  const finalWeight = Math.max(finalTargetWeight, barWeight);
 
   return {
     weight: finalWeight,

@@ -93,42 +93,73 @@ export async function clientLoader() {
 
   // Enhance templates with progression-calculated weights
   const templateDocs = templates.map(t => t.toMutableJSON());
-  const enhancedTemplates = await enhanceTemplatesWithProgression(db, templateDocs);
+
+  // Track exercise appearance count across workouts for proper progression indexing
+  const exerciseWorkoutCount = new Map<string, number>();
 
   // group workouts into sets using enhanced templates
-  const groupedWorkouts: GroupedWorkout[] = workouts.map((workout) => {
-    const workoutTemplates = enhancedTemplates.filter((template) => {
-      return template.routineId === workout.routineId;
+  const groupedWorkouts: GroupedWorkout[] = await Promise.all(
+    workouts.map(async (workout, workoutIndex) => {
+      // Build exercise-specific progression indices
+      const exerciseProgressionIndices = new Map<string, number>();
+      
+      // Get templates for this workout to see which exercises appear
+      const currentWorkoutTemplates = templateDocs.filter(template => template.routineId === workout.routineId);
+      
+      // Get unique exercises in this workout (not templates)
+      const uniqueExercisesInWorkout = [...new Set(currentWorkoutTemplates.map(t => t.exerciseId))];
+      
+      // For each unique exercise in this workout, assign its progression index
+      for (const exerciseId of uniqueExercisesInWorkout) {
+        // Get current count for this exercise, or start at 0
+        const currentCount = exerciseWorkoutCount.get(exerciseId) || 0;
+        exerciseProgressionIndices.set(exerciseId, currentCount);
+        
+        // Increment count for next workout
+        exerciseWorkoutCount.set(exerciseId, currentCount + 1);
+      }
+      
+      // Enhance templates for this specific workout with exercise-specific indices
+      const enhancedTemplates = await enhanceTemplatesWithProgression(
+        db, 
+        templateDocs, 
+        workoutIndex, // Keep as fallback
+        exerciseProgressionIndices
+      );
+      
+      const workoutTemplates = enhancedTemplates.filter((template) => {
+        return template.routineId === workout.routineId;
+      })
+      .sort((a, b) => {
+        return a.order - b.order;
+      });
+
+      const sets: SetsDocType[] = workoutTemplates
+        .map((template) => ({
+          id: template.id,
+          programId: template.programId,
+          routineId: template.routineId,
+          exerciseId: template.exerciseId,
+          order: template.order,
+          sequence: template.sequence,
+          load: template.load || 0,
+          workoutId: workout.id,
+          weight: { 
+            value: template.calculatedWeight.weight, 
+            units: template.calculatedWeight.units as "kg" | "lbs"
+          },
+          reps: template.repRange?.max || template.repRange?.min || 5, // Use max reps from range, fallback to min, then 5
+          amrep: template.amrep || false,
+          restTime: template.restTime,
+        }));
+
+      const groupedSets = groupCircuitsIntoSets<SetsDocType>(
+        groupIntoCircuits<SetsDocType>(sets)
+      );
+
+      return { workout, sets: groupedSets };
     })
-    .sort((a, b) => {
-      return a.order - b.order;
-    });
-
-    const sets: SetsDocType[] = workoutTemplates
-      .map((template) => ({
-        id: template.id,
-        programId: template.programId,
-        routineId: template.routineId,
-        exerciseId: template.exerciseId,
-        order: template.order,
-        sequence: template.sequence,
-        load: template.load || 0,
-        workoutId: workout.id,
-        weight: { 
-          value: template.calculatedWeight.weight, 
-          units: template.calculatedWeight.units as "kg" | "lbs"
-        },
-        reps: template.repRange?.max || template.repRange?.min || 5, // Use max reps from range, fallback to min, then 5
-        amrep: template.amrep || false,
-        restTime: template.restTime,
-      }));
-
-    const groupedSets = groupCircuitsIntoSets<SetsDocType>(
-      groupIntoCircuits<SetsDocType>(sets)
-    );
-
-    return { workout, sets: groupedSets };
-  });
+  );
 
   return {
     program: program ? program.toMutableJSON() : defaultProgram,

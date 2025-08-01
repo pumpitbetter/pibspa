@@ -44,6 +44,7 @@ export interface ProgressionResult {
   newConsecutiveFailures: number;
   action: 'progression' | 'deload' | 'maintain';
   details: string; // Human readable description
+  clearProgressionDate?: boolean; // Optional flag to clear progression date (for manual updates)
 }
 
 /**

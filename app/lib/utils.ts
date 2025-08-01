@@ -139,75 +139,6 @@ export function generateWorkoutsFromRoutines({
   return queue;
 }
 
-interface ProgramExercise {
-  exerciseId: string;
-  exerciseWeight: {
-    value: number;
-    units: "kg" | "lbs";
-  };
-  duration?: number | undefined;
-  barWeight?:
-    | {
-        value: number;
-        units: "kg" | "lbs";
-      }
-    | undefined;
-}
-
-export function getProgramExerciseWeight({
-  programExercises,
-  exerciseId,
-  load,
-  units,
-  increment,
-  barWeight,
-}: {
-  programExercises: ProgramExercise[];
-  exerciseId: string;
-  load: number;
-  units: "kg" | "lbs";
-  increment: number;
-  barWeight?: number;
-}) {
-  if (!programExercises) {
-    return { value: 0, units }; // Default weight if program or exercises are not defined
-  }
-
-  const programExercise = programExercises.find(
-    (exercise) => exercise.exerciseId === exerciseId
-  );
-
-  if (!programExercise || !programExercise.exerciseWeight) {
-    return { value: 0, units }; // Default weight if exercise or weight is not found
-  }
-
-  increment = increment || 5; // Default increment if not provided
-
-  // don't ramp up with weight less then 5
-  if (load < 1 && increment < 5) {
-    increment = 5;
-  }
-  const weightValue =
-    load > 1
-      ? Math.max(
-          Math.round(
-            (programExercise.exerciseWeight.value + increment) / increment
-          ) * increment,
-          barWeight || 0
-        )
-      : Math.max(
-          Math.round(
-            (load * programExercise.exerciseWeight.value) / increment
-          ) * increment,
-          barWeight || 0
-        );
-
-  return {
-    value: weightValue,
-    units,
-  };
-}
-
 export function exerciseUsesPlates({
   exercise,
 }: {
@@ -234,25 +165,6 @@ export function getBarWeight({
     return settings?.ezbarWeight || 0;
   }
   return 0;
-}
-
-export function progressProgramExercise({
-  programExercises,
-  exerciseId,
-  increment,
-}: {
-  programExercises: ProgramExercise[];
-  exerciseId: string;
-  increment: number;
-}): ProgramExercise[] {
-  const transformed = programExercises.map((exercise) => {
-    if (exercise.exerciseId === exerciseId) {
-      exercise.exerciseWeight.value += increment;
-    }
-    return exercise;
-  });
-
-  return transformed;
 }
 
 export function calculatePlates({
