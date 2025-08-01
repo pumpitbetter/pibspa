@@ -94,38 +94,17 @@ export async function clientLoader() {
   // Enhance templates with progression-calculated weights
   const templateDocs = templates.map(t => t.toMutableJSON());
 
-  // Track exercise appearance count across workouts for proper progression indexing
-  const exerciseWorkoutCount = new Map<string, number>();
-
   // group workouts into sets using enhanced templates
   const groupedWorkouts: GroupedWorkout[] = await Promise.all(
     workouts.map(async (workout, workoutIndex) => {
-      // Build exercise-specific progression indices
-      const exerciseProgressionIndices = new Map<string, number>();
+      // For linear progression: 
+      // - Day 1 (workoutIndex 0) gets progression index 0
+      // - Day 2 (workoutIndex 1) gets progression index 1, etc.
+      // The calculateTemplateWeight function will handle the logic of whether to increment
+      const progressionIndex = workoutIndex;
       
-      // Get templates for this workout to see which exercises appear
-      const currentWorkoutTemplates = templateDocs.filter(template => template.routineId === workout.routineId);
-      
-      // Get unique exercises in this workout (not templates)
-      const uniqueExercisesInWorkout = [...new Set(currentWorkoutTemplates.map(t => t.exerciseId))];
-      
-      // For each unique exercise in this workout, assign its progression index
-      for (const exerciseId of uniqueExercisesInWorkout) {
-        // Get current count for this exercise, or start at 0
-        const currentCount = exerciseWorkoutCount.get(exerciseId) || 0;
-        exerciseProgressionIndices.set(exerciseId, currentCount);
-        
-        // Increment count for next workout
-        exerciseWorkoutCount.set(exerciseId, currentCount + 1);
-      }
-      
-      // Enhance templates for this specific workout with exercise-specific indices
-      const enhancedTemplates = await enhanceTemplatesWithProgression(
-        db, 
-        templateDocs, 
-        workoutIndex, // Keep as fallback
-        exerciseProgressionIndices
-      );
+      // Enhance templates for this specific workout with the appropriate index
+      const enhancedTemplates = await enhanceTemplatesWithProgression(db, templateDocs, progressionIndex);
       
       const workoutTemplates = enhancedTemplates.filter((template) => {
         return template.routineId === workout.routineId;
