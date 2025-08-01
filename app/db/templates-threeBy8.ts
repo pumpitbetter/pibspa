@@ -31,7 +31,7 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
       type: "linear" as const,
       incrementType: "fixed" as const,
       weightIncrement: 10,
-      weightRoundingIncrement: 10,
+      weightRoundingIncrement: 5,
       deloadStrategy: "percentage" as const,
       deloadType: "percentage" as const,
       deloadAmount: 0.1,

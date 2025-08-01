@@ -70,40 +70,22 @@ export async function enhanceTemplatesWithProgression(
   }
 
   // Calculate progression per exercise, then apply to all templates
-  const progressionResults = new Map<string, any>();
+  const progressionIndices = new Map<string, number>();
+  const exerciseProgressionConfigs = new Map<string, any>();
 
   for (const [exerciseId, exerciseTemplates] of templatesByExercise) {
-    // Find a template with progressionConfig for this exercise
-    const templateWithProgression = exerciseTemplates.find(t => t.progressionConfig);
+    // Store the progression index for this exercise
+    const progressionIndex = exerciseProgressionIndices?.get(exerciseId) ?? workoutIndex;
+    progressionIndices.set(exerciseId, progressionIndex);
     
-    if (templateWithProgression) {
-      // Get exercise data
-      const exercise = await db.exercises.findOne({
-        selector: { id: exerciseId }
-      }).exec();
-
-      if (exercise) {
-        // Use exercise-specific progression index if provided, otherwise fallback to workoutIndex
-        const progressionIndex = exerciseProgressionIndices?.get(exerciseId) ?? workoutIndex;
-        
-        // Calculate weight using progression system with appropriate index
-        const calculatedWeight = await calculateTemplateWeight(
-          db,
-          templateWithProgression,
-          settings.toMutableJSON(),
-          exercise.toMutableJSON(),
-          progressionIndex
-        );
-        
-        progressionResults.set(exerciseId, {
-          calculatedWeight,
-          exercise: exercise.toMutableJSON()
-        });
-      }
+    // Find any template with progressionConfig to share with all templates of this exercise
+    const templateWithProgression = exerciseTemplates.find(t => t.progressionConfig);
+    if (templateWithProgression?.progressionConfig) {
+      exerciseProgressionConfigs.set(exerciseId, templateWithProgression.progressionConfig);
     }
   }
 
-  // Now enhance all templates, using shared progression results
+  // Now enhance all templates, calculating weight individually for each template
   for (const template of templates) {
     // Get exercise data
     const exercise = await db.exercises.findOne({
@@ -115,23 +97,26 @@ export async function enhanceTemplatesWithProgression(
       continue;
     }
 
-    let calculatedWeight;
-
-    // Check if we have a progression result for this exercise
-    const progressionResult = progressionResults.get(template.exerciseId);
-    if (progressionResult) {
-      // Use the shared progression calculation
-      calculatedWeight = progressionResult.calculatedWeight;
-    } else {
-      // No progression config found, calculate basic weight
-      calculatedWeight = await calculateTemplateWeight(
-        db,
-        template,
-        settings.toMutableJSON(),
-        exercise.toMutableJSON(),
-        workoutIndex
-      );
+    // Get the progression index for this exercise
+    const progressionIndex = progressionIndices.get(template.exerciseId) ?? workoutIndex;
+    
+    // Create a template with shared progression config if this template doesn't have one
+    let templateForCalculation = template;
+    if (!template.progressionConfig && exerciseProgressionConfigs.has(template.exerciseId)) {
+      templateForCalculation = {
+        ...template,
+        progressionConfig: exerciseProgressionConfigs.get(template.exerciseId)
+      };
     }
+
+    // Calculate weight for THIS specific template (with its own load)
+    const calculatedWeight = await calculateTemplateWeight(
+      db,
+      templateForCalculation,
+      settings.toMutableJSON(),
+      exercise.toMutableJSON(),
+      progressionIndex
+    );
 
     enhanced.push({
       ...template,

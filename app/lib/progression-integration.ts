@@ -117,18 +117,16 @@ export async function calculateTemplateWeight(
     };
   }
 
-  let targetWeight = state.maxWeight;
+  let baseWeight = state.maxWeight;
+  let incrementsToApply = 0;
 
-  // For linear progression, calculate the weight based on workout index
+  // For linear progression, calculate increments to apply
   if (template.progressionConfig?.type === 'linear') {
     const config = template.progressionConfig;
     
     // Check if there's actual workout history (lastProgressionDate exists)
     const hasWorkoutHistory = state.lastProgressionDate !== undefined;
   
-    // Determine how many increments to apply
-    let incrementsToApply = 0;
-    
     if (!hasWorkoutHistory) {
       // No workout history - use workoutIndex directly
       incrementsToApply = workoutIndex;
@@ -138,16 +136,26 @@ export async function calculateTemplateWeight(
       incrementsToApply = workoutIndex;
     }
     
-    // Apply increments only if > 0
+    // Apply increments to base weight
     if (incrementsToApply > 0 && config.weightIncrement) {
-      targetWeight = state.maxWeight + (incrementsToApply * config.weightIncrement);
+      baseWeight = state.maxWeight + (incrementsToApply * config.weightIncrement);
     }
   }
 
-  // Calculate weight based on load percentage of max
-  const finalTargetWeight = targetWeight * template.load;
+  // Apply load percentage to the progressed base weight
+  const finalTargetWeight = baseWeight * template.load;
   const barWeight = getBarWeight(exercise, settings);
-  const finalWeight = Math.max(finalTargetWeight, barWeight);
+  
+  // Find rounding increment - check if this template has progressionConfig, 
+  // otherwise use a default rounding increment
+  let roundingIncrement = 2.5; // default
+  if (template.progressionConfig?.weightRoundingIncrement) {
+    roundingIncrement = template.progressionConfig.weightRoundingIncrement;
+  }
+  
+  // Round to nearest increment and ensure minimum bar weight  
+  const roundedWeight = roundToIncrement(finalTargetWeight, roundingIncrement);
+  const finalWeight = Math.max(roundedWeight, barWeight);
 
   return {
     weight: finalWeight,
@@ -307,4 +315,11 @@ function getBarWeight(exercise: ExercisesDocType, settings: SettingsDocType): nu
 
   // Fallback defaults
   return unit === 'kg' ? 20 : 45;
+}
+
+/**
+ * Round weight to nearest increment
+ */
+function roundToIncrement(weight: number, increment: number): number {
+  return Math.round(weight / increment) * increment;
 }
