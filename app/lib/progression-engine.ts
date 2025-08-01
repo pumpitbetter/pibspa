@@ -5,13 +5,7 @@
  * Based on the progression system design documents.
  */
 
-import type { 
-  ProgressionConfig,
-  LinearProgressionConfig,
-  RepProgressionConfig,
-  TimeProgressionConfig,
-  NoProgressionConfig
-} from "./types/progression";
+import type { ProgressionConfig } from "./types/progression";
 
 import {
   isLinearProgression,
@@ -71,14 +65,22 @@ export function calculateProgression(
     };
   }
 
-  // Check if exercise was failed (any set marked as failed)
-  const exerciseFailed = performance.sets.some(set => set.failed);
+  // Filter sets that count for progression
+  let progressionSets = performance.sets;
+  if (config.progressionSets && config.progressionSets.length > 0) {
+    progressionSets = performance.sets.filter((_, index) => 
+      config.progressionSets!.includes(index + 1) // progressionSets uses 1-based indexing
+    );
+  }
+
+  // Check if exercise was failed (any progression set marked as failed)
+  const exerciseFailed = progressionSets.some(set => set.failed);
   
   if (exerciseFailed) {
     const newFailures = currentState.consecutiveFailures + 1;
     
     // Check if deload is needed
-    if (config.deload && newFailures >= config.deload.trigger.consecutiveFails) {
+    if (config.failureThreshold && newFailures >= config.failureThreshold) {
       return applyDeload(config, currentState, newFailures);
     }
     
@@ -116,7 +118,7 @@ export function calculateProgression(
  * Linear Progression: Add weight each successful session
  */
 function calculateLinearProgression(
-  config: LinearProgressionConfig,
+  config: ProgressionConfig,
   currentState: ProgressionState,
   performance: ExercisePerformance
 ): ProgressionResult {
@@ -124,16 +126,16 @@ function calculateLinearProgression(
   const currentWeight = currentState.maxWeight || 0;
   let newWeight: number;
   
-  if (config.increment.unit === 'absolute') {
-    newWeight = currentWeight + config.increment.amount;
+  if (config.incrementType === 'fixed') {
+    newWeight = currentWeight + (config.weightIncrement || 5);
   } else {
     // Percentage increment
-    newWeight = currentWeight * (1 + config.increment.amount / 100);
+    newWeight = currentWeight * (1 + (config.weightIncrement || 5) / 100);
   }
   
   // Apply rounding if configured
-  if (config.rounding?.increment) {
-    newWeight = Math.round(newWeight / config.rounding.increment) * config.rounding.increment;
+  if (config.weightRoundingIncrement) {
+    newWeight = Math.round(newWeight / config.weightRoundingIncrement) * config.weightRoundingIncrement;
   }
   
   return {
@@ -141,7 +143,7 @@ function calculateLinearProgression(
     newMaxWeight: newWeight,
     newConsecutiveFailures: 0, // Reset failures on success
     action: 'progression',
-    details: `Linear progression: ${currentWeight} → ${newWeight} ${config.increment.unit === 'percentage' ? '(+' + config.increment.amount + '%)' : '(+' + config.increment.amount + ')'}`
+    details: `Linear progression: ${currentWeight} → ${newWeight} ${config.incrementType === 'percentage' ? '(+' + (config.weightIncrement || 5) + '%)' : '(+' + (config.weightIncrement || 5) + ')'}`
   };
 }
 
@@ -149,7 +151,7 @@ function calculateLinearProgression(
  * Rep Progression: Increase reps within range, then add weight and reset reps
  */
 function calculateRepProgression(
-  config: RepProgressionConfig,
+  config: ProgressionConfig,
   currentState: ProgressionState,
   performance: ExercisePerformance,
   template: { repRange?: { min: number; max: number }; load?: number }
@@ -169,7 +171,7 @@ function calculateRepProgression(
   
   // Check if we can increase reps
   if (currentReps < template.repRange.max) {
-    const newReps = Math.min(currentReps + config.repsIncrement, template.repRange.max);
+    const newReps = Math.min(currentReps + (config.repsIncrement || 1), template.repRange.max);
     
     return {
       progressionOccurred: true,
@@ -180,26 +182,36 @@ function calculateRepProgression(
     };
   }
   
-  // Reps are at max, add weight and reset reps
-  let newWeight: number;
-  if (config.weightIncrement.unit === 'absolute') {
-    newWeight = currentWeight + config.weightIncrement.amount;
-  } else {
-    newWeight = currentWeight * (1 + config.weightIncrement.amount / 100);
+  // Reps are at max, add weight if enabled and reset reps
+  if (config.enableWeightProgression && config.weightIncrement) {
+    let newWeight: number;
+    if (config.incrementType === 'fixed') {
+      newWeight = currentWeight + config.weightIncrement;
+    } else {
+      newWeight = currentWeight * (1 + config.weightIncrement / 100);
+    }
+    
+    // Apply rounding
+    if (config.weightRoundingIncrement) {
+      newWeight = Math.round(newWeight / config.weightRoundingIncrement) * config.weightRoundingIncrement;
+    }
+    
+    return {
+      progressionOccurred: true,
+      newMaxWeight: newWeight,
+      newMaxReps: template.repRange.min, // Reset to minimum reps
+      newConsecutiveFailures: 0,
+      action: 'progression',
+      details: `Double progression: ${currentWeight} @ ${currentReps} reps → ${newWeight} @ ${template.repRange.min} reps`
+    };
   }
   
-  // Apply rounding
-  if (config.rounding?.increment) {
-    newWeight = Math.round(newWeight / config.rounding.increment) * config.rounding.increment;
-  }
-  
+  // Reps maxed but no weight progression enabled
   return {
-    progressionOccurred: true,
-    newMaxWeight: newWeight,
-    newMaxReps: template.repRange.min, // Reset to minimum reps
+    progressionOccurred: false,
     newConsecutiveFailures: 0,
-    action: 'progression',
-    details: `Double progression: ${currentWeight} @ ${currentReps} reps → ${newWeight} @ ${template.repRange.min} reps`
+    action: 'maintain',
+    details: `Reps maxed at ${currentReps} - no weight progression enabled`
   };
 }
 
@@ -207,7 +219,7 @@ function calculateRepProgression(
  * Time Progression: Increase time within range, optionally add weight and reset time
  */
 function calculateTimeProgression(
-  config: TimeProgressionConfig,
+  config: ProgressionConfig,
   currentState: ProgressionState,
   performance: ExercisePerformance,
   template: { timeRange?: { min: number; max: number }; load?: number }
@@ -227,11 +239,11 @@ function calculateTimeProgression(
   
   // Check if we can increase time
   if (currentTime < template.timeRange.max) {
-    let newTime = currentTime + config.timeIncrement;
+    let newTime = currentTime + (config.timeIncrement || 10);
     
     // Apply time rounding
-    if (config.rounding?.timeIncrement) {
-      newTime = Math.round(newTime / config.rounding.timeIncrement) * config.rounding.timeIncrement;
+    if (config.timeRoundingIncrement) {
+      newTime = Math.round(newTime / config.timeRoundingIncrement) * config.timeRoundingIncrement;
     }
     
     newTime = Math.min(newTime, template.timeRange.max);
@@ -246,17 +258,17 @@ function calculateTimeProgression(
   }
   
   // Time is at max - add weight if configured and reset time
-  if (config.weightIncrement) {
+  if (config.enableWeightProgression && config.weightIncrement) {
     let newWeight: number;
-    if (config.weightIncrement.unit === 'absolute') {
-      newWeight = currentWeight + config.weightIncrement.amount;
+    if (config.incrementType === 'fixed') {
+      newWeight = currentWeight + config.weightIncrement;
     } else {
-      newWeight = currentWeight * (1 + config.weightIncrement.amount / 100);
+      newWeight = currentWeight * (1 + config.weightIncrement / 100);
     }
     
     // Apply weight rounding
-    if (config.rounding?.weightIncrement) {
-      newWeight = Math.round(newWeight / config.rounding.weightIncrement) * config.rounding.weightIncrement;
+    if (config.weightRoundingIncrement) {
+      newWeight = Math.round(newWeight / config.weightRoundingIncrement) * config.weightRoundingIncrement;
     }
     
     return {
@@ -282,12 +294,12 @@ function calculateTimeProgression(
  * Apply deload when failure threshold is reached
  */
 function applyDeload(
-  config: LinearProgressionConfig | RepProgressionConfig | TimeProgressionConfig,
+  config: ProgressionConfig,
   currentState: ProgressionState,
   newFailures: number
 ): ProgressionResult {
   
-  if (!config.deload) {
+  if (!config.deloadAmount) {
     return {
       progressionOccurred: false,
       newConsecutiveFailures: newFailures,
@@ -306,10 +318,10 @@ function applyDeload(
   // Apply deload to weight if exercise uses weight
   if (currentState.maxWeight !== undefined) {
     let newWeight: number;
-    if (config.deload.unit === 'absolute') {
-      newWeight = Math.max(0, currentState.maxWeight - config.deload.amount);
+    if (config.deloadType === 'fixed') {
+      newWeight = Math.max(0, currentState.maxWeight - config.deloadAmount);
     } else {
-      newWeight = currentState.maxWeight * (1 - config.deload.amount / 100);
+      newWeight = currentState.maxWeight * (1 - config.deloadAmount / 100);
     }
     
     result.newMaxWeight = newWeight;
@@ -327,10 +339,10 @@ function applyDeload(
   if (isTimeProgression(config) && currentState.maxTime !== undefined) {
     // For time progression, can deload time duration
     let newTime: number;
-    if (config.deload.unit === 'absolute') {
-      newTime = Math.max(0, currentState.maxTime - config.deload.amount);
+    if (config.deloadType === 'fixed') {
+      newTime = Math.max(0, currentState.maxTime - config.deloadAmount);
     } else {
-      newTime = currentState.maxTime * (1 - config.deload.amount / 100);
+      newTime = currentState.maxTime * (1 - config.deloadAmount / 100);
     }
     
     result.newMaxTime = newTime;

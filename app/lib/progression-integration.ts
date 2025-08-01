@@ -139,29 +139,29 @@ export async function processExerciseProgression(
   routineId: string
 ): Promise<ProgressionResult | null> {
   
-  // Check if progression should be triggered based on template configuration
-  const shouldProgress = await shouldTriggerProgression(db, routineId, exerciseId);
-  
-  if (!shouldProgress) {
+  // Get template with progression configuration
+  const template = await db.templates.findOne({
+    selector: { routineId, exerciseId }
+  }).exec();
+
+  if (!template) {
+    console.warn(`No template found for ${routineId}-${exerciseId}`);
+    return null;
+  }
+
+  const templateDoc = template.toMutableJSON();
+
+  // Check if progression is configured for this template
+  if (!templateDoc.progressionConfig) {
     return {
       progressionOccurred: false,
       newConsecutiveFailures: 0,
       action: 'maintain',
-      details: 'Progression disabled for this exercise/routine'
+      details: 'No progression configuration found for this template'
     };
   }
 
-  // Get progression configuration
-  const programExercise = await db.programExercises.findOne({
-    selector: { programId, exerciseId }
-  }).exec();
-
-  if (!programExercise) {
-    console.warn(`No progression configuration found for ${programId}-${exerciseId}`);
-    return null;
-  }
-
-  const config = programExercise.progression;
+  const config = templateDoc.progressionConfig;
   const currentState = await getProgressionState(db, programId, exerciseId);
 
   if (!currentState) {
@@ -169,19 +169,15 @@ export async function processExerciseProgression(
     return null;
   }
 
-  // Get template information for context
-  const template = await db.templates.findOne({
-    selector: { routineId, exerciseId }
-  }).exec();
+  // Template context for progression calculation
+  const templateContext = {
+    repRange: templateDoc.repRange,
+    timeRange: templateDoc.timeRange,
+    load: templateDoc.load
+  };
 
-  const templateContext = template ? {
-    repRange: template.repRange,
-    timeRange: template.timeRange,
-    load: template.load
-  } : {};
-
-  // Calculate progression with proper type assertion
-  const result = calculateProgression(config as any, currentState, performance, templateContext);
+  // Calculate progression using the new engine
+  const result = calculateProgression(config, currentState, performance, templateContext);
 
   // Update state in database
   if (result.progressionOccurred || result.newConsecutiveFailures !== currentState.consecutiveFailures) {
@@ -216,19 +212,19 @@ export async function shouldTriggerProgression(
 
   const templateDoc = template.toMutableJSON();
 
-  // Check if progression is enabled for this template
-  if (templateDoc.progressionEnabled === false) {
+  // Check if progression is configured for this template
+  if (!templateDoc.progressionConfig) {
     return false;
   }
 
   // If no specific sets are configured, all sets count
-  if (!templateDoc.progressionSets || templateDoc.progressionSets.length === 0) {
+  if (!templateDoc.progressionConfig.progressionSets || templateDoc.progressionConfig.progressionSets.length === 0) {
     return true;
   }
 
   // If a specific set order is provided, check if it's in the progression sets
   if (setOrder !== undefined) {
-    return templateDoc.progressionSets.includes(setOrder);
+    return templateDoc.progressionConfig.progressionSets.includes(setOrder);
   }
 
   // If no set order provided but progression sets are configured, 
@@ -243,7 +239,6 @@ export async function initializeProgressionState(
   db: MyDatabase,
   programId: string,
   exerciseId: string,
-  config: ProgramExerciseDocType['progression'],
   initialMaxWeight?: number,
   initialMaxReps?: number,
   initialMaxTime?: number
@@ -259,8 +254,7 @@ export async function initializeProgressionState(
     maxReps: initialMaxReps,
     maxTime: initialMaxTime,
     consecutiveFailures: 0,
-    lastUpdated: new Date().toISOString(),
-    progression: config
+    lastUpdated: new Date().toISOString()
   };
 
   await db.programExercises.upsert(programExercise);
