@@ -6,12 +6,15 @@ import invariant from "tiny-invariant";
 import { List } from "~/components/list";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import {
-  getBarWeight,
   getExerciseById,
-  getProgramExerciseWeight,
   groupCircuitsIntoSets,
   groupIntoCircuits,
 } from "~/lib/utils";
+import {
+  enhanceTemplatesWithProgression,
+  type EnhancedTemplate,
+  type WeightCalculation,
+} from "~/lib/queue-integration";
 import { LinkBack } from "~/components/link-back";
 import type { Route } from "./+types/route";
 import { DialogRepsLoadEdit } from "./dialog-reps-load-edit";
@@ -62,9 +65,13 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const settings = await db.settings.findOne().exec();
   invariant(settings, "settings not found");
 
+  // Enhance templates with progression-calculated weights
+  const templateDocs = templates.map(t => t.toMutableJSON());
+  const enhancedTemplates = await enhanceTemplatesWithProgression(db, templateDocs);
+
   return {
     routine: routine.toMutableJSON(),
-    templates: templates ? templates.map((t) => t.toMutableJSON()) : [],
+    templates: enhancedTemplates,
     exercises: exercises ? exercises.map((e) => e.toMutableJSON()) : [],
     program: program.toMutableJSON(),
     settings: settings.toMutableJSON(),
@@ -213,40 +220,23 @@ export default function Programoutine({ loaderData }: Route.ComponentProps) {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    {template[1].map((item) => {
-                      const programExercise = program?.exercises?.find(
-                        (e) => e.exerciseId === item.exerciseId
-                      );
-                      const barWeight = exercise
-                        ? getBarWeight({
-                            exercise,
-                            settings,
-                          })
-                        : 0;
-                      const weight = program?.exercises
-                        ? getProgramExerciseWeight({
-                            programExercises: program?.exercises,
-                            exerciseId: item.exerciseId,
-                            load: item.load,
-                            units:
-                              programExercise?.exerciseWeight?.units ||
-                              settings.weigthUnit,
-                            increment: 5,
-                            barWeight,
-                          })
-                        : { value: 0, units: settings.weigthUnit };
+                    {template[1].map((item: EnhancedTemplate) => {
+                      // Use repRange for display, fallback to reasonable defaults
+                      const displayReps = item.repRange 
+                        ? `${item.repRange.min}-${item.repRange.max} reps`
+                        : "5 reps"; // fallback
 
                       const exerciseDisplay = (
                         <div className="flex gap-2 py-3">
-                          <span>{item.reps} reps</span>
+                          <span>{displayReps}</span>
                           <span>x</span>
-                          <span>{item.load * 100}%</span>
+                          <span>{(item.load || 0) * 100}%</span>
                           <span className="text-on-surface-variant">/</span>
                           <span className="text-on-surface-variant">
-                            {weight.value}
+                            {item.calculatedWeight.weight.toFixed(1)}
                           </span>
                           <span className="text-on-surface-variant">
-                            {programExercise?.exerciseWeight?.units}
+                            {item.calculatedWeight.units}
                           </span>
                         </div>
                       );
@@ -255,8 +245,8 @@ export default function Programoutine({ loaderData }: Route.ComponentProps) {
                         <DialogRepsLoadEdit
                           key={`${item.id}-${item.order}-${item.sequence}`}
                           templateId={item.id}
-                          reps={item.reps}
-                          load={item.load}
+                          reps={item.repRange?.max || 5}
+                          load={item.load || 0}
                         >
                           {exerciseDisplay}
                         </DialogRepsLoadEdit>
@@ -292,10 +282,11 @@ async function editRoutine(formData: FormData) {
     .exec();
   invariant(template, "template not found");
 
+  // Update with new template structure
   await template.update({
     $set: {
       load: load / 100,
-      reps: reps,
+      repRange: { min: reps, max: reps }, // Convert single reps to range
     },
   });
 }
@@ -357,9 +348,10 @@ async function updateSets(formData: FormData) {
           order: templateData.order,
           sequence: baseSequence + i + 1,
           load: templateData.load,
-          reps: templateData.reps,
-          progression: templateData.progression,
+          repRange: templateData.repRange,
+          progressionConfig: templateData.progressionConfig,
           amrep: templateData.amrep,
+          restTime: templateData.restTime,
         });
       }
       await db.templates.bulkInsert(newTemplates);
