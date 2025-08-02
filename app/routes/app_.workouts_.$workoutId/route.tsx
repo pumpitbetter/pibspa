@@ -312,6 +312,8 @@ async function finishWorkout(formData: FormData) {
 
   // Process progression for completed workout
   try {
+    console.log('[WORKOUT COMPLETION] Starting progression processing for workout:', workoutId);
+    
     // Group history by exercise to create workout performance data
     const exerciseGroups = new Map<string, typeof history>();
     
@@ -323,6 +325,8 @@ async function finishWorkout(formData: FormData) {
       exerciseGroups.get(exerciseId)!.push(historyItem);
     }
 
+    console.log('[WORKOUT COMPLETION] Exercise groups:', Array.from(exerciseGroups.entries()).map(([k, v]) => [k, v.length + ' sets']));
+
     // Convert to workout performance format
     const workoutPerformances: WorkoutPerformance[] = Array.from(exerciseGroups.entries()).map(
       ([exerciseId, sets]) => ({
@@ -332,11 +336,18 @@ async function finishWorkout(formData: FormData) {
           reps: set.liftedReps,
           duration: undefined, // TODO: Duration not tracked in current history
           completed: set.completed ?? false,
+          failed: !(set.completed ?? false), // Set failed = true if not completed
           rpe: undefined // TODO: RPE not tracked in current history
         })),
         completed: sets.every(set => set.completed ?? false)
       })
     );
+
+    console.log('[WORKOUT COMPLETION] Workout performances:', workoutPerformances.map(p => ({
+      exerciseId: p.exerciseId,
+      completed: p.completed,
+      sets: p.sets.map(s => ({ weight: s.weight, reps: s.reps, completed: s.completed }))
+    })));
 
     // Process progression using new system
     const progressionResults = await processWorkoutProgression(

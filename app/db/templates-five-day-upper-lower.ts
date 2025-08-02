@@ -43,6 +43,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -92,6 +93,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -141,6 +143,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -202,6 +205,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3, 4], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -251,6 +255,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -312,6 +317,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3, 4], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -361,6 +367,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -412,6 +419,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -461,6 +469,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -510,6 +519,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -559,6 +569,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -620,6 +631,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -657,6 +669,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -694,6 +707,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -755,6 +769,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -809,6 +824,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -858,6 +874,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -919,6 +936,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3, 4], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -980,6 +998,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3, 4], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1029,6 +1048,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1090,6 +1110,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3, 4], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1139,6 +1160,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1190,6 +1212,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1227,6 +1250,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1276,6 +1300,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1337,6 +1362,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3, 4], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1374,6 +1400,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1423,6 +1450,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1484,6 +1512,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3, 4], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1533,6 +1562,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1584,6 +1614,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1633,6 +1664,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1682,6 +1714,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1743,6 +1776,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3, 4], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1792,6 +1826,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1853,6 +1888,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3, 4], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,
@@ -1902,6 +1938,7 @@ export const fiveDayUpperLowerTemplatesData: TemplatesDocType[] = [
       progressionSets: [1, 2, 3], // All squat sets contribute to progression
       incrementType: "fixed" as const,
       repsIncrement: 1, // +1 rep per session
+      enableWeightProgression: true, // Enable weight progression when max reps reached
       weightIncrement: 5, // +5 lbs when max reps achieved
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage" as const,

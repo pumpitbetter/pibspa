@@ -245,9 +245,21 @@ export async function processExerciseProgression(
 ): Promise<ProgressionResult | null> {
   
   // Get template with progression configuration
-  const template = await db.templates.findOne({
-    selector: { routineId, exerciseId }
+  // First try to find a template with progression config for this exercise
+  let template = await db.templates.findOne({
+    selector: { 
+      routineId, 
+      exerciseId,
+      progressionConfig: { $exists: true }
+    }
   }).exec();
+
+  // If no template with progression config found, fall back to any template
+  if (!template) {
+    template = await db.templates.findOne({
+      selector: { routineId, exerciseId }
+    }).exec();
+  }
 
   if (!template) {
     console.warn(`No template found for ${routineId}-${exerciseId}`);
@@ -340,6 +352,42 @@ export async function shouldTriggerProgression(
 /**
  * Initialize progression state for a new program exercise
  */
+/**
+ * Manually update progression state - useful for fixing missed progressions
+ */
+export async function manuallyUpdateProgression(
+  db: MyDatabase,
+  programId: string,
+  exerciseId: string,
+  newMaxReps?: number,
+  newMaxWeight?: number
+): Promise<void> {
+  
+  const programExercise = await db.programExercises.findOne({
+    selector: { 
+      programId: programId,
+      exerciseId: exerciseId 
+    }
+  }).exec();
+
+  if (!programExercise) {
+    console.error(`No progression state found for ${programId}-${exerciseId}`);
+    return;
+  }
+
+  const updates: any = {};
+  if (newMaxReps !== undefined) {
+    updates.maxReps = newMaxReps;
+  }
+  if (newMaxWeight !== undefined) {
+    updates.maxWeight = newMaxWeight;
+  }
+  updates.lastUpdated = new Date().toISOString();
+
+  await programExercise.patch(updates);
+  console.log(`[MANUAL PROGRESSION UPDATE] ${exerciseId}:`, updates);
+}
+
 export async function initializeProgressionState(
   db: MyDatabase,
   programId: string,

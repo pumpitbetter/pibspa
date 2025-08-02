@@ -1,5 +1,11 @@
 /**
- * Queue Integration Utilities
+ * Queue export { 
+  calculateTemplateWeight,
+  processExerciseProgression,
+  getProgressionState,
+  manuallyUpdateProgression,
+  type WeightCalculation
+} from "./progression-integration";ation Utilities
  * 
  * Replaces existing queue progression logic with the new 4-type progression system.
  * Maintains compatibility with existing generateWorkoutsFromRoutines workflow.
@@ -44,13 +50,14 @@ export function calculateExerciseProgressionIndices(
       
       // Set the index for this exercise in this workout
       workoutExerciseIndices.set(exerciseId, currentCount);
+      
       // Increment the count for next time this exercise appears
       exerciseAppearanceCount.set(exerciseId, currentCount + 1);
     }
     
     workoutIndices.push(workoutExerciseIndices);
   }
-
+  
   return workoutIndices;
 }
 
