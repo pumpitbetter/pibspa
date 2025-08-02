@@ -10,12 +10,50 @@ import type { TemplatesDocType } from "~/db/templates";
 import type { ExercisesDocType } from "~/db/exercises";
 import type { SettingsDocType } from "~/db/settings";
 import type { SetsDocType } from "~/db/sets";
+import type { WorkoutsDocType } from "~/db/workout";
 import { 
   calculateTemplateWeight,
   processExerciseProgression,
   getProgressionState,
-  type WeightCalculation 
+  type WeightCalculation
 } from "./progression-integration";
+
+/**
+ * Calculate exercise-specific progression indices for a list of workouts.
+ * This tracks how many times each exercise appears across the workouts.
+ */
+export function calculateExerciseProgressionIndices(
+  workouts: WorkoutsDocType[],
+  templates: TemplatesDocType[]
+): Map<string, number>[] {
+  const exerciseAppearanceCount = new Map<string, number>();
+  const workoutIndices: Map<string, number>[] = [];
+
+  for (const workout of workouts) {
+    const workoutExerciseIndices = new Map<string, number>();
+    
+    // Find templates for this workout
+    const workoutTemplates = templates.filter(t => t.routineId === workout.routineId);
+    
+    // Get unique exercises in this workout
+    const exercisesInWorkout = new Set(workoutTemplates.map(t => t.exerciseId));
+    
+    for (const exerciseId of exercisesInWorkout) {
+      // Get current count for this exercise (or 0 if first appearance)
+      const currentCount = exerciseAppearanceCount.get(exerciseId) || 0;
+      
+      // Set the index for this exercise in this workout
+      workoutExerciseIndices.set(exerciseId, currentCount);
+      // Increment the count for next time this exercise appears
+      exerciseAppearanceCount.set(exerciseId, currentCount + 1);
+    }
+    
+    workoutIndices.push(workoutExerciseIndices);
+  }
+
+  return workoutIndices;
+}
+
 export type { WeightCalculation } from "./progression-integration";
 import type { ExercisePerformance } from "./progression-engine";
 

@@ -15,6 +15,7 @@ import {
 } from "~/lib/utils";
 import { 
   enhanceTemplatesWithProgression,
+  calculateExerciseProgressionIndices,
   getCurrentExerciseWeight,
   processWorkoutProgression,
   type WeightCalculation 
@@ -94,17 +95,17 @@ export async function clientLoader() {
   // Enhance templates with progression-calculated weights
   const templateDocs = templates.map(t => t.toMutableJSON());
 
+  // Calculate exercise-specific progression indices for all workouts
+  const exerciseProgressionIndices = calculateExerciseProgressionIndices(workouts, templateDocs);
+
   // group workouts into sets using enhanced templates
   const groupedWorkouts: GroupedWorkout[] = await Promise.all(
     workouts.map(async (workout, workoutIndex) => {
-      // For linear progression: 
-      // - Day 1 (workoutIndex 0) gets progression index 0
-      // - Day 2 (workoutIndex 1) gets progression index 1, etc.
-      // The calculateTemplateWeight function will handle the logic of whether to increment
-      const progressionIndex = workoutIndex;
+      // Get exercise-specific progression indices for this workout
+      const workoutExerciseIndices = exerciseProgressionIndices[workoutIndex] || new Map();
       
-      // Enhance templates for this specific workout with the appropriate index
-      const enhancedTemplates = await enhanceTemplatesWithProgression(db, templateDocs, progressionIndex);
+      // Enhance templates for this specific workout with the appropriate indices
+      const enhancedTemplates = await enhanceTemplatesWithProgression(db, templateDocs, workoutIndex, workoutExerciseIndices);
       
       const workoutTemplates = enhancedTemplates.filter((template) => {
         return template.routineId === workout.routineId;
@@ -127,7 +128,7 @@ export async function clientLoader() {
             value: template.calculatedWeight.weight, 
             units: template.calculatedWeight.units as "kg" | "lbs"
           },
-          reps: template.repRange?.max || template.repRange?.min || 5, // Use max reps from range, fallback to min, then 5
+          reps: template.calculatedWeight.reps || template.repRange?.min || template.repRange?.max || 5, // Use calculated reps, fallback to template range
           amrep: template.amrep || false,
           restTime: template.restTime,
         }));

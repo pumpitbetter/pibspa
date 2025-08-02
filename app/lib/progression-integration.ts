@@ -22,6 +22,7 @@ export interface WeightCalculation {
   weight: number;
   units: string;
   load: number; // Percentage used
+  reps?: number; // Current target reps (for rep progression)
 }
 
 /**
@@ -102,18 +103,64 @@ export async function calculateTemplateWeight(
   template: TemplatesDocType,
   settings: SettingsDocType,
   exercise: ExercisesDocType,
-  workoutIndex: number = 0 // 0 = current workout, 1 = next workout, etc.
+  exerciseIndex: number = 0 // How many times this exercise has been done (0 = first time, 1 = second time, etc.)
 ): Promise<WeightCalculation> {
   
   // Get progression state for this exercise
   const state = await getProgressionState(db, template.programId, template.exerciseId);
   
+  // If no progression state exists, initialize it for this exercise
+  if (!state) {
+    // Initialize with default values - this should only happen once per program-exercise
+    await initializeProgressionState(
+      db, 
+      template.programId, 
+      template.exerciseId,
+      100, // Default weight - you might want to make this configurable
+      template.repRange?.min, // Start with min reps if we have a rep range
+      undefined
+    );
+    
+    // Get the newly created state
+    const newState = await getProgressionState(db, template.programId, template.exerciseId);
+    if (newState) {
+      return calculateTemplateWeight(db, template, settings, exercise, exerciseIndex); // Recurse with initialized state
+    }
+  }
+  
+  // If progression state exists but doesn't have maxReps for rep progression, initialize it
+  if (state && template.repRange && state.maxReps === undefined) {
+    // Update the existing progression state to include maxReps
+    const programExercise = await db.programExercises.findOne({
+      selector: { 
+        programId: template.programId,
+        exerciseId: template.exerciseId 
+      }
+    }).exec();
+    
+    if (programExercise) {
+      await programExercise.patch({
+        maxReps: template.repRange.min
+      });
+      
+      // Recurse with updated state
+      return calculateTemplateWeight(db, template, settings, exercise, exerciseIndex);
+    }
+  }
+  
   if (!state?.maxWeight || !template.load) {
     // No progression state or no load specified - use minimal weight
+    // But still calculate target reps if we have a rep range
+    let targetReps: number | undefined;
+    if (template.repRange) {
+      targetReps = template.repRange.min; // Start with minimum reps
+    }
+    
     return {
       weight: getBarWeight(exercise, settings),
       units: settings.weigthUnit || 'lbs',
-      load: template.load || 0
+      load: template.load || 0,
+      reps: targetReps
     };
   }
 
@@ -128,12 +175,12 @@ export async function calculateTemplateWeight(
     const hasWorkoutHistory = state.lastProgressionDate !== undefined;
   
     if (!hasWorkoutHistory) {
-      // No workout history - use workoutIndex directly
-      incrementsToApply = workoutIndex;
+      // No workout history - use exerciseIndex directly
+      incrementsToApply = exerciseIndex;
     } else {
       // Has workout history - calculate based on progression since last update
       // This would require more complex logic to determine progression
-      incrementsToApply = workoutIndex;
+      incrementsToApply = exerciseIndex;
     }
     
     // Apply increments to base weight
@@ -157,10 +204,32 @@ export async function calculateTemplateWeight(
   const roundedWeight = roundToIncrement(finalTargetWeight, roundingIncrement);
   const finalWeight = Math.max(roundedWeight, barWeight);
 
+  // Calculate current target reps for rep progression
+  let targetReps: number | undefined;
+  if (template.repRange) {
+    if (template.progressionConfig?.type === 'reps') {
+      // For rep progression, use exercise index to calculate progression in the queue
+      // The state.maxReps only gets updated after actual workout completion
+      const repIncrement = template.progressionConfig.repsIncrement || 1;
+      const baseReps = state?.maxReps || template.repRange.min;
+      
+      // Calculate target reps: base reps + progression from exercise appearances
+      targetReps = Math.min(
+        baseReps + (exerciseIndex * repIncrement),
+        template.repRange.max
+      );
+      
+    } else {
+      // Standard progression: use minimum reps
+      targetReps = template.repRange.min;
+    }
+  }
+
   return {
     weight: finalWeight,
     units: settings.weigthUnit || 'lbs',
-    load: template.load
+    load: template.load,
+    reps: targetReps
   };
 }
 
