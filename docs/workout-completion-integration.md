@@ -81,7 +81,6 @@ async function finishWorkout(formData: FormData) {
       workoutPerformances
     );
 
-    console.log('Progression results:', progressionResults);
   } catch (error) {
     console.error('Error processing workout progression:', error);
     // Continue with workout completion even if progression fails

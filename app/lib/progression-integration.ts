@@ -166,9 +166,45 @@ export async function calculateTemplateWeight(
 
   let baseWeight = state.maxWeight;
   let incrementsToApply = 0;
+  let weightProgressionTriggered = false;
 
-  // For linear progression, calculate increments to apply
-  if (template.progressionConfig?.type === 'linear') {
+  // Calculate current target reps for rep progression first to determine weight progression
+  let targetReps: number | undefined;
+  if (template.repRange && template.progressionConfig?.type === 'reps') {
+    const repIncrement = template.progressionConfig.repsIncrement || 1;
+    const baseReps = state?.maxReps || template.repRange.min;
+    
+    // Calculate what the target reps would be for this workout
+    const calculatedTargetReps = baseReps + (exerciseIndex * repIncrement);
+    
+    // Check if the calculated target reps exceed max and we should trigger weight progression
+    if (calculatedTargetReps > template.repRange.max && 
+        template.progressionConfig.enableWeightProgression && 
+        template.progressionConfig.weightIncrement) {
+      
+      // Weight progression: reset to min reps and increase weight
+      targetReps = template.repRange.min;
+      weightProgressionTriggered = true;
+      
+      // Calculate weight progression
+      const weightIncrement = template.progressionConfig.weightIncrement;
+      if (template.progressionConfig.incrementType === 'fixed') {
+        baseWeight = state.maxWeight + weightIncrement;
+      } else {
+        baseWeight = state.maxWeight * (1 + weightIncrement / 100);
+      }
+      
+    } else {
+      // Normal rep progression within the range
+      targetReps = Math.min(calculatedTargetReps, template.repRange.max);
+    }
+  } else if (template.repRange) {
+    // Standard progression: use minimum reps
+    targetReps = template.repRange.min;
+  }
+
+  // For linear progression, calculate increments to apply (only if not weight progression)
+  if (template.progressionConfig?.type === 'linear' && !weightProgressionTriggered) {
     const config = template.progressionConfig;
     
     // Check if there's actual workout history (lastProgressionDate exists)
@@ -203,27 +239,6 @@ export async function calculateTemplateWeight(
   // Round to nearest increment and ensure minimum bar weight  
   const roundedWeight = roundToIncrement(finalTargetWeight, roundingIncrement);
   const finalWeight = Math.max(roundedWeight, barWeight);
-
-  // Calculate current target reps for rep progression
-  let targetReps: number | undefined;
-  if (template.repRange) {
-    if (template.progressionConfig?.type === 'reps') {
-      // For rep progression, use exercise index to calculate progression in the queue
-      // The state.maxReps only gets updated after actual workout completion
-      const repIncrement = template.progressionConfig.repsIncrement || 1;
-      const baseReps = state?.maxReps || template.repRange.min;
-      
-      // Calculate target reps: base reps + progression from exercise appearances
-      targetReps = Math.min(
-        baseReps + (exerciseIndex * repIncrement),
-        template.repRange.max
-      );
-      
-    } else {
-      // Standard progression: use minimum reps
-      targetReps = template.repRange.min;
-    }
-  }
 
   return {
     weight: finalWeight,
@@ -385,7 +400,6 @@ export async function manuallyUpdateProgression(
   updates.lastUpdated = new Date().toISOString();
 
   await programExercise.patch(updates);
-  console.log(`[MANUAL PROGRESSION UPDATE] ${exerciseId}:`, updates);
 }
 
 export async function initializeProgressionState(
