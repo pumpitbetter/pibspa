@@ -87,10 +87,70 @@ export function calculateProgression(
     
     return {
       progressionOccurred: false,
+      newMaxWeight: currentState.maxWeight,
+      newMaxReps: currentState.maxReps,
+      newMaxTime: currentState.maxTime,
       newConsecutiveFailures: newFailures,
       action: 'maintain',
       details: `Exercise failed. Consecutive failures: ${newFailures}`
     };
+  }
+
+  // For rep progression, check if target reps were met in progression sets
+  if (isRepProgression(config) && currentState.maxReps) {
+    const targetReps = currentState.maxReps;
+    const progressionSetsMet = progressionSets.every(set => 
+      set.reps !== undefined && set.reps >= targetReps && set.completed
+    );
+    
+    if (!progressionSetsMet) {
+      return {
+        progressionOccurred: false,
+        newMaxWeight: currentState.maxWeight,
+        newMaxReps: currentState.maxReps,
+        newConsecutiveFailures: currentState.consecutiveFailures,
+        action: 'maintain',
+        details: `Target reps (${targetReps}) not met in progression sets`
+      };
+    }
+  }
+
+  // For linear progression, check if target reps (from template) were met in progression sets
+  if (isLinearProgression(config) && template.repRange) {
+    const targetReps = template.repRange.max; // For linear progression, aim for max reps
+    const progressionSetsMet = progressionSets.every(set => 
+      set.reps !== undefined && set.reps >= targetReps && set.completed
+    );
+    
+    if (!progressionSetsMet) {
+      return {
+        progressionOccurred: false,
+        newMaxWeight: currentState.maxWeight,
+        newMaxReps: currentState.maxReps,
+        newConsecutiveFailures: currentState.consecutiveFailures,
+        action: 'maintain',
+        details: `Target reps (${targetReps}) not met in progression sets for linear progression`
+      };
+    }
+  }
+  
+  // For linear progression with weight only, check if target weight was handled
+  if (isLinearProgression(config) && !template.repRange && currentState.maxWeight) {
+    const targetWeight = currentState.maxWeight;
+    const progressionSetsMet = progressionSets.every(set => 
+      set.weight !== undefined && set.weight >= targetWeight && set.completed
+    );
+    
+    if (!progressionSetsMet) {
+      return {
+        progressionOccurred: false,
+        newMaxWeight: currentState.maxWeight,
+        newMaxReps: currentState.maxReps,
+        newConsecutiveFailures: currentState.consecutiveFailures,
+        action: 'maintain',
+        details: `Target weight (${targetWeight}) not completed in progression sets`
+      };
+    }
   }
 
   // Exercise succeeded - check for progression
@@ -142,6 +202,7 @@ function calculateLinearProgression(
   return {
     progressionOccurred: true,
     newMaxWeight: newWeight,
+    newMaxReps: currentState.maxReps, // Preserve current reps for linear progression
     newConsecutiveFailures: 0, // Reset failures on success
     action: 'progression',
     details: `Linear progression: ${currentWeight} → ${newWeight} ${config.incrementType === 'percentage' ? '(+' + (config.weightIncrement || 5) + '%)' : '(+' + (config.weightIncrement || 5) + ')'}`
@@ -176,6 +237,7 @@ function calculateRepProgression(
     
     return {
       progressionOccurred: true,
+      newMaxWeight: currentWeight, // Preserve current weight when only progressing reps
       newMaxReps: newReps,
       newConsecutiveFailures: 0,
       action: 'progression',
@@ -203,13 +265,15 @@ function calculateRepProgression(
       newMaxReps: template.repRange.min, // Reset to minimum reps
       newConsecutiveFailures: 0,
       action: 'progression',
-      details: `Double progression: ${currentWeight} @ ${currentReps} reps → ${newWeight} @ ${template.repRange.min} reps`
+      details: `Rep-to-weight progression: ${currentWeight} @ ${currentReps} reps → ${newWeight} @ ${template.repRange.min} reps`
     };
   }
   
   // Reps maxed but no weight progression enabled
   return {
     progressionOccurred: false,
+    newMaxWeight: currentWeight, // Preserve current weight
+    newMaxReps: currentReps, // Preserve current reps
     newConsecutiveFailures: 0,
     action: 'maintain',
     details: `Reps maxed at ${currentReps} - no weight progression enabled`
@@ -251,6 +315,7 @@ function calculateTimeProgression(
     
     return {
       progressionOccurred: true,
+      newMaxWeight: currentWeight, // Preserve current weight when only progressing time
       newMaxTime: newTime,
       newConsecutiveFailures: 0,
       action: 'progression',
@@ -285,6 +350,8 @@ function calculateTimeProgression(
   // Time maxed but no weight progression configured
   return {
     progressionOccurred: false,
+    newMaxWeight: currentWeight, // Preserve current weight
+    newMaxTime: currentTime, // Preserve current time
     newConsecutiveFailures: 0,
     action: 'maintain',
     details: `Time maxed at ${currentTime}s - no weight progression configured`
@@ -322,7 +389,15 @@ function applyDeload(
     if (config.deloadType === 'fixed') {
       newWeight = Math.max(0, currentState.maxWeight - config.deloadAmount);
     } else {
-      newWeight = currentState.maxWeight * (1 - config.deloadAmount / 100);
+      // For percentage deload, if deloadAmount is already a decimal (0.1 = 10%), use directly
+      // If it's a whole number (10 = 10%), divide by 100
+      const deloadPercentage = config.deloadAmount < 1 ? config.deloadAmount : config.deloadAmount / 100;
+      newWeight = currentState.maxWeight * (1 - deloadPercentage);
+    }
+    
+    // Apply rounding if configured
+    if (config.weightRoundingIncrement) {
+      newWeight = Math.round(newWeight / config.weightRoundingIncrement) * config.weightRoundingIncrement;
     }
     
     result.newMaxWeight = newWeight;
