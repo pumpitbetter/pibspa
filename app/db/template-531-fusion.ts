@@ -52,33 +52,6 @@ const fiveThreeOneWeeksParams = [
   },
 ];
 
-function getProgression(exerciseId: string) {
-  let incrementValue = 0;
-  if (exerciseId === "barbell-squat" || exerciseId === "barbell-deadlift") {
-    incrementValue = 10;
-  } else if (
-    exerciseId === "barbell-overhead-press" ||
-    exerciseId === "barbell-bench-press" ||
-    exerciseId === "barbell-row"
-  ) {
-    incrementValue = 5;
-  }
-  if (incrementValue > 0) {
-    return {
-      increment: [
-        {
-          value: incrementValue,
-          kind: "weight" as const,
-          type: "absolute" as const,
-          frequency: 1,
-          condition: "reps >= repRange.max",
-        },
-      ],
-    };
-  }
-  return undefined;
-}
-
 export async function init531FusionTemplates(db: MyDatabase) {
   const templates: Array<TemplatesDocType> = [];
   let routineCounter = 0;

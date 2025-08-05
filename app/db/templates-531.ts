@@ -524,6 +524,3 @@ export const five31TemplatesData: TemplatesDocType[] = [
   },
 ];
 
-export async function init531Templates(db: MyDatabase) {
-  await db.templates.bulkInsert(five31TemplatesData);
-}

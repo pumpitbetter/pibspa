@@ -7,7 +7,6 @@ import {
 } from "rxdb";
 import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
-import { max } from "rxjs";
 
 export const settingsSchemaLiteral = {
   title: "settings schema",

@@ -5,20 +5,14 @@ import {
   type RxDocument,
   type RxJsonSchema,
 } from "rxdb";
-import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
 import { madcowTemplatesData } from "./templates-madcow";
 import { fiveBy5TemplatesData } from "./templates-fiveBy5";
 import { threeBy8TemplatesData } from "./templates-threeBy8";
-import { five31TemplatesData, init531Templates } from "./templates-531";
-import {
-  five31HypertrophyTemplatesData,
-  init531HypertrophyTemplates,
-} from "./template-531-hypertrophy";
-import {
-  five31TridentTemplatesData,
-  init531TridentTemplates,
-} from "./template-531-trident";
+import { five31TemplatesData } from "./templates-531";
+import { five31HypertrophyTemplatesData } from "./template-531-hypertrophy";
+import { five31TridentTemplatesData } from "./template-531-trident";
+
 import { init531FusionTemplates } from "./template-531-fusion";
 import { fiveDayUpperLowerTemplatesData } from "./templates-five-day-upper-lower";
 
@@ -184,7 +178,7 @@ export const templatesSchemaLiteral = {
   indexes: ["programId"],
 } as const; // <- It is important to set 'as const' to preserve the literal type
 
-const uid = new ShortUniqueId({ length: 16 });
+
 
 const schemaTyped = toTypedRxJsonSchema(templatesSchemaLiteral);
 
@@ -257,9 +251,9 @@ export async function initTemplates(db: MyDatabase) {
     await db.templates.bulkInsert(madcowTemplatesData);
     await db.templates.bulkInsert(fiveBy5TemplatesData);
     await db.templates.bulkInsert(threeBy8TemplatesData);
-    await db.templates.bulkInsert(five31TemplatesData);
-    await db.templates.bulkInsert(five31HypertrophyTemplatesData);
-    await db.templates.bulkInsert(five31TridentTemplatesData);
+  await db.templates.bulkInsert(five31TemplatesData);
+  await db.templates.bulkInsert(five31HypertrophyTemplatesData);
+  await db.templates.bulkInsert(five31TridentTemplatesData);
     await db.templates.bulkInsert(fiveDayUpperLowerTemplatesData);
 
     // 5/3/1 Fusion uses dynamic generation, so we keep the function call
