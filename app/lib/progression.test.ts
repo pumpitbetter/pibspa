@@ -158,6 +158,52 @@ describe('5-Day Upper Lower Split - Progression Tests', () => {
       expect(result.newConsecutiveFailures).toBe(0); // Reset after deload
       expect(result.details).toContain('deload');
     });
+
+    it('should respect a manual jump in reps and weight', () => {
+      const currentState: ProgressionState = {
+        maxWeight: 150,
+        maxReps: 5,
+        consecutiveFailures: 0
+      };
+      const performance: ExercisePerformance = {
+        exerciseId: 'barbell-squat',
+        sets: [
+          { weight: 160, reps: 8, completed: true, failed: false },
+          { weight: 160, reps: 8, completed: true, failed: false },
+          { weight: 160, reps: 8, completed: true, failed: false }
+        ]
+      };
+      const template = { repRange: { min: 5, max: 8 }, load: 1.0 };
+      const result = calculateProgression(repProgressionConfig, currentState, performance, template);
+
+      expect(result.progressionOccurred).toBe(true);
+      expect(result.newMaxWeight).toBe(165);  // Should progress to 165lbs (+5)
+      expect(result.newMaxReps).toBe(5);     // Should reset to min reps
+      expect(result.action).toBe('progression');
+    });
+
+    it('should treat a manual jump to more than max reps as weight progression', () => {
+      const currentState: ProgressionState = {
+        maxWeight: 150,
+        maxReps: 5,
+        consecutiveFailures: 0
+      };
+      const performance: ExercisePerformance = {
+        exerciseId: 'barbell-squat',
+        sets: [
+          { weight: 160, reps: 12, completed: true, failed: false },
+          { weight: 160, reps: 12, completed: true, failed: false },
+          { weight: 160, reps: 12, completed: true, failed: false }
+        ]
+      };
+      const template = { repRange: { min: 5, max: 8 }, load: 1.0 };
+      const result = calculateProgression(repProgressionConfig, currentState, performance, template);
+
+      expect(result.progressionOccurred).toBe(true);
+      expect(result.newMaxWeight).toBe(165);  // Should progress to 165lbs (+5)
+      expect(result.newMaxReps).toBe(5);     // Should reset to min reps
+      expect(result.action).toBe('progression');
+    });
   });
 
   describe('Barbell Bench Press (Upper Days) - Rep Progression', () => {

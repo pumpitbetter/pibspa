@@ -231,6 +231,44 @@ function calculateRepProgression(
   const currentReps = currentState.maxReps || template.repRange.min;
   const currentWeight = currentState.maxWeight || 0;
   
+  // Detect manual override: if user recorded higher reps and/or weight than current state
+  const manualReps = Math.max(...performance.sets.map(set => set.reps ?? 0));
+  const manualWeight = Math.max(...performance.sets.map(set => set.weight ?? 0));
+  if ((manualReps > currentReps || manualWeight > currentWeight)) {
+    // If user jumped to max reps and higher weight, treat as weight progression (increase weight, reset reps)
+    if (
+      manualReps >= template.repRange.max &&
+      manualWeight > currentWeight &&
+      config.enableWeightProgression && config.weightIncrement
+    ) {
+      let newWeight: number;
+      if (config.incrementType === 'fixed') {
+        newWeight = manualWeight + config.weightIncrement;
+      } else {
+        newWeight = manualWeight * (1 + config.weightIncrement / 100);
+      }
+      if (config.weightRoundingIncrement) {
+        newWeight = Math.round(newWeight / config.weightRoundingIncrement) * config.weightRoundingIncrement;
+      }
+      return {
+        progressionOccurred: true,
+        newMaxWeight: newWeight,
+        newMaxReps: template.repRange.min,
+        newConsecutiveFailures: 0,
+        action: 'progression',
+        details: `Manual override: user jumped to max reps and higher weight, progressing to ${newWeight} @ ${template.repRange.min} reps`
+      };
+    }
+    // Otherwise, just update to the manual values
+    return {
+      progressionOccurred: true,
+      newMaxWeight: manualWeight,
+      newMaxReps: manualReps,
+      newConsecutiveFailures: 0,
+      action: 'progression',
+      details: `Manual override: set to ${manualWeight} @ ${manualReps} reps`
+    };
+  }
   // Check if we can increase reps
   if (currentReps < template.repRange.max) {
     const newReps = Math.min(currentReps + (config.repsIncrement || 1), template.repRange.max);
