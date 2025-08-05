@@ -101,7 +101,7 @@ export const madcowTemplatesData: TemplatesDocType[] = [
     order: 10,
     load: 1,
     repRange: { min: 5, max: 5 },
-     progressionConfig: {
+    progressionConfig: {
       type: "linear" as const,
       incrementType: "fixed" as const,
       weightIncrement: 2.5,

@@ -56,12 +56,12 @@ export const templatesSchemaLiteral = {
       // if not a circuit, then this is null
       type: "number",
     },
-    
+
     // Weight configuration (optional for static exercises like flows)
     load: {
       type: "number", // Percentage of cached max weight (0.85 = 85%)
     },
-    
+
     // Rep configuration (for both fixed reps and rep progression)
     repRange: {
       type: "object",
@@ -74,9 +74,10 @@ export const templatesSchemaLiteral = {
         },
       },
       required: ["min", "max"],
-      description: "Use min=max for fixed reps (e.g., {min: 5, max: 5}), or min<max for progression (e.g., {min: 6, max: 8})",
+      description:
+        "Use min=max for fixed reps (e.g., {min: 5, max: 5}), or min<max for progression (e.g., {min: 6, max: 8})",
     },
-    
+
     // Time configuration (for time progression)
     timeRange: {
       type: "object",
@@ -90,12 +91,12 @@ export const templatesSchemaLiteral = {
       },
       required: ["min", "max"],
     },
-    
+
     // Fixed duration in seconds (for flow exercises)
     duration: {
       type: "number", // Fixed duration in seconds (for flow exercises)
     },
-    
+
     // Workout structure (keep existing)
     amrep: {
       type: "boolean",
@@ -104,7 +105,7 @@ export const templatesSchemaLiteral = {
     restTime: {
       type: "number", // Seconds between sets
     },
-    
+
     // Progression configuration (optional - presence indicates progression enabled)
     progressionConfig: {
       type: "object",
@@ -118,7 +119,8 @@ export const templatesSchemaLiteral = {
           items: {
             type: "number",
           },
-          description: "Which set orders count for progression (e.g., [3] for only 3rd set). If null/empty, all sets count.",
+          description:
+            "Which set orders count for progression (e.g., [3] for only 3rd set). If null/empty, all sets count.",
         },
         enableWeightProgression: {
           type: "boolean",
@@ -142,15 +144,23 @@ export const templatesSchemaLiteral = {
         },
         weightRoundingIncrement: {
           type: "number",
-          description: "Rounding increment for percentage calculations (e.g., 2.5, 5, 10 lbs)",
+          description:
+            "Rounding increment for percentage calculations (e.g., 2.5, 5, 10 lbs)",
         },
         timeRoundingIncrement: {
           type: "number",
-          description: "Rounding increment for time calculations (e.g., 5, 10 seconds)",
+          description:
+            "Rounding increment for time calculations (e.g., 5, 10 seconds)",
         },
         deloadStrategy: {
           type: "string",
-          enum: ["weight-only", "reps-only", "time-only", "time-then-weight", "percentage"],
+          enum: [
+            "weight-only",
+            "reps-only",
+            "time-only",
+            "time-then-weight",
+            "percentage",
+          ],
         },
         deloadType: {
           type: "string",
@@ -166,16 +176,11 @@ export const templatesSchemaLiteral = {
         },
       },
       required: ["type"],
-      description: "Optional progression configuration. Presence indicates progression is enabled for this template.",
+      description:
+        "Optional progression configuration. Presence indicates progression is enabled for this template.",
     },
   },
-  required: [
-    "id",
-    "programId",
-    "routineId", 
-    "exerciseId",
-    "order",
-  ],
+  required: ["id", "programId", "routineId", "exerciseId", "order"],
   indexes: ["programId"],
 } as const; // <- It is important to set 'as const' to preserve the literal type
 
@@ -230,6 +235,18 @@ export async function initTemplates(db: MyDatabase) {
       schema: templatesSchema,
       methods: templatesDocMethods,
       statics: templatesCollectionMethods,
+      // No migration strategies needed for version 0
+      // When you need to migrate to version 1, uncomment and modify:
+      /*
+      migrationStrategies: {
+        // Version 1: Example migration from version 0 to 1
+        1: async function (oldDoc: any) {
+          // Transform old document to new schema
+          // Example: oldDoc.newField = 'defaultValue';
+          return oldDoc;
+        },
+      },
+      */
     },
   });
 

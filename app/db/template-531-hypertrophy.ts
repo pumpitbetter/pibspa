@@ -1045,7 +1045,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
       weightIncrement: 10, // +10 lbs for overhead press
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage",
-      deloadType: "percentage", 
+      deloadType: "percentage",
       deloadAmount: 10, // -10% on deload
       failureThreshold: 3,
     },
@@ -1182,7 +1182,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
       weightIncrement: 10, // +10 lbs for deadlift
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage",
-      deloadType: "percentage", 
+      deloadType: "percentage",
       deloadAmount: 10, // -10% on deload
       failureThreshold: 3,
     },
@@ -1319,7 +1319,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
       weightIncrement: 5, // +5 lbs for bench press
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage",
-      deloadType: "percentage", 
+      deloadType: "percentage",
       deloadAmount: 10, // -10% on deload
       failureThreshold: 3,
     },
@@ -1456,7 +1456,7 @@ export const five31HypertrophyTemplatesData: TemplatesDocType[] = [
       weightIncrement: 10, // +10 lbs for squat
       weightRoundingIncrement: 2.5,
       deloadStrategy: "percentage",
-      deloadType: "percentage", 
+      deloadType: "percentage",
       deloadAmount: 10, // -10% on deload
       failureThreshold: 3,
     },

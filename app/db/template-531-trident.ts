@@ -1174,7 +1174,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     load: 0.95,
     repRange: { min: 1, max: 1 },
     amrep: true,
-        progressionConfig: {
+    progressionConfig: {
       type: "linear" as const,
       incrementType: "fixed" as const,
       weightIncrement: 10,
