@@ -31,7 +31,7 @@ describe('5-Day Upper Lower Split - Progression Tests', () => {
     deloadAmount: 0.1, // 10% deload
     failureThreshold: 3,
     enableWeightProgression: true, // Enable weight progression when max reps reached
-    progressionSets: [3] // Only the 3rd set counts for progression
+    // progressionSets: [3] // Undefined means all sets count
   };
 
   const weightProgressionConfig: ProgressionConfig = {
@@ -43,7 +43,7 @@ describe('5-Day Upper Lower Split - Progression Tests', () => {
     deloadType: 'percentage',
     deloadAmount: 0.1,
     failureThreshold: 3,
-    progressionSets: [3]
+    // progressionSets: [3] // Undefined means all sets count
   };
 
   const lightWeightProgressionConfig: ProgressionConfig = {
@@ -55,7 +55,7 @@ describe('5-Day Upper Lower Split - Progression Tests', () => {
     deloadType: 'percentage',
     deloadAmount: 0.1,
     failureThreshold: 3,
-    progressionSets: [3]
+    // progressionSets: [3] // Undefined means all sets count
   };
 
   describe('Barbell Squat (Upper Days) - Rep Progression', () => {
