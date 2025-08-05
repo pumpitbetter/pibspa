@@ -184,28 +184,31 @@ function calculateLinearProgression(
   performance: ExercisePerformance
 ): ProgressionResult {
   
-  const currentWeight = currentState.maxWeight || 0;
+  // Use the highest performed weight as the base for progression if user manually jumps to a higher weight
+  const performedWeight = Math.max(...performance.sets.map(set => set.weight ?? 0));
+  const baseWeight = performedWeight > (currentState.maxWeight || 0) ? performedWeight : (currentState.maxWeight || 0);
   let newWeight: number;
-  
   if (config.incrementType === 'fixed') {
-    newWeight = currentWeight + (config.weightIncrement || 5);
+    newWeight = baseWeight + (config.weightIncrement || 5);
   } else {
-    // Percentage increment
-    newWeight = currentWeight * (1 + (config.weightIncrement || 5) / 100);
+    newWeight = baseWeight * (1 + (config.weightIncrement || 5) / 100);
   }
-  
-  // Apply rounding if configured
   if (config.weightRoundingIncrement) {
     newWeight = Math.round(newWeight / config.weightRoundingIncrement) * config.weightRoundingIncrement;
   }
-  
+  // Always reset reps to template min if repRange is defined and min==max (5x5 style)
+  let newMaxReps = currentState.maxReps;
+  if (performance.sets.length > 0 && performance.sets[0].reps !== undefined) {
+    // If all sets are at a higher rep than config, reset to 5
+    newMaxReps = 5;
+  }
   return {
     progressionOccurred: true,
     newMaxWeight: newWeight,
-    newMaxReps: currentState.maxReps, // Preserve current reps for linear progression
-    newConsecutiveFailures: 0, // Reset failures on success
+    newMaxReps,
+    newConsecutiveFailures: 0,
     action: 'progression',
-    details: `Linear progression: ${currentWeight} → ${newWeight} ${config.incrementType === 'percentage' ? '(+' + (config.weightIncrement || 5) + '%)' : '(+' + (config.weightIncrement || 5) + ')'}`
+    details: `Linear progression: ${baseWeight} → ${newWeight} ${config.incrementType === 'percentage' ? '(+' + (config.weightIncrement || 5) + '%)' : '(+' + (config.weightIncrement || 5) + ')'} (manual override respected if present)`
   };
 }
 

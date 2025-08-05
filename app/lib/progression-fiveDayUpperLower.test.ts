@@ -3,7 +3,6 @@ import {
   calculateProgression, 
   type ExercisePerformance, 
   type ProgressionState, 
-  type ProgressionResult 
 } from './progression-engine';
 import type { ProgressionConfig } from './types/progression';
 
