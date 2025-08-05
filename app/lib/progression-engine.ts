@@ -81,8 +81,8 @@ export function calculateProgression(
     const newFailures = currentState.consecutiveFailures + 1;
     
     // Check if deload is needed
-    if (config.failureThreshold && newFailures >= config.failureThreshold) {
-      return applyDeload(config, currentState, newFailures);
+    if ((config.failureThreshold ?? 0) > 0 && newFailures >= (config.failureThreshold ?? 0)) {
+      return applyDeload(config, currentState, newFailures, template);
     }
     
     return {
@@ -149,6 +149,26 @@ export function calculateProgression(
         newConsecutiveFailures: currentState.consecutiveFailures,
         action: 'maintain',
         details: `Target weight (${targetWeight}) not completed in progression sets`
+      };
+    }
+  }
+
+  // For time progression, check if target time was met in progression sets
+  if (isTimeProgression(config) && currentState.maxTime) {
+    const targetTime = currentState.maxTime;
+    const progressionSetsMet = progressionSets.every(set => 
+      set.duration !== undefined && set.duration >= targetTime && set.completed
+    );
+    
+    if (!progressionSetsMet) {
+      return {
+        progressionOccurred: false,
+        newMaxWeight: currentState.maxWeight,
+        newMaxReps: currentState.maxReps,
+        newMaxTime: currentState.maxTime,
+        newConsecutiveFailures: currentState.consecutiveFailures,
+        action: 'maintain',
+        details: `Target time (${targetTime}s) not met in progression sets for time progression`
       };
     }
   }
@@ -405,7 +425,8 @@ function calculateTimeProgression(
 function applyDeload(
   config: ProgressionConfig,
   currentState: ProgressionState,
-  newFailures: number
+  newFailures: number,
+  template?: { timeRange?: { min: number; max: number } }
 ): ProgressionResult {
   
   if (!config.deloadAmount) {
@@ -424,6 +445,58 @@ function applyDeload(
     details: ''
   };
   
+  // Handle time-then-weight deload strategy for time progression
+  if (isTimeProgression(config) && config.deloadStrategy === 'time-then-weight') {
+    const minTime = template?.timeRange?.min || 20;
+    
+    // If time is above minimum, deload time first
+    if (currentState.maxTime !== undefined && currentState.maxTime > minTime) {
+      let newTime: number;
+      if (config.deloadType === 'fixed') {
+        newTime = Math.max(minTime, currentState.maxTime - config.deloadAmount);
+      } else {
+        newTime = Math.max(minTime, currentState.maxTime * (1 - config.deloadAmount / 100));
+      }
+      
+      result.newMaxTime = newTime;
+      result.newMaxWeight = currentState.maxWeight; // Keep weight unchanged
+      result.details += `Time deload: ${currentState.maxTime}s → ${newTime}s. `;
+      result.details += `Reset consecutive failures.`;
+      return result;
+    }
+    
+    // If time is at or below minimum, deload weight instead
+    if (currentState.maxWeight !== undefined && currentState.maxWeight > 0) {
+      let newWeight: number;
+      if (config.deloadType === 'fixed') {
+        // For weight deload in time-then-weight strategy, use weightIncrement if available
+        const weightDeloadAmount = config.weightIncrement || config.deloadAmount;
+        newWeight = Math.max(0, currentState.maxWeight - weightDeloadAmount);
+      } else {
+        const deloadPercentage = config.deloadAmount < 1 ? config.deloadAmount : config.deloadAmount / 100;
+        newWeight = currentState.maxWeight * (1 - deloadPercentage);
+      }
+      
+      // Apply rounding if configured
+      if (config.weightRoundingIncrement) {
+        newWeight = Math.round(newWeight / config.weightRoundingIncrement) * config.weightRoundingIncrement;
+      }
+      
+      result.newMaxWeight = newWeight;
+      result.newMaxTime = currentState.maxTime; // Keep time unchanged
+      result.details += `Weight deload: ${currentState.maxWeight} → ${newWeight}. `;
+      result.details += `Reset consecutive failures.`;
+      return result;
+    }
+    
+    // If we get here, both time and weight are at minimum - just reset failures
+    result.newMaxWeight = currentState.maxWeight;
+    result.newMaxTime = currentState.maxTime;
+    result.details += `Already at minimum time and weight. Reset consecutive failures.`;
+    return result;
+  }
+  
+  // Default deload logic for other progression types or strategies
   // Apply deload to weight if exercise uses weight
   if (currentState.maxWeight !== undefined) {
     let newWeight: number;
