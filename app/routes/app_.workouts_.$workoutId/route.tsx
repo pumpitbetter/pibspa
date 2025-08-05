@@ -209,7 +209,7 @@ export default function Workout({ loaderData }: Route.ComponentProps) {
             <div>
               <div className={ACTIVE_INFO_PANE_HEIGHT}></div>
               <div
-                className={cn("fixed bottom-0 w-full", ACTIVE_INFO_PANE_HEIGHT)}
+                className={cn("fixed bottom-0 left-0 right-0 w-full p-0 m-0", ACTIVE_INFO_PANE_HEIGHT)}
               >
                 <ActiveInfoPane
                   item={activeItem}
