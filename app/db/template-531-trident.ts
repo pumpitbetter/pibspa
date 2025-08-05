@@ -10,7 +10,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.65,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "qRvgjVfrczqPMPZCsT3fG9",
@@ -19,7 +19,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "pMWkw3v4WBQa3rGdwSvx6W",
@@ -28,7 +28,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.85,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -39,7 +39,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "1mpGbKyLCLVFHKov2zgDqn",
@@ -48,7 +48,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "nYZrta5TxxCMf1aQRem2w1",
@@ -57,7 +57,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "3MjNmex5ikZbidEZ3p8Frb",
@@ -66,7 +66,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "mc5Vce9UeEPCvLrJHULDCd",
@@ -75,7 +75,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -85,7 +85,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "rimvNs5DuLS1JFkxaxkvzb",
@@ -94,7 +94,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "gpW1FUPDS1v3t6tw3NenRN",
@@ -103,7 +103,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "9jod6ws7m1sWvzGQKF5GTB",
@@ -112,7 +112,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "xeaczChH6AY6a4aQUJSuRK",
@@ -121,7 +121,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -136,7 +136,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.65,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "dUEuDS457YsyLfamJ44zWx",
@@ -145,7 +145,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "fKoMseosk9D65LoLC8kCvy",
@@ -154,7 +154,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.85,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -165,7 +165,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "x8BxEfxqy3HiiJHZ5QHErP",
@@ -174,7 +174,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "29uDL8Dy2xCBqdtZbQkN7Q",
@@ -183,7 +183,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "ezTQvLBtCoXSAzAk8qPUSV",
@@ -192,7 +192,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "qES8NoxzqEufzSjQnpmniD",
@@ -201,7 +201,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -211,7 +211,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "uXpToBHmmMgtpQXm4xa8vN",
@@ -220,7 +220,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "r644TLTN1MigEGPCBhF3kM",
@@ -229,7 +229,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "8atQ8Ccpzeqk9E4FFpQJhR",
@@ -238,7 +238,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "mo9Nna6WbJ7FYwo32p7NsD",
@@ -247,7 +247,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -262,7 +262,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.65,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "tknwhbebya2xavSGR53dg9",
@@ -271,7 +271,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "1wMPKDu5LZBP9ozhWrNaDc",
@@ -280,7 +280,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.85,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -291,7 +291,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "or3t1ESXoVK91U3cZKDSqv",
@@ -300,7 +300,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "fGqKHYrb8s5qYtX5ziNtDc",
@@ -309,7 +309,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "323uPHNzsSGFxAfiLasbmh",
@@ -318,7 +318,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "eqjHbD851yLsnwQyYpCVEi",
@@ -327,7 +327,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -337,7 +337,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "9N91BsdBSfC7j9JVWPB4h7",
@@ -346,7 +346,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "qySGmCoZTLsaTbnewZYZtx",
@@ -355,7 +355,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "fNiKkFuMaMv3fcc8U9Ft6T",
@@ -364,7 +364,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "gSKULRVr1yWpZ2uz85Wrok",
@@ -373,7 +373,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -388,7 +388,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.65,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "hGfoiqfSzfff7gJZYQi5cE",
@@ -397,7 +397,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "rwHsYzZ6iGWiJ7KWF4gLZ7",
@@ -406,7 +406,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.85,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -417,7 +417,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "fU3LLoPM92dTaE4cKQaZwg",
@@ -426,7 +426,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "4KneWZiLNCFKNsVkNt8y7L",
@@ -435,7 +435,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "snFcF6A7PJbqL1qHjkEEGx",
@@ -444,7 +444,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "aHLr6mCmqRxsM29aWqzchH",
@@ -453,7 +453,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -463,7 +463,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "hygLgnnWmp6EgTnMJkNctw",
@@ -472,7 +472,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "hefgFefsCDy9ecEPWoKJNJ",
@@ -481,7 +481,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "jYpTD1jbuH2eKb2eMijP9e",
@@ -490,7 +490,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "mQo6dhsjW9ajvPMKx79vsv",
@@ -499,7 +499,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -514,7 +514,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.7,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "qxqGx52bnDwpEcV8mJqEqG",
@@ -523,7 +523,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.8,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "thj6q5jdT7QV1fyr1PDvFk",
@@ -532,7 +532,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.9,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -543,7 +543,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "b8sJRnCjKYoBWpHneKycQr",
@@ -552,7 +552,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "skuRa7TvPqXcsKzs3fBPZg",
@@ -561,7 +561,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "eeMmYPesQwRqcbxB9Q7Q7d",
@@ -570,7 +570,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "c49qajgv4g4ws68k4KXLEA",
@@ -579,7 +579,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -589,7 +589,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "7Jwte215aagzupxo4ygbjo",
@@ -598,7 +598,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "osFzbCwPHwdjVWRVWRTXEY",
@@ -607,7 +607,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "cKEdL4NiX9gfLZtc74ZXyq",
@@ -616,7 +616,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "5KNxi9q2fgJQQ64c8NGUtZ",
@@ -625,7 +625,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -640,7 +640,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.7,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "hoxb1qvG2CxSxNLtvzUyae",
@@ -649,7 +649,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.8,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "9KnLG6w2mnch2jsyEe8yvF",
@@ -658,7 +658,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.9,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -669,7 +669,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "ckrbBjHnesKGyYaMwBe5oX",
@@ -678,7 +678,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "sQjbjfgGPWdTV1Faqxufub",
@@ -687,7 +687,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "kY5a7bCpGGLg84BfaVUV1Q",
@@ -696,7 +696,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "uuJemkW5koAPyoQVMthb9a",
@@ -705,7 +705,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -715,7 +715,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "ifvbXCBg6MBxQ4pguSJAU2",
@@ -724,7 +724,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "kWWHWDux7FHQTFfJETsp2H",
@@ -733,7 +733,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "tUiaovMN4mnQFFmb4BHFhy",
@@ -742,7 +742,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "nkbjCGvuWPPsHykehH1NZF",
@@ -751,7 +751,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -766,7 +766,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.7,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "2Aq5WTR6M8WakpNoeKn1Cu",
@@ -775,7 +775,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.8,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "3ffpDRfMBzZPkyYW6cdd4a",
@@ -784,7 +784,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.9,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -795,7 +795,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "tnJCU7B1XsZ5v7d4PY941a",
@@ -804,7 +804,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "882DgN9Neck12KdGWZ9ngU",
@@ -813,7 +813,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "edMxCWUWhZctFKdc4So67T",
@@ -822,7 +822,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "mjxpcVGV6ZogbthbAj9SWX",
@@ -831,7 +831,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -841,7 +841,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "nVLkiSKKrFJBSGt86yJM96",
@@ -850,7 +850,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "guoNzfgtNut4pox2es7rzo",
@@ -859,7 +859,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "7FBMeCgstMBesSdJmcgu2F",
@@ -868,7 +868,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "pxiaAbkKW5Twzy9BZwnK5H",
@@ -877,7 +877,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -892,7 +892,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.7,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "57GpQcwz15N1HVwfuMzrMH",
@@ -901,7 +901,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.8,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "5paCjPqE2tbDzky52eipeT",
@@ -910,7 +910,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.9,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -921,7 +921,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "mWvCrAQBCBMGAveXmDwWrv",
@@ -930,7 +930,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "hFXEkAiHND7JYopYG5VnF5",
@@ -939,7 +939,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "i815TsE8fyx1gUgCNJ6Jfg",
@@ -948,7 +948,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "aTHTEHbj1zGZhigkuDcHqt",
@@ -957,7 +957,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -967,7 +967,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "h53RXj4wc5YNtirKPR315G",
@@ -976,7 +976,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "8sZHSBmXjQbh5A8ewLn3uv",
@@ -985,7 +985,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "ttHQxnNL2w9MzSyoDSEv5Z",
@@ -994,7 +994,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "dauMSWwR8ZdWCny465VKks",
@@ -1003,7 +1003,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1018,7 +1018,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "8XJZSUmTtmNxNFbJD3FP4R",
@@ -1027,7 +1027,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.85,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "9qku26Dxvkb9su8Aq5pBkn",
@@ -1036,21 +1036,17 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.95,
-    reps: 1,
+    repRange: { min: 1, max: 1 },
     amrep: true,
-    progression: {
-      increment: {
-        value: 10,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   // additional assistance sets 1
@@ -1061,7 +1057,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "b3uTGWWneHv3PZFiD2Ap72",
@@ -1070,7 +1066,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "8UKmNT67uDnUL9Wxa3hp1E",
@@ -1079,7 +1075,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "e4p9GPPUowAcNhKAE2GtYE",
@@ -1088,7 +1084,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "jG8zVAfyHpKh3JNrdgt82J",
@@ -1097,7 +1093,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -1107,7 +1103,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "qAEQdaeLJZLN6QbTAnd92e",
@@ -1116,7 +1112,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "uJUcZc7r7LPenX3EqtzTGq",
@@ -1125,7 +1121,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "8iQLUEFgSTLzZraFLEtST5",
@@ -1134,7 +1130,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "q1exBZ35MFvUxhWbBaJtY9",
@@ -1143,7 +1139,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1158,7 +1154,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "mtdbcnmZx1qXjvn1L5KQ8X",
@@ -1167,7 +1163,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.85,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "7YwExtZJp6rpM6igjuHgPW",
@@ -1176,21 +1172,17 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.95,
-    reps: 1,
+    repRange: { min: 1, max: 1 },
     amrep: true,
-    progression: {
-      increment: {
-        value: 10,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 10,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   // additional assistance sets 1
@@ -1201,7 +1193,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "hwden6hiHPH38T51LHG6ML",
@@ -1210,7 +1202,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "xn3sVC8oX6kho6VQ96Cd2J",
@@ -1219,7 +1211,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "davjMu7fAyzZ1xnyacYD6c",
@@ -1228,7 +1220,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "bEZgtsRShRwrMLa1e9DTR2",
@@ -1237,7 +1229,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -1247,7 +1239,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "84kEAhHiBfxCPbWpu4Frjb",
@@ -1256,7 +1248,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "agk8ZxDnDeDHdd96wTr1QZ",
@@ -1265,7 +1257,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "rVb1thf3Hu8Z7cVpPRfVzb",
@@ -1274,7 +1266,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "t6K6W3bXBmc7TCGWh8B9rT",
@@ -1283,7 +1275,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1298,7 +1290,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "vmTRWD7eHR4f316Seiqcbb",
@@ -1307,7 +1299,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.85,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "2ZWdDX5Aqq5CSFz6cc8tkS",
@@ -1316,21 +1308,17 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.95,
-    reps: 1,
+    repRange: { min: 1, max: 1 },
     amrep: true,
-    progression: {
-      increment: {
-        value: 10,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   // additional assistance sets 1
@@ -1341,7 +1329,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "5bQtxwFMvXDrpVYPtuWFPs",
@@ -1350,7 +1338,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "gDhX21TGRm7V4HWmCFbkwH",
@@ -1359,7 +1347,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "v7rMgkdfEC4QdHixPfa4PC",
@@ -1368,7 +1356,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "vVQBPVqur6QcnmVRc28SvS",
@@ -1377,7 +1365,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -1387,7 +1375,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "mZyAePGEybhA2WFv1jwve7",
@@ -1396,7 +1384,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "kBWu5hVhG47PpueeUfdaF7",
@@ -1405,7 +1393,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "6PeuYknkUXTqP6SFeC512P",
@@ -1414,7 +1402,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "dUNN8C5Re6qSD5sPwBJQpW",
@@ -1423,7 +1411,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1438,7 +1426,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.75,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "iZMRup3dYudyynzskmbmjM",
@@ -1447,7 +1435,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.85,
-    reps: 3,
+    repRange: { min: 3, max: 3 },
   },
   {
     id: "1a8DJxLdVCzw7gd3dmCW14",
@@ -1456,21 +1444,17 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.95,
-    reps: 1,
+    repRange: { min: 1, max: 1 },
     amrep: true,
-    progression: {
-      increment: {
-        value: 10,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   // additional assistance sets 1
@@ -1481,7 +1465,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "o14QnN7BMmBPdJWxxK3TUp",
@@ -1490,7 +1474,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "5pPB6JqY5pk3deq3m7DQwt",
@@ -1499,7 +1483,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "ifWyhknbPWZUvU5rrud3Gv",
@@ -1508,7 +1492,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "ixvkuA4an2DeStMMbgwKc5",
@@ -1517,7 +1501,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -1527,7 +1511,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "1wxd1W6bosfFCM8T2kRxuQ",
@@ -1536,7 +1520,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "cEYpDQJpFoRik9QHxgs6ob",
@@ -1545,7 +1529,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "cDQhVwg2H6AnaT7SBqQTRv",
@@ -1554,7 +1538,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "9Z6gzUnnKzdQb2zRGKqeaQ",
@@ -1563,7 +1547,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1578,7 +1562,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 1,
     load: 0.4,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "eeZYC6zwnyCLYA5BtHnJRS",
@@ -1587,7 +1571,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 2,
     load: 0.5,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "9rKrxGxMtGvtNkS5KV1KoG",
@@ -1596,7 +1580,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 3,
     load: 0.6,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -1607,7 +1591,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "9369DDghW16Pc9m7K2bFDk",
@@ -1616,7 +1600,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "c7N84npGpeuL2WgBkbeqKB",
@@ -1625,7 +1609,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "3vyDcpUCDKbVygYPfYsP6S",
@@ -1634,7 +1618,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "fXBTb2FkVpp3tbUKQfF3vs",
@@ -1643,7 +1627,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dips",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -1653,7 +1637,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "g2Ma8CQwiwt2XnTN2briff",
@@ -1662,7 +1646,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "fEwnF3XWwZwPgmHGAKRjCw",
@@ -1671,7 +1655,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "bTAVVZwMJyjp1MPgKF9iUS",
@@ -1680,7 +1664,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "3p4FR2CQJEVtAp7BBbtygz",
@@ -1689,7 +1673,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "pullups",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1704,7 +1688,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 1,
     load: 0.4,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "4y1bPc9pSmfQidPhEQhpmD",
@@ -1713,7 +1697,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 2,
     load: 0.5,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "1CjFpUwesLb3ThKSTTH4Xu",
@@ -1722,7 +1706,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 3,
     load: 0.6,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -1733,7 +1717,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "gfwmLhJeFqNxFwTdc8LSjK",
@@ -1742,7 +1726,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "3b6cLwxZqJQ9bb4VaAm9Mx",
@@ -1751,7 +1735,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "uWY61QLJodAhzKdErZsoxM",
@@ -1760,7 +1744,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "cBNowvX8PoGrrNTFpVeq9j",
@@ -1769,7 +1753,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-good-morning",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -1779,7 +1763,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "xy475GM1zqAFdwwaYmsMQY",
@@ -1788,7 +1772,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "5TJmiAtKTrMF2UFSUrirKW",
@@ -1797,7 +1781,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "9ciGd4wgBaPdzqKNuurA5h",
@@ -1806,7 +1790,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "6PkiEdcy2NdofGwW6n7FeJ",
@@ -1815,7 +1799,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "hanging-knee-raise",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1830,7 +1814,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 1,
     load: 0.4,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "it3SnFFeHhkWhwT6cqF17c",
@@ -1839,7 +1823,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 2,
     load: 0.5,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "4R4WgjYcKAeYPFyfTuzmev",
@@ -1848,7 +1832,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 3,
     load: 0.6,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -1859,7 +1843,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "q2CzYeEWC4xFwf9aixi1YG",
@@ -1868,7 +1852,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "dDnCfe51yEJPNVyntfkCwa",
@@ -1877,7 +1861,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "fwmPzUHE31wek1Ux5K4HVC",
@@ -1886,7 +1870,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "8swCe3Ktt2CXBssq7uPW5K",
@@ -1895,7 +1879,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-bench-press",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -1905,7 +1889,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "8PaYp7ZaJAQaFS5AJdgjyV",
@@ -1914,7 +1898,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "weHkULgciDmzdoh6eT5zAe",
@@ -1923,7 +1907,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "3ZGsc4VkR1Dva3dipHaVZs",
@@ -1932,7 +1916,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "qsohSbuo2yipZimXZg6doo",
@@ -1941,7 +1925,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "dumbbell-row-one-arm",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 
   //
@@ -1956,7 +1940,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.4,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "9GGwUETHJR7wWh1tFdez7L",
@@ -1965,7 +1949,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.5,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "8mxD3f9q2yWv4iAaBk3w1y",
@@ -1974,7 +1958,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 0.6,
-    reps: 5,
+    repRange: { min: 5, max: 5 },
     amrep: true,
   },
   // additional assistance sets 1
@@ -1985,7 +1969,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 4,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "8yYYTMfXdHjaMB7YFTcdrV",
@@ -1994,7 +1978,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 5,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "dNn8VS4ffYD6acwCMMSbow",
@@ -2003,7 +1987,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 6,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "3SwZDxsssVXBmuMkLa89n6",
@@ -2012,7 +1996,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 7,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "1Thw7YzmQMdXQeeieQQZpU",
@@ -2021,7 +2005,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-press",
     order: 8,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   // additional assistance sets 2
   {
@@ -2031,7 +2015,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 9,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "eornDL4wdJZu2CLd4L6VCA",
@@ -2040,7 +2024,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 10,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "tjtBWbyHinyJzNQ3SphcW6",
@@ -2049,7 +2033,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 11,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "9qMN7iqQHMiaWNycKu5XpU",
@@ -2058,7 +2042,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 12,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
   {
     id: "usxEdSNapBmAGKwRyXTWGJ",
@@ -2067,7 +2051,7 @@ export const five31TridentTemplatesData: TemplatesDocType[] = [
     exerciseId: "leg-curl",
     order: 13,
     load: 1,
-    reps: 10,
+    repRange: { min: 10, max: 10 },
   },
 ];
 

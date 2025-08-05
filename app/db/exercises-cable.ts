@@ -186,6 +186,14 @@ export const cableExercises: ExercisesDocType[] = [
     tags: ["isolation"],
   },
   {
+    id: "cable-bayesian-curl",
+    name: "Cable Bayesian Curl",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["machine"],
+    tags: ["isolation"],
+  },
+  {
     id: "cable-overhead-tricep-extension",
     name: "Cable Overhead Tricep Extension",
     type: "strength",

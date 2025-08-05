@@ -5,7 +5,6 @@ import {
   type RxDocument,
   type RxJsonSchema,
 } from "rxdb";
-import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
 import { programsData } from "./programs-data";
 import { fiveBy5 } from "./programs-fiveBy5";
@@ -43,43 +42,12 @@ export const programsSchemaLiteral = {
       type: "string",
       maxLength: 100,
     },
-    exercises: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          exerciseId: {
-            type: "string",
-            maxLength: 100,
-          },
-          duration: {
-            type: "number",
-            description: "duration in seconds",
-          },
-          exerciseWeight: {
-            type: "object",
-            properties: {
-              value: {
-                type: "number", // max weight for the exercise
-              },
-              units: {
-                type: "string",
-                enum: ["kg", "lbs"],
-              },
-            },
-            required: ["value", "units"],
-          },
-        },
-        required: ["exerciseId", "exerciseWeight"],
-      },
-      default: [],
-    },
   },
   required: ["id", "name", "description", "type", "level", "ownerId"],
   //indexes: ["firstName"],
 } as const; // <- It is important to set 'as const' to preserve the literal type
 
-const uid = new ShortUniqueId({ length: 16 });
+
 
 const schemaTyped = toTypedRxJsonSchema(programsSchemaLiteral);
 

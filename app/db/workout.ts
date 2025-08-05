@@ -5,7 +5,6 @@ import {
   type RxDocument,
   type RxJsonSchema,
 } from "rxdb";
-import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
 
 export const workoutsSchemaLiteral = {
@@ -46,7 +45,7 @@ export const workoutsSchemaLiteral = {
   indexes: ["programId", "startedAt"],
 } as const; // <- It is important to set 'as const' to preserve the literal type
 
-const uid = new ShortUniqueId({ length: 16 });
+
 
 const schemaTyped = toTypedRxJsonSchema(workoutsSchemaLiteral);
 

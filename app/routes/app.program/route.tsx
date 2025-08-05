@@ -9,6 +9,7 @@ import { Link } from "react-router";
 import { ListItem } from "~/components/list-item";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { getExerciseById } from "~/lib/utils";
+import { updateProgressionState, getProgressionState } from "~/lib/progression-integration";
 import { DialogWeightEdit } from "./dialog-weight-edit";
 import invariant from "tiny-invariant";
 
@@ -32,12 +33,48 @@ export async function clientLoader() {
     .exec();
   const exercises = await db.exercises.find().exec();
   const templates = await db.templates.find().exec();
+  
+  // Get all unique exercises used in this program's templates
+  const programTemplates = templates.filter(t => t.programId === settings?.programId);
+  const uniqueExerciseIds = [...new Set(programTemplates.map(t => t.exerciseId))];
+  
+  // Get progression states for all exercises used in the program
+  const programExercises = await Promise.all(
+    uniqueExerciseIds.map(async (exerciseId) => {
+      const progressionState = await db.programExercises.findOne({
+        selector: { 
+          programId: settings?.programId,
+          exerciseId 
+        }
+      }).exec();
+      
+      return {
+        exerciseId,
+        maxWeight: progressionState?.maxWeight || 0,
+        maxReps: progressionState?.maxReps || 0,
+        maxTime: progressionState?.maxTime || 0,
+        consecutiveFailures: progressionState?.consecutiveFailures || 0,
+        lastUpdated: progressionState?.lastUpdated || new Date().toISOString(),
+      };
+    })
+  );
+
+  // Sort exercises by name for consistent display
+  const sortedProgramExercises = programExercises.sort((a, b) => {
+    const exerciseA = exercises.find(e => e.id === a.exerciseId);
+    const exerciseB = exercises.find(e => e.id === b.exerciseId);
+    const nameA = exerciseA?.name || a.exerciseId;
+    const nameB = exerciseB?.name || b.exerciseId;
+    return nameA.localeCompare(nameB);
+  });
 
   return {
     program: program ? program.toMutableJSON() : defaultProgram,
     routines: routines ? routines.map((w) => w.toMutableJSON()) : [],
     exercises: exercises ? exercises.map((e) => e.toMutableJSON()) : [],
     templates: templates ? templates.map((t) => t.toMutableJSON()) : [],
+    programExercises: sortedProgramExercises,
+    settings: settings ? settings.toMutableJSON() : { weigthUnit: 'lbs' },
   };
 }
 
@@ -50,40 +87,38 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const weight = Number(formData.get("weight") as string) ?? 0;
 
   const db = await dbPromise;
-  const settings = await db.settings.findOne().exec();
-  const program = await db.programs
-    .findOne({
-      selector: {
-        id: programId,
-      },
-    })
-    .exec();
-  invariant(program, "Program not found");
-  invariant(settings, "Settings not found");
-
-  await program.modify((doc) => {
-    invariant(doc.exercises, "Program has no exercises");
-    const exercises = doc.exercises.map((item) => {
-      if (item.exerciseId === exerciseId) {
-        return {
-          ...item,
-          exerciseWeight: {
-            value: weight,
-            units: settings.weigthUnit,
-          },
-        };
-      }
-      return item;
+  
+  // Update the progression state using the new system
+  const currentState = await getProgressionState(db, programId, exerciseId);
+  
+  if (currentState) {
+    // For manual weight updates, we need to clear lastProgressionDate to indicate
+    // this is user-set data, not progression earned through workout completion
+    await updateProgressionState(db, programId, exerciseId, {
+      progressionOccurred: false,
+      newMaxWeight: weight,
+      newConsecutiveFailures: currentState.consecutiveFailures,
+      action: 'maintain',
+      details: 'Manual weight update',
+      clearProgressionDate: true // Add flag to clear progression date
     });
-    doc.exercises = exercises;
-    return doc;
-  });
+  } else {
+    // Initialize new progression state if it doesn't exist
+    await db.programExercises.upsert({
+      id: `${programId}-${exerciseId}`,
+      programId,
+      exerciseId,
+      maxWeight: weight,
+      consecutiveFailures: 0,
+      lastUpdated: new Date().toISOString()
+    });
+  }
 
-  return program.toMutableJSON();
+  return { success: true };
 }
 
 export default function Programs({ loaderData }: Route.ComponentProps) {
-  const { program, routines, exercises, templates } = loaderData;
+  const { program, routines, exercises, templates, programExercises, settings } = loaderData;
 
   return (
     <Page>
@@ -137,27 +172,40 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
           {/* Weights Tab */}
           <TabsContent value="weights">
             <List>
-              {program.exercises?.map((item) => {
-                const exerciseName =
-                  getExerciseById({
-                    exercises,
-                    exerciseId: item.exerciseId,
-                  })?.name ?? item.exerciseId;
-                return (
-                  <DialogWeightEdit
-                    key={item.exerciseId}
-                    exerciseId={item.exerciseId}
-                    programId={program.id}
-                    exerciseName={exerciseName}
-                    exerciseWeight={item.exerciseWeight.value}
-                  >
-                    <ListItem
-                      title={exerciseName}
-                      content={`${item.exerciseWeight.value} ${item.exerciseWeight.units}`}
-                    />
-                  </DialogWeightEdit>
-                );
-              })}
+              {programExercises.length > 0 ? (
+                programExercises.map((item) => {
+                  const exerciseName =
+                    getExerciseById({
+                      exercises,
+                      exerciseId: item.exerciseId,
+                    })?.name ?? item.exerciseId;
+                  
+                  const displayWeight = item.maxWeight || 0;
+                  const hasProgressionData = item.maxWeight > 0 || item.maxReps > 0 || item.maxTime > 0;
+                  
+                  return (
+                    <DialogWeightEdit
+                      key={item.exerciseId}
+                      exerciseId={item.exerciseId}
+                      programId={program.id}
+                      exerciseName={exerciseName}
+                      exerciseWeight={displayWeight}
+                    >
+                      <ListItem
+                        title={exerciseName}
+                        content={hasProgressionData 
+                          ? `${displayWeight} ${settings.weigthUnit || 'lbs'}`
+                          : `Not set - ${settings.weigthUnit || 'lbs'}`
+                        }
+                      />
+                    </DialogWeightEdit>
+                  );
+                })
+              ) : (
+                <div className="p-4 text-center text-muted-foreground">
+                  No exercises found in this program
+                </div>
+              )}
             </List>
           </TabsContent>
         </Tabs>

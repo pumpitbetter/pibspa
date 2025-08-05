@@ -119,12 +119,15 @@ async function handleCloneProgram(programId: string) {
   const templatesToClone = await db.templates
     .find({ selector: { programId } })
     .exec();
-  const newTemplates = templatesToClone.map((template) => ({
-    ...template.toJSON(),
-    id: uuidv7(),
-    programId: newProgramId,
-    routineId: routineIdMap[template.routineId] ?? "",
-  }));
+  const newTemplates = templatesToClone.map((template) => {
+    const templateData = template.toMutableJSON();
+    return {
+      ...templateData,
+      id: uuidv7(),
+      programId: newProgramId,
+      routineId: routineIdMap[template.routineId] ?? "",
+    };
+  });
 
   await db.programs.insert(newProgram);
   await db.routines.bulkInsert(newRoutines);

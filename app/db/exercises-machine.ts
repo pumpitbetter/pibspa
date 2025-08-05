@@ -346,6 +346,14 @@ export const machineExercises: ExercisesDocType[] = [
     tags: ["compound", "primary"],
   },
   {
+    id: "machine-leg-press-calf-raise",
+    name: "Machine Leg Press Calf Raise",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["machine"],
+    tags: ["isolation"],
+  },
+  {
     id: "machine-sissy-squat",
     name: "Machine Sissy Squat",
     type: "strength",

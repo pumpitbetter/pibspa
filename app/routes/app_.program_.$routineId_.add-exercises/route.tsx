@@ -85,18 +85,22 @@ export async function clientAction({ request, params }: ClientActionArgs) {
     load: 1.0,
     reps: 5, // Default reps
     progression: {
-      increment: {
-        value: 5,
-        kind: "weight" as const,
-        type: "absolute" as const,
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight" as const,
-        type: "percentage" as const,
-        frequency: 3,
-      },
+      increment: [
+        {
+          value: 5,
+          kind: "weight" as const,
+          type: "absolute" as const,
+          frequency: 1,
+        },
+      ],
+      decrement: [
+        {
+          value: 0.1,
+          kind: "weight" as const,
+          type: "percentage" as const,
+          frequency: 3,
+        },
+      ],
     },
   }));
 

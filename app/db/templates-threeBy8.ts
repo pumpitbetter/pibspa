@@ -8,7 +8,7 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.85, // 85% of max for warmup
-    reps: 8,
+    repRange: { min: 8, max: 8 },
   },
   {
     id: "3x8-squat-a-2",
@@ -17,7 +17,7 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.9, // 90% of max for second set
-    reps: 8,
+    repRange: { min: 8, max: 8 },
   },
   {
     id: "3x8-squat-a-3",
@@ -26,20 +26,16 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 1.0, // 100% of max for working set
-    reps: 8,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1, // every workout
-      },
-      decrement: {
-        value: 0.1, // 10% deload
-        kind: "weight",
-        type: "percentage",
-        frequency: 3, // after 3 failed attempts
-      },
+    repRange: { min: 8, max: 8 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 10,
+      weightRoundingIncrement: 5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -49,7 +45,7 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 4,
     load: 0.85,
-    reps: 8,
+    repRange: { min: 8, max: 8 },
   },
   {
     id: "3x8-bench-a-2",
@@ -58,7 +54,7 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 5,
     load: 0.9,
-    reps: 8,
+    repRange: { min: 8, max: 8 },
   },
   {
     id: "3x8-bench-a-3",
@@ -67,20 +63,16 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 6,
     load: 1.0,
-    reps: 8,
-    progression: {
-      increment: {
-        value: 2.5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    repRange: { min: 8, max: 8 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -90,20 +82,16 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 7,
     load: 1.0,
-    reps: 8,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    repRange: { min: 8, max: 8 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 10,
+      weightRoundingIncrement: 10,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -113,7 +101,7 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 0.85,
-    reps: 8,
+    repRange: { min: 8, max: 8 },
   },
   {
     id: "3x8-squat-b-2",
@@ -122,7 +110,7 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 0.9,
-    reps: 8,
+    repRange: { min: 8, max: 8 },
   },
   {
     id: "3x8-squat-b-3",
@@ -131,20 +119,16 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 1.0,
-    reps: 8,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    repRange: { min: 8, max: 8 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 10,
+      weightRoundingIncrement: 10,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -154,7 +138,7 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 4,
     load: 0.85,
-    reps: 8,
+    repRange: { min: 8, max: 8 },
   },
   {
     id: "3x8-ohp-b-2",
@@ -163,7 +147,7 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 5,
     load: 0.9,
-    reps: 8,
+    repRange: { min: 8, max: 8 },
   },
   {
     id: "3x8-ohp-b-3",
@@ -172,20 +156,16 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 6,
     load: 1.0,
-    reps: 8,
-    progression: {
-      increment: {
-        value: 2.5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    repRange: { min: 8, max: 8 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -195,7 +175,7 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 7,
     load: 0.85,
-    reps: 8,
+    repRange: { min: 8, max: 8 },
   },
   {
     id: "3x8-row-b-2",
@@ -204,7 +184,7 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 8,
     load: 0.9,
-    reps: 8,
+    repRange: { min: 8, max: 8 },
   },
   {
     id: "3x8-row-b-3",
@@ -213,20 +193,16 @@ export const threeBy8TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 9,
     load: 1.0,
-    reps: 8,
-    progression: {
-      increment: {
-        value: 2.5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    repRange: { min: 8, max: 8 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
 ];

@@ -5,6 +5,7 @@ import { five31 } from "./programs-five31";
 import { five31Hypertrophy } from "./programs-five31-hypertrophy";
 import { five31Trident } from "./programs-five31-trident";
 import { five31Fusion } from "./programs-five31-fusion";
+import { fiveDayUpperLower } from "./programs-five-day-upper-lower";
 
 export const programsData = [
   fiveBy5,
@@ -14,4 +15,5 @@ export const programsData = [
   five31Hypertrophy,
   five31Trident,
   five31Fusion,
+  fiveDayUpperLower,
 ];

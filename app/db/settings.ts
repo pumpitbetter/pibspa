@@ -7,7 +7,6 @@ import {
 } from "rxdb";
 import ShortUniqueId from "short-unique-id";
 import { type MyDatabase } from "./db";
-import { max } from "rxjs";
 
 export const settingsSchemaLiteral = {
   title: "settings schema",
@@ -115,7 +114,7 @@ export const defaultSettings: SettingsDocType = {
     { weight: 35, count: 2 },
     { weight: 45, count: 4 },
   ],
-  programId: "sl5x5",
+  programId: "5x5",
 };
 
 export async function initSettings(db: MyDatabase) {

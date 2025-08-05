@@ -26,14 +26,14 @@ export const exercisesSchemaLiteral = {
     },
     type: {
       type: "string",
-      enum: ["strength", "cardio", "mobility", "stretching"],
+      enum: ["strength", "cardio", "mobility", "stretching", "flow"],
       maxLength: 20,
     },
     track: {
       type: "array",
       items: {
         type: "string",
-        enum: ["weight", "time", "distance"],
+        enum: ["weight", "time", "distance", "duration"],
       },
     },
     equipment: {
@@ -74,6 +74,16 @@ export const exercisesSchemaLiteral = {
         type: "string",
         enum: ["compound", "isolation", "primary"],
       },
+    },
+    
+    // Flow exercise support
+    videoUrl: {
+      type: "string",
+      maxLength: 500, // YouTube or other video URL
+    },
+    notes: {
+      type: "string", 
+      maxLength: 1000, // Exercise instructions or form cues
     },
   },
   required: ["id", "name", "type", "track", "equipment"],

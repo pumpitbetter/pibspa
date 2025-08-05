@@ -58,6 +58,14 @@ export const dumbbellExercises: ExercisesDocType[] = [
     tags: ["compound", "primary"],
   },
   {
+    id: "dumbbell-bulgarian-split-squat",
+    name: "Dumbbell Bulgarian Split Squat",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["dumbbell", "flatbench"],
+    tags: ["compound", "primary"],
+  },
+  {
     id: "dumbbell-split-squat",
     name: "Dumbbell Split Squat",
     type: "strength",
@@ -231,6 +239,14 @@ export const dumbbellExercises: ExercisesDocType[] = [
     type: "strength",
     track: ["weight"],
     equipment: ["dumbbell"],
+    tags: ["isolation"],
+  },
+  {
+    id: "dumbbell-lying-bicep-curl",
+    name: "Dumbbell Lying Bicep Curl",
+    type: "strength",
+    track: ["weight"],
+    equipment: ["dumbbell", "flatbench"],
     tags: ["isolation"],
   },
   {

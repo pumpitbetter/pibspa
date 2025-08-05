@@ -8,21 +8,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 1.0, // 100% of max for working set
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1, // every workout
-      },
-      decrement: {
-        value: 0.1, // 10% deload
-        kind: "weight",
-        type: "percentage",
-        frequency: 3, // after 3 failed attempts
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-squat-a-2",
@@ -31,21 +17,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-squat-a-3",
@@ -54,21 +26,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-squat-a-4",
@@ -77,21 +35,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 4,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-squat-a-5",
@@ -100,20 +44,16 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 5,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    repRange: { min: 5, max: 5 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -123,21 +63,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 6,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-bench-a-2",
@@ -146,21 +72,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 7,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-bench-a-3",
@@ -169,21 +81,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 8,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-bench-a-4",
@@ -192,21 +90,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 9,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-bench-a-5",
@@ -215,20 +99,16 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-bench-press",
     order: 10,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    repRange: { min: 5, max: 5 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 2.5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -238,21 +118,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 11,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-row-a-2",
@@ -261,21 +127,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 12,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-row-a-3",
@@ -284,21 +136,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 13,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-row-a-4",
@@ -307,21 +145,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 14,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-row-a-5",
@@ -330,20 +154,16 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-row",
     order: 15,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    repRange: { min: 5, max: 5 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 2.5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -353,21 +173,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 1,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-squat-b-2",
@@ -376,21 +182,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 2,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-squat-b-3",
@@ -399,21 +191,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 3,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-squat-b-4",
@@ -422,21 +200,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 4,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-squat-b-5",
@@ -445,20 +209,16 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-squat",
     order: 5,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    repRange: { min: 5, max: 5 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -468,21 +228,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 6,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-ohp-b-2",
@@ -491,21 +237,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 7,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-ohp-b-3",
@@ -514,21 +246,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 8,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-ohp-b-4",
@@ -537,21 +255,7 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 9,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
-    },
+    repRange: { min: 5, max: 5 },
   },
   {
     id: "5x5-ohp-b-5",
@@ -560,20 +264,16 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-overhead-press",
     order: 10,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 5,
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    repRange: { min: 5, max: 5 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 2.5,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
   {
@@ -583,20 +283,16 @@ export const fiveBy5TemplatesData: TemplatesDocType[] = [
     exerciseId: "barbell-deadlift",
     order: 11,
     load: 1.0,
-    reps: 5,
-    progression: {
-      increment: {
-        value: 10, // Deadlift progresses by 10 lbs
-        kind: "weight",
-        type: "absolute",
-        frequency: 1,
-      },
-      decrement: {
-        value: 0.1,
-        kind: "weight",
-        type: "percentage",
-        frequency: 3,
-      },
+    repRange: { min: 5, max: 5 },
+    progressionConfig: {
+      type: "linear" as const,
+      incrementType: "fixed" as const,
+      weightIncrement: 10,
+      weightRoundingIncrement: 2.5,
+      deloadStrategy: "percentage" as const,
+      deloadType: "percentage" as const,
+      deloadAmount: 0.1,
+      failureThreshold: 3,
     },
   },
 ];
