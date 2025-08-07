@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Pump It Better",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "identifier": "com.pumpitbetter.app",
   "build": {
     "frontendDist": "../build/client",
@@ -32,6 +32,9 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "iOS": {
+      "developmentTeam": "37F72L478M"
+    }
   }
 }

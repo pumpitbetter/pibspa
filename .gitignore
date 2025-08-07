@@ -1,3 +1,28 @@
+# Ignore environment and credentials files
+.env
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/metadata
+fastlane/credentials.json
+
+# iOS certificates and provisioning profiles - NEVER COMMIT THESE
+*.mobileprovision
+*.provisionprofile
+*.cer
+*.p12
+*.certSigningRequest
+certificates/
+*.key
+*.pem
+
+# Build artifacts and distribution files
+build/ios/
+*.ipa
+*.app
+*.dSYM
+
 .DS_Store
 /node_modules/
 
