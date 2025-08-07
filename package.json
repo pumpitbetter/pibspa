@@ -9,7 +9,15 @@
     "typecheck": "react-router typegen && tsc",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "ios:build": "npm run build && npx tauri ios build",
+    "ios:dev": "echo '12' | npx tauri ios dev",
+    "ios:beta": "fastlane ios beta",
+    "ios:register": "fastlane ios register_device",
+    "ios:archive": "fastlane ios build",
+    "tauri": "npx tauri",
+    "tauri:dev": "npx tauri dev",
+    "tauri:build": "npm run build && npx tauri build"
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
