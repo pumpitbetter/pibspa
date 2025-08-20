@@ -20,18 +20,28 @@ if [ $? -ne 0 ]; then
 fi
 echo "🔧 Tauri Config: v$TAURI_VERSION"
 
-# Check if they match
-if [ "$PACKAGE_VERSION" = "$TAURI_VERSION" ]; then
-    echo "✅ Versions are synchronized"
+# Get Cargo.toml version
+CARGO_VERSION=$(grep '^version = ' src-tauri/Cargo.toml | cut -d'"' -f2)
+if [ -z "$CARGO_VERSION" ]; then
+    echo "❌ Could not read src-tauri/Cargo.toml version"
+    exit 1
+fi
+echo "🦀 Cargo.toml: v$CARGO_VERSION"
+
+# Check if they all match
+if [ "$PACKAGE_VERSION" = "$TAURI_VERSION" ] && [ "$PACKAGE_VERSION" = "$CARGO_VERSION" ]; then
+    echo "✅ All versions are synchronized"
 else
     echo "❌ Version mismatch detected!"
     echo "   Package.json: v$PACKAGE_VERSION"
     echo "   Tauri Config: v$TAURI_VERSION"
+    echo "   Cargo.toml: v$CARGO_VERSION"
     echo ""
     
     # Ask if user wants to sync
     if [ "$1" = "--sync" ] || [ "$1" = "-s" ]; then
-        echo "🔧 Syncing Tauri config to match package.json..."
+        echo "🔧 Syncing all configs to match package.json..."
+        
         # Update Tauri config version to match package.json
         node -e "
         const fs = require('fs');
@@ -40,6 +50,10 @@ else
         fs.writeFileSync('./src-tauri/tauri.conf.json', JSON.stringify(config, null, 2) + '\n');
         console.log('✅ Tauri config updated to v$PACKAGE_VERSION');
         "
+        
+        # Update Cargo.toml version to match package.json
+        sed -i '' "s/^version = \".*\"/version = \"$PACKAGE_VERSION\"/" src-tauri/Cargo.toml
+        echo "✅ Cargo.toml updated to v$PACKAGE_VERSION"
     else
         echo "🔧 To sync: npm run check-versions --sync"
         echo "🔧 Or use: npm version patch|minor|major"
