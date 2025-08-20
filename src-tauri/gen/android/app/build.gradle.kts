@@ -31,12 +31,32 @@ android {
             val keystoreProperties = Properties()
             if (keystorePropertiesFile.exists()) {
                 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-            }
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["password"] as String
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["password"] as String
+            } else {
+                // Fallback to environment variables (useful for CI or Fastlane .env loading)
+                // Expected ENV vars: ANDROID_KEYSTORE_PATH, ANDROID_KEY_ALIAS, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_PASSWORD
+                val envStorePath = System.getenv("ANDROID_KEYSTORE_PATH")
+                val envAlias = System.getenv("ANDROID_KEY_ALIAS")
+                val envStorePass = System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                val envKeyPass = System.getenv("ANDROID_KEY_PASSWORD") ?: envStorePass
 
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["password"] as String
-            storeFile = file(keystoreProperties["storeFile"] as String)
-            storePassword = keystoreProperties["password"] as String
+                if (envStorePath.isNullOrBlank() || envAlias.isNullOrBlank() || envStorePass.isNullOrBlank()) {
+                    logger.warn("[Signing] keystore.properties not found and required environment variables are missing. Release signing will fail unless provided.")
+                } else {
+                    val f = file(envStorePath)
+                    if (!f.exists()) {
+                        logger.warn("[Signing] Keystore file at $envStorePath does not exist yet. Create it before building a signed release.")
+                    }
+                    storeFile = f
+                    storePassword = envStorePass
+                    keyAlias = envAlias
+                    keyPassword = envKeyPass
+                    logger.lifecycle("[Signing] Using environment variables for release signing config.")
+                }
+            }
         }
     }
     buildTypes {

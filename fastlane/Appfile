@@ -1,3 +1,7 @@
 apple_id(ENV["APPLE_ID"])
 team_id(ENV["TEAM_ID"])
 app_identifier(ENV["BUNDLE_ID"])
+
+# For Android
+package_name(ENV["GOOGLE_PLAY_PACKAGE_NAME"] || "com.pumpitbetter.app")
+json_key_file(ENV["PLAY_STORE_JSON_KEY_PATH"])

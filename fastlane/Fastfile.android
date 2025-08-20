@@ -1,0 +1,301 @@
+platform :android do
+  desc "Setup for Android signing"
+  lane :setup_signing do
+    # Load environment variables
+    if File.exist?("../.env")
+      require 'dotenv'
+      Dotenv.load("../.env")
+    end
+
+    # Verify keystore and credentials are available
+    keystore_path = ENV["ANDROID_KEYSTORE_PATH"]
+    if keystore_path.nil? || keystore_path.empty?
+      UI.error("ANDROID_KEYSTORE_PATH environment variable is not set")
+      next
+    end
+    
+    # Handle relative paths - convert to absolute from project root
+    if !keystore_path.start_with?('/')
+      keystore_path = File.expand_path(keystore_path, "..")
+    end
+    
+    if !File.exist?(keystore_path)
+      UI.important("No keystore found at #{keystore_path}")
+      UI.important("Would you like to create a new keystore?")
+      
+      # Create a new keystore if needed
+      if UI.confirm("Create a new keystore?")
+        keystore_password = UI.password("Enter a keystore password:")
+        key_alias = UI.input("Enter a key alias:")
+        key_password = UI.password("Enter a key password:")
+        
+        sh("keytool -genkey -v -keystore #{keystore_path} -alias #{key_alias} -keyalg RSA -keysize 2048 -validity 10000 -storepass #{keystore_password} -keypass #{key_password}")
+        
+        UI.success("Keystore created at #{keystore_path}")
+        UI.important("⚠️ IMPORTANT: Update your .env file with these values:")
+        UI.important("ANDROID_KEYSTORE_PASSWORD=\"#{keystore_password}\"")
+        UI.important("ANDROID_KEY_ALIAS=\"#{key_alias}\"")
+        UI.important("ANDROID_KEY_PASSWORD=\"#{key_password}\"")
+        
+        ENV["ANDROID_KEYSTORE_PASSWORD"] = keystore_password
+        ENV["ANDROID_KEY_ALIAS"] = key_alias
+        ENV["ANDROID_KEY_PASSWORD"] = key_password
+      else
+        UI.error("Keystore is required for signing the app. Please set up your keystore and update the .env file.")
+        next
+      end
+    else
+      UI.success("Using keystore at #{keystore_path}")
+    end
+  end
+  
+  desc "Build Android app for Play Store internal testing distribution"
+  lane :internal do
+    # Load environment variables
+    if File.exist?("../.env")
+      require 'dotenv'
+      Dotenv.load("../.env")
+    end
+    
+    # Build the React app
+    sh("cd .. && npm run build")
+    
+    # Set up signing (create keystore if needed)
+    setup_signing
+    
+    # Create keystore.properties file for Android build
+    keystore_properties_path = "../src-tauri/gen/android/keystore.properties"
+    UI.message("Creating keystore.properties file at #{keystore_properties_path}")
+    
+    # Get absolute path of keystore
+    keystore_path = ENV["ANDROID_KEYSTORE_PATH"]
+    if !keystore_path.start_with?('/')
+      absolute_keystore_path = File.expand_path(keystore_path, "..")
+    else
+      absolute_keystore_path = keystore_path
+    end
+    
+    # Write keystore properties file with correct values
+    keystore_properties_content = <<~PROPERTIES
+      storeFile=#{absolute_keystore_path}
+      keyAlias=#{ENV["ANDROID_KEY_ALIAS"]}
+      password=#{ENV["ANDROID_KEY_PASSWORD"]}
+      storePassword=#{ENV["ANDROID_KEYSTORE_PASSWORD"]}
+    PROPERTIES
+    
+    File.write(keystore_properties_path, keystore_properties_content)
+    UI.success("Created keystore.properties file for Android build")
+    
+    # Build the Android app
+    UI.message("Building Android app...")
+    begin
+      sh("cd .. && npx tauri android build")
+    rescue => e
+      UI.error("Tauri Android build failed: #{e.message}")
+      next
+    end
+    
+    # Find the AAB file (preferred for Play Store)
+    aab_path = Dir["../src-tauri/gen/android/app/build/outputs/bundle/universalRelease/*.aab"].first
+    
+    if aab_path.nil?
+      UI.error("Could not find AAB file after build. Check the build output for errors.")
+      next
+    else
+      UI.success("AAB built successfully at #{aab_path}")
+    end
+    
+    # Upload to Play Store internal track
+    json_key_path = ENV["PLAY_STORE_JSON_KEY_PATH"]
+    
+    # Handle relative paths - convert to absolute from project root
+    if json_key_path && !json_key_path.start_with?('/')
+      json_key_path = File.expand_path(json_key_path, "..")
+    end
+    
+    if json_key_path && File.exist?(json_key_path)
+      UI.message("Uploading to Google Play Store internal testing track...")
+      
+      # Convert relative paths to absolute paths for upload
+      absolute_aab_path = File.expand_path(aab_path)
+      UI.message("AAB path: #{absolute_aab_path}")
+      
+      # Verify the file exists before attempting upload
+      if !File.exist?(absolute_aab_path)
+        UI.error("AAB file not found at: #{absolute_aab_path}")
+        UI.error("Working directory: #{Dir.pwd}")
+        next
+      end
+      
+      upload_to_play_store(
+        track: 'internal',
+        json_key: json_key_path,
+        package_name: ENV["GOOGLE_PLAY_PACKAGE_NAME"] || "com.pumpitbetter.app",
+        aab: absolute_aab_path,
+        skip_upload_apk: true,
+        release_status: 'completed'  # Auto-publish to internal testers
+      )
+      
+      UI.success("🎉 Upload to Play Store internal testing complete!")
+      UI.success("Internal testers can now download the app from the Play Store!")
+    else
+      UI.important("No Play Store JSON key found at #{json_key_path || 'PLAY_STORE_JSON_KEY_PATH not set'}")
+      UI.important("Skipping upload to Play Store. Your AAB is available at: #{aab_path}")
+    end
+  end
+  
+  desc "Build and publish to Play Store alpha track (auto-published)"
+  lane :alpha do
+    # Load environment variables
+    if File.exist?("../.env")
+      require 'dotenv'
+      Dotenv.load("../.env")
+    end
+    
+    # Build the React app
+    sh("cd .. && npm run build")
+    
+    # Set up signing
+    setup_signing
+    
+    # Create keystore.properties file
+    keystore_properties_path = "../src-tauri/gen/android/keystore.properties"
+    keystore_path = ENV["ANDROID_KEYSTORE_PATH"]
+    if !keystore_path.start_with?('/')
+      absolute_keystore_path = File.expand_path(keystore_path, "..")
+    else
+      absolute_keystore_path = keystore_path
+    end
+    
+    keystore_properties_content = <<~PROPERTIES
+      storeFile=#{absolute_keystore_path}
+      keyAlias=#{ENV["ANDROID_KEY_ALIAS"]}
+      password=#{ENV["ANDROID_KEY_PASSWORD"]}
+      storePassword=#{ENV["ANDROID_KEYSTORE_PASSWORD"]}
+    PROPERTIES
+    
+    File.write(keystore_properties_path, keystore_properties_content)
+    
+    # Build the Android app
+    sh("cd .. && npx tauri android build")
+    
+    # Find AAB file
+    aab_path = Dir["../src-tauri/gen/android/app/build/outputs/bundle/universalRelease/*.aab"].first
+    if aab_path.nil?
+      UI.error("Could not find AAB file after build.")
+      next
+    end
+    
+    # Upload to alpha track
+    json_key_path = ENV["PLAY_STORE_JSON_KEY_PATH"]
+    if json_key_path && !json_key_path.start_with?('/')
+      json_key_path = File.expand_path(json_key_path, "..")
+    end
+    
+    if json_key_path && File.exist?(json_key_path)
+      absolute_aab_path = File.expand_path(aab_path)
+      
+      upload_to_play_store(
+        track: 'alpha',
+        json_key: json_key_path,
+        package_name: ENV["GOOGLE_PLAY_PACKAGE_NAME"] || "com.pumpitbetter.app",
+        aab: absolute_aab_path,
+        skip_upload_apk: true,
+        release_status: 'completed'  # Auto-publish
+      )
+      
+      UI.success("🎉 Published to Play Store alpha track! Alpha testers can download now.")
+    end
+  end
+  
+  desc "Build and publish to Play Store beta track (auto-published)"
+  lane :beta_auto do
+    # Load environment variables
+    if File.exist?("../.env")
+      require 'dotenv'
+      Dotenv.load("../.env")
+    end
+    
+    # Build the React app
+    sh("cd .. && npm run build")
+    
+    # Set up signing
+    setup_signing
+    
+    # Create keystore.properties file
+    keystore_properties_path = "../src-tauri/gen/android/keystore.properties"
+    keystore_path = ENV["ANDROID_KEYSTORE_PATH"]
+    if !keystore_path.start_with?('/')
+      absolute_keystore_path = File.expand_path(keystore_path, "..")
+    else
+      absolute_keystore_path = keystore_path
+    end
+    
+    keystore_properties_content = <<~PROPERTIES
+      storeFile=#{absolute_keystore_path}
+      keyAlias=#{ENV["ANDROID_KEY_ALIAS"]}
+      password=#{ENV["ANDROID_KEY_PASSWORD"]}
+      storePassword=#{ENV["ANDROID_KEYSTORE_PASSWORD"]}
+    PROPERTIES
+    
+    File.write(keystore_properties_path, keystore_properties_content)
+    
+    # Build the Android app
+    sh("cd .. && npx tauri android build")
+    
+    # Find AAB file
+    aab_path = Dir["../src-tauri/gen/android/app/build/outputs/bundle/universalRelease/*.aab"].first
+    if aab_path.nil?
+      UI.error("Could not find AAB file after build.")
+      next
+    end
+    
+    # Upload to beta track
+    json_key_path = ENV["PLAY_STORE_JSON_KEY_PATH"]
+    if json_key_path && !json_key_path.start_with?('/')
+      json_key_path = File.expand_path(json_key_path, "..")
+    end
+    
+    if json_key_path && File.exist?(json_key_path)
+      absolute_aab_path = File.expand_path(aab_path)
+      
+      upload_to_play_store(
+        track: 'beta',
+        json_key: json_key_path,
+        package_name: ENV["GOOGLE_PLAY_PACKAGE_NAME"] || "com.pumpitbetter.app",
+        aab: absolute_aab_path,
+        skip_upload_apk: true,
+        release_status: 'completed'  # Auto-publish
+      )
+      
+      UI.success("🎉 Published to Play Store beta track! Beta testers can download now.")
+    end
+  end
+
+  desc "Build and sign Android app without uploading"
+  lane :build do
+    # Load environment variables
+    if File.exist?("../.env")
+      require 'dotenv'
+      Dotenv.load("../.env")
+    end
+    
+    # Build the React app
+    sh("cd .. && npm run build")
+    
+    # Set up signing
+    setup_signing
+    
+    # Build the Android app
+    sh("cd .. && npx tauri android build")
+    
+    # Find the APK file
+    apk_path = Dir["../src-tauri/gen/android/app/build/outputs/apk/release/*.apk"].first
+    
+    if apk_path.nil?
+      UI.error("Could not find APK file after build. Check the build output for errors.")
+    else
+      UI.success("APK built successfully at #{apk_path}")
+    end
+  end
+end
