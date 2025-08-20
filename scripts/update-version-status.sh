@@ -1,5 +1,23 @@
 #!/bin/bash
-# Update VERSION_STATUS.md with current version and date
+# Update VERSION_STATUS.md with current version and deployment information
+#
+# This script automates the documentation process after version deployments.
+# It reads the current version from package.json, prompts for release notes,
+# and updates the VERSION_STATUS.md file with:
+# - Current version across all platforms  
+# - Today's date as release date
+# - User-provided release notes
+# - Preserved version history
+#
+# Usage: npm run update-version-status
+#
+# Interactive workflow:
+# 1. Enter release notes (one per line)
+# 2. Press Enter twice when finished
+# 3. Review generated VERSION_STATUS.md
+# 4. Commit changes with provided git commands
+#
+# The script creates a backup file and preserves existing version history.
 
 # Get current version and date
 CURRENT_VERSION=$(node -p "require('./package.json').version")

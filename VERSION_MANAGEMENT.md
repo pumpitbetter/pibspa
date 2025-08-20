@@ -210,7 +210,46 @@ npm run check-versions
 
 # Auto-sync versions after manual edit
 npm run check-versions --sync
+
+# Update version status documentation
+npm run update-version-status
 ```
+
+## 📋 Version Status Documentation
+
+### Update VERSION_STATUS.md Script
+
+The `update-version-status.sh` script automatically updates the `VERSION_STATUS.md` file with the current version and deployment information.
+
+**What it does:**
+- Reads current version from `package.json`
+- Prompts for release notes
+- Updates the version status table with current date
+- Adds new version to history section
+- Creates a backup of the previous file
+- Preserves existing version history
+
+**Usage:**
+```bash
+npm run update-version-status
+```
+
+**Interactive prompts:**
+1. Enter release notes (one per line)
+2. Press Enter twice when finished
+3. Script automatically formats and updates VERSION_STATUS.md
+
+**Example output:**
+- Updates version table to show current version across all platforms
+- Adds version history entry with your release notes
+- Creates backup file: `VERSION_STATUS.md.backup`
+- Provides git commit commands for next steps
+
+**Best practices:**
+- Run after successful deployments to all platforms
+- Include meaningful release notes describing changes
+- Review the updated file before committing
+- Use after bumping versions and deploying to beta tracks
 
 ## 🏷️ Git Tagging Strategy (Optional)
 
@@ -353,6 +392,11 @@ npm run check-versions     # Run version status script
 npm run check-versions --sync  # Auto-sync after manual changes
 ```
 
+### Update Version Documentation
+```bash
+npm run update-version-status  # Interactive update of VERSION_STATUS.md
+```
+
 ### Bump Version and Deploy
 ```bash
 # Patch release (bug fixes) - no git tag created
@@ -380,7 +424,35 @@ git checkout -b hotfix/critical-fix
 # ... make fixes ...
 npm version patch  # Auto-syncs both files, no git tag created
 npm run ios:beta && npm run android:beta
+npm run update-version-status  # Document the hotfix deployment
 git checkout main && git merge hotfix/critical-fix
+```
+
+## 🔄 Complete Deployment Workflow
+
+### Typical Release Process
+```bash
+# 1. Develop and test features
+git checkout main
+# ... make changes ...
+
+# 2. Bump version for release
+npm version minor  # or patch/major
+
+# 3. Deploy to beta platforms
+npm run ios:beta
+npm run android:beta
+
+# 4. Update documentation
+npm run update-version-status
+# Enter release notes when prompted
+
+# 5. Commit version status update
+git add VERSION_STATUS.md
+git commit -m "docs: update version status to v$(node -p 'require("./package.json").version')"
+
+# 6. Push changes
+git push origin main
 ```
 
 ---
