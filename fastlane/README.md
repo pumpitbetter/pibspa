@@ -13,6 +13,35 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
+## Android
+
+### android setup_signing
+
+```sh
+[bundle exec] fastlane android setup_signing
+```
+
+Setup for Android signing
+
+### android beta
+
+```sh
+[bundle exec] fastlane android beta
+```
+
+Build Android app for Play Store beta distribution
+
+### android build
+
+```sh
+[bundle exec] fastlane android build
+```
+
+Build and sign Android app without uploading
+
+----
+
+
 ## iOS
 
 ### ios setup_signing

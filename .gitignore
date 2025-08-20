@@ -19,9 +19,23 @@ certificates/
 
 # Build artifacts and distribution files
 build/ios/
+build/android/
 *.ipa
+*.apk
+*.aab
 *.app
 *.dSYM
+
+# Android signing files
+*.jks
+*.keystore
+*.p8
+play-store-key.json
+google-play-key.json
+
+# Google Cloud service account keys - NEVER COMMIT THESE
+*-[a-f0-9]*.json
+pumpitbetter-*.json
 
 .DS_Store
 /node_modules/

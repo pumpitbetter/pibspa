@@ -1,5 +1,7 @@
 default_platform(:ios)
 
+import("./Fastfile.android")
+
 platform :ios do
     desc "Setup certificates and provisioning profiles"
     lane :setup_signing do
