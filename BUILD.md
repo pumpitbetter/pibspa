@@ -381,6 +381,138 @@ Example GitHub Actions workflow:
     PLAY_STORE_JSON_KEY_PATH: "./play-store-key.json"
 ```
 
+## 📝 Automated Documentation & Release Notes
+
+### 🤖 Smart Changelog Generation
+
+Automatically generate professional release notes from your git commit history using conventional commit patterns.
+
+#### Available Scripts
+
+| Script | Command | Purpose |
+|--------|---------|---------|
+| **Generate Changelog** | `npm run generate-changelog` | Preview auto-generated release notes |
+| **Auto Version Status** | `npm run update-version-status-auto` | Update docs with AI-assisted release notes |
+| **Manual Version Status** | `npm run update-version-status` | Update docs with manual release notes |
+
+#### Workflow Integration
+
+**Complete Release Workflow with Automation:**
+```bash
+# 1. Develop with conventional commits
+git commit -m "feat: add workout progress tracking"
+git commit -m "fix: resolve timer synchronization issue"
+git commit -m "perf: optimize chart rendering performance"
+
+# 2. Bump version for release
+npm version minor  # 0.1.1 → 0.2.0
+
+# 3. Preview what changed
+npm run generate-changelog
+
+# 4. Deploy with auto-generated release notes
+npm run update-version-status-auto
+npm run ios:beta && npm run android:beta
+
+# 5. Commit documentation updates
+git add VERSION_STATUS.md
+git commit -m "docs: update version status to v0.2.0"
+git push
+```
+
+#### Conventional Commit Patterns
+
+For best results with automatic changelog generation, use these commit message patterns:
+
+| Pattern | Example | Generated Section |
+|---------|---------|-------------------|
+| `feat:` | `feat: add exercise search` | **New Features** |
+| `fix:` | `fix: resolve crash on workout save` | **Bug Fixes** |
+| `perf:` | `perf: optimize app startup time` | **Performance Improvements** |
+| `docs:` | `docs: update deployment guide` | **Documentation** |
+| `style:` | `style: fix code formatting` | **Style Changes** |
+| `refactor:` | `refactor: simplify workout logic` | **Code Refactoring** |
+| `test:` | `test: add unit tests for auth` | **Testing** |
+| `build:` | `build: update dependencies` | **Build & CI** |
+| `chore:` | `chore: update version` | **Maintenance** |
+
+**Breaking Changes:**
+```bash
+git commit -m "feat!: redesign workout data structure
+
+BREAKING CHANGE: Previous workout data needs migration.
+Run 'npm run migrate-workouts' after updating."
+```
+
+#### App Store & Play Store Ready
+
+The generated release notes are formatted appropriately for:
+- **App Store Connect** (iOS) - Release notes field
+- **Google Play Console** (Android) - What's new section  
+- **Internal documentation** - VERSION_STATUS.md file
+- **GitHub releases** - Release description
+- **Team communication** - Slack/email updates
+
+**Example auto-generated output:**
+```markdown
+## New Features
+- Add workout progress tracking with visual charts
+- Implement exercise search and filtering system
+
+## Bug Fixes  
+- Resolve timer synchronization issue during workouts
+- Fix crash when saving workout with custom exercises
+
+## Performance Improvements
+- Optimize chart rendering performance by 60%
+- Reduce app startup time from 3s to 1.2s
+
+## Documentation
+- Update deployment troubleshooting guide
+- Add API documentation for workout endpoints
+```
+
+#### Smart Features
+
+**Automatic Detection:**
+- Categorizes commits by conventional commit type
+- Identifies breaking changes from commit messages
+- Filters out version bumps and merge commits
+- Groups related changes together
+- Prioritizes user-facing changes
+
+**Multiple Output Formats:**
+- Markdown for documentation
+- Plain text for app stores
+- Structured data for API integration
+- Release notes ready for copy/paste
+
+**Git Integration:**
+- Analyzes commits since last git tag or version
+- Handles complex git histories with merges
+- Respects `.gitignore` patterns
+- Works with any git workflow (GitFlow, GitHub Flow, etc.)
+
+#### Best Practices
+
+**For Development:**
+- Use conventional commit messages consistently
+- Write descriptive commit messages beyond just the type
+- Group related changes in logical commits
+- Include issue references when applicable
+
+**For Releases:**
+- Run `npm run generate-changelog` before version bumps to preview changes
+- Use `npm run update-version-status-auto` for quick, professional release notes
+- Review auto-generated content before deploying
+- Edit generated notes when needed for marketing copy
+
+**For Team Workflow:**
+- Train team members on conventional commit patterns
+- Use commit templates to standardize format
+- Include changelog generation in CI/CD pipelines
+- Regular review of generated content quality
+
 ## 📞 Support
 
 For build issues:

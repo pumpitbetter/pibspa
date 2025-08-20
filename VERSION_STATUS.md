@@ -13,6 +13,7 @@
 ### v0.1.2 (2025-08-20)
 - Removed automatic git tagging for safer manual control
 - Updated build and version management documentation
+- First build uploaded and deployed by script tooling
 - **Platforms:** iOS Beta, Android Beta, Web Production
 
 ### v0.1.1 (2025-08-20)
