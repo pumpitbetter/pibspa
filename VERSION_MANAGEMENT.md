@@ -58,8 +58,8 @@ If you manually edit `package.json` version:
 # Option 1: Auto-sync with enhanced script
 npm run check-versions --sync
 
-# Option 2: Use npm to update both files (no git tag created)
-npm version 0.1.3 --no-git-tag-version
+# Option 2: Use npm to update both files
+npm version 0.1.3
 
 # Option 3: Manual verification
 npm run check-versions  # Will show mismatch and guide you
@@ -280,9 +280,10 @@ No migration required. All data preserved.
 ## 🔄 Platform-Specific Considerations
 
 ### iOS (App Store Connect)
-- Uses `CFBundleShortVersionString` from Tauri config
-- Build number auto-incremented by Tauri
-- TestFlight shows version as "0.2.0 (1001)"
+- Uses `CFBundleShortVersionString` (marketing version) from package.json
+- Uses `CFBundleVersion` (build number) synced to match marketing version
+- Both are automatically updated by Fastlane during iOS builds
+- TestFlight shows version as "0.2.0 (0.2.0)" - both numbers will match
 
 ### Android (Google Play Console)  
 - Uses `versionName` from Tauri config
@@ -369,8 +370,8 @@ npm version major && npm run ios:beta && npm run android:beta
 # If you manually edit package.json:
 npm run check-versions --sync     # Auto-sync to Tauri config
 
-# Or use npm for both files (no git tag created):
-npm version 0.1.4 --no-git-tag-version  # Updates both files
+# Or use npm for both files:
+npm version 0.1.4  # Updates both files
 ```
 
 ### Emergency Hotfix

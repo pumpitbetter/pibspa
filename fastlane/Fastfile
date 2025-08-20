@@ -55,6 +55,21 @@ platform :ios do
         sh("cd .. && npm run build")
         setup_signing
         
+        # Get the current version from package.json and sync to iOS project
+        package_version = sh("cd .. && node -p \"require('./package.json').version\"").strip
+        UI.message("📦 Package.json version: #{package_version}")
+        
+        # Update both CFBundleShortVersionString (marketing version) and CFBundleVersion (build number)
+        UI.message("🔧 Syncing iOS app version and build number to #{package_version}...")
+        increment_version_number(
+            version_number: package_version,
+            xcodeproj: "/Users/tommarkiewicz/Projects/PumpItBetter/pibspa/src-tauri/gen/apple/app.xcodeproj"
+        )
+        increment_build_number(
+            build_number: package_version,
+            xcodeproj: "/Users/tommarkiewicz/Projects/PumpItBetter/pibspa/src-tauri/gen/apple/app.xcodeproj"
+        )
+        
         # Use a continue-on-error approach for the Tauri build
         begin
             sh("cd .. && npx tauri ios build")

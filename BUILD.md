@@ -301,15 +301,21 @@ If you manually edit version in `package.json`:
 # Automatic sync (recommended)
 npm run check-versions --sync
 
-# Or use npm to update both files (no git tag created)
-npm version 0.1.3 --no-git-tag-version
+# Or use npm to update both files
+npm version 0.1.3
 ```
 
 ### Version Build Number Mapping
 ```
-Version: 0.1.1 → Build Number: 1001
-Version: 0.1.2 → Build Number: 1002  
-Version: 0.2.0 → Build Number: 2000
+iOS: Marketing Version and Build Number both sync to package.json
+Version: 0.1.1 → Marketing: 0.1.1, Build: 0.1.1
+Version: 0.1.2 → Marketing: 0.1.2, Build: 0.1.2  
+Version: 0.2.0 → Marketing: 0.2.0, Build: 0.2.0
+
+Android: Version Name and Version Code calculated from package.json
+Version: 0.1.1 → Version Name: 0.1.1, Version Code: 1001
+Version: 0.1.2 → Version Name: 0.1.2, Version Code: 1002  
+Version: 0.2.0 → Version Name: 0.2.0, Version Code: 2000
 ```
 
 **⚠️ Important:** Each deployment requires a unique build number. Always increment patch version for beta testing to avoid upload conflicts.
