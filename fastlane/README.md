@@ -23,13 +23,29 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Setup for Android signing
 
-### android beta
+### android internal
 
 ```sh
-[bundle exec] fastlane android beta
+[bundle exec] fastlane android internal
 ```
 
-Build Android app for Play Store beta distribution
+Build Android app for Play Store internal testing distribution
+
+### android alpha
+
+```sh
+[bundle exec] fastlane android alpha
+```
+
+Build and publish to Play Store alpha track (auto-published)
+
+### android beta_auto
+
+```sh
+[bundle exec] fastlane android beta_auto
+```
+
+Build and publish to Play Store beta track (auto-published)
 
 ### android build
 
