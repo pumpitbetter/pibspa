@@ -4,22 +4,15 @@
 
 | Platform   | Version | Status             | Released    | Notes                 |
 |------------|---------|--------------------|-------------|-----------------------|
-| SPA Web    | 0.1.2   | 🟢 Production      | 2025-08-20  | Current live version  |
-| iOS        | 0.1.2   | 🟡 TestFlight      | 2025-08-20  | In beta testing       |
-| Android    | 0.1.2   | 🟡 Play Store Beta | 2025-08-20  | In beta testing       |
+| SPA Web    | 0.1.4   | 🟢 Production      | 2025-08-21  | Current live version  |
+| iOS        | 0.1.4   | 🟡 TestFlight      | 2025-08-21  | In beta testing       |
+| Android    | 0.1.4   | 🟡 Play Store Beta | 2025-08-21  | In internal testing   |
 
 ## Version History
 
-### v0.1.2 (2025-08-20)
-- Removed automatic git tagging for safer manual control
-- Updated build and version management documentation
-- First build uploaded and deployed by script tooling
-- **Platforms:** iOS Beta, Android Beta, Web Production
-
-### v0.1.1 (2025-08-20)
-- Fixed authentication bug
-- Improved workout tracking
-- **Platforms:** iOS Beta, Android Beta, Web Production
+### v0.1.4 (2025-08-21)
+- Testing auto deployment of Android internal and iOS beta builds and tooling around it.- **Platforms:** iOS Beta, Android Beta, Web Production
+- **Platforms:** iOS Beta, Android Internal, Web Production
 
 ### v0.1.0 (2025-08-15)
 - Initial release

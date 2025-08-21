@@ -744,7 +744,7 @@ npm run bump minor  # or patch/major
 
 # 3. Deploy to beta platforms
 npm run ios:beta
-npm run android:beta
+npm run android:internal
 
 # 4. Update documentation
 npm run update-version-status
