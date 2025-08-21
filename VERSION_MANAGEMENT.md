@@ -28,21 +28,25 @@ Tauri automatically syncs `package.json` version to `tauri.conf.json` during bui
 
 ### 1. Update Master Version
 ```bash
-# Update version in package.json (this updates all platforms, no git tags created)
-npm version patch   # 0.1.1 → 0.1.2 (bug fixes)
-npm version minor   # 0.1.1 → 0.2.0 (new features)
-npm version major   # 0.1.1 → 1.0.0 (breaking changes)
+# Update version across all platforms automatically (recommended)
+npm run bump patch   # 0.1.1 → 0.1.2 (bug fixes)
+npm run bump minor   # 0.1.1 → 0.2.0 (new features)  
+npm run bump major   # 0.1.1 → 1.0.0 (breaking changes)
+
+# Or manually edit package.json version, then sync:
+# Edit package.json: "version": "0.1.3"
+npm run sync         # Syncs all configs to match package.json
 ```
 
-**Note:** Git tagging is disabled by default (.npmrc) for safer manual control.
+**Note:** The `bump` command automatically updates package.json AND syncs all platform configs in one step.
 
 ### 2. Verify Version Sync
 ```bash
 # Check all platforms have same version (automated script)
 npm run check-versions
 
-# Manual version sync (if needed after manual edits)
-npm run check-versions --sync
+# Manual version sync (if you manually edited any config files)
+npm run sync
 
 # Or verify manually:
 echo "Package.json: $(node -p "require('./package.json').version")"
@@ -55,11 +59,11 @@ echo "Tauri Config: $(node -p "require('./src-tauri/tauri.conf.json').version")"
 If you manually edit `package.json` version:
 
 ```bash
-# Option 1: Auto-sync with enhanced script
-npm run check-versions --sync
+# Option 1: Auto-sync with enhanced script (recommended)
+npm run sync
 
-# Option 2: Use npm to update both files
-npm version 0.1.3
+# Option 2: Use bump command for automatic updates
+npm run bump patch
 
 # Option 3: Manual verification
 npm run check-versions  # Will show mismatch and guide you
@@ -78,10 +82,10 @@ npm run build         # SPA v0.1.2
 ### Feature Release Example
 
 1. **Develop features** in `main` branch
-2. **Update version** when ready to release (no git tag created automatically):
+2. **Update version** when ready to release:
    ```bash
-   npm version minor  # 0.1.1 → 0.2.0
-   git push          # Push version commit (no tags pushed)
+   npm run bump minor  # 0.1.1 → 0.2.0 (bumps all platforms, no git tag)
+   git push           # Push version commit (no tags pushed)
    ```
 3. **Deploy to all platforms**:
    ```bash
@@ -216,6 +220,41 @@ npm run update-version-status
 ```
 
 ## 📋 Version Status Documentation & Changelog Automation
+
+### 🚀 Enhanced Version Management Commands
+
+We've streamlined version management with two powerful commands:
+
+#### Automatic Version Bumping (Recommended)
+```bash
+npm run bump patch    # 0.1.1 → 0.1.2 + sync all configs
+npm run bump minor    # 0.1.1 → 0.2.0 + sync all configs  
+npm run bump major    # 0.1.1 → 1.0.0 + sync all configs
+```
+**What it does:**
+- Updates `package.json` version using semantic versioning
+- Automatically syncs `src-tauri/tauri.conf.json`
+- Automatically syncs `src-tauri/Cargo.toml`
+- Verifies all platforms have matching versions
+- Creates git commit (no automatic tagging)
+
+#### Manual Version Control
+```bash
+# 1. Manually edit package.json: "version": "0.2.0-beta.1"
+# 2. Sync all other configs:
+npm run sync
+```
+**What it does:**
+- Reads current version from `package.json`
+- Syncs `src-tauri/tauri.conf.json` to match
+- Syncs `src-tauri/Cargo.toml` to match
+- Verifies all platforms have matching versions
+
+**Why these commands are better:**
+- ✅ **One command does everything** - no manual sync needed
+- ✅ **Always keeps platforms in sync** - prevents deployment errors
+- ✅ **Flexible workflow** - supports both automatic and manual versioning
+- ✅ **Simple to remember** - `bump` for automatic, `sync` for manual
 
 ### 🤖 Automated Changelog Generation
 
@@ -609,11 +648,11 @@ No migration required. All data preserved.
 
 2. **Fix the bug and test**
 
-3. **Bump patch version (no git tag created)**:
+3. **Bump patch version (automatically syncs all platforms)**:
    ```bash
-   npm version patch  # 0.1.1 → 0.1.2
+   npm run bump patch  # 0.1.1 → 0.1.2 (syncs all configs automatically)
    # Or manually edit and sync:
-   # Edit package.json → npm run check-versions --sync
+   # Edit package.json → npm run sync
    ```
 
 4. **Deploy to all platforms immediately**:
@@ -631,8 +670,8 @@ No migration required. All data preserved.
 ## 🎯 Best Practices
 
 ### ✅ Do This
-- ✅ Always use `npm version` to update versions (auto-syncs, no git tags created)
-- ✅ Use `npm run check-versions --sync` after manual edits
+- ✅ Always use `npm run bump [patch|minor|major]` to update versions (auto-syncs all platforms)
+- ✅ Use `npm run sync` after manual package.json edits
 - ✅ Keep all platforms on same version number
 - ✅ Git tagging is optional - only tag production releases if desired
 - ✅ Update VERSION_STATUS.md after deployments
@@ -653,7 +692,7 @@ No migration required. All data preserved.
 ### Check Current Version
 ```bash
 npm run check-versions     # Run version status script
-npm run check-versions --sync  # Auto-sync after manual changes
+npm run sync              # Auto-sync after manual changes
 ```
 
 ### Update Version Documentation
@@ -663,30 +702,30 @@ npm run update-version-status  # Interactive update of VERSION_STATUS.md
 
 ### Bump Version and Deploy
 ```bash
-# Patch release (bug fixes) - no git tag created
-npm version patch && npm run ios:beta && npm run android:beta
+# Patch release (bug fixes) - syncs all platforms automatically
+npm run bump patch && npm run ios:beta && npm run android:beta
 
-# Minor release (new features) - no git tag created  
-npm version minor && npm run ios:beta && npm run android:beta
+# Minor release (new features) - syncs all platforms automatically  
+npm run bump minor && npm run ios:beta && npm run android:beta
 
-# Major release (breaking changes) - no git tag created
-npm version major && npm run ios:beta && npm run android:beta
+# Major release (breaking changes) - syncs all platforms automatically
+npm run bump major && npm run ios:beta && npm run android:beta
 ```
 
 ### Manual Version Management
 ```bash
 # If you manually edit package.json:
-npm run check-versions --sync     # Auto-sync to Tauri config
+npm run sync              # Auto-sync to all other configs
 
-# Or use npm for both files:
-npm version 0.1.4  # Updates both files
+# Or use bump command for automatic updates:
+npm run bump patch        # Updates all files automatically
 ```
 
 ### Emergency Hotfix
 ```bash
 git checkout -b hotfix/critical-fix
 # ... make fixes ...
-npm version patch  # Auto-syncs both files, no git tag created
+npm run bump patch  # Auto-syncs all files automatically
 npm run ios:beta && npm run android:beta
 npm run update-version-status  # Document the hotfix deployment
 git checkout main && git merge hotfix/critical-fix
@@ -701,7 +740,7 @@ git checkout main
 # ... make changes ...
 
 # 2. Bump version for release
-npm version minor  # or patch/major
+npm run bump minor  # or patch/major
 
 # 3. Deploy to beta platforms
 npm run ios:beta

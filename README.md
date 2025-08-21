@@ -89,10 +89,10 @@ npm run android:internal # Deploy to Play Store Internal Testing
 ### Version Management
 ```bash
 npm run check-versions           # Check version sync across platforms
-npm run check-versions --sync    # Auto-sync versions after manual changes
-npm version patch               # Bump patch version (0.1.1 → 0.1.2)
-npm version minor               # Bump minor version (0.1.1 → 0.2.0)
-npm version major               # Bump major version (0.1.1 → 1.0.0)
+npm run bump patch              # Bump patch version (0.1.1 → 0.1.2) + sync all
+npm run bump minor              # Bump minor version (0.1.1 → 0.2.0) + sync all
+npm run bump major              # Bump major version (0.1.1 → 1.0.0) + sync all
+npm run sync                    # Sync configs after manual package.json edit
 ```
 
 ### 🤖 Smart Documentation Tools

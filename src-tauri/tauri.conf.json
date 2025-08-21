@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Pump It Better",
-  "version": "0.1.2",
+  "version": "0.1.6",
   "identifier": "com.pumpitbetter.app",
   "build": {
     "frontendDist": "../build/client",

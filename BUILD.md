@@ -240,12 +240,12 @@ npm install -g @tauri-apps/cli
 
 **Version sync issues**
 - Check version synchronization: `npm run check-versions`
-- Auto-sync after manual changes: `npm run check-versions --sync`
-- Verify both `package.json` and `src-tauri/tauri.conf.json` have same version
-- Use `npm version patch` for automated updates to both files (no git tags created automatically)
+- Auto-sync after manual changes: `npm run sync`
+- Verify all platforms match: package.json, src-tauri/tauri.conf.json, src-tauri/Cargo.toml
+- Use `npm run bump patch` for automated updates to all files
 
 **Build number conflicts (iOS/Android)**
-- Always bump patch version before deployment: `npm version patch` (no git tag created)
+- Always bump patch version before deployment: `npm run bump patch`
 - Each upload requires unique build numbers across platforms
 - Avoid reusing version numbers even after failed uploads
 
@@ -278,31 +278,24 @@ npm run ios:beta
 - **Always bump patch version** for beta deployments to avoid build number conflicts
 - iOS TestFlight and Android Play Store require unique build numbers for each upload
 - Use semantic versioning with `package.json` as the source of truth
-- **No automatic git tagging** for safer manual control
+- **Automatic platform sync** with enhanced `bump` command
 
 ### Version Commands
 ```bash
 # Check version status
 npm run check-versions
 
-# Bump version before deployment (no git tags created automatically)
-npm version patch      # 0.1.1 → 0.1.2 (no git tag)
-npm version minor      # 0.1.2 → 0.2.0 (no git tag)
-npm version major      # 0.2.0 → 1.0.0 (no git tag)
+# Bump version across all platforms (recommended)
+npm run bump patch      # 0.1.1 → 0.1.2 (syncs all configs automatically)
+npm run bump minor      # 0.1.2 → 0.2.0 (syncs all configs automatically)  
+npm run bump major      # 0.2.0 → 1.0.0 (syncs all configs automatically)
+
+# Manual version management
+# Edit package.json: "version": "0.1.3"
+npm run sync           # Syncs all other configs to match
 
 # Deploy with new version
 npm run android:beta   # or ios:beta
-```
-
-### Manual Version Sync
-If you manually edit version in `package.json`:
-
-```bash
-# Automatic sync (recommended)
-npm run check-versions --sync
-
-# Or use npm to update both files
-npm version 0.1.3
 ```
 
 ### Version Build Number Mapping

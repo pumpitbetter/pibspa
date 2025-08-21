@@ -246,7 +246,7 @@ git commit -m "feat: add exercise video previews"
 git commit -m "fix: resolve offline sync conflicts"
 
 # 2. Bump version 
-npm version minor  # 0.1.1 → 0.2.0
+npm run bump minor  # 0.1.1 → 0.2.0 (syncs all configs automatically)
 
 # 3. Deploy with auto-generated release notes
 npm run update-version-status-auto  # Uses smart changelog
@@ -385,7 +385,7 @@ When reviewing PRs, check for:
 1. **Feature Development:** Use `feat:` commits
 2. **Bug Fixes:** Use `fix:` commits  
 3. **Pre-release:** Run `npm run generate-changelog` to preview
-4. **Version Bump:** `npm version [patch|minor|major]`
+4. **Version Bump:** `npm run bump [patch|minor|major]` (syncs all configs)
 5. **Deploy:** `npm run update-version-status-auto` for AI-assisted release notes
 6. **Documentation:** Commit the updated VERSION_STATUS.md
 

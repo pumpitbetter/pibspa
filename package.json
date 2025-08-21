@@ -1,6 +1,6 @@
 {
   "name": "pibspa",
-  "version": "0.1.2",
+  "version": "0.1.6",
   "private": true,
   "type": "module",
   "scripts": {
@@ -24,6 +24,8 @@
     "android:sign": "fastlane android setup_signing",
     "android:bundle": "cd ./src-tauri/gen/android && ./gradlew bundleRelease",
     "check-versions": "./scripts/check-versions.sh",
+    "bump": "./scripts/bump.sh",
+    "sync": "./scripts/bump.sh --sync",
     "update-version-status": "./scripts/update-version-status.sh",
     "update-version-status-auto": "./scripts/update-version-status-auto.sh",
     "generate-changelog": "./scripts/generate-changelog.sh",
