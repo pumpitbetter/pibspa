@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
+import { useEffect } from "react";
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -44,10 +45,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  useEffect(() => {
+    // Handle unhandled promise rejections
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      console.error('Unhandled promise rejection:', event.reason);
+      // Prevent the default browser behavior
+      event.preventDefault();
+    };
+
+    // Add event listener for unhandled promise rejections
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+    };
+  }, []);
+
   return (
-    <RestTimeProvider>
-      <Outlet />
-    </RestTimeProvider>
+    <Outlet />
   );
 }
 

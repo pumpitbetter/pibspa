@@ -1,4 +1,43 @@
-# PumpItBetter - Comprehensive Fitness Tracking App
+# PumpItBetter - Comprehensive Fitness Tracking Platform
+
+A modern, multi-target fitness tracking platform built with React Router and Tauri, supporting iOS, Android, Desktop, and Web platforms with a unified codebase and dual-build architecture.
+
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![Version](https://img.shields.io/badge/version-0.1.4-blue.svg)]()
+[![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20Android%20%7C%20Web%20%7C%20Desktop-lightgrey.svg)]()
+
+## 🏗️ Dual-Build Architecture
+
+PumpItBetter uses an innovative **dual-build system** that enables multiple deployment targets from a single codebase:
+
+### 📱 SPA Build → Native Mobile Apps
+- **Target:** iOS App Store, Google Play Store, Desktop
+- **Technology:** React Router in SPA mode + Tauri
+- **Features:** Native performance, offline-first, cross-platform sync
+- **Routes:** Core fitness tracking functionality
+
+### 🌐 SSR Build → Marketing Website
+- **Target:** Web hosting platforms (Vercel, Netlify, etc.)
+- **Technology:** React Router in SSR mode with server functions
+- **Features:** SEO-optimized, database integration, form handling
+- **Routes:** Marketing pages with `loader()` and `action()` capabilities
+
+### 🔄 Shared Benefits
+- **Component Reuse:** UI components shared across all platforms
+- **Design Consistency:** Same styling system (TailwindCSS) everywhere
+- **Development Efficiency:** Single codebase, multiple targets
+- **Unified Tooling:** Same development and deployment workflows
+
+## 🏋️ Features
+
+- 🚀 **Multi-Platform:** Single codebase for iOS, Android, Web, Desktop, and Marketing
+- ⚡️ **Real-time Sync:** Workout data synced across all devices
+- 📊 **Progress Tracking:** Comprehensive analytics and progress charts
+- 🔄 **Offline Support:** Full functionality without internet connection
+- 📱 **Native Performance:** Native iOS/Android apps using Tauri
+- 🌐 **Marketing Integration:** SEO-optimized website with database connectivity
+- 🎨 **Modern UI:** Responsive design with TailwindCSS
+- 🔒 **TypeScript:** Type-safe development experienceComprehensive Fitness Tracking App
 
 A modern, cross-platform fitness tracking application built with React Router and Tauri, supporting iOS, Android, Desktop, and Web platforms.
 
@@ -24,8 +63,11 @@ A modern, cross-platform fitness tracking application built with React Router an
 # Install dependencies
 npm install
 
-# Start web development server
+# Start SPA development server (mobile app preview)
 npm run dev
+
+# Start SSR development server (marketing website)
+npm run dev:ssr
 
 # Start iOS development (requires Xcode)
 npm run ios:dev
@@ -37,14 +79,15 @@ npm run android:dev
 ### Production Deployment
 
 ```bash
-# Deploy to iOS TestFlight (fully automated)
-npm run ios:beta
+# Deploy mobile apps to stores (fully automated)
+npm run ios:beta      # iOS TestFlight
+npm run android:beta  # Android Play Store Beta
 
-# Deploy to Android Play Store Beta (fully automated)  
-npm run android:beta
+# Build marketing website for web hosting
+npm run build:ssr
 
-# Build for web production
-npm run build
+# Build native apps for distribution
+npm run build:spa     # Mobile/desktop app build
 ```
 
 ## 📋 Documentation
@@ -64,7 +107,9 @@ npm run build
 
 ### Development
 ```bash
-npm run dev              # Web development server
+npm run dev              # SPA development server (mobile preview)
+npm run dev:spa          # SPA development server (automatically cleans up SSR mode)
+npm run dev:ssr          # SSR development server (marketing website)
 npm run ios:dev          # iOS simulator development  
 npm run android:dev      # Android emulator development
 npm run tauri:dev        # Desktop app development
@@ -72,7 +117,10 @@ npm run tauri:dev        # Desktop app development
 
 ### Building
 ```bash
-npm run build            # Production web build
+npm run build            # Default build (SPA mode)
+npm run build:spa        # SPA build for mobile/desktop apps
+npm run build:ssr        # SSR build for marketing website
+npm run build:all        # Build both SPA and SSR targets
 npm run tauri:build      # Desktop app build
 npm run ios:build        # iOS app build (local)
 npm run android:build    # Android app build (local)
@@ -104,12 +152,28 @@ npm run update-version-status-auto   # Update docs with AI-assisted release note
 
 ## 🎯 Platform Support
 
-| Platform | Status | Deployment | Store |
-|----------|--------|------------|-------|
-| **iOS** | ✅ Production Ready | Automated via `npm run ios:beta` | App Store Connect |
-| **Android** | ✅ Production Ready | Automated via `npm run android:beta` | Google Play Console |
-| **Web** | ✅ Production Ready | Standard web deployment | Self-hosted |
-| **Desktop** | ✅ Production Ready | Manual distribution | Direct download |
+| Platform | Status | Build Mode | Deployment | Store |
+|----------|--------|------------|------------|-------|
+| **iOS App** | ✅ Production Ready | SPA | Automated via `npm run ios:beta` | App Store Connect |
+| **Android App** | ✅ Production Ready | SPA | Automated via `npm run android:beta` | Google Play Console |
+| **Desktop App** | ✅ Production Ready | SPA | Manual distribution | Direct download |
+| **Marketing Website** | ✅ Ready for Deployment | SSR | `npm run build:ssr` | Web hosting platforms |
+| **Web App** | ✅ Production Ready | SPA | Standard web deployment | Self-hosted |
+
+### 🔍 Build Target Details
+
+**SPA Builds** (Mobile, Desktop, Web App):
+- React Router in SPA mode (`ssr: false`)
+- Client-side routing only
+- Optimized for Tauri consumption
+- Offline-capable with data sync
+
+**SSR Builds** (Marketing Website):
+- React Router in SSR mode (`ssr: true`)
+- Server-side rendering for SEO
+- Database integration via `loader()` functions
+- Form handling via `action()` functions
+- Shared UI components with mobile apps
 
 ## 🔧 Technology Stack
 
@@ -161,22 +225,61 @@ npm run android:beta  # Build → Sign → Upload to Play Store
 
 ## 🏗️ Architecture
 
-### Cross-Platform Strategy
+### Dual-Build Strategy
 ```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   React Router  │    │       Tauri      │    │   Native APIs   │
-│   (Frontend)    │◄──►│   (Rust Core)    │◄──►│ (iOS/Android)   │
-│                 │    │                  │    │                 │
-│ • UI Components │    │ • File System    │    │ • Push Notifs   │
-│ • State Mgmt    │    │ • Database       │    │ • Camera        │
-│ • Routing       │    │ • Networking     │    │ • Sensors       │
-│ • Charts        │    │ • Background     │    │ • Biometrics    │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
+┌────────────────────────────────────────────────────────────────┐
+│                    Shared Codebase                            │
+│  ┌───────────────────┐    ┌─────────────────────────────────┐  │
+│  │  UI Components    │    │         Routes                  │  │
+│  │  (app/components) │    │  • app/* (both builds)         │  │
+│  │                   │    │  • routes-ssr/* (SSR only)     │  │
+│  └───────────────────┘    └─────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────────┘
+                                │
+                    ┌───────────┴───────────┐
+                    │                       │
+        ┌───────────▼────────────┐    ┌────▼─────────────────┐
+        │     SPA Build          │    │     SSR Build        │
+        │  (build:spa)           │    │  (build:ssr)         │
+        │                        │    │                      │
+        │  • ssr: false          │    │  • ssr: true         │
+        │  • Client routing      │    │  • Server rendering  │
+        │  • Mobile optimized    │    │  • SEO optimized     │
+        │  • Tauri compatible    │    │  • Database ready    │
+        └───────────┬────────────┘    └────┬─────────────────┘
+                    │                      │
+    ┌───────────────▼───────────────┐     │
+    │        Native Apps            │     │
+    │                               │     │
+    │  ┌─────────┐  ┌─────────────┐ │     │
+    │  │   iOS   │  │   Android   │ │     │
+    │  │ Tauri   │  │   Tauri     │ │     │
+    │  └─────────┘  └─────────────┘ │     │
+    │  ┌─────────────────────────────┤     │
+    │  │        Desktop              │     │
+    │  │        Tauri                │     │
+    │  └─────────────────────────────┘     │
+    └───────────────────────────────────────┘     │
+                                                  │
+                                    ┌─────────────▼─────────────┐
+                                    │   Marketing Website       │
+                                    │                           │
+                                    │  • SEO-optimized pages    │
+                                    │  • Database integration   │
+                                    │  • Form handling          │
+                                    │  • Shared UI components   │
+                                    │  • Web hosting ready      │
+                                    └───────────────────────────┘
 ```
 
-### Data Flow
+### Cross-Platform Integration
 ```
-User Input → React Components → Tauri Commands → Rust Backend → Native APIs
+User Input → React Components → Build System → Platform-Specific Output
+                    ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                     Shared State & Logic                       │
+│  • TypeScript interfaces  • Reusable hooks  • UI components    │
+└─────────────────────────────────────────────────────────────────┘
                     ↓
               Real-time Updates ← WebSocket/Events ← Background Processing
 ```
@@ -236,10 +339,11 @@ fastlane --version
 
 ## 📈 Project Status
 
-**Current Version:** v0.1.2  
-**Platforms:** iOS (TestFlight), Android (Play Store Beta), Web (Production)  
-**Deployment:** Fully automated via npm scripts  
-**Documentation:** Complete with automation guides  
+**Current Version:** v0.1.4  
+**Platforms:** iOS (TestFlight), Android (Play Store Beta), Marketing Website (Ready), Desktop (Production)  
+**Deployment:** Fully automated mobile deployment, marketing website ready for hosting  
+**Architecture:** Dual-build system (SPA + SSR) from single codebase  
+**Documentation:** Complete with dual-build architecture guides  
 **Team Ready:** Onboarding documentation and conventions established
 
-**Built with ❤️ for fitness enthusiasts who want to track their progress across all devices.**
+**Built with ❤️ for fitness enthusiasts who want comprehensive tracking across all devices and platforms.**

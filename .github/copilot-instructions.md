@@ -203,8 +203,9 @@ The app uses a **unified double progression system** that handles all progressio
 
 - `app/db/templates-*.ts`: Program templates with progression rules
 - `app/lib/progression-helpers.ts`: Progression calculation utilities
-- `app/routes/app_.workouts_.$workoutId/route.tsx`: Workout completion logic
-- `app/routes/app.queue/route.tsx`: Workout generation with target calculation
+- `app/routes-spa/app_.workouts_.$workoutId/route.tsx`: Workout completion logic
+- `app/routes-spa/app.queue/route.tsx`: Workout generation with target calculation
+- `app/routes-ssr/_index.tsx`: SSR marketting page entry point
 
 **Template Files**:
 All template files now use consistent array-based progression format.
@@ -297,6 +298,17 @@ APP_NAME="Pump It Better"
 - Fixed TypeScript issues with template array format requirements
 - Ensured all template creation uses consistent array-based progression format
 
+### CSS styling
+- first check if you can use existing components from `app/components`
+- second consider if we could import any components from shadcn at https://ui.shadcn.com/docs/components
+- use Tailwind CSS theme defined in `app/app.css` which loosely follows Material Design 3 colors but create Tailwind classes
+- design for both dark and light mode
+- design responsive layouts using Tailwind's grid and flex utilities for all screen sizes
+- otherwise use utility-first classes from Tailwind CSS for consistent styling
+
+### Code Structure
+- never edit anything in `app/routes` since that folder gets wiped on `npm run dev:ssr` or `npm run dev:spa`
+
 ### Code Quality Standards
 
 - All TypeScript compilation must be error-free
@@ -306,3 +318,7 @@ APP_NAME="Pump It Better"
 - **Comprehensive test coverage**: All progression types must have corresponding test suites
 - **Manual override support**: Progression engine must handle user manual jumps in weight/reps
 - **Template consistency**: All templates use `repRange` format, not legacy `reps` format
+
+### Git Commit Guidelines
+- use guidelines from `docs/GIT_CONVENTIONS.md`
+

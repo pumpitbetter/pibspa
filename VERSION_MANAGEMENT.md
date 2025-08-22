@@ -1,26 +1,48 @@
 # Version Management Strategy
 
-This document outlines how we manage versions across all PumpItBetter platforms.
+This document outlines how we manage versions across all PumpItBetter platforms using a dual-build architecture.
 
-## 🎯 Versioning Strategy: Unified Semantic Versioning
+## �️ Dual-Build Architecture Overview
+
+PumpItBetter uses a **dual-build system** that creates different outputs from the same codebase:
+
+### 📱 SPA Build (`build:spa`)
+- **Target:** Mobile apps (iOS, Android) and Desktop
+- **Mode:** Single Page Application (`ssr: false`)
+- **Output:** `build/spa/` directory
+- **Usage:** Consumed by Tauri for native app builds
+- **Routes:** Core fitness tracking functionality
+
+### 🌐 SSR Build (`build:ssr`)
+- **Target:** Marketing website and web hosting
+- **Mode:** Server-Side Rendering (`ssr: true`)
+- **Output:** `build/ssr/` directory
+- **Usage:** Web hosting platforms (Vercel, Netlify, etc.)
+- **Routes:** Marketing pages with server-side capabilities
+
+### 🔄 Version Synchronization
+**Both build targets use the same version number** from `package.json`, ensuring consistent versioning across all platforms and deployment targets.
+
+## �🎯 Versioning Strategy: Unified Semantic Versioning
 
 ### Single Source of Truth
-**All platforms use the same version number**, sourced from `package.json`:
+**All platforms and build targets use the same version number**, sourced from `package.json`:
 
 ```json
 {
-  "version": "0.1.1"  // ← Master version for all platforms
+  "version": "0.1.4"  // ← Master version for all platforms & builds
 }
 ```
 
 ### Platform Version Sync
 
-| Platform | Version Source | Auto-Sync | Location |
-|----------|---------------|-----------|----------|
-| **SPA Web App** | `package.json` | ✅ Native | `package.json` |
-| **iOS App** | `package.json` | ✅ Tauri | `src-tauri/tauri.conf.json` |
-| **Android App** | `package.json` | ✅ Tauri | `src-tauri/tauri.conf.json` |
-| **Desktop App** | `package.json` | ✅ Tauri | `src-tauri/tauri.conf.json` |
+| Platform/Target | Version Source | Auto-Sync | Location | Build Mode |
+|-----------------|---------------|-----------|----------|------------|
+| **SPA Web App** | `package.json` | ✅ Native | `package.json` | SPA |
+| **iOS App** | `package.json` | ✅ Tauri | `src-tauri/tauri.conf.json` | SPA |
+| **Android App** | `package.json` | ✅ Tauri | `src-tauri/tauri.conf.json` | SPA |
+| **Desktop App** | `package.json` | ✅ Tauri | `src-tauri/tauri.conf.json` | SPA |
+| **Marketing Website** | `package.json` | ✅ Native | `package.json` | SSR |
 
 Tauri automatically syncs `package.json` version to `tauri.conf.json` during builds.
 
@@ -71,10 +93,15 @@ npm run check-versions  # Will show mismatch and guide you
 
 ### 3. Build and Deploy
 ```bash
-# All platforms will use the updated version
-npm run ios:beta      # iOS v0.1.2
-npm run android:beta  # Android v0.1.2
-npm run build         # SPA v0.1.2
+# Deploy mobile apps to stores (uses SPA build automatically)
+npm run ios:beta      # iOS TestFlight with v0.1.2 (SPA build)
+npm run android:beta  # Android Play Store Beta with v0.1.2 (SPA build)
+
+# Build marketing website for web hosting
+npm run build:ssr     # Marketing website v0.1.2 (SSR build)
+
+# Build SPA for manual web deployment  
+npm run build:spa     # SPA v0.1.2 for web hosting
 ```
 
 ## 🚀 Release Workflow
@@ -89,15 +116,17 @@ npm run build         # SPA v0.1.2
    ```
 3. **Deploy to all platforms**:
    ```bash
-   npm run ios:beta      # iOS v0.2.0 to TestFlight
-   npm run android:beta  # Android v0.2.0 to Play Store Beta
-   npm run build         # SPA v0.2.0 ready for web deployment
+   npm run ios:beta      # iOS v0.2.0 to TestFlight (SPA build)
+   npm run android:beta  # Android v0.2.0 to Play Store Beta (SPA build)
+   npm run build:ssr     # Marketing website v0.2.0 (SSR build) ready for hosting
+   npm run build:spa     # SPA v0.2.0 ready for web deployment
    ```
 4. **Test across platforms** with same version number
 5. **Promote manually** when ready:
    - iOS: TestFlight → App Store (manual in App Store Connect)
    - Android: Beta → Production (manual in Play Console)
-   - Web: Deploy SPA build to production
+   - Marketing website: Deploy SSR build to hosting platform
+   - Web app: Deploy SPA build to production
 
 **Note:** Git tagging is optional and can be done manually when releasing to production if desired.
 

@@ -12,6 +12,19 @@ import { getExerciseById } from "~/lib/utils";
 import { updateProgressionState, getProgressionState } from "~/lib/progression-integration";
 import { DialogWeightEdit } from "./dialog-weight-edit";
 import invariant from "tiny-invariant";
+import type { RoutinesDocType } from "~/db/routines";
+import type { TemplatesDocType } from "~/db/templates";
+import type { ProgramExerciseDocType } from "~/db/program-exercises";
+import type { ExercisesDocType } from "~/db/exercises";
+
+type ProgramExerciseDisplay = {
+  exerciseId: string;
+  maxWeight: number;
+  maxReps: number;
+  maxTime: number;
+  consecutiveFailures: number;
+  lastUpdated: string;
+};
 
 export async function clientLoader() {
   const db = await dbPromise;
@@ -140,18 +153,18 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
           {/*Templates Tab */}
           <TabsContent value="templates">
             <List>
-              {routines.map((routine) => {
+              {routines.map((routine: RoutinesDocType) => {
                 const routineTemplates = templates.filter(
-                  (t) => t.routineId === routine.id
+                  (t: TemplatesDocType) => t.routineId === routine.id
                 );
                 const exerciseNames = [
                   ...new Set(
-                    routineTemplates.map((t) => {
+                    routineTemplates.map((t: TemplatesDocType) => {
                       return (
-                        getExerciseById({
+                        (getExerciseById({
                           exercises,
                           exerciseId: t.exerciseId,
-                        })?.name ?? t.exerciseId
+                        }) as ExercisesDocType | null)?.name ?? t.exerciseId
                       );
                     })
                   ),
@@ -173,12 +186,12 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
           <TabsContent value="weights">
             <List>
               {programExercises.length > 0 ? (
-                programExercises.map((item) => {
+                programExercises.map((item: ProgramExerciseDisplay) => {
                   const exerciseName =
-                    getExerciseById({
+                    (getExerciseById({
                       exercises,
                       exerciseId: item.exerciseId,
-                    })?.name ?? item.exerciseId;
+                    }) as ExercisesDocType | null)?.name ?? item.exerciseId;
                   
                   const displayWeight = item.maxWeight || 0;
                   const hasProgressionData = item.maxWeight > 0 || item.maxReps > 0 || item.maxTime > 0;

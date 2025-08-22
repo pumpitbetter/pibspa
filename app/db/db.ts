@@ -48,33 +48,58 @@ export type MyDatabase = RxDatabase<MyDatabaseCollections>;
 
 let storage: RxStorage<any, any> = getRxStorageDexie();
 
-export const dbPromise = (async () => {
-  // import dev-mode plugins
-  if (mode === "development") {
-    await import("rxdb/plugins/dev-mode").then((module) =>
-      addRxPlugin(module.RxDBDevModePlugin)
-    );
-    await import("rxdb/plugins/validate-ajv").then((module) => {
-      storage = module.wrappedValidateAjvStorage({ storage });
-    });
+// Only initialize database if we're in browser environment
+export const dbPromise = (() => {
+  // Check if we're in a browser environment (client-side)
+  if (typeof window === 'undefined') {
+    // Server-side: return a promise that never resolves to avoid initialization
+    return new Promise<MyDatabase>(() => {});
   }
 
-  const db = await createRxDatabase<MyDatabaseCollections>({
-    name: "db",
-    storage,
+  // Client-side: initialize the database
+  return (async () => {
+    try {
+      addRxPlugin(RxDBUpdatePlugin);
+      addRxPlugin(RxDBMigrationPlugin);
+
+      let storage: RxStorage<any, any> = getRxStorageDexie();
+
+      if (import.meta.env.DEV) {
+        // in dev-mode we add the dev-mode plugin
+        // which does many checks and adds full error messages
+        await import("rxdb/plugins/dev-mode").then((module) =>
+          addRxPlugin(module.RxDBDevModePlugin)
+        );
+        await import("rxdb/plugins/validate-ajv").then((module) => {
+          storage = module.wrappedValidateAjvStorage({ storage });
+        });
+      }
+
+      const db = await createRxDatabase<MyDatabaseCollections>({
+        name: "db",
+        storage,
+      });
+
+      // add collections
+      await initExercises(db);
+      await initSettings(db);
+      await initPrograms(db);
+      await initRoutines(db);
+      await initTemplates(db);
+      await initWorkouts(db);
+      await initSets(db);
+      await initHistory(db);
+      await initProgressExerciseFavorites(db);
+      await initProgramExercises(db);
+
+      return db;
+    } catch (error) {
+      console.error('Failed to initialize database:', error);
+      throw error;
+    }
+  })().catch((error) => {
+    console.error('Unhandled database initialization error:', error);
+    // Re-throw the error to maintain the promise rejection chain
+    throw error;
   });
-
-  // add collections
-  await initExercises(db);
-  await initSettings(db);
-  await initPrograms(db);
-  await initRoutines(db);
-  await initTemplates(db);
-  await initWorkouts(db);
-  await initSets(db);
-  await initHistory(db);
-  await initProgressExerciseFavorites(db);
-  await initProgramExercises(db);
-
-  return db;
 })();

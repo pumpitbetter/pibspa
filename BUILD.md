@@ -2,16 +2,98 @@
 
 This document outlines all build processes and deployment workflows for the PumpItBetter app.
 
+## 🏗️ Architecture Overview
+
+PumpItBetter uses a **dual-build architecture** to support multiple deployment targets:
+
+### 📱 SPA Build → Mobile Apps (iOS/Android)
+- **Purpose:** Native mobile applications via Tauri
+- **Mode:** Single Page Application (SPA) with client-side rout## 📊 Build Outputs
+
+| Command | Output Location | Purpose | Build Mode |
+|---------|----------------|---------|------------|
+| `npm run build` | `build/spa/` | Default build (SPA mode) | SPA |
+| `npm run build:spa` | `build/spa/` | Mobile app frontend | SPA |
+| `npm run build:ssr` | `build/ssr/` | Marketing website | SSR |
+| `npm run build:all` | `build/spa/` + `build/ssr/` | Both targets | SPA + SSR |
+| `npm run tauri:build` | `src-tauri/target/release/bundle/` | Desktop installers | SPA |
+| `npm run ios:build` | Xcode project | iOS development | SPA |
+| `npm run ios:archive` | `build/ios/` | Signed iOS .ipa | SPA |
+| `npm run ios:beta` | TestFlight | Beta distribution | SPA |
+| `npm run android:build` | `src-tauri/gen/android/app/build/outputs/apk/release/` | Signed APK | SPA |
+| `npm run android:internal` | Play Store internal track | Team testing distribution | SPA |
+| `npm run android:alpha` | Play Store alpha track | Early tester distribution | SPA |
+| `npm run android:beta` | Play Store beta track | Beta distribution | SPA |
+
+### 🔍 Build Architecture Details
+
+**SPA Mode Builds (`build/spa/`):**
+- Used by all mobile and desktop applications
+- Client-side routing only
+- No server-side functions (loader/action)
+- Optimized for Tauri consumption
+- Excludes marketing-specific routes
+
+**SSR Mode Builds (`build/ssr/`):**
+- Used for marketing website deployment
+- Server-side rendering enabled
+- Supports loader() and action() functions
+- Database integration capabilities
+- Includes marketing routes with server functionalityt:** `build/spa/` directory consumed by Tauri
+- **Routes:** Core app functionality (workouts, progress, settings)
+- **Deployment:** App Store and Google Play Store
+
+### 🌐 SSR Build → Marketing Website  
+- **Purpose:** Web marketing site with database integration
+- **Mode:** Server-Side Rendering (SSR) with full React Router v7 capabilities
+- **Output:** `build/ssr/` directory for web hosting
+- **Routes:** Marketing pages with `loader()` and `action()` functions
+- **Deployment:** Web hosting platform (Vercel, Netlify, etc.)
+
+### 🔄 Shared Architecture Benefits
+- **Component Reuse:** Both builds share UI components from `app/components/`
+- **Code Efficiency:** Single codebase, multiple deployment targets
+- **Consistent Design:** Same styling and component library across platforms
+- **Unified Development:** Single development environment for all targets
+
 ## 🏗️ Development Builds
 
-### Frontend Development
+### Frontend Development (SPA Mode)
 ```bash
 npm run dev
+# or
+npm run dev:spa
 ```
-- Starts React Router development server
+- Starts React Router development server in SPA mode
 - Hot reload enabled
 - Accessible at `http://localhost:5173`
-- Use for frontend-only development
+- Use for frontend-only development and mobile app preview
+- **Automatically cleans up** any SSR development environment
+
+### Frontend Development (SSR Mode)  
+```bash
+npm run dev:ssr
+```
+- Starts React Router development server in SSR mode
+- Server-side rendering enabled
+- Marketing routes with loader/action functions
+- Use for marketing website development
+
+### 🔄 Seamless Mode Switching
+You can easily switch between development modes:
+
+```bash
+# Start with SPA development
+npm run dev:spa
+
+# Switch to SSR development (automatically sets up SSR environment)
+npm run dev:ssr  
+
+# Switch back to SPA (automatically cleans up SSR environment)
+npm run dev:spa
+```
+
+**No manual cleanup required!** Each development mode automatically handles environment setup and cleanup.
 
 ### Desktop Development (Tauri)
 ```bash
@@ -33,11 +115,39 @@ npm run ios:dev
 
 ## 📦 Production Builds
 
+### 📱 SPA Build (Mobile Apps)
+```bash
+npm run build:spa
+```
+- Builds optimized SPA bundle for mobile consumption
+- Uses `react-router.spa.config.ts` with `ssr: false`
+- Output: `build/spa/` directory
+- Excludes marketing routes (mobile apps don't need them)
+- Consumed by Tauri for iOS and Android builds
+
+### 🌐 SSR Build (Marketing Website)
+```bash
+npm run build:ssr
+```
+- Builds optimized SSR bundle for web hosting
+- Uses `react-router.ssr.config.ts` with `ssr: true`
+- Output: `build/ssr/` directory  
+- Includes marketing routes with server-side functions
+- Ready for deployment to web hosting platforms
+
+### 🔄 Combined Build
+```bash
+npm run build:all
+```
+- Builds both SPA and SSR targets
+- Equivalent to: `npm run build:spa && npm run build:ssr`
+- Use for complete build verification
+
 ### Desktop App Build
 ```bash
 npm run tauri:build
 ```
-- Builds optimized frontend bundle
+- Automatically runs `npm run build:spa` first
 - Compiles Rust backend for current platform
 - Generates platform-specific installers (.dmg, .exe, .deb)
 - Output: `src-tauri/target/release/bundle/`
@@ -46,7 +156,7 @@ npm run tauri:build
 ```bash
 npm run ios:build
 ```
-- Builds optimized frontend bundle
+- Automatically runs `npm run build:spa` first
 - Compiles iOS app with Tauri
 - Generates Xcode project
 - Creates unsigned .app bundle
@@ -56,7 +166,7 @@ npm run ios:build
 ```bash
 npm run android:build
 ```
-- Builds optimized frontend bundle
+- Automatically runs `npm run build:spa` first
 - Compiles Android app with Tauri
 - Generates signed APK with release configuration
 - Output: `src-tauri/gen/android/app/build/outputs/apk/release/`
@@ -66,7 +176,7 @@ npm run android:build
 ```bash
 npm run ios:archive
 ```
-- Builds optimized frontend bundle
+- Builds optimized frontend bundle (SPA mode)
 - Compiles and archives iOS app
 - Code signs with Apple Developer certificate
 - Creates .ipa file ready for distribution
@@ -79,7 +189,7 @@ npm run ios:archive
 npm run ios:beta
 ```
 - **Fully automated end-to-end workflow**
-- Builds optimized React Router frontend (SPA mode)
+- Builds optimized React Router frontend in **SPA mode** (`build:spa`)
 - Compiles and code signs iOS app with Tauri
 - Creates .ipa file using zip-based packaging (bypasses Xcode export issues)
 - Automatically uploads to TestFlight with version management
@@ -95,7 +205,7 @@ npm run ios:beta
 npm run android:beta
 ```
 - **Fully automated end-to-end workflow**
-- Builds optimized React Router frontend (SPA mode)
+- Builds optimized React Router frontend in **SPA mode** (`build:spa`)
 - Configures Android signing with keystore from .env
 - Compiles and signs Android app with Tauri
 - Creates both APK and AAB (Android App Bundle) files
@@ -106,6 +216,32 @@ npm run android:beta
 - Total process time: ~5 minutes
 
 **Authentication:** Requires Play Store service account JSON key path in `.env` file.
+
+### 🌐 Marketing Website Deployment (Future)
+
+The SSR build creates a deployable marketing website with server-side capabilities:
+
+```bash
+# Build marketing website
+npm run build:ssr
+
+# Deploy to hosting platform (examples)
+# Vercel
+vercel deploy build/ssr
+
+# Netlify  
+netlify deploy --dir build/ssr --prod
+
+# Custom server
+rsync -av build/ssr/ user@server:/var/www/marketing/
+```
+
+**Marketing website features:**
+- Server-side rendering for SEO optimization
+- Database integration via `loader()` functions
+- Form handling via `action()` functions  
+- Shared UI components with mobile apps
+- Ready for integration with backend services
 
 ## 🚀 Complete Android Automation Commands
 

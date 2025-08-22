@@ -2,6 +2,28 @@
 
 This guide walks you through setting up your development environment for PumpItBetter on macOS, including all certificates, keys, and files needed for automated builds.
 
+## 🏗️ Project Architecture Overview
+
+PumpItBetter uses a **dual-build architecture** that creates different outputs from a single codebase:
+
+### 📱 SPA Build → Mobile Apps
+- **Purpose:** iOS, Android, and Desktop applications
+- **Technology:** React Router in SPA mode + Tauri
+- **Output:** `build/spa/` directory consumed by Tauri
+- **Features:** Native performance, offline-first, cross-platform sync
+
+### 🌐 SSR Build → Marketing Website
+- **Purpose:** SEO-optimized marketing website with database integration
+- **Technology:** React Router in SSR mode with server functions
+- **Output:** `build/ssr/` directory ready for web hosting
+- **Features:** Server-side rendering, `loader()`/`action()` functions, database connectivity
+
+### 🔄 Development Benefits
+- **Shared Components:** Same UI library across all platforms
+- **Unified Workflow:** Single development environment for all targets
+- **Consistent Design:** Same styling system (TailwindCSS) everywhere
+- **Code Efficiency:** Write once, deploy to multiple platforms
+
 ## 📋 Prerequisites
 
 - **macOS**: This guide is specifically for macOS users
@@ -95,7 +117,13 @@ pumpitbetter-05d1d8b55bc8.json # Google Play API key
 
 ## 🛠️ Core Development Tools
 
+**⚡ Most tools are automatically installed when you run `npm install`!**
+
+The following tools will be automatically set up during `npm install`:
+
 ### 1. Install Homebrew
+
+**Automatic Installation:** ✅ Installed automatically if missing
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -103,6 +131,7 @@ pumpitbetter-05d1d8b55bc8.json # Google Play API key
 
 ### 2. Install Node.js and npm
 
+**Manual Installation Required:**
 ```bash
 brew install node
 ```
@@ -115,11 +144,71 @@ npm --version
 
 ### 3. Install Git (if not already installed)
 
+**Manual Installation Required:**
 ```bash
 brew install git
 ```
 
-### 4. Install Xcode and Command Line Tools
+### 4. Install fswatch (for file watching and hot reloading)
+
+**Automatic Installation:** ✅ Installed automatically
+
+**Manual Installation:**
+```bash
+brew install fswatch
+```
+
+Verify installation:
+```bash
+fswatch --version
+```
+
+**Purpose:** `fswatch` enables automatic file synchronization during SSR development. When you edit files in `app/routes-ssr/`, they are automatically copied to the active `app/routes/` directory for hot reloading.
+
+### 5. Install Ruby with rbenv (Required for Fastlane)
+
+**Automatic Installation:** ✅ rbenv installed automatically, Ruby setup may require manual steps
+
+**Manual Installation:**
+```bash
+# Install rbenv and ruby-build
+brew install rbenv ruby-build
+
+# Add rbenv to your shell
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+source ~/.zshrc
+
+# Install latest stable Ruby
+rbenv install 3.4.5
+rbenv global 3.4.5 && rbenv rehash
+```
+
+### 6. Install Fastlane
+
+**Automatic Installation:** ✅ Installed automatically if Ruby is available
+
+**Manual Installation:**
+```bash
+gem install fastlane
+```
+
+### 7. Install Rust Toolchain
+
+**Automatic Installation:** ✅ Installed automatically with iOS targets
+
+**Manual Installation:**
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source ~/.cargo/env
+
+# Add iOS targets
+rustup target add aarch64-apple-ios x86_64-apple-ios aarch64-apple-ios-sim
+```
+
+### 8. Install Xcode and Command Line Tools
+
+**Manual Installation Required:** ⚠️ Cannot be automated
 
 1. **Install Xcode from App Store**
    - Search for "Xcode" in App Store
@@ -137,25 +226,17 @@ brew install git
 
 ## 🦀 Rust Development Environment
 
-### Install Rust Toolchain
+**Automatic Installation:** ✅ Handled by `npm install`
 
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source ~/.zshrc
-```
+The postinstall script automatically:
+- Installs Rust toolchain
+- Adds iOS targets for mobile development
+- Sets up cargo environment
 
-Verify installation:
+**Manual verification:**
 ```bash
 rustc --version
 cargo --version
-```
-
-### Add iOS Targets
-
-```bash
-rustup target add aarch64-apple-ios
-rustup target add x86_64-apple-ios
-rustup target add aarch64-apple-ios-sim
 ```
 
 ## 📱 iOS Development Setup
@@ -668,9 +749,18 @@ chmod +x verify-build-setup.sh
 git clone [repository-url]
 cd pibspa
 
-# Install dependencies
+# Install dependencies (automatically installs fswatch and other dev tools on macOS)
 npm install
 ```
+
+**Automatic Setup:** The `npm install` command will automatically:
+- ✅ Install all Node.js dependencies
+- ✅ Install Homebrew (if missing)
+- ✅ Install `fswatch` for hot reloading
+- ✅ Install `rbenv` and Ruby for Fastlane
+- ✅ Install Fastlane for iOS/Android automation
+- ✅ Install Rust toolchain with iOS targets for Tauri
+- ✅ Check for remaining dependencies and provide guidance
 
 ### 2. Environment Configuration
 
@@ -857,6 +947,17 @@ Should show Fastlane version without errors
 ```bash
 npm install -g @tauri-apps/cli
 ```
+
+**"command not found: fswatch"**
+```bash
+brew install fswatch
+```
+
+**Hot reloading not working in SSR development**
+- Ensure `fswatch` is installed: `fswatch --version`
+- Check file watcher is running: `ps aux | grep fswatch`
+- Restart SSR development: `npm run dev:ssr`
+- File changes in `app/routes-ssr/` should automatically sync to `app/routes/`
 
 **Ruby/rbenv issues**
 ```bash
