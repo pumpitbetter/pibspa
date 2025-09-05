@@ -44,16 +44,5 @@ pumpitbetter-*.json
 /.react-router/
 /build/
 
-# Temporary routes directory (created by build scripts)
-/app/routes/
-
-*.pid
-# Backup files from scripts
-*.backup
-*.dev-backup
-*~
-*.swp
-*.swo
-
 keystore.properties
 GEMINI.md

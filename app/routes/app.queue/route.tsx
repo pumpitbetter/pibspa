@@ -36,7 +36,6 @@ import { useFetcher, useNavigate } from "react-router";
 import invariant from "tiny-invariant";
 import { v7 as uuidv7 } from "uuid";
 import type { HistoryDocType } from "~/db/history";
-import type { ExercisesDocType } from "~/db/exercises";
 
 export async function clientLoader() {
   const db = await dbPromise;
@@ -233,7 +232,7 @@ export default function Queue({ loaderData }: Route.ComponentProps) {
                       <div key={set[0]} className="w-full pb-3">
                         <div>
                           {getExerciseById({
-                            exercises: exercises as ExercisesDocType[],
+                            exercises,
                             exerciseId: set[0],
                           })?.name ?? "Unknown Exercise"}
                         </div>
