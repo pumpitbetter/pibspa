@@ -1,11 +1,10 @@
 import type { Config } from "@react-router/dev/config";
 
 export default {
-  // SSR mode for marketing site + API
-  ssr: true,
+  // SPA mode for mobile apps
+  ssr: false,
   basename: "/",
-  buildDirectory: "build/ssr",
-  serverBuildFile: "index.js",
-  // Include additional routes from routes-ssr directory
+  buildDirectory: "build/spa",
+  // Standard app directory - routes will be copied during build
   appDirectory: "app",
 } satisfies Config;

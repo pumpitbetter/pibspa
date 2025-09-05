@@ -206,7 +206,25 @@ source ~/.cargo/env
 rustup target add aarch64-apple-ios x86_64-apple-ios aarch64-apple-ios-sim
 ```
 
-### 8. Install Xcode and Command Line Tools
+### 8. Install Fly.io CLI (for web deployment)
+
+**Automatic Installation:** ✅ Installed automatically
+
+**Manual Installation:**
+```bash
+brew install flyctl
+```
+
+Verify installation:
+```bash
+flyctl --version
+```
+
+**Purpose:** `flyctl` enables deployment of both the SSR marketing website and SPA fitness app to Fly.io cloud platform. The dual-app deployment serves:
+- `www.pumpitbetter.com` → SSR marketing site
+- `app.pumpitbetter.com` → SPA fitness app
+
+Both applications run on the same Fly.io instance with subdomain-based routing.
 
 **Manual Installation Required:** ⚠️ Cannot be automated
 
@@ -1013,14 +1031,146 @@ fastlane sigh --force
 - For Play Store deployment, ensure JSON key file exists
 - Double-check all credentials match in `.env` file
 
-## 🎯 Next Steps
+## � Web Deployment Setup (Fly.io)
+
+### Dual Application Architecture
+
+PumpItBetter deploys both the SSR marketing website and SPA fitness app to a single Fly.io instance:
+
+- **📱 Fitness App**: `https://app.pumpitbetter.com` → SPA build for user workouts
+- **🌐 Marketing Site**: `https://www.pumpitbetter.com` → SSR build for marketing/SEO
+- **🚀 Single Instance**: Both apps run on the same server with subdomain routing
+- **💾 Database**: Managed PostgreSQL with separate databases for test/prod
+
+### 1. Fly.io Authentication
+
+```bash
+# Login to Fly.io (opens browser for authentication)
+flyctl auth login
+
+# Verify login
+flyctl auth whoami
+```
+
+### 2. Environment Setup
+
+**Two Environments:**
+- **Test/Staging**: `pumpitbetter-test.fly.dev` for testing deployments
+- **Production**: `www.pumpitbetter.com` and `app.pumpitbetter.com` for live site
+
+### 3. Deployment Commands
+
+**Deploy to Test Environment:**
+```bash
+npm run deploy:test
+```
+
+**Deploy to Production:**
+```bash
+npm run deploy:prod
+```
+
+**Monitor Deployments:**
+```bash
+# View logs
+npm run fly:logs
+
+# Check status
+npm run fly:status
+
+# SSH into server
+npm run fly:ssh
+```
+
+### 4. Database Setup (when ready)
+
+When you're ready to add PostgreSQL:
+
+```bash
+# Create production database
+flyctl postgres create --name pumpitbetter-pg --region iad
+
+# Attach to production app
+flyctl postgres attach --app pumpitbetter-prod pumpitbetter-pg
+
+# Create separate database for test environment
+flyctl postgres db create --app pumpitbetter-pg pumpitbetter_test
+
+# Set database URLs
+flyctl secrets set DATABASE_URL="postgres://..." --app pumpitbetter-prod
+flyctl secrets set DATABASE_URL="postgres://..." --app pumpitbetter-test
+```
+
+### 5. Custom Domain Setup
+
+**Configure Custom Domains:**
+```bash
+# Add production domains
+flyctl certs create www.pumpitbetter.com --app pumpitbetter-prod
+flyctl certs create app.pumpitbetter.com --app pumpitbetter-prod
+
+# Configure DNS (set these DNS records):
+# www.pumpitbetter.com CNAME pumpitbetter-prod.fly.dev
+# app.pumpitbetter.com CNAME pumpitbetter-prod.fly.dev
+```
+
+### 6. Health Monitoring
+
+```bash
+# Check application health
+curl https://www.pumpitbetter.com/health
+curl https://app.pumpitbetter.com/health
+
+# Monitor logs in real-time
+flyctl logs --app pumpitbetter-prod
+```
+
+### 7. Environment Variables
+
+Add secrets to Fly.io apps:
+```bash
+# Production secrets
+flyctl secrets set NODE_ENV=production --app pumpitbetter-prod
+flyctl secrets set DATABASE_URL="your-prod-db-url" --app pumpitbetter-prod
+
+# Test secrets  
+flyctl secrets set NODE_ENV=staging --app pumpitbetter-test
+flyctl secrets set DATABASE_URL="your-test-db-url" --app pumpitbetter-test
+```
+
+### 8. Troubleshooting Web Deployment
+
+**Common Issues:**
+
+**"flyctl not found"**
+```bash
+brew install flyctl
+```
+
+**"Authentication failed"**
+```bash
+flyctl auth login
+```
+
+**"Deploy failed"**
+- Check logs: `flyctl logs --app pumpitbetter-test`
+- Verify build: `npm run build:all`
+- Check Dockerfile syntax
+
+**"Health check failed"**
+- Test locally: `npm run build:deploy && node scripts/combined-server.js`
+- Verify port 8080 is accessible
+- Check server logs for errors
+
+## �🎯 Next Steps
 
 After completing setup:
 
 1. **Read BUILD.md** - Learn about build processes and deployment
 2. **Run tests** - `npm test` to verify everything works
-3. **Make a test build** - Try `npm run ios:build` to test iOS pipeline
-4. **Join development** - You're ready to contribute!
+3. **Try web deployment** - Deploy to test: `npm run deploy:test`
+4. **Make a test build** - Try `npm run ios:build` to test iOS pipeline
+5. **Join development** - You're ready to contribute!
 
 ## 📚 Additional Resources
 

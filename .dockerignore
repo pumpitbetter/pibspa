@@ -1,4 +1,50 @@
+# Build outputs (will be generated during Docker build)
 .react-router
 build
+dist
+
+# Dependencies (will be installed during Docker build)
 node_modules
+
+# Development files
+.spa-watcher.pid
+.ssr-watcher.pid
+*.pid
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Version control
+.git
+.gitignore
+
+# Editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation (but keep essential docs)
 README.md
+docs
+
+# Mobile development (not needed for web deployment)
+src-tauri
+certificates
+fastlane
+*.mobileprovision
+*.jks
+*.p12
+*.cer

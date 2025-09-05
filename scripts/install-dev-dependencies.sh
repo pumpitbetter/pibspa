@@ -1,7 +1,15 @@
 #!/bin/bash
 # Script to automatically install development dependencies after npm install
 
-echo "🔧 Setting up development dependencies..."
+echo "🔧        echo "🎉 All development tools are installed and ready!"
+        echo ""
+        echo "🛠️ Installed tools:"
+        echo "   ✅ Homebrew package manager"
+        echo "   ✅ fswatch for hot reloading"
+        echo "   ✅ rbenv for Ruby management"
+        echo "   ✅ Fastlane for iOS/Android automation"
+        echo "   ✅ Rust toolchain with iOS targets"
+        echo "   ✅ Fly.io CLI for web deployment" up development dependencies..."
 
 # Detect platform
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -66,6 +74,15 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
         echo "✅ iOS targets added"
     else
         echo "✅ Rust already installed"
+    fi
+    
+    # Install Fly.io CLI for web deployment
+    if ! command -v flyctl >/dev/null 2>&1; then
+        echo "🪁 Installing Fly.io CLI for web deployment..."
+        brew install flyctl
+        echo "✅ Fly.io CLI installed successfully"
+    else
+        echo "✅ Fly.io CLI already installed"
     fi
     
     # Check for remaining development tools and suggest installation

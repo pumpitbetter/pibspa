@@ -6,6 +6,7 @@ echo "Setting up SPA routes..."
 # Backup current config and use SPA config
 cp react-router.config.ts react-router.config.ts.backup
 cp react-router.spa.config.ts react-router.config.ts
+echo "Switched to SPA configuration"
 
 # Clean up any existing routes directory
 if [ -d app/routes ]; then

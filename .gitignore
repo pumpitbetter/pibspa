@@ -55,5 +55,8 @@ pumpitbetter-*.json
 *.swp
 *.swo
 
+# Fly.io deployment files
+.fly/
+
 keystore.properties
 GEMINI.md

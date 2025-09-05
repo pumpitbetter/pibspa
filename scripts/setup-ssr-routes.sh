@@ -6,6 +6,7 @@ echo "Setting up SSR routes..."
 # Backup current config and use SSR config
 cp react-router.config.ts react-router.config.ts.backup
 cp react-router.ssr.config.ts react-router.config.ts
+echo "Switched to SSR configuration"
 
 # Clean up any existing routes directory
 if [ -d app/routes ]; then
