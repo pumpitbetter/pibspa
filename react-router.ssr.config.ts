@@ -1,9 +1,10 @@
 import type { Config } from "@react-router/dev/config";
 
 export default {
-  // SPA mode for mobile apps
-  ssr: false,
+  // SSR mode for web app with marketing + API
+  ssr: true,
   basename: "/",
-  buildDirectory: "build/spa",
+  buildDirectory: "build/ssr",
+  serverBuildFile: "index.js",
   appDirectory: "app",
 } satisfies Config;

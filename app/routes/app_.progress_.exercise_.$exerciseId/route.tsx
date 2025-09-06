@@ -9,6 +9,7 @@ import { ExerciseOneRMChart } from "~/components/exercise-one-rm-chart";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { dbPromise } from "~/db/db";
 import { useState, useMemo, useEffect, useRef } from "react";
+import invariant from "tiny-invariant";
 
 // Constants for timeframe filtering
 const TIMEFRAME_MONTHS = {
@@ -40,6 +41,7 @@ interface LoaderArgs {
 
 export async function clientLoader({ params }: LoaderArgs) {
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
   const exerciseId = params.exerciseId;
 
   // Get the exercise details

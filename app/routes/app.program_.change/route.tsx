@@ -12,6 +12,8 @@ import { v7 as uuidv7 } from "uuid";
 
 export async function clientLoader() {
   const db = await dbPromise;
+  if (!db) throw new Error("Database should be available in app routes");
+  
   const programs = await db.programs.find().exec();
   return programs ? programs.map((p) => p.toMutableJSON()) : [defaultProgram];
 }
@@ -61,7 +63,8 @@ export default function ProgramChange({ loaderData }: Route.ComponentProps) {
 
 async function handleDeleteProgram(programId: string) {
   const db = await dbPromise;
-
+  if (!db) throw new Error("Database should be available in app routes");
+  
   const programToDelete = await db.programs.findOne(programId).exec();
   if (!programToDelete) {
     throw new Response("Program not found", { status: 404 });
@@ -81,7 +84,8 @@ async function handleDeleteProgram(programId: string) {
 
 async function handleCloneProgram(programId: string) {
   const db = await dbPromise;
-
+  if (!db) throw new Error("Database should be available in app routes");
+  
   const programToClone = await db.programs.findOne(programId).exec();
   if (!programToClone) {
     throw new Response("Program not found", { status: 404 });
@@ -97,7 +101,6 @@ async function handleCloneProgram(programId: string) {
     type: programToClone.type,
     level: programToClone.level,
     ownerId: settings?.clientId ?? "",
-    exercises: programToClone.exercises,
   };
 
   const routinesToClone = await db.routines
@@ -138,7 +141,8 @@ async function handleCloneProgram(programId: string) {
 
 async function handleSwitchProgram(programId: string) {
   const db = await dbPromise;
-
+  if (!db) throw new Error("Database should be available in app routes");
+  
   const settings = await db.settings.findOne().exec();
   await settings?.update({
     $set: {

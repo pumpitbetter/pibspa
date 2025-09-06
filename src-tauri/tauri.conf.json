@@ -1,13 +1,13 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Pump It Better",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "identifier": "com.pumpitbetter.app",
   "build": {
-    "frontendDist": "../build/client",
-    "devUrl": "http://localhost:5173/",
-    "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "npm run build"
+    "frontendDist": "../build/spa/client",
+    "devUrl": "http://localhost:5175/",
+    "beforeDevCommand": "npm run dev:spa",
+    "beforeBuildCommand": "npm run build:spa"
   },
   "app": {
     "windows": [

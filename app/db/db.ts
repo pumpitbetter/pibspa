@@ -24,10 +24,8 @@ import {
   type ProgramExerciseCollection,
 } from "./program-exercises";
 
-// set by webpack as global
 const mode = process.env.NODE_ENV;
 
-// other plugins
 addRxPlugin(RxDBUpdatePlugin);
 addRxPlugin(RxDBMigrationPlugin);
 
@@ -49,32 +47,39 @@ export type MyDatabase = RxDatabase<MyDatabaseCollections>;
 let storage: RxStorage<any, any> = getRxStorageDexie();
 
 export const dbPromise = (async () => {
-  // import dev-mode plugins
-  if (mode === "development") {
-    await import("rxdb/plugins/dev-mode").then((module) =>
-      addRxPlugin(module.RxDBDevModePlugin)
-    );
-    await import("rxdb/plugins/validate-ajv").then((module) => {
-      storage = module.wrappedValidateAjvStorage({ storage });
+  try {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    if (mode === "development") {
+      await import("rxdb/plugins/dev-mode").then((module) =>
+        addRxPlugin(module.RxDBDevModePlugin)
+      );
+      await import("rxdb/plugins/validate-ajv").then((module) => {
+        storage = module.wrappedValidateAjvStorage({ storage });
+      });
+    }
+
+    const db = await createRxDatabase<MyDatabaseCollections>({
+      name: "db",
+      storage,
     });
+
+    await initExercises(db);
+    await initSettings(db);
+    await initPrograms(db);
+    await initRoutines(db);
+    await initTemplates(db);
+    await initWorkouts(db);
+    await initSets(db);
+    await initHistory(db);
+    await initProgressExerciseFavorites(db);
+    await initProgramExercises(db);
+
+    return db;
+  } catch (error) {
+    console.error("Database initialization failed:", error);
+    return null;
   }
-
-  const db = await createRxDatabase<MyDatabaseCollections>({
-    name: "db",
-    storage,
-  });
-
-  // add collections
-  await initExercises(db);
-  await initSettings(db);
-  await initPrograms(db);
-  await initRoutines(db);
-  await initTemplates(db);
-  await initWorkouts(db);
-  await initSets(db);
-  await initHistory(db);
-  await initProgressExerciseFavorites(db);
-  await initProgramExercises(db);
-
-  return db;
 })();

@@ -52,7 +52,7 @@ platform :ios do
         end
         
         # Build the app (without export to avoid provisioning profile issues)
-        sh("cd .. && npm run build")
+        sh("cd .. && npm run build:spa")
         setup_signing
         
         # Get the current version from package.json and sync to iOS project
@@ -131,16 +131,15 @@ platform :ios do
   desc "Build with Tauri and export .ipa"
   lane :export_ipa do
     # Build the app
-    cd ".."
-    sh "npm run build"
+    sh("cd .. && npm run build:spa")
     setup_signing
-    sh "npx tauri ios build"
+    sh("cd .. && npx tauri ios build")
     
     # Create .ipa manually since xcodebuild export is having issues
     UI.message("Creating .ipa file manually...")
-    sh "mkdir -p build/ios/Payload"
-    sh 'cp -R "/Users/tommarkiewicz/Library/Developer/Xcode/DerivedData/app-bdsfehrflzbtexdldpkakbkfixqe/Build/Products/release-iphoneos/Pump It Better.app" build/ios/Payload/'
-    sh "cd build/ios && zip -r PumpItBetter.ipa Payload/"
+    sh("cd .. && mkdir -p build/ios/Payload")
+    sh('cd .. && cp -R "/Users/tommarkiewicz/Library/Developer/Xcode/DerivedData/app-bdsfehrflzbtexdldpkakbkfixqe/Build/Products/release-iphoneos/Pump It Better.app" build/ios/Payload/')
+    sh("cd .. && cd build/ios && zip -r PumpItBetter.ipa Payload/")
     
     UI.success("Export complete! .ipa file created at build/ios/PumpItBetter.ipa")
   end
@@ -148,7 +147,7 @@ platform :ios do
   desc "Build and export for TestFlight distribution"
   lane :build_for_testflight do
     # Build the frontend
-    sh("cd .. && npm run build")
+    sh("cd .. && npm run build:spa")
     
     # Setup signing automatically
     setup_signing

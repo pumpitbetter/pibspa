@@ -13,6 +13,7 @@ import { Form, Link, redirect } from "react-router";
 import type { ExercisesDocType } from "~/db/exercises";
 import type { RoutinesDocType } from "~/db/routines";
 import type { ProgramsDocType } from "~/db/programs";
+import invariant from "tiny-invariant";
 
 interface LoaderData {
   exercises: ExercisesDocType[];
@@ -33,6 +34,7 @@ export async function clientLoader({
   params,
 }: ClientLoaderArgs): Promise<LoaderData> {
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
   const exercises = await db.exercises.find().exec();
   const routine = await db.routines.findOne(params.routineId).exec();
 
@@ -57,6 +59,7 @@ export async function clientAction({ request, params }: ClientActionArgs) {
   }
 
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
 
   // Get the routine to extract the program ID
   const routine = await db.routines.findOne(params.routineId).exec();

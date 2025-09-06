@@ -29,6 +29,8 @@ import { useRestTime } from "~/lib/hooks";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
+  
   const workout = await db.workouts
     .findOne({
       selector: {
@@ -230,6 +232,7 @@ async function completeSet(formData: FormData) {
   const setId = formData.get("setId") as string;
 
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
   const history = await db.history.findOne({ selector: { id: setId } }).exec();
   invariant(history, "history not found");
 
@@ -247,6 +250,7 @@ async function editWorkout(formData: FormData) {
   const weight = Number(formData.get("weight") as string);
 
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
   const history = await db.history.findOne({ selector: { id: setId } }).exec();
   invariant(history, "history not found");
 
@@ -265,6 +269,7 @@ async function deleteWorkout(formData: FormData) {
   const workoutId = formData.get("workoutId") as string;
 
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
 
   const workout = await db.workouts
     .findOne({ selector: { id: workoutId } })
@@ -299,6 +304,7 @@ async function finishWorkout(formData: FormData) {
   const workoutId = formData.get("workoutId") as string;
 
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
 
   // find the workout
   const workout = await db.workouts

@@ -58,7 +58,7 @@ platform :android do
     end
     
     # Build the React app
-    sh("cd .. && npm run build")
+    sh("cd .. && npm run build:spa")
     
     # Set up signing (create keystore if needed)
     setup_signing
@@ -153,7 +153,7 @@ platform :android do
     end
     
     # Build the React app
-    sh("cd .. && npm run build")
+    sh("cd .. && npm run build:spa")
     
     # Set up signing
     setup_signing
@@ -217,7 +217,7 @@ platform :android do
     end
     
     # Build the React app
-    sh("cd .. && npm run build")
+    sh("cd .. && npm run build:spa")
     
     # Set up signing
     setup_signing
@@ -281,7 +281,7 @@ platform :android do
     end
     
     # Build the React app
-    sh("cd .. && npm run build")
+    sh("cd .. && npm run build:spa")
     
     # Set up signing
     setup_signing

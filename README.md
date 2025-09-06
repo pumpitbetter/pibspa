@@ -54,6 +54,9 @@ npm run build
 - **[BUILD.md](./BUILD.md)** - Build processes and deployment workflows
 - **[VERSION_MANAGEMENT.md](./VERSION_MANAGEMENT.md)** - Version strategy and automation tools
 
+### 🏗️ Architecture & Implementation
+- **[docs/ssr-setup-and-database-integration.md](./docs/ssr-setup-and-database-integration.md)** - SSR/SPA dual build system and database patterns
+
 ### 🤖 Automation & Smart Features
 - **[docs/GIT_CONVENTIONS.md](./docs/GIT_CONVENTIONS.md)** - Git conventions and smart automation
 - **Changelog Automation:** Auto-generate release notes from commit history
@@ -64,7 +67,8 @@ npm run build
 
 ### Development
 ```bash
-npm run dev              # Web development server
+npm run dev              # Web development server (SSR + marketing)
+npm run dev:spa          # SPA development server (app-only)
 npm run ios:dev          # iOS simulator development  
 npm run android:dev      # Android emulator development
 npm run tauri:dev        # Desktop app development
@@ -72,7 +76,8 @@ npm run tauri:dev        # Desktop app development
 
 ### Building
 ```bash
-npm run build            # Production web build
+npm run build            # Production web build (SSR)
+npm run build:spa        # Production SPA build (for mobile)
 npm run tauri:build      # Desktop app build
 npm run ios:build        # iOS app build (local)
 npm run android:build    # Android app build (local)
