@@ -18,6 +18,8 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "ios:build": "npm run build:spa && npx tauri ios build --ci",
+    "ios:build:sim": "npm run build:spa && npx tauri ios build --target aarch64-sim --ci",
+    "ios:run": "node scripts/ios-run.js",
     "ios:archive": "node scripts/archive-ios.js",
     "ios:dev": "echo '12' | npx tauri ios dev",
     "ios:beta": "fastlane ios beta",

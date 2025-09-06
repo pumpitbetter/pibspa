@@ -18,8 +18,11 @@ npm run dev
 | `npm run build:spa` | `build/spa/` | Mobile frontend bundle (SPA) |
 | `npm run tauri:build` | `src-tauri/target/release/bundle/` | Desktop installers |
 | `npm run ios:build` | Xcode project | iOS development |
+| `npm run ios:build:sim` | `src-tauri/gen/apple/build/arm64-sim/` | iOS production simulator build |
+| `npm run ios:run` | iOS Simulator | Complete iOS testing workflow |
 | `npm run ios:beta` | TestFlight | Beta distribution |
 | `npm run android:build` | `src-tauri/gen/android/app/build/outputs/apk/release/` | Signed APK |
+| `npm run android:run` | Android Emulator | Complete Android testing workflow |
 | `npm run android:internal` | Play Store internal track | Team testing distribution |
 | `npm run android:alpha` | Play Store alpha track | Early tester distribution |
 | `npm run android:beta` | Play Store beta track | Beta distribution |ble at `http://localhost:5175`
@@ -92,6 +95,16 @@ npm run ios:build
 - Use for local development and testing only
 - Note: Shows expected export error at end (build succeeds, export fails)
 
+### iOS Production Build for Simulator
+```bash
+npm run ios:build:sim
+```
+- Builds optimized frontend bundle in SPA mode
+- Compiles iOS app with Tauri for simulator target (aarch64-sim)
+- Generates production-ready .app bundle for simulator testing
+- Perfect for testing production builds without device deployment
+- Use for simulator-based testing of release builds
+
 ### iOS Archive (Distribution Ready)
 ```bash
 npm run ios:archive
@@ -122,6 +135,18 @@ npm run android:run
 - Automatically starts Android emulator if needed
 - Installs and launches APK in emulator
 - Complete end-to-end testing workflow
+
+### iOS App Run (Simulator)
+```bash
+npm run ios:run
+```
+- Builds optimized frontend bundle in SPA mode
+- Compiles production iOS app with Tauri for simulator
+- Automatically detects and starts iPhone 16 simulator if needed
+- Removes previous version and installs new build
+- Launches app automatically with process tracking
+- Complete end-to-end testing workflow for iOS
+- Provides full iOS/Android workflow parity
 
 
 
@@ -372,16 +397,19 @@ Version: 0.2.0 → Version Name: 0.2.0, Version Code: 2000
 
 **⚠️ Important:** Each deployment requires a unique build number. Always increment patch version for beta testing to avoid upload conflicts.
 
-## �📊 Build Outputs
+## 📊 Build Outputs
 
 | Command | Output Location | Purpose |
 |---------|----------------|---------|
 | `npm run build` | `build/` | Frontend bundle |
 | `npm run tauri:build` | `src-tauri/target/release/bundle/` | Desktop installers |
 | `npm run ios:build` | Xcode project | iOS development (unsigned) |
+| `npm run ios:build:sim` | `src-tauri/gen/apple/build/arm64-sim/` | iOS production simulator build |
+| `npm run ios:run` | iOS Simulator | Complete iOS testing workflow |
 | `npm run ios:archive` | `build/ios/PumpItBetter.ipa` | iOS distribution (.ipa) |
 | `npm run ios:beta` | TestFlight | Beta distribution |
 | `npm run android:build` | `src-tauri/gen/android/app/build/outputs/apk/release/` | Signed APK |
+| `npm run android:run` | Android Emulator | Complete Android testing workflow |
 | `npm run android:internal` | Play Store internal track | Team testing distribution |
 | `npm run android:alpha` | Play Store alpha track | Early tester distribution |
 | `npm run android:beta` | Play Store beta track | Beta distribution |
@@ -577,9 +605,11 @@ For build issues:
 
 ---
 
-**Last Updated:** August 2025  
+**Last Updated:** September 2025  
 **Tauri Version:** 2.0  
 **React Router Version:** 7.x  
 **FastLane Version:** 2.x with dotenv integration  
 **iOS Deployment:** Fully automated via npm run ios:beta  
-**Android Deployment:** Fully automated via npm run android:beta
+**Android Deployment:** Fully automated via npm run android:beta  
+**iOS Simulator Testing:** Fully automated via npm run ios:run  
+**Android Emulator Testing:** Fully automated via npm run android:run
