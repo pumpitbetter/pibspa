@@ -46,3 +46,11 @@ pumpitbetter-*.json
 
 keystore.properties
 GEMINI.md
+
+# Prisma and database files
+/generated/prisma
+prisma/migrations/migration_lock.toml
+
+# Docker volumes (if using local volumes)
+postgres_data/
+pgadmin_data/
