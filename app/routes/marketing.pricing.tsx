@@ -49,7 +49,7 @@ export default function Pricing() {
               <li className="text-on-surface-variant">✓ Progress photos</li>
               <li className="text-on-surface-variant">✓ Priority support</li>
             </ul>
-            <button className="block w-full text-center px-6 py-3 bg-primary text-on-primary rounded-lg font-medium hover:bg-primary-container hover:text-on-primary-container transition-colors">
+            <button className="block w-full text-center px-6 py-3 bg-primary text-on-primary rounded-lg font-medium hover:bg-secondary hover:text-on-secondary transition-colors">
               Start Pro Trial
             </button>
           </div>
@@ -72,7 +72,7 @@ export default function Pricing() {
 
         <div className="text-center mt-12">
           <a 
-            href="/marketing"
+            href="/"
             className="text-primary hover:text-primary-container font-medium"
           >
             ← Back to Home

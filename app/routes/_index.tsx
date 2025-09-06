@@ -30,27 +30,21 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
     }
     
     // Check if we're in a mobile app context (Tauri/Capacitor/native)
-    // For mobile builds, we want to go straight to the app
+    // Only redirect for actual mobile apps, not web development
     const isMobileApp = !!(
       (window as any).__TAURI__ || 
       (window as any).Capacitor ||
       navigator.userAgent.includes('PumpItBetter') ||
-      // Check for typical mobile user agents in app context
-      (navigator.userAgent.includes('Mobile') && window.location.protocol === 'file:') ||
-      // Check if we're running from a tauri:// protocol
+      // Check if we're running from a tauri:// protocol (actual mobile app)
       window.location.protocol.startsWith('tauri') ||
-      // Check if this is a file:// URL (typical for mobile apps)
+      // Check if this is a file:// URL (packaged mobile app)
       window.location.protocol === 'file:' ||
-      // Check if we're running on localhost (dev mode) or in mobile viewport
-      window.location.hostname === 'localhost' ||
-      // Check for mobile viewport regardless of hostname
-      window.innerWidth <= 480 ||
-      // Check if we're running in dev mode through Tauri (common dev scenario)
-      (window.location.port === '5175' || window.location.port === '5176')
+      // Check for mobile user agent with file:// protocol (mobile app context)
+      (navigator.userAgent.includes('Mobile') && window.location.protocol === 'file:')
     );
     
     if (isMobileApp) {
-      console.log('🎯 Mobile app detected in dev mode, redirecting to /app/queue');
+      console.log('📱 Mobile app context detected, redirecting to /app/queue');
       throw redirect("/app/queue");
     }
   }
@@ -60,7 +54,7 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
 export default function Home() {
   // This renders the marketing homepage in SSR mode
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-surface">z 
       {/* Marketing Homepage */}
       <header className="bg-surface-container shadow-lg border-b border-outline-variant">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
