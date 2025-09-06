@@ -16,9 +16,6 @@ import {
 import { 
   enhanceTemplatesWithProgression,
   calculateExerciseProgressionIndices,
-  getCurrentExerciseWeight,
-  processWorkoutProgression,
-  type WeightCalculation 
 } from "~/lib/queue-integration";
 import { List } from "~/components/list";
 import {
@@ -39,17 +36,7 @@ import type { HistoryDocType } from "~/db/history";
 
 export async function clientLoader() {
   const db = await dbPromise;
-  
-  // If database is not available, return the server data (this can happen during hydration)
-  if (!db) {
-    return {
-      program: defaultProgram,
-      routines: [],
-      exercises: [],
-      workouts: [],
-      settings: defaultSettings,
-    };
-  }
+  if (!db) throw new Error("Database should be available in app routes");
   
   const settings = await db.settings.findOne().exec();
   invariant(settings, "Settings not found.");
