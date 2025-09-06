@@ -11,10 +11,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { getExerciseById } from "~/lib/utils";
 import { updateProgressionState, getProgressionState } from "~/lib/progression-integration";
 import { DialogWeightEdit } from "./dialog-weight-edit";
+import { defaultSettings } from "~/db/settings";
 import invariant from "tiny-invariant";
 
 export async function clientLoader() {
   const db = await dbPromise;
+  if (!db) throw new Error("Database should be available in app routes");
+  
   const settings = await db.settings.findOne().exec();
   const program = await db.programs
     .findOne({
@@ -87,6 +90,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const weight = Number(formData.get("weight") as string) ?? 0;
 
   const db = await dbPromise;
+  if (!db) throw new Error("Database should be available in app routes");
   
   // Update the progression state using the new system
   const currentState = await getProgressionState(db, programId, exerciseId);
@@ -123,7 +127,7 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
   return (
     <Page>
       <Header
-        title={program.name}
+        title={program?.name || "Program"}
         right={
           <Link to="change" className="text-primary">
             Change
@@ -140,16 +144,16 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
           {/*Templates Tab */}
           <TabsContent value="templates">
             <List>
-              {routines.map((routine) => {
-                const routineTemplates = templates.filter(
+              {routines?.map((routine) => {
+                const routineTemplates = templates?.filter(
                   (t) => t.routineId === routine.id
-                );
+                ) || [];
                 const exerciseNames = [
                   ...new Set(
                     routineTemplates.map((t) => {
                       return (
                         getExerciseById({
-                          exercises,
+                          exercises: exercises || [],
                           exerciseId: t.exerciseId,
                         })?.name ?? t.exerciseId
                       );
@@ -165,18 +169,18 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
                     />
                   </Link>
                 );
-              })}
+              }) || []}
             </List>
           </TabsContent>
 
           {/* Weights Tab */}
           <TabsContent value="weights">
             <List>
-              {programExercises.length > 0 ? (
+              {(programExercises && programExercises.length > 0) ? (
                 programExercises.map((item) => {
                   const exerciseName =
                     getExerciseById({
-                      exercises,
+                      exercises: exercises || [],
                       exerciseId: item.exerciseId,
                     })?.name ?? item.exerciseId;
                   
@@ -187,15 +191,15 @@ export default function Programs({ loaderData }: Route.ComponentProps) {
                     <DialogWeightEdit
                       key={item.exerciseId}
                       exerciseId={item.exerciseId}
-                      programId={program.id}
+                      programId={program?.id || ""}
                       exerciseName={exerciseName}
                       exerciseWeight={displayWeight}
                     >
                       <ListItem
                         title={exerciseName}
                         content={hasProgressionData 
-                          ? `${displayWeight} ${settings.weigthUnit || 'lbs'}`
-                          : `Not set - ${settings.weigthUnit || 'lbs'}`
+                          ? `${displayWeight} ${settings?.weigthUnit || 'lbs'}`
+                          : `Not set - ${settings?.weigthUnit || 'lbs'}`
                         }
                       />
                     </DialogWeightEdit>

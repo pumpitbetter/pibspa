@@ -9,11 +9,13 @@ import { useNavigate } from "react-router";
 import type { Route } from "./+types/route";
 import { Heart } from "lucide-react";
 import ShortUniqueId from "short-unique-id";
+import invariant from "tiny-invariant";
 
 const uid = new ShortUniqueId({ length: 10 });
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
 
   // Get all exercises
   const exercises = await db.exercises.find().exec();
@@ -114,6 +116,7 @@ export default function Progress({ loaderData }: Route.ComponentProps) {
 
   const toggleFavorite = async (exerciseId: string) => {
     const db = await dbPromise;
+    invariant(db, "Database should be available in app routes");
     const newFavorites = new Set(favorites);
 
     if (favorites.has(exerciseId)) {

@@ -4,20 +4,45 @@ This document outlines all build processes and deployment workflows for the Pump
 
 ## 🏗️ Development Builds
 
-### Frontend Development
+### Web Development (SSR Mode)
 ```bash
 npm run dev
 ```
-- Starts React Router development server
+- Starts React Router development server with server-side rendering
+- Includes marketing pages and full app functionality
+- Hot reload enab## 📊 Build Outputs
+
+| Command | Output Location | Purpose |
+|---------|----------------|---------|
+| `npm run build` | `build/ssr/` | Web frontend bundle (SSR) |
+| `npm run build:spa` | `build/spa/` | Mobile frontend bundle (SPA) |
+| `npm run tauri:build` | `src-tauri/target/release/bundle/` | Desktop installers |
+| `npm run ios:build` | Xcode project | iOS development |
+| `npm run ios:build:sim` | `src-tauri/gen/apple/build/arm64-sim/` | iOS production simulator build |
+| `npm run ios:run` | iOS Simulator | Complete iOS testing workflow |
+| `npm run ios:beta` | TestFlight | Beta distribution |
+| `npm run android:build` | `src-tauri/gen/android/app/build/outputs/apk/release/` | Signed APK |
+| `npm run android:run` | Android Emulator | Complete Android testing workflow |
+| `npm run android:internal` | Play Store internal track | Team testing distribution |
+| `npm run android:alpha` | Play Store alpha track | Early tester distribution |
+| `npm run android:beta` | Play Store beta track | Beta distribution |ble at `http://localhost:5175`
+- Use for full-stack web development with SEO capabilities
+
+### Web Development (SPA Mode)
+```bash
+npm run dev:spa
+```
+- Starts React Router development server in SPA mode
+- App-only, no marketing pages - direct to `/app/queue`
 - Hot reload enabled
-- Accessible at `http://localhost:5173`
-- Use for frontend-only development
+- Accessible at `http://localhost:5175/app/queue`
+- Use for mobile-focused development and mobile app builds
 
 ### Desktop Development (Tauri)
 ```bash
 npm run tauri:dev
 ```
-- Builds frontend and starts Tauri desktop app
+- Builds frontend in SPA mode and starts Tauri desktop app
 - Hot reload for both frontend and Rust backend
 - Opens native desktop window
 - Use for desktop app development and testing
@@ -26,18 +51,36 @@ npm run tauri:dev
 ```bash
 npm run ios:dev
 ```
-- Builds frontend and starts iOS app in simulator
+- Builds frontend in SPA mode and starts iOS app in simulator
 - Requires Xcode and iOS simulator
 - Hot reload enabled
 - Use for iOS-specific development and testing
 
 ## 📦 Production Builds
 
+### Web Production Build (SSR)
+```bash
+npm run build
+```
+- Builds optimized frontend bundle with server-side rendering
+- Includes marketing pages and app functionality
+- Output: `build/ssr/`
+- Use for web deployment with SEO and marketing presence
+
+### Mobile Production Build (SPA)
+```bash
+npm run build:spa
+```
+- Builds optimized frontend bundle in SPA mode
+- App-only functionality, no marketing pages
+- Output: `build/spa/`
+- Use for mobile app builds (iOS/Android/Desktop)
+
 ### Desktop App Build
 ```bash
 npm run tauri:build
 ```
-- Builds optimized frontend bundle
+- Builds optimized frontend bundle in SPA mode
 - Compiles Rust backend for current platform
 - Generates platform-specific installers (.dmg, .exe, .deb)
 - Output: `src-tauri/target/release/bundle/`
@@ -46,31 +89,66 @@ npm run tauri:build
 ```bash
 npm run ios:build
 ```
-- Builds optimized frontend bundle
+- Builds optimized frontend bundle in SPA mode
 - Compiles iOS app with Tauri
-- Generates Xcode project
-- Creates unsigned .app bundle
-- Use for local testing only
+- Generates signed .app bundle successfully ✅
+- Use for local development and testing only
+- Note: Shows expected export error at end (build succeeds, export fails)
+
+### iOS Production Build for Simulator
+```bash
+npm run ios:build:sim
+```
+- Builds optimized frontend bundle in SPA mode
+- Compiles iOS app with Tauri for simulator target (aarch64-sim)
+- Generates production-ready .app bundle for simulator testing
+- Perfect for testing production builds without device deployment
+- Use for simulator-based testing of release builds
+
+### iOS Archive (Distribution Ready)
+```bash
+npm run ios:archive
+```
+- Builds optimized frontend bundle in SPA mode
+- Compiles and code signs iOS app with Tauri
+- Handles expected export failures gracefully
+- Creates signed .ipa file ready for distribution
+- Output: `build/ios/PumpItBetter.ipa`
+- Use for App Store submission or TestFlight distribution
 
 ### Android App Build (Local)
 ```bash
 npm run android:build
 ```
-- Builds optimized frontend bundle
+- Builds optimized frontend bundle in SPA mode
 - Compiles Android app with Tauri
-- Generates signed APK with release configuration
+- Generates signed APK and AAB with release configuration
 - Output: `src-tauri/gen/android/app/build/outputs/apk/release/`
 - Use for local testing or direct installation
 
-### iOS Archive (App Store Ready)
+### Android App Run (Emulator)
 ```bash
-npm run ios:archive
+npm run android:run
 ```
-- Builds optimized frontend bundle
-- Compiles and archives iOS app
-- Code signs with Apple Developer certificate
-- Creates .ipa file ready for distribution
-- Output: `build/ios/`
+- Builds optimized frontend bundle in SPA mode
+- Compiles and signs Android app with Tauri
+- Automatically starts Android emulator if needed
+- Installs and launches APK in emulator
+- Complete end-to-end testing workflow
+
+### iOS App Run (Simulator)
+```bash
+npm run ios:run
+```
+- Builds optimized frontend bundle in SPA mode
+- Compiles production iOS app with Tauri for simulator
+- Automatically detects and starts iPhone 16 simulator if needed
+- Removes previous version and installs new build
+- Launches app automatically with process tracking
+- Complete end-to-end testing workflow for iOS
+- Provides full iOS/Android workflow parity
+
+
 
 ## 🚀 Deployment
 
@@ -79,7 +157,7 @@ npm run ios:archive
 npm run ios:beta
 ```
 - **Fully automated end-to-end workflow**
-- Builds optimized React Router frontend (SPA mode)
+- Builds optimized React Router frontend in SPA mode
 - Compiles and code signs iOS app with Tauri
 - Creates .ipa file using zip-based packaging (bypasses Xcode export issues)
 - Automatically uploads to TestFlight with version management
@@ -95,7 +173,7 @@ npm run ios:beta
 npm run android:beta
 ```
 - **Fully automated end-to-end workflow**
-- Builds optimized React Router frontend (SPA mode)
+- Builds optimized React Router frontend in SPA mode
 - Configures Android signing with keystore from .env
 - Compiles and signs Android app with Tauri
 - Creates both APK and AAB (Android App Bundle) files
@@ -127,7 +205,7 @@ npm run android:beta
 
 ### App Store Deployment
 Currently manual process:
-1. Run `npm run ios:archive`  
+1. Run `npm run ios:archive` to create signed .ipa
 2. Open Xcode Organizer
 3. Distribute app to App Store
 4. Submit for review in App Store Connect
@@ -260,7 +338,13 @@ npm run tauri:build
 **Test iOS build:**
 ```bash
 npm run ios:build
-# Verify app opens in iOS Simulator
+# Creates unsigned build for development testing
+```
+
+**Test iOS archive:**
+```bash
+npm run ios:archive
+# Creates signed .ipa ready for distribution
 ```
 
 **Verify TestFlight upload:**
@@ -313,16 +397,19 @@ Version: 0.2.0 → Version Name: 0.2.0, Version Code: 2000
 
 **⚠️ Important:** Each deployment requires a unique build number. Always increment patch version for beta testing to avoid upload conflicts.
 
-## �📊 Build Outputs
+## 📊 Build Outputs
 
 | Command | Output Location | Purpose |
 |---------|----------------|---------|
 | `npm run build` | `build/` | Frontend bundle |
 | `npm run tauri:build` | `src-tauri/target/release/bundle/` | Desktop installers |
-| `npm run ios:build` | Xcode project | iOS development |
-| `npm run ios:archive` | `build/ios/` | Signed iOS .ipa |
+| `npm run ios:build` | Xcode project | iOS development (unsigned) |
+| `npm run ios:build:sim` | `src-tauri/gen/apple/build/arm64-sim/` | iOS production simulator build |
+| `npm run ios:run` | iOS Simulator | Complete iOS testing workflow |
+| `npm run ios:archive` | `build/ios/PumpItBetter.ipa` | iOS distribution (.ipa) |
 | `npm run ios:beta` | TestFlight | Beta distribution |
 | `npm run android:build` | `src-tauri/gen/android/app/build/outputs/apk/release/` | Signed APK |
+| `npm run android:run` | Android Emulator | Complete Android testing workflow |
 | `npm run android:internal` | Play Store internal track | Team testing distribution |
 | `npm run android:alpha` | Play Store alpha track | Early tester distribution |
 | `npm run android:beta` | Play Store beta track | Beta distribution |
@@ -518,9 +605,11 @@ For build issues:
 
 ---
 
-**Last Updated:** August 2025  
+**Last Updated:** September 2025  
 **Tauri Version:** 2.0  
 **React Router Version:** 7.x  
 **FastLane Version:** 2.x with dotenv integration  
 **iOS Deployment:** Fully automated via npm run ios:beta  
-**Android Deployment:** Fully automated via npm run android:beta
+**Android Deployment:** Fully automated via npm run android:beta  
+**iOS Simulator Testing:** Fully automated via npm run ios:run  
+**Android Emulator Testing:** Fully automated via npm run android:run

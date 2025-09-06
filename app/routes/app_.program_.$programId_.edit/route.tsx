@@ -3,6 +3,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
+import invariant from "tiny-invariant";
 import {
   Card,
   CardContent,
@@ -21,6 +22,7 @@ import { LinkBack } from "~/components/link-back";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
   const program = await db.programs.findOne(params.programId).exec();
   return program?.toMutableJSON();
 }
@@ -34,6 +36,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     const db = await dbPromise;
+    invariant(db, "Database should be available in app routes");
     const program = await db.programs.findOne(programId).exec();
 
     if (!program) {

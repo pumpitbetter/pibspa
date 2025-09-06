@@ -3,7 +3,7 @@
 A modern, cross-platform fitness tracking application built with React Router and Tauri, supporting iOS, Android, Desktop, and Web platforms.
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Version](https://img.shields.io/badge/version-0.1.2-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-0.1.5-blue.svg)]()
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20Android%20%7C%20Web%20%7C%20Desktop-lightgrey.svg)]()
 
 ## 🏋️ Features
@@ -54,6 +54,9 @@ npm run build
 - **[BUILD.md](./BUILD.md)** - Build processes and deployment workflows
 - **[VERSION_MANAGEMENT.md](./VERSION_MANAGEMENT.md)** - Version strategy and automation tools
 
+### 🏗️ Architecture & Implementation
+- **[docs/ssr-setup-and-database-integration.md](./docs/ssr-setup-and-database-integration.md)** - SSR/SPA dual build system and database patterns
+
 ### 🤖 Automation & Smart Features
 - **[docs/GIT_CONVENTIONS.md](./docs/GIT_CONVENTIONS.md)** - Git conventions and smart automation
 - **Changelog Automation:** Auto-generate release notes from commit history
@@ -64,7 +67,8 @@ npm run build
 
 ### Development
 ```bash
-npm run dev              # Web development server
+npm run dev              # Web development server (SSR + marketing)
+npm run dev:spa          # SPA development server (app-only)
 npm run ios:dev          # iOS simulator development  
 npm run android:dev      # Android emulator development
 npm run tauri:dev        # Desktop app development
@@ -72,9 +76,11 @@ npm run tauri:dev        # Desktop app development
 
 ### Building
 ```bash
-npm run build            # Production web build
+npm run build            # Production web build (SSR)
+npm run build:spa        # Production SPA build (for mobile)
 npm run tauri:build      # Desktop app build
 npm run ios:build        # iOS app build (local)
+npm run ios:build:sim    # iOS production build for simulator testing
 npm run android:build    # Android app build (local)
 ```
 
@@ -84,6 +90,12 @@ npm run ios:beta         # Deploy to TestFlight
 npm run android:beta     # Deploy to Play Store Beta
 npm run android:alpha    # Deploy to Play Store Alpha
 npm run android:internal # Deploy to Play Store Internal Testing
+```
+
+### Testing & Development Automation
+```bash
+npm run ios:run          # Build + install + launch production iOS app in simulator
+npm run android:run      # Build + install + launch production Android app in emulator
 ```
 
 ### Version Management
@@ -236,7 +248,7 @@ fastlane --version
 
 ## 📈 Project Status
 
-**Current Version:** v0.1.2  
+**Current Version:** v0.1.5  
 **Platforms:** iOS (TestFlight), Android (Play Store Beta), Web (Production)  
 **Deployment:** Fully automated via npm scripts  
 **Documentation:** Complete with automation guides  

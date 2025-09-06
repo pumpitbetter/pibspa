@@ -32,6 +32,8 @@ import { useState } from "react";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
+  
   const routine = await db.routines
     .findOne({
       selector: {
@@ -276,6 +278,7 @@ async function editRoutine(formData: FormData) {
   const load = Number(formData.get("load") as string);
 
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
 
   const template = await db.templates
     .findOne({ selector: { id: templateId } })
@@ -296,6 +299,7 @@ async function deleteExercise(formData: FormData) {
   invariant(exerciseId, "exerciseId not found");
 
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
 
   // Delete all templates for this exercise
   await db.templates.find({ selector: { exerciseId } }).remove();
@@ -311,6 +315,7 @@ async function updateSets(formData: FormData) {
   invariant(setCount > 0, "setCount must be greater than 0");
 
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
 
   // Get current templates for this exercise in this routine
   const currentTemplates = await db.templates

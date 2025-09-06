@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import type { Route } from "./+types/route";
 import { dbPromise } from "~/db/db";
 import type { Modifiers } from "react-day-picker";
+import invariant from "tiny-invariant";
 
 // https://date-picker.luca-felix.com/
 
@@ -19,6 +20,7 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const maxDate = new Date(year, month + 1, 0);
 
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
 
   const workouts = await db.workouts
     .find({

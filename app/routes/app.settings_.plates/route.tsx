@@ -15,6 +15,8 @@ import { useFetcher, useSearchParams } from "react-router";
 
 export async function clientLoader() {
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
+  
   const settings = await db.settings.findOne().exec();
   return settings ? settings.toMutableJSON() : defaultSettings;
 }
@@ -95,6 +97,7 @@ async function editPlates(formData: FormData) {
   const count = Number(formData.get("count") ?? 0);
 
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
   const settings = await db.settings.findOne().exec();
 
   invariant(settings, "Settings not found");
@@ -122,6 +125,7 @@ async function addPlates(formData: FormData) {
   const count = Number(formData.get("count") ?? 0);
 
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
   const settings = await db.settings.findOne().exec();
 
   invariant(settings, "Settings not found");
@@ -153,6 +157,7 @@ async function addPlates(formData: FormData) {
 async function deletePlates(formData: FormData) {
   const weight = Number(formData.get("weight") ?? 0);
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
   const settings = await db.settings.findOne().exec();
   invariant(settings, "Settings not found");
 

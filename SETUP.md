@@ -790,6 +790,19 @@ Should build and open in iOS Simulator (will prompt you to select a simulator)
 2. Wait for the initial build (can take 3-5 minutes)
 3. The iOS Simulator should open with your app
 
+### 3a. iOS Production Testing
+```bash
+npm run ios:run
+```
+Should build production app and automatically run in iOS Simulator
+
+**Features:**
+- Automatically detects and uses iPhone 16 simulator
+- Builds production-optimized app for accurate testing
+- Removes previous version and installs new build
+- Launches app automatically
+- Complete automation matching Android workflow
+
 ### 4. Android Emulator or Device
 ```bash
 npm run android:dev
@@ -941,10 +954,12 @@ If you encounter issues:
 
 ---
 
-**Last Updated:** August 2025  
+**Last Updated:** September 2025  
 **Target Platform:** macOS only  
 **Estimated Setup Time:** 30-60 minutes (depending on download speeds)  
 **Ruby Version:** 3.4.5+ (via rbenv)  
 **FastLane:** 2.x with automatic .env loading  
 **iOS Automation:** Fully automated TestFlight deployment  
-**Android Automation:** Fully automated Play Store beta deployment
+**Android Automation:** Fully automated Play Store beta deployment  
+**iOS Testing:** Automated simulator testing with ios:run  
+**Android Testing:** Automated emulator testing with android:run

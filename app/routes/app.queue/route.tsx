@@ -16,9 +16,6 @@ import {
 import { 
   enhanceTemplatesWithProgression,
   calculateExerciseProgressionIndices,
-  getCurrentExerciseWeight,
-  processWorkoutProgression,
-  type WeightCalculation 
 } from "~/lib/queue-integration";
 import { List } from "~/components/list";
 import {
@@ -39,6 +36,8 @@ import type { HistoryDocType } from "~/db/history";
 
 export async function clientLoader() {
   const db = await dbPromise;
+  if (!db) throw new Error("Database should be available in app routes");
+  
   const settings = await db.settings.findOne().exec();
   invariant(settings, "Settings not found.");
   const program = await db.programs
@@ -158,6 +157,8 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   invariant(groupedWorkout, "groupedWorkout is required");
 
   const db = await dbPromise;
+  if (!db) throw new Error("Database should be available in app routes");
+  
   await db.workouts.upsert({
     id: groupedWorkout.workout.id,
     programId: groupedWorkout.workout.programId,

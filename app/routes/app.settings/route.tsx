@@ -10,9 +10,12 @@ import { defaultSettings } from "~/db/settings";
 import { DialogBarbellWeight } from "./dialog-barbell-weight";
 import { DialogEzBarWeight } from "./dialog-ezbar-weight";
 import { Link } from "react-router";
+import invariant from "tiny-invariant";
 
 export async function clientLoader() {
   const db = await dbPromise;
+  if (!db) throw new Error("Database should be available in app routes");
+  
   const settings = await db.settings.findOne().exec();
   return settings ? settings.toMutableJSON() : defaultSettings;
 }
@@ -20,6 +23,9 @@ export async function clientLoader() {
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   const intent = formData.get("intent");
+
+  const db = await dbPromise;
+  if (!db) throw new Error("Database should be available in app routes");
 
   switch (intent) {
     case "editWeightUnit":
@@ -68,6 +74,7 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
 async function editWeightUnit(formData: FormData) {
   const weigthUnit = formData.get("weigthUnit");
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
   const settings = await db.settings.findOne().exec();
   await settings?.update({
     $set: {
@@ -78,12 +85,13 @@ async function editWeightUnit(formData: FormData) {
 }
 
 async function editBarbellWeight(formData: FormData) {
-  const barbellWeight = Number(formData.get("barbellWeight"));
+  const barbell = Number(formData.get("barbell") ?? 0);
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
   const settings = await db.settings.findOne().exec();
   await settings?.update({
     $set: {
-      barbellWeight: barbellWeight,
+      barbellWeight: barbell,
     },
   });
   return settings ? settings.toMutableJSON() : defaultSettings;
@@ -92,6 +100,7 @@ async function editBarbellWeight(formData: FormData) {
 async function editEzBarWeight(formData: FormData) {
   const ezbarlWeight = Number(formData.get("ezbarWeight"));
   const db = await dbPromise;
+  invariant(db, "Database should be available in app routes");
   const settings = await db.settings.findOne().exec();
   await settings?.update({
     $set: {
