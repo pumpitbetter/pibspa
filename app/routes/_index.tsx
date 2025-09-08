@@ -65,7 +65,7 @@ export default function Home() {
             <p className="text-lg sm:text-xl md:text-2xl text-on-surface-variant max-w-3xl mx-auto mb-6 sm:mb-8">
               Transform your fitness journey with intelligent tracking, powerful analytics, and seamless cross-platform sync
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center max-w-lg mx-auto">
               <a 
                 href="/app"
                 className="w-full sm:w-auto px-6 py-3 bg-primary text-on-primary rounded-lg font-medium hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-lg text-center"
@@ -73,8 +73,14 @@ export default function Home() {
                 Launch App
               </a>
               <a 
-                href="/marketing/pricing"
+                href="/exercises"
                 className="w-full sm:w-auto px-6 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-medium hover:bg-secondary hover:text-on-secondary transition-colors border border-outline text-center"
+              >
+                Browse Exercises
+              </a>
+              <a 
+                href="/marketing/pricing"
+                className="w-full sm:w-auto px-6 py-3 bg-outline-variant text-on-surface rounded-lg font-medium hover:bg-surface-container transition-colors border border-outline text-center"
               >
                 View Pricing
               </a>

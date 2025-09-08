@@ -7,6 +7,7 @@ This guide walks you through setting up your development environment for PumpItB
 - **macOS**: This guide is specifically for macOS users
 - **Apple Developer Account**: Required for iOS development and deployment
 - **Google Play Console Account**: Required for Android deployment ($25 one-time fee)
+- **Docker Desktop**: Required for server database (PostgreSQL) development
 - **Homebrew**: macOS package manager (we'll install this first)
 
 ## 🔐 Required Files and Certificates Overview
@@ -14,7 +15,52 @@ This guide walks you through setting up your development environment for PumpItB
 Before starting development, you'll need these files for automated builds:
 
 ### iOS Build Requirements
-- **Apple Distribution Certificate** - In macOS Keychain
+- *## 🔧 Project Setup
+
+### 1. Clone and Setup Project
+
+```bash
+# Clone the repository
+git clone [repository-url]
+cd pibspa
+
+# Install dependencies
+npm install
+```
+
+### 2. Server Database Setup (Optional but Recommended)
+
+**The project uses dual databases:**
+- **Client Database (RxDB)**: Automatically available for mobile apps
+- **Server Database (PostgreSQL)**: Requires Docker setup for full-stack features
+
+**Set up the server database:**
+
+```bash
+# Start PostgreSQL container
+npm run docker:up
+
+# Set up database schema and seed data
+npm run db:generate
+npm run db:push
+npm run db:seed
+
+# Verify database is working
+npm run db:studio
+```
+
+**Skip server database setup if:**
+- You only need mobile app development
+- You're working on client-side features only
+- Docker is not available
+
+**Server database enables:**
+- User accounts and authentication
+- Server-side data persistence
+- Advanced analytics features
+- Admin functionality
+
+See [DATABASE.md](./DATABASE.md) for detailed database setup instructions.ibution Certificate** - In macOS Keychain
 - **App Store Provisioning Profile** - `com.pumpitbetter.app AppStore`
 - **Apple Developer Credentials** - In `.env` file
 
@@ -119,7 +165,24 @@ npm --version
 brew install git
 ```
 
-### 4. Install Xcode and Command Line Tools
+### 4. Install Docker Desktop
+
+**Required for server database development**
+
+1. **Download Docker Desktop**
+   - Visit [docker.com](https://www.docker.com/products/docker-desktop/)
+   - Download Docker Desktop for Mac
+   - Install and start Docker Desktop
+
+2. **Verify Docker Installation**
+   ```bash
+   docker --version
+   docker info
+   ```
+
+**Note**: The server database (PostgreSQL) runs in Docker containers. While you can develop mobile apps without it, full-stack features require the server database.
+
+### 5. Install Xcode and Command Line Tools
 
 1. **Install Xcode from App Store**
    - Search for "Xcode" in App Store
@@ -672,7 +735,7 @@ cd pibspa
 npm install
 ```
 
-### 2. Environment Configuration
+### 3. Environment Configuration
 
 ```bash
 # Copy environment template
@@ -714,7 +777,7 @@ GOOGLE_PLAY_PACKAGE_NAME="com.pumpitbetter.app"  # Package name (same as bundle 
 - `PLAY_STORE_JSON_KEY_PATH` → Path to Google Play Store API service account JSON key
 - `GOOGLE_PLAY_PACKAGE_NAME` → Google Play package name (same as bundle ID)
 
-### 3. Apple Developer Credentials Setup
+### 4. Apple Developer Credentials Setup
 
 #### Get your Team ID:
 1. Go to [developer.apple.com](https://developer.apple.com)
@@ -772,6 +835,11 @@ Test that everything is working:
 npm run dev
 ```
 Should start the development server at `http://localhost:5173`
+
+**Note**: This runs SSR mode with server database access. For SPA-only development:
+```bash
+npm run dev:spa
+```
 
 ### 2. Desktop App
 ```bash
@@ -862,7 +930,18 @@ Should show Fastlane version without errors
 
 ### Common Issues
 
-**"command not found: brew"**
+**"command not found: docker"**
+- Download and install Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/)
+- Start Docker Desktop application
+- Restart terminal after installation
+- Verify with: `docker --version`
+
+**"Cannot connect to the Docker daemon"**
+- Ensure Docker Desktop is running (green indicator in menu bar)
+- Wait for Docker Desktop to fully start
+- Try command again
+
+**"command not found: brew"****
 - Restart terminal after installing Homebrew
 - Make sure Homebrew is in your PATH
 
@@ -924,6 +1003,20 @@ fastlane sigh --force
 - Run `npm run android:sign` to create a new keystore
 - For Play Store deployment, ensure JSON key file exists
 - Double-check all credentials match in `.env` file
+
+**Server database connection issues**
+- Ensure Docker Desktop is running: `docker info`
+- Check container status: `docker ps | grep postgres`
+- Restart database: `npm run docker:down && npm run docker:up`
+- View database logs: `npm run docker:logs`
+- See [DATABASE.md](./DATABASE.md) for detailed troubleshooting
+
+**Server database connection issues**
+- Ensure Docker Desktop is running: `docker info`
+- Check container status: `docker ps | grep postgres`
+- Restart database: `npm run docker:down && npm run docker:up`
+- View database logs: `npm run docker:logs`
+- See [DATABASE.md](./DATABASE.md) for detailed troubleshooting
 
 ## 🎯 Next Steps
 

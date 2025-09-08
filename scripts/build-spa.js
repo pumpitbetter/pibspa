@@ -10,11 +10,22 @@ const __dirname = path.dirname(__filename);
 
 console.log('🏗️  Building SPA for mobile apps...');
 
+// Check for existing temp directory and clean it up first
+if (fs.existsSync('temp-excluded')) {
+  console.log('⚠️  Found existing temp directory, cleaning up first...');
+  try {
+    execSync('node scripts/cleanup-spa.js', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('❌ Pre-build cleanup failed:', error.message);
+    process.exit(1);
+  }
+}
+
 // Backup original configs
 const viteConfigPath = 'vite.config.ts';
 const reactRouterConfigPath = 'react-router.config.ts';
 const viteConfigBackup = 'vite.config.ssr.ts';
-const reactRouterConfigBackup = 'react-router.config.backup.ts';
+const reactRouterConfigBackup = 'react-router.ssr.config.ts';
 
 // Create temp directory for excluded routes
 const tempDir = 'temp-excluded';
@@ -24,13 +35,25 @@ if (!fs.existsSync(tempDir)) {
 
 // Move problematic routes out temporarily
 const routesToExclude = [
+  // Marketing routes (not needed in mobile app)
   'app/routes/marketing._index.tsx',
   'app/routes/marketing.pricing.tsx',
+  
+  // Server-side API routes (require Node.js runtime)
   'app/routes/api.auth.tsx',
-  'app/routes/api.sync.tsx'
+  'app/routes/api.sync.tsx',
+  'app/routes/api.health.ts',
+  
+  // Database-dependent SSR routes (require PostgreSQL)
+  'app/routes/exercises._index.tsx',
+  
+  // Any other SSR-only routes that use Prisma/database
+  // Add more routes here as needed when they use database
 ];
 
 const movedRoutes = [];
+let buildError = null;
+
 routesToExclude.forEach(route => {
   if (fs.existsSync(route)) {
     const fileName = path.basename(route);
@@ -70,12 +93,15 @@ export default {
   console.log('✅ SPA build completed successfully!');
   console.log('📁 Output: build/spa/client/');
   
-} catch (error) {
-  console.error('❌ SPA build failed:', error.message);
-  process.exit(1);
+} catch (err) {
+  buildError = err;
+  console.error('❌ SPA build failed:', err.message);
+  // Don't exit here - let finally block run cleanup first
 } finally {
   // Restore original configs
   console.log('🔄 Restoring original configs...');
+  let cleanupFailed = false;
+  
   try {
     fs.copyFileSync(viteConfigBackup, viteConfigPath);
     fs.copyFileSync(reactRouterConfigBackup, reactRouterConfigPath);
@@ -95,7 +121,13 @@ export default {
     
     console.log('✅ Cleanup completed');
   } catch (cleanupError) {
+    cleanupFailed = true;
     console.error('⚠️  Warning: Cleanup failed:', cleanupError.message);
-    console.error('You may need to manually restore configs');
+    console.error('Run: npm run cleanup-spa to manually restore files');
+  }
+  
+  // Exit with error only after cleanup attempt
+  if (buildError || cleanupFailed) {
+    process.exit(1);
   }
 }

@@ -1,0 +1,146 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for authentication and profile management
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  avatar      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // User profile and preferences
+  profile     UserProfile?
+  workouts    Workout[]
+  exercises   Exercise[]
+  
+  @@map("users")
+}
+
+// Extended user profile information
+model UserProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Personal information
+  firstName     String?
+  lastName      String?
+  dateOfBirth   DateTime?
+  gender        String?
+  
+  // Physical stats
+  height        Float?    // in cm
+  weight        Float?    // in kg
+  bodyFat       Float?    // percentage
+  
+  // Preferences
+  preferredUnits String?  // "metric" or "imperial"
+  timezone      String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@map("user_profiles")
+}
+
+// Exercise definitions (both default and user-created)
+model Exercise {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  category      String   // "strength", "cardio", "flexibility", etc.
+  muscleGroups  String[] // Array of muscle groups
+  equipment     String?  // Required equipment
+  instructions  String?  // How to perform the exercise
+  
+  // Metadata
+  isDefault     Boolean  @default(false) // System-defined vs user-created
+  createdBy     String?  // User ID if user-created
+  creator       User?    @relation(fields: [createdBy], references: [id])
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  workoutExercises WorkoutExercise[]
+  
+  @@map("exercises")
+}
+
+// Workout sessions
+model Workout {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  name          String
+  notes         String?
+  startedAt     DateTime
+  completedAt   DateTime?
+  duration      Int?     // in seconds
+  
+  // Workout metadata
+  workoutType   String?  // "strength", "cardio", "mixed", etc.
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  exercises     WorkoutExercise[]
+  
+  @@map("workouts")
+}
+
+// Junction table for exercises in workouts with sets/reps
+model WorkoutExercise {
+  id          String   @id @default(cuid())
+  workoutId   String
+  workout     Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exerciseId  String
+  exercise    Exercise @relation(fields: [exerciseId], references: [id])
+  
+  order       Int      // Order in the workout
+  sets        WorkoutSet[]
+  
+  notes       String?
+  restTime    Int?     // Rest time in seconds
+  
+  createdAt   DateTime @default(now())
+  
+  @@map("workout_exercises")
+}
+
+// Individual sets within an exercise
+model WorkoutSet {
+  id                String          @id @default(cuid())
+  workoutExerciseId String
+  workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id], onDelete: Cascade)
+  
+  setNumber         Int
+  reps              Int?
+  weight            Float?          // in kg
+  distance          Float?          // in meters (for cardio)
+  duration          Int?            // in seconds (for time-based exercises)
+  restTime          Int?            // actual rest time taken
+  
+  // RPE (Rate of Perceived Exertion) or difficulty
+  rpe               Int?            // 1-10 scale
+  
+  completed         Boolean         @default(false)
+  completedAt       DateTime?
+  
+  createdAt         DateTime        @default(now())
+  
+  @@map("workout_sets")
+}
