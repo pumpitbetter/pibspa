@@ -73,17 +73,26 @@ async function main() {
   
   // Create default exercises
   for (const exercise of defaultExercises) {
-    await prisma.exercise.upsert({
+    // Check if exercise already exists
+    const existingExercise = await prisma.exercise.findFirst({
       where: { 
-        name: exercise.name 
-      },
-      update: {},
-      create: exercise,
+        name: exercise.name,
+        isDefault: true
+      }
     });
+    
+    if (!existingExercise) {
+      await prisma.exercise.create({
+        data: exercise,
+      });
+      console.log(`✅ Created exercise: ${exercise.name}`);
+    } else {
+      console.log(`⏭️  Exercise already exists: ${exercise.name}`);
+    }
   }
   
   console.log('✅ Database seeded successfully!');
-  console.log(`📊 Created ${defaultExercises.length} default exercises`);
+  console.log(`📊 Processed ${defaultExercises.length} default exercises`);
 }
 
 main()

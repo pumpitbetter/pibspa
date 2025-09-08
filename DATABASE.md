@@ -2,14 +2,91 @@
 
 This guide explains how to set up and use the PostgreSQL database with Prisma for PumpItBetter SPA.
 
+**⚠️ IMPORTANT: Database access is only available in SSR builds, not SPA builds for mobile apps.**
+
+## Prerequisites
+
+Before setting up the server database, ensure you have Docker installed:
+
+### Install Docker Desktop
+
+1. **Download Docker Desktop** from [docker.com](https://www.docker.com/products/docker-desktop/)
+2. **Install and start** Docker Desktop
+3. **Verify installation** by running:
+   ```bash
+   docker --version
+   ```
+
+If you prefer not to use Docker, you can install PostgreSQL directly:
+```bash
+# macOS with Homebrew
+brew install postgresql@15
+brew services start postgresql@15
+```
+
+## Architecture Overview
+
+PumpItBetter uses a **dual database architecture** with clear separation between client and server data:
+
+### Client Database (RxDB)
+- **Purpose**: Offline-first functionality for mobile apps
+- **Technology**: RxDB (browser-based database)
+- **Usage**: SPA builds, mobile apps, offline storage
+- **Included in**: SPA builds ✅
+- **Data**: Workout tracking, exercise definitions, progress charts
+
+### Server Database (PostgreSQL + Prisma)
+- **Purpose**: Centralized data storage for web features
+- **Technology**: PostgreSQL with Prisma ORM
+- **Usage**: SSR builds, server-side features, data persistence
+- **Included in**: SPA builds ❌ (excluded by design)
+- **Data**: User accounts, advanced analytics, server-side features
+
+The database setup is designed with a clear separation:
+
+- **SSR Builds** (`npm run dev`, `npm run build:ssr`): Full server database access
+- **SPA Builds** (`npm run build:spa`): Server database routes excluded, client database used instead
+
+This ensures that:
+- Mobile apps don't include server-side dependencies
+- Database credentials never reach client devices  
+- Mobile apps remain lightweight and secure
+- Both databases serve their specific purposes without conflict
+
+## Database Terminology
+
+When discussing databases in this project, we use these terms:
+
+- **"Client database"** or **"RxDB"** = Browser-based database for offline functionality
+- **"Server database"** or **"PostgreSQL/Prisma"** = Server-side database for centralized data
+- Use context-specific terms like **"SPA database"** vs **"SSR database"** when discussing builds
+
 ## Quick Start
 
-### Automated Setup (Recommended)
+### Step 1: Verify Docker Installation
+
+First, check that Docker is properly installed and running:
+
+```bash
+# Check Docker installation
+docker --version
+
+# Check if Docker is running
+docker info
+```
+
+If Docker is not installed, see the [Prerequisites](#prerequisites) section above.
+
+### Step 2: Start the Server Database
+
+Choose one of the following methods:
+
+#### Automated Setup (Recommended)
 
 Run the setup script to start everything automatically:
 
 ```bash
-./scripts/setup-database.sh
+./scripts/setup-database.shr
 ```
 
 This script will:
@@ -19,7 +96,7 @@ This script will:
 4. Push database schema
 5. Seed initial data
 
-### Manual Setup
+#### Manual Setup
 
 If you prefer to run each step manually:
 
@@ -37,6 +114,21 @@ npm run db:push
 npm run db:seed
 ```
 
+### Step 3: Verify Database is Working
+
+Test your database connection:
+
+```bash
+# Open Prisma Studio to view data
+npm run db:studio
+
+# Check container status
+docker ps | grep postgres
+
+# View database logs
+npm run docker:logs
+```
+
 ## Database Access
 
 ### Connection Details
@@ -52,7 +144,7 @@ npm run db:seed
 ```bash
 npm run db:studio
 ```
-Opens Prisma Studio at: http://localhost:5555
+Opens Prisma Studio at: http://localhost:5556
 
 #### pgAdmin (Optional)
 If you started the full Docker compose setup:
@@ -134,28 +226,121 @@ The seed script creates default exercises including:
 
 ## Usage in Code
 
-### Basic Database Connection
+### Safe Database Access (Recommended)
 
 ```typescript
-import { prisma } from "~/lib/db/prisma";
+import { withDatabase } from "~/lib/db/utils";
 
-// Example: Get all exercises
-const exercises = await prisma.exercise.findMany({
-  where: { isDefault: true },
-  orderBy: { name: 'asc' }
-});
-```
-
-### In React Router Loaders
-
-```typescript
+// Example: Get all exercises with proper error handling
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const exercises = await prisma.exercise.findMany();
-  return { exercises };
+  try {
+    const exercises = await withDatabase(
+      async (db) => {
+        return await db.exercise.findMany({
+          where: { isDefault: true },
+          orderBy: { name: 'asc' }
+        });
+      },
+      'Failed to load exercises'
+    );
+    
+    return { exercises };
+  } catch (error) {
+    // Handle database unavailable gracefully
+    return { exercises: [] };
+  }
 };
 ```
 
+### Direct Database Connection (SSR Only)
+
+```typescript
+import { getPrismaClient } from "~/lib/db/utils";
+
+// Only use this in server-side code where you're certain it's SSR
+const db = getPrismaClient();
+const exercises = await db.exercise.findMany();
+```
+
+### Environment Checks
+
+```typescript
+import { isSSRMode, isServerSide } from "~/lib/db/utils";
+
+// Check if database access is available
+if (isSSRMode()) {
+  // Safe to use database
+} else {
+  // Use client-side storage or skip database operations
+}
+```
+
+## Build Isolation
+
+### SSR Routes (Database Access Available)
+- Routes in `app/routes/` that use `loader` functions
+- API endpoints (`app/routes/api.*.ts`)
+- Server-side rendering with database queries
+
+### SPA Routes (No Database Access)
+- Client-side routing in mobile apps
+- Database routes are automatically excluded from SPA builds
+- Use RxDB or other client-side storage instead
+
+### Route Exclusion
+
+Database-dependent routes are automatically excluded from SPA builds:
+
+```javascript
+// In scripts/build-spa.js
+const routesToExclude = [
+  'app/routes/exercises._index.tsx',  // Uses database
+  'app/routes/api.health.ts',         // Uses database
+  // Add new database routes here
+];
+```
+
+### Build-Time Protection
+
+The system includes multiple layers of protection:
+
+1. **Build-time exclusion**: Database routes removed from SPA builds
+2. **Import aliasing**: Prisma imports redirected to stub in SPA builds  
+3. **Runtime checks**: Errors thrown if database accessed in browser
+4. **Environment detection**: Automatic SSR vs SPA mode detection
+5. **Automatic cleanup**: Pre-build checks and dedicated cleanup command
+
+### Route Exclusion Recovery
+
+If routes get "stuck" in excluded state (404 errors in SSR mode):
+
+```bash
+# Clean up any stuck exclusions
+npm run build:spa:cleanup
+
+# Or manually check for temp files
+ls temp-excluded/
+```
+
+The build system now includes:
+- **Pre-build cleanup**: Automatically runs before SPA builds
+- **Improved error handling**: Ensures cleanup runs even if build fails  
+- **Dedicated cleanup command**: `npm run build:spa:cleanup`
+- **Recovery detection**: Warns about incomplete cleanup
+
 ## Troubleshooting
+
+### Docker Installation Issues
+
+1. **Docker command not found**:
+   - Download and install Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/)
+   - Restart your terminal after installation
+   - Verify with: `docker --version`
+
+2. **Docker daemon not running**:
+   - Start Docker Desktop application
+   - Wait for Docker Desktop to fully start (green indicator)
+   - Try command again
 
 ### Database Connection Issues
 
@@ -167,6 +352,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 2. **Check container status**:
    ```bash
    docker-compose ps
+   # or
+   docker ps | grep postgres
    ```
 
 3. **View PostgreSQL logs**:
@@ -178,6 +365,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
    ```bash
    npm run docker:down
    npm run docker:up
+   ```
+
+5. **Port 5432 already in use**:
+   ```bash
+   # Check what's using port 5432
+   sudo lsof -i :5432
+   
+   # Stop local PostgreSQL if running
+   brew services stop postgresql
    ```
 
 ### Prisma Issues

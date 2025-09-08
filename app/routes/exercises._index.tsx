@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { useLoaderData } from "react-router";
-import { prisma } from "~/lib/db/prisma";
+import { withDatabase } from "~/lib/db/utils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,24 +11,29 @@ export const meta: MetaFunction = () => {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   try {
-    // Fetch all default exercises from the database
-    const exercises = await prisma.exercise.findMany({
-      where: {
-        isDefault: true,
+    // Fetch all default exercises from the database using the safe wrapper
+    const exercises = await withDatabase(
+      async (db) => {
+        return await db.exercise.findMany({
+          where: {
+            isDefault: true,
+          },
+          orderBy: {
+            name: 'asc',
+          },
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            category: true,
+            muscleGroups: true,
+            equipment: true,
+            instructions: true,
+          },
+        });
       },
-      orderBy: {
-        name: 'asc',
-      },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        category: true,
-        muscleGroups: true,
-        equipment: true,
-        instructions: true,
-      },
-    });
+      'Failed to load exercises'
+    );
 
     return { exercises };
   } catch (error) {

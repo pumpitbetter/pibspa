@@ -14,5 +14,15 @@ export default defineConfig({
   },
   server: {
     port: 5175
+  },
+  resolve: {
+    alias: {
+      // Prevent Prisma/database imports in SPA builds
+      "~/lib/db/prisma": new URL("./app/lib/db/prisma.spa.ts", import.meta.url).pathname,
+    }
+  },
+  define: {
+    // Ensure we're in SPA mode
+    "process.env.BUILD_MODE": JSON.stringify("spa"),
   }
 });
