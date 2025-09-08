@@ -67,11 +67,11 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center max-w-md mx-auto">
               <a 
                 href="/app"
-                className="w-full sm:w-auto px-6 py-3 bg-primary text-on-primary rounded-lg font-medium hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-lg text-center"
+                className="w-full sm:w-60 px-6 py-3 bg-primary text-on-primary rounded-lg font-medium hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-lg text-center"
               >
                 Start Your Journey
               </a>
-              <button className="w-full sm:w-auto px-6 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-medium hover:bg-secondary hover:text-on-secondary transition-colors border border-outline">
+              <button className="w-full sm:w-60 px-6 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-medium hover:bg-secondary hover:text-on-surface transition-colors border border-outline text-center">
                 Learn More
               </button>
             </div>
@@ -91,7 +91,7 @@ export default function Home() {
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-on-surface hover:text-on-surface mb-3 sm:mb-4">Pre-Built Programs</h3>
             <p className="text-on-surface-variant hover:text-on-surface-variant mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base flex-grow">
-              Start training immediately with proven programs: <strong>5x5, 5/3/1, PPL, Madcow, 3x8</strong>. All programs auto-progress your weights and track your journey. Clone and customize any program to match your goals.
+              Start training immediately with proven programs: <strong>5x5, 5/3/1, PPL, Madcow, 3x8</strong>. All programs use <strong>progressive overload</strong> to auto-progress your weights and track your journey. Clone and customize any program to match your goals.
             </p>
             <button className="w-full sm:w-auto px-4 py-2 bg-primary text-on-primary rounded-lg font-medium hover:bg-primary-container hover:text-on-primary-container transition-colors text-sm sm:text-base mt-auto">
               <a href="/app/program/change" className="block w-full h-full">
@@ -194,6 +194,53 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-surface-container border-t border-outline-variant">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="text-center md:text-left">
+              <div className="text-xl font-bold text-primary mb-2">Train anywhere, sync everywhere</div>
+              <p className="text-sm text-on-surface-variant">
+                5x5 • 5/3/1 • PPL • Custom Programs • 100% Offline
+              </p>
+            </div>
+            
+            <div className="flex flex-wrap justify-center md:justify-end gap-6 text-sm">
+              <a 
+                href="/terms" 
+                className="text-on-surface-variant hover:text-primary transition-colors"
+              >
+                Terms of Service
+              </a>
+              <a 
+                href="/privacy" 
+                className="text-on-surface-variant hover:text-primary transition-colors"
+              >
+                Privacy Policy
+              </a>
+              <a 
+                href="/support" 
+                className="text-on-surface-variant hover:text-primary transition-colors"
+              >
+                Support
+              </a>
+              <a 
+                href="mailto:support@pumpitbetter.com" 
+                className="text-on-surface-variant hover:text-primary transition-colors"
+              >
+                Contact
+              </a>
+            </div>
+          </div>
+          
+          <div className="mt-6 pt-6 border-t border-outline-variant text-center">
+            <p className="text-xs text-on-surface-variant">
+              © 2025 Pump It Better LLC. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
