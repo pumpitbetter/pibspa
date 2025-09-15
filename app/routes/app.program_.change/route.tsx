@@ -2,6 +2,12 @@ import { Header } from "~/components/header";
 import { List } from "~/components/list";
 import { MainContent } from "~/components/main-content";
 import { Page } from "~/components/page";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "~/components/ui/tabs";
 import { dbPromise } from "~/db/db";
 import { defaultProgram, type ProgramsDocType } from "~/db/programs";
 import type { Route } from "./+types/route";
@@ -35,23 +41,53 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 }
 
 export default function ProgramChange({ loaderData }: Route.ComponentProps) {
+  const builtInPrograms = loaderData.filter(
+    (program) => program.ownerId === "system"
+  );
+  const customPrograms = loaderData.filter(
+    (program) => program.ownerId !== "system"
+  );
+
   return (
     <Page>
       <Header title="Switch Program" left={<LinkBack to="/app/program" />} />
       <MainContent>
-        <List>
-          {loaderData.map((program) => (
-            <ProgramListItem
-              key={program.id}
-              id={program.id}
-              title={program.name}
-              description={program.description}
-              type={program.type}
-              level={program.level}
-              ownerId={program.ownerId}
-            />
-          ))}
-        </List>
+        <Tabs defaultValue="built-in" className="w-full px-4">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="built-in">Built-in</TabsTrigger>
+            <TabsTrigger value="custom">Custom</TabsTrigger>
+          </TabsList>
+          <TabsContent value="built-in">
+            <List>
+              {builtInPrograms.map((program) => (
+                <ProgramListItem
+                  key={program.id}
+                  id={program.id}
+                  title={program.name}
+                  description={program.description}
+                  type={program.type}
+                  level={program.level}
+                  ownerId={program.ownerId}
+                />
+              ))}
+            </List>
+          </TabsContent>
+          <TabsContent value="custom">
+            <List>
+              {customPrograms.map((program) => (
+                <ProgramListItem
+                  key={program.id}
+                  id={program.id}
+                  title={program.name}
+                  description={program.description}
+                  type={program.type}
+                  level={program.level}
+                  ownerId={program.ownerId}
+                />
+              ))}
+            </List>
+          </TabsContent>
+        </Tabs>
       </MainContent>
     </Page>
   );
