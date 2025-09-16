@@ -72,7 +72,7 @@ export default function App() {
 - ✅ `app.queue/route.tsx`
 - ✅ `app.settings/route.tsx` 
 - ✅ `app.program/route.tsx`
-- ✅ `app.program_.change/route.tsx`
+- ✅ `app_.program_.change/route.tsx`
 - ✅ `app.progress/route.tsx`
 - ✅ `app.history/route.tsx`
 - ✅ `app.settings_.plates/route.tsx`
