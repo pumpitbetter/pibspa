@@ -2,6 +2,13 @@ import { useFetcher, useNavigate, useParams } from "react-router";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
 import invariant from "tiny-invariant";
 import {
@@ -35,6 +42,8 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     const programId = formData.get("programId") as string;
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
+    const type = formData.get("type") as string;
+    const level = formData.get("level") as string;
     const db = await dbPromise;
     invariant(db, "Database should be available in app routes");
     const program = await db.programs.findOne(programId).exec();
@@ -51,6 +60,8 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
       $set: {
         name,
         description,
+        type,
+        level,
       },
     });
 
@@ -99,6 +110,31 @@ export default function EditProgram({ loaderData }: Route.ComponentProps) {
                   name="name"
                   defaultValue={loaderData?.name}
                 />
+              </div>
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="type">Type</Label>
+                <Select name="type" defaultValue={loaderData?.type || "strength"}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="strength">Strength</SelectItem>
+                    <SelectItem value="cardio">Cardio</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="level">Level</Label>
+                <Select name="level" defaultValue={loaderData?.level || "beginner"}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="beginner">Beginner</SelectItem>
+                    <SelectItem value="intermediate">Intermediate</SelectItem>
+                    <SelectItem value="advanced">Advanced</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="grid w-full gap-1.5">
                 <Label htmlFor="description">Description</Label>

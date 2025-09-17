@@ -54,3 +54,5 @@ prisma/migrations/migration_lock.toml
 # Docker volumes (if using local volumes)
 postgres_data/
 pgadmin_data/
+
+.spa-watcher.pid
