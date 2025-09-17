@@ -255,3 +255,12 @@ fastlane --version
 **Team Ready:** Onboarding documentation and conventions established
 
 **Built with ❤️ for fitness enthusiasts who want to track their progress across all devices.**
+
+## 📄 License
+
+This repository is public for transparency and evaluation, but it is not open-source. All rights are reserved by Pump It Better LLC.
+
+- You may view the source code.
+- Any other use (copying, forking, modifying, redistributing, compiling, or creating derivative works) is prohibited without prior written permission.
+
+See the LICENSE file for full terms. For licensing inquiries, contact: tom@pumpitbetter.com.

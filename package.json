@@ -2,6 +2,8 @@
   "name": "pibspa",
   "version": "0.1.5",
   "private": true,
+  "license": "UNLICENSED",
+  "licenseText": "SEE LICENSE IN LICENSE",
   "type": "module",
   "scripts": {
     "build": "react-router build",
